@@ -1,1 +1,165 @@
-/* You can add global styles to this file, and also import other style files */
+
+:root{
+    --pale-dark:rgba(0,0,0,0.95);
+    --dark:rgba(0,0,0,0.99);
+    --snow:rgba(255,255,255,0.9);
+    --pale-snow:rgba(255,255,255,0.75);
+    --thm:rgba(51,102,153,1);
+
+}
+*{
+    font-family: 'Source Sans Pro', sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.bg-pale-dark{
+    background-color: var(--pale-dark);
+}
+
+.bg-dark{
+    background-color: var(--dark);
+}
+
+.bg-snow{
+    background-color: var(--snow);
+}
+
+.bg-thm{
+    background-color: var(--thm);
+}
+
+.snow{
+    color:var(--snow);
+}
+
+.thm{
+    color:var(--thm);
+}
+
+.dark{
+    color:var(--dark);
+}
+
+.pale-dark{
+    color:var(--pale-dark);
+}
+
+.pale-snow{
+    color:var(--pale-snow);
+}
+
+
+/*
+header ( width is 100% , height: 8%)
+*/
+#header{
+    height:8vh; 
+    max-height:8vh;
+    box-shadow: 0 0 1px var(--pale-snow);
+}
+
+#header-center input{
+    width:60%;
+    padding:0 10px;
+    border-radius:20px;
+    border:none !important;
+    background:transparent !important;
+    box-shadow:0 0 2px var(--pale-snow);
+    border:1px solid var(--pale-snow);
+    padding:3px 50px !important;
+    color:var(--snow);
+    font-size:15px !important;
+}
+
+#header-center input:focus{
+    outline: none;
+    border: 5px solid var(--snow);
+}
+
+#header-center #search-icon{
+    color:var(--pale-snow);
+    transform: translateX(250%);
+    font-size: 13px !important;
+}
+
+#main{
+    width:100%;
+    max-width:100vh;
+}
+
+#menu-icon{
+    transition: 0.1s all;
+}
+
+#menu-icon:hover{
+    background-color: var(--dark);
+    border-radius: 10%;
+}
+
+#profile{
+    width:30px;
+    height:30px;
+    border-radius: 100% !important;
+    transform: translateX(100%);
+    border:0.1px solid var(--snow);
+    box-shadow: 0 0 0.5px var(--snow);
+}
+
+#main{
+    width:100% !important;
+    max-width:100vw !important;
+}
+
+#main #sidebar{
+    width:18%;
+    height:92vh !important;
+    max-height:92vh !important;
+    background-color:var(--dark);
+    z-index: 100;
+    box-shadow: 0 0 0.5px var(--pale-snow);
+    position: fixed;
+    color:var(--pale-snow);
+}
+
+#main #main-area{
+    width:82%;
+    max-width:82%;
+    height:auto;
+    margin-left: 18vw !important;
+}
+
+#create-btn{
+    width:100px;
+    text-align: center;
+    border-radius: 30px;
+    box-shadow: 0 0 1px var(--pale-snow);
+    transition:0.1s all;
+}
+
+#create-btn:hover{
+    background:rgba(255,255,255,0.15) !important;
+}
+
+#main #sidebar .item{
+    width:100%;
+    margin:0;
+    padding:8px 30px;
+    transition: 0.1s all;
+}
+
+#main #sidebar .item:hover{
+    background-color: rgba(255,255,255,0.15);
+}
+
+#main #sidebar .item:hover , #main #sidebar #create-btn:hover{
+    cursor: pointer;
+}
+
+#main #sidebar i{
+    color: rgba(255,255,255,0.55);
+}
+
+
+
