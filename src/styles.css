@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
 :root{
     --pale-dark:rgba(0,0,0,0.95);
     --dark:rgba(0,0,0,0.99);
@@ -7,6 +7,7 @@
     --thm:rgba(51,102,153,1);
 
 }
+
 *{
     font-family: 'Source Sans Pro', sans-serif;
     box-sizing: border-box;
@@ -163,3 +164,53 @@ header ( width is 100% , height: 8%)
 
 
 
+/* Start Sign Up */
+.bbmsnav-color{
+    background: var(--snow)!important;
+    padding-right:20px ;
+    padding-left:20px ;
+}
+.register-header{
+    font-size: 50px;
+}
+.signup-text{
+    height: 50px;
+    margin-bottom: 10px;
+}
+.signup-btn{
+    background:var(--thm)!important;
+    color:var(--snow) !important;
+    height: 45px;
+    transition:0.3s all;
+}
+
+.signup-btn:hover{
+    background:var(--thm) !important;
+    color:var(--snow) !important;
+}
+/* End Sign Up */
+
+/* Start Register */
+.register-icon{
+    width: 67%;
+
+}
+
+.register-bg{
+    height: 500px;
+    background-color: var(--thm)!important;
+    
+}
+.register-form{
+    box-shadow: 8px 5px 10px rgba(0,0,0,0.9) !important;
+}
+.register-rounded-icon{
+    border-top-left-radius:16px;
+    border-bottom-left-radius:16px;
+}
+.register-rounded-form{
+    background-color: var(--snow)!important;
+    border-top-right-radius:16px;
+    border-bottom-right-radius:16px;
+}
+/* End Register*/

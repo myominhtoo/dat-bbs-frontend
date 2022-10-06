@@ -12,8 +12,6 @@ import { Component } from "@angular/core";
                     <p class="item"><i class="fa-solid fa-bell mx-2"></i>Notifications</p>
                     <p class="item"><i class="fa-solid fa-chart-line mx-2"></i>Reporting</p>
                 </ul>
-        </nav>
-
-    `
+        </nav>`
 })
 export class SidebarComponent {}
