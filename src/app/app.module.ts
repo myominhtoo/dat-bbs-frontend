@@ -6,12 +6,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './components/layout/layout.module';
+import { Login } from './components/page/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VerifyEmail,
-    Register
+    Register,
+    Login
   ],
   imports: [
     BrowserModule,
