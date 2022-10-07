@@ -16,7 +16,6 @@ import { Component } from  "@angular/core";
     
             <div id="header-right" class="gap-2 px-2 w-25 d-flex justify-content-end gap-2">
                 <div class="bg-thm" id="profile">
-    
                 </div>
             </div>
         </header>
