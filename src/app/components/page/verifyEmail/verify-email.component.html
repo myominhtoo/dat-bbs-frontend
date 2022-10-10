@@ -17,9 +17,9 @@
                     
         </div>
     <div class="col-10 mx-auto">
-                <form action="">
+                <form (ngSubmit)="onSubmit()">
                     <div class="d-grid">
-                <input type="email" class="form-control signup-text" placeholder="name@company.com">
+                <input type="email" class="form-control signup-text" [(ngModel)]="email" name="email" placeholder="name@company.com">
                 <input type="submit" class="btn  signup-btn" value="Verify">
             </div>
             </form>

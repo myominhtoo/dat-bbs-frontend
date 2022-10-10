@@ -1,4 +1,4 @@
-export class HttpResonse {
+export class HttpResponse {
     timestamp !: Date;
     httpStatus !: string;
     httpStatusCode !: number;

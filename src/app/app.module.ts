@@ -8,7 +8,8 @@ import { AppComponent } from './app.component';
 import { LayoutModule } from './components/layout/layout.module';
 import { Login } from './components/page/login/login.component';
 import { Verifypass } from './components/page/verifyEmail/verifypass-component';
-
+import { HttpClientModule } from '@angular/common/http'
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +21,9 @@ import { Verifypass } from './components/page/verifyEmail/verifypass-component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    LayoutModule
+    LayoutModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
