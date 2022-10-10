@@ -16,25 +16,25 @@
                 <h2 class="text-center fw-bold mt-4">Create New Account</h2>
                 <div class="mx-4 my-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" placeholder="Enter username " class="form-control" id="username" [(ngModel)]="user.username" name="username">
+                    <input type="text" placeholder="Enter username " class="form-control" id="username" [(ngModel)]="user.username" name="username" autofocus>
                 </div>
                 <div class="mx-4 my-3 ">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" placeholder="Enter email address" class="form-control" id="email" value="company@gmail.com" [(ngModel)]="user.email" name="email">
+                    <input type="email" placeholder="Enter email address" class="form-control" id="email" value="company@gmail.com" [(ngModel)]="user.email" name="email" readonly >
+                </div>   
+                <div class="mx-4 my-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" placeholder="Enter password" class="form-control" id="password" [(ngModel)]="user.password" name="password">
                 </div>
                 <div class="mx-4 my-3">
                     <label for="password" class="form-label">Verification Code</label>
                     <input type="number" placeholder="Enter verification code" class="form-control" id="code" [(ngModel)]="user.code" name="code">
                 </div>
                 <div class="mx-4 my-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" placeholder="Enter password" class="form-control" id="password" [(ngModel)]="user.password" name="password">
-                </div>
-                <div class="mx-4 my-3">
                 <div class="d-grid">
                     <input type="submit" class="btn signup-btn" value="Create Account">
                 </div>
-                <p class="text-center mt-2">Already have an account? <a class="fw-bold d-inline-block nav-link">Login here</a></p>
+                <p class="text-center mt-2">Already have an account? <a routerLink="/login" class="fw-bold d-inline-block nav-link">Login here</a></p>
             </div>
             </form>
         </div>
