@@ -12,19 +12,19 @@
             <img src="../../../../assets/img/3D/undraw_access_account_re_8spm.svg" alt="" class=" register-icon">
         </div>
         <div class="col-6 card-body register-rounded-form">                
-            <form class="">
+            <form (ngSubmit)="onSubmit()">
                 <h2 class="text-center fw-bold mt-4">Create New Account</h2>
                 <div class="mx-4 my-4 ">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" value="company@gmail.com" readonly>
+                    <input type="email" class="form-control" id="email" value="company@gmail.com" [(ngModel)]="user.email" name="email" readonly>
                 </div>
                 <div class="mx-4 my-4">
                     <label for="username" class="form-label">UserName</label>
-                    <input type="text" placeholder="Enter user name..." class="form-control" id="username">
+                    <input type="text" placeholder="Enter user name..." class="form-control" id="username" [(ngModel)]="user.username" name="username">
                 </div>
                 <div class="mx-4 my-4">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" placeholder="Enter password..." class="form-control" id="password">
+                    <input type="password" placeholder="Enter password..." class="form-control" id="password" [(ngModel)]="user.password" name="password">
                 </div>
                 <div class="mx-4 my-4">
                 <div class="d-grid">
