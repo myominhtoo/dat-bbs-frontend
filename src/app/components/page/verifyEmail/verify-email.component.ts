@@ -20,6 +20,8 @@ export class VerifyEmail implements OnInit{
     ngOnInit(): void {
         let storedData = localStorage.getItem(btoa('data'));
         this.status.hasGotVerification = storedData ==  null ? false : JSON.parse(atob(`${storedData}`)).hasGotVerification;
+
+        
     }
 
     onSubmit(){

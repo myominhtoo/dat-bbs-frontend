@@ -16,7 +16,7 @@
                 </p>                       
             </div>
         <div class="col-10 mx-auto">
-            <form (ngSubmit)="onSubmit()">
+            <form (ngSubmit)="onSubmit()"> 
                 <div class="d-grid">
                     <input type="email" class="form-control signup-text" [(ngModel)]="email" name="email" placeholder="name@company.com">
                     <input [disabled]="status.isLoading" type="submit" class="btn  signup-btn" [value]="status.isLoading ? 'Verifying' : 'Verify'">
