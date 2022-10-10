@@ -7,11 +7,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './components/layout/layout.module';
 import { Login } from './components/page/login/login.component';
+import { Verifypass } from './components/page/verifyEmail/verifypass-component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VerifyEmail,
+    Verifypass,
     Register,
     Login
   ],
