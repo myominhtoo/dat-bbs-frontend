@@ -1,37 +1,33 @@
 <div class="container-fluid px-5">
-<header class="container-fluid bbmsnav-color mb-5">
-        <a class="navbar-brand" href="#">
-        <img src="../../../../assets/img/download-removebg-preview.png" alt="Logo" width="60px" class="d-inline-block align-text-top">
-        </a>
-</header>
-<section class="d-flex justify-content-center align-items-center w-100">
-    <div class="col-10 mx-auto mw-100">
-        <div class="col-12 mb-3 text-center ">
-                <span class="text-center register-header fw-bold">
-                            Enter Your Email                    
-                </span>
-            <!-- <span class="text-center register-header fw-bold text-danger">
-                        Sorry,
-                        Your account has been used
-            </span> -->
-                    
-        </div>
-    <div class="col-10 mx-auto">
-                <form (ngSubmit)="onSubmit()">
-                    <div class="d-grid">
-                <input type="email" class="form-control signup-text" [(ngModel)]="email" name="email" placeholder="name@company.com">
-                <input type="submit" class="btn  signup-btn" value="Verify">
+    <header class="container-fluid bbmsnav-color mb-5">
+            <a class="navbar-brand" href="#">
+            <img src="../../../../assets/img/download-removebg-preview.png" alt="Logo" width="60px" class="d-inline-block align-text-top">
+            </a>
+    </header>
+    <section class="d-flex justify-content-center align-items-center w-100">
+        <verify-pass *ngIf="status.hasGotVerification"></verify-pass>
+        <div style="transform: translateY(40%);" *ngIf="!status.hasGotVerification" class="col-10 mx-auto mw-100 ">
+            <div class="col-12 mb-3 text-center">
+                <p class=" register-header fw-bold">
+                    Enter Your Email                    
+                </p> 
+                <p *ngIf="status.hasError" class="register-header  text-danger h3">
+                    Sorry,Your email has already been used
+                </p>                       
             </div>
+        <div class="col-10 mx-auto">
+            <form (ngSubmit)="onSubmit()">
+                <div class="d-grid">
+                    <input type="email" class="form-control signup-text" [(ngModel)]="email" name="email" placeholder="name@company.com">
+                    <input [disabled]="status.isLoading" type="submit" class="btn  signup-btn" [value]="status.isLoading ? 'Verifying' : 'Verify'">
+                </div>
             </form>
             <p class="text-center text-secondary my-2">By signing up, I agree to  
                 <a href="#" class="nav-link d-inline-block text-decoration-underline">Dir Ace Technology</a>
-                and 
+                    and 
                 <a href="#" class="nav-link d-inline-block text-decoration-underline">Terms of Service.</a>
-             </p>
-
-    </div>
-    </div>
-           
-
-        </section>
+            </p>
+        </div>
+        </div>
+    </section>
 </div>

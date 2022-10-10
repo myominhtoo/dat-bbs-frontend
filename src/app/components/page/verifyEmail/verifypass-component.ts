@@ -1,7 +1,7 @@
 import { Component } from  "@angular/core";
 
 @Component({
-    selector : 'verifypass',
+    selector : 'verify-pass',
     templateUrl:'./verifypass-component.html'
 })
 export class Verifypass{
