@@ -6,6 +6,11 @@ import { Login } from './components/page/login/login.component';
 import { Verifypass } from './components/page/verifyEmail/verifypass-component';
 
 const routes: Routes = [
+  {
+    path : '',
+    redirectTo : '/login',
+    pathMatch : 'full'
+  },
   {path:'verify-email',component:VerifyEmail},
   {path:'verifypass',component:Verifypass},
   {path:'register',component:Register},

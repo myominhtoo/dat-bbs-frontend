@@ -34,6 +34,10 @@ export class VerifyEmail implements OnInit{
                 localStorage.setItem(btoa('data'),btoa(JSON.stringify({ hasGotVerification : true , email : this.email })));
             }
             this.status.isLoading = false;
+        },
+        error : err => {
+            console.log('erro')
+            this.status.isLoading = false;
         }
        })
     }
