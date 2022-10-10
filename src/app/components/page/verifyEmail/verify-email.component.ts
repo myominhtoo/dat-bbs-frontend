@@ -1,3 +1,4 @@
+import { NgForm } from '@angular/forms';
 import { Component , OnInit } from  "@angular/core";
 import { UserService } from "src/app/model/service/http/user.service";
 
@@ -12,8 +13,7 @@ export class VerifyEmail implements OnInit{
         isLoading : false,
         hasGotVerification : false
     }
-
-    email ='';
+    
 
     constructor(private userService : UserService ){}
 
@@ -24,18 +24,19 @@ export class VerifyEmail implements OnInit{
         
     }
 
-    onSubmit(){
+    onSubmit(verifyemail:NgForm){
        this.status.isLoading = true;
-       this.userService.sendVerification( this.email).subscribe({
+       this.userService.sendVerification( verifyemail.value.email).subscribe({
         next : (res) => {
             this.status.hasError = !res.ok;
             if( res.ok ) {
                 this.status.hasGotVerification = true;
-                localStorage.setItem(btoa('data'),btoa(JSON.stringify({ hasGotVerification : true , email : this.email })));
+                localStorage.setItem(btoa('data'),btoa(JSON.stringify({ hasGotVerification : true , email : verifyemail.value.email })));
             }
             this.status.isLoading = false;
         },
         error : err => {
+            this.status.hasError=true;
             console.log('erro')
             this.status.isLoading = false;
         }

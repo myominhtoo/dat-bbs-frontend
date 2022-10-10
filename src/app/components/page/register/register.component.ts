@@ -1,3 +1,4 @@
+import { NgForm } from '@angular/forms';
 import { Component, OnInit } from  "@angular/core";
 import { User } from "src/app/model/bean/user";
 import { UserService } from "src/app/model/service/http/user.service";

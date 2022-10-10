@@ -20,4 +20,8 @@ export class UserService {
     sendRegisteration( user : User ) : Observable <HttpResponse> {
         return this.httpClient.post <HttpResponse> (`http://localhost:8080/api/register` ,  user);
     }
+
+    LoginUser( user : User ) : Observable <HttpResponse> {
+        return this.httpClient.post <HttpResponse> (`http://localhost:8080/api/login` ,  user);
+    }
 }
