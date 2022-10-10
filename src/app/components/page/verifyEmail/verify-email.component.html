@@ -8,18 +8,19 @@
         <verify-pass *ngIf="status.hasGotVerification"></verify-pass>
         <div style="transform: translateY(40%);" *ngIf="!status.hasGotVerification" class="col-10 mx-auto mw-100 ">
             <div class="col-12 mb-3 text-center">
-                <p class=" register-header fw-bold">
+                <p [class.d-none]="status.hasError" class=" register-header fw-bold">
                     Enter Your Email                    
                 </p> 
-                <p *ngIf="status.hasError" class="register-header  text-danger h3">
+                <p *ngIf="status.hasError" class="register-header text-danger">
+                    
                     Sorry,Your email has already been used
                 </p>                       
             </div>
         <div class="col-10 mx-auto">
-            <form (ngSubmit)="onSubmit()"> 
+            <form  #emailverify="ngForm" (ngSubmit)="onSubmit(emailverify)"> 
                 <div class="d-grid">
-                    <input type="email" class="form-control signup-text" [(ngModel)]="email" name="email" placeholder="name@company.com">
-                    <input [disabled]="status.isLoading" type="submit" class="btn  signup-btn" [value]="status.isLoading ? 'Verifying' : 'Verify'">
+                    <input type="email" class="form-control signup-text" name="email" placeholder="name@company.com" #email="ngModel" ngModel [class.is-invalid]="email.touched && email.invalid" required>
+                    <input [disabled]="status.isLoading || emailverify.invalid" type="submit" class="btn  signup-btn" [value]="status.isLoading ? 'Verifying' : 'Verify'">
                 </div>
             </form>
             <p class="text-center text-secondary my-2">By signing up, I agree to  
