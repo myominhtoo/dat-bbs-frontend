@@ -9,15 +9,14 @@ import { UserService } from "src/app/model/service/http/user.service";
 export class Register{
    
     user : User = new User ();
-    constructor(private userService : UserService ){
+    constructor(private userService : UserService ){}
 
-    }
     onSubmit(){
-       
-        this.userService.sendRegisteration(this.user).subscribe({
-            next : (res) => {
-                console.log(res);
-            }
-        })
+        console.log(this.user)      
+        // this.userService.sendRegisteration(this.user).subscribe({
+        //     next : (res) => {
+        //         console.log(res);
+        //     }
+        // })
     }
 }

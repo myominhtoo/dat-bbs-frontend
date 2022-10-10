@@ -10,5 +10,6 @@ export class User {
       gender !: number;
       image !: File;
       deleteStatus !: boolean;
+      code! :number;
 
 }

@@ -14,19 +14,23 @@
         <div class="col-6 card-body register-rounded-form">                
             <form (ngSubmit)="onSubmit()">
                 <h2 class="text-center fw-bold mt-4">Create New Account</h2>
-                <div class="mx-4 my-4 ">
+                <div class="mx-4 my-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" placeholder="Enter username " class="form-control" id="username" [(ngModel)]="user.username" name="username">
+                </div>
+                <div class="mx-4 my-3 ">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" value="company@gmail.com" [(ngModel)]="user.email" name="email" readonly>
+                    <input type="email" placeholder="Enter email address" class="form-control" id="email" value="company@gmail.com" [(ngModel)]="user.email" name="email">
                 </div>
-                <div class="mx-4 my-4">
-                    <label for="username" class="form-label">UserName</label>
-                    <input type="text" placeholder="Enter user name..." class="form-control" id="username" [(ngModel)]="user.username" name="username">
+                <div class="mx-4 my-3">
+                    <label for="password" class="form-label">Verification Code</label>
+                    <input type="number" placeholder="Enter verification code" class="form-control" id="code" [(ngModel)]="user.code" name="code">
                 </div>
-                <div class="mx-4 my-4">
+                <div class="mx-4 my-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" placeholder="Enter password..." class="form-control" id="password" [(ngModel)]="user.password" name="password">
+                    <input type="password" placeholder="Enter password" class="form-control" id="password" [(ngModel)]="user.password" name="password">
                 </div>
-                <div class="mx-4 my-4">
+                <div class="mx-4 my-3">
                 <div class="d-grid">
                     <input type="submit" class="btn signup-btn" value="Create Account">
                 </div>

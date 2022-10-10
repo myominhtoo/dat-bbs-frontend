@@ -18,7 +18,8 @@ export class VerifyEmail implements OnInit{
     constructor(private userService : UserService ){}
 
     ngOnInit(): void {
-        this.status.hasGotVerification = localStorage.getItem('hasGotVerification') == 'true' ? true : false;
+        let storedData = localStorage.getItem(btoa('data'));
+        this.status.hasGotVerification = storedData ==  null ? false : JSON.parse(atob(`${storedData}`)).hasGotVerification;
     }
 
     onSubmit(){
@@ -28,12 +29,11 @@ export class VerifyEmail implements OnInit{
             this.status.hasError = !res.ok;
             if( res.ok ) {
                 this.status.hasGotVerification = true;
-                localStorage.setItem('hasGotVerification',"true");
+                localStorage.setItem(btoa('data'),btoa(JSON.stringify({ hasGotVerification : true , email : this.email })));
             }
             this.status.isLoading = false;
         }
        })
     }
-
     
 }
