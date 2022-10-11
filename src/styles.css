@@ -249,3 +249,14 @@ padding-bottom:3px;
 }
 /* End Register*/
 
+#mail-capsule{
+    background-color: var(--thm);
+}
+
+#mail-capsule:active{
+    cursor:pointer;
+}
+
+#mail-capsule span:hover{
+    cursor: pointer;
+}
