@@ -3,32 +3,45 @@ import { UserService } from './../../../model/service/http/user.service';
 import { Component, OnInit } from  "@angular/core";
 import { UnsubscriptionError } from 'rxjs';
 import { NgForm } from '@angular/forms';
+import swal from 'sweetalert';
+import { Router } from '@angular/router';
+import { NgFor } from '@angular/common';
 
 @Component({
     selector : 'login',
     templateUrl:'./login.component.html'
 })
 export class Login{
+
+    status = {
+        pwdNotMatch : ''
+    }
+    
+    error = {
+       hasError : false,
+       msg : '',
+    }
     
     user : User = new User ();
-    constructor(private userService : UserService ){}
+    constructor(private userService : UserService , private router : Router ){}
 
     onSubmit(userForm:NgForm){
-        this.user.password=userForm.value.password;
-        this.user.email=userForm.value.email;
-        console.log(this.user)
         this.userService.LoginUser(this.user).subscribe({
          next : (res) => {
-                    console.log(res);
-                    console.log("It working ")
-                    
-                    
+            this.error = { hasError : false , msg : '' }
+            swal({
+                text : res.message,
+                icon : 'success',
+            }).then(() => {
+                this.router.navigateByUrl('/dashboard');
+            })           
          }, error : err => {
-            console.log('error')
-            console.log(err)
-            
+            this.user.password = '';
+           this.error = { hasError : true , msg :err.error.message};
+         }
+
         }
-        })
         
+        )
      }
 }

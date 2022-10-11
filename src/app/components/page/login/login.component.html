@@ -3,24 +3,26 @@
         <a class="navbar-brand" href="#">
         <img src="../../../../assets/img/download-removebg-preview.png" alt="Logo" width="60px" class="d-inline-block align-text-top">
         </a>
-    </header>
+    </header>   
     
-    <section class="d-flex justify-content-center align-items-center ">
+    <section class="d-flex justify-content-center align-items-center container-fluid">
         <div class="register-form ">
         <div class="row ">
         <div class="col-6 d-none d-md-block card-body register-bg register-rounded-icon d-md-flex justify-content-center align-bottom">
             <img src="../../../../assets/img/3D/undraw_login_re_4vu2 (1).svg" alt="" class="register-icon">
         </div>
-        <div class="col-6 card-body register-rounded-form">                
+        <div class="col-6 card-body register-rounded-form bg-light">                
             <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)"  novalidate>
                 <h2 class="text-center fw-bold mt-5">User Login</h2>
                 <div class="mx-4 my-4">
                     <label for="email" class="form-label">Email</label>
-                    <input type="text" placeholder="Enter user email..." class="form-control" id="email" name="email" ngModel #email="ngModel" [class.is-invalid]="email.invalid && email.touched" required>
+                    <input type="text" placeholder="Enter user email..." class="form-control" id="email" name="email" [(ngModel)]="user.email" [class.is-invalid]="error.hasError" required>
+                    <small *ngIf="error.hasError" class="text-danger">{{error.msg}}</small>
                 </div>
                 <div class="mx-4 my-4">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" placeholder="Enter user password..." class="form-control" id="password" name="password" ngModel #password="ngModel" [class.is-invalid]="password.invalid && password.touched" required>
+                    <input type="password" placeholder="Enter user password..." class="form-control" id="password" name="password" [(ngModel)]="user.password" [class.is-invalid]="error.hasError" required>
+                    <small *ngIf="error.hasError" class="text-danger">{{error.msg}}</small>
                 </div>
                 <div class="mx-4 my-4">
                 <div class="d-grid">

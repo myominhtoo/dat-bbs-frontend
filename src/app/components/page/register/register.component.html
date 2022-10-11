@@ -11,28 +11,28 @@
         <div class="col-6 d-none d-md-block register-bg register-rounded-icon d-md-flex justify-content-center">
             <img src="../../../../assets/img/3D/undraw_access_account_re_8spm.svg" alt="" class="register-icon">
         </div>
-        <div class="col-6 register-rounded-form">
+        <div class="col-6 register-rounded-form bg-light">
             <form (ngSubmit)="onSubmit()">
                 <h2 class="text-center fw-bold mt-4">Create New Account</h2>
                 <div class="mx-4 my-3">
                     <label for="username" class="form-label">Username</label>
 
-                    <input type="text" placeholder="Enter username " class="form-control" id="username" [(ngModel)]="user.username" name="username" autofocus>
+                    <input type="text" placeholder="Enter username " class="form-control" id="username" [(ngModel)]="user.username" name="username"  [class.is-invalid]="username" autofocus>
                     <p style="color:red;" >{{username}}</p>
                   </div>
                 <div class="mx-4 my-3 ">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" placeholder="Enter email address" class="form-control" id="email" value="company@gmail.com" [(ngModel)]="user.email" name="email" readonly >
+                    <input type="email" placeholder="Enter email address" class="form-control" id="email" value="company@gmail.com" [(ngModel)]="user.email" name="email" [class.is-invalid]="email" readonly >
                     <p style="color:red;" >{{email}}</p>
                   </div>
                 <div class="mx-4 my-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" placeholder="Enter password" class="form-control" id="password" [(ngModel)]="user.password" name="password">
+                    <input type="password" placeholder="Enter password" class="form-control" id="password" [(ngModel)]="user.password" name="password" [class.is-invalid]="password">
                     <p style="color:red;" >{{password}}</p>
                   </div>
                 <div class="mx-4 my-3">
-                    <label for="password" class="form-label">Verification Code</label>
-                    <input type="number" placeholder="Enter verification code" class="form-control" id="code" [(ngModel)]="user.code" name="code">
+                    <label for="code" class="form-label">Verification Code</label>
+                    <input type="text" placeholder="Enter verification code" class="form-control" id="code" [(ngModel)]="user.code" name="code" [class.is-invalid]="code">
                     <p style="color:red;" >{{code}}</p>
                   </div>
                 <div class="mx-4 my-3">
