@@ -1,11 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
 :root{
-    --pale-dark:rgba(0,0,0,0.95);
-    --dark:rgba(0,0,0,0.99);
+    /* --pale-dark:rgba(0,0,0,0.95);
+    --dark:rgba(0,0,0,0.99); */
+    /* --pale-dark:rgba(37,38,40);
+    --dark:rgba(30,31,33); */
+    --thm:rgba(51,102,153,1);
+/* Dark Mode */
+    --pale-dark:rgba(32,32,32);
+    --dark:rgba(24,24,24);    
     --snow:rgba(255,255,255,0.9);
     --pale-snow:rgba(255,255,255,0.75);
-    --thm:rgba(51,102,153,1);
 
+/* Light mode */
+    /* --pale-dark:rgba(251,253,255);
+    --dark:rgba(252,252,252);
+    --snow:rgba(86,86,86);
+    --pale-snow:rgba(95,99,104); */
 }
 
 *{
@@ -259,4 +269,59 @@ padding-bottom:3px;
 
 #mail-capsule span:hover{
     cursor: pointer;
+}
+/* Create Board */
+
+/* .profilelink{
+    padding: 30px 20px;
+    margin: 60px 30px 0 30px;
+    border-radius: 10px;
+    width: 80%;
+    height: 90%;
+
+} */
+.boardprofile{
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    /* background-image: url(assets/img/board-profile-img/download.jpg); */
+}
+.imgedit{
+    position: absolute;
+    text-align: center;
+    width: 60px;
+    background-color: rgb(33, 33, 33);
+    bottom: -5px;
+    right: -20px;
+}
+.textareaBox{
+    resize: none;
+}
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+};
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    /* display: block; */
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: rgba(0, 0, 0, 0.826) !important;
+    color: white;
+}
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+.board-con{
+    background-color: var(--snow);
+    /* background-color: whitesmoke; */
+    /* background-color: white; */
 }
