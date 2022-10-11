@@ -6,7 +6,7 @@ import { UserService } from "src/app/model/service/http/user.service";
     selector : 'verify-email',
     templateUrl:'./verify-email.component.html'
 })
-export class VerifyEmail implements OnInit{
+export class VerifyEmailComponent implements OnInit{
 
     status = {
         hasError : false,
