@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
     selector : 'register',
     templateUrl:'./register.component.html'
 })
-export class Register implements OnInit{
+export class RegisterComponent implements OnInit{
 
 
   emptyErrorMessage:String;
@@ -19,7 +19,7 @@ export class Register implements OnInit{
     password:string;
     code:string;
 
-    constructor(private userService : UserService ,private rouetr:Router){
+    constructor(private userService : UserService ,private router:Router){
 
      this.user=new User();
      this.emptyErrorMessage="";
@@ -62,7 +62,7 @@ export class Register implements OnInit{
 
     savedUser(){
       this.userService.sendRegisteration(this.user).subscribe(data=>{
-        console.log(data);
+        this.router.navigateByUrl('/login');
       })
     }
 }

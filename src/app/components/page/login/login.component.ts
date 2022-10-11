@@ -1,17 +1,16 @@
 import { User } from './../../../model/bean/user';
 import { UserService } from './../../../model/service/http/user.service';
 import { Component, OnInit } from  "@angular/core";
-import { UnsubscriptionError } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { Router } from '@angular/router';
-import { NgFor } from '@angular/common';
+
 
 @Component({
     selector : 'login',
     templateUrl:'./login.component.html'
 })
-export class Login{
+export class LoginComponent {
 
     status = {
         pwdNotMatch : ''
@@ -33,7 +32,7 @@ export class Login{
                 text : res.message,
                 icon : 'success',
             }).then(() => {
-                this.router.navigateByUrl('/dashboard');
+                this.router.navigateByUrl('/home');
             })           
          }, error : err => {
             this.user.password = '';
