@@ -12,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './components/page/home/home.component';
 import { CreateBoardComponent } from './components/page/board/create-board.component';
-import { MyTaskComponent } from './components/page/mytasks/my-tasks.componet';
+import { MyTaskComponent } from './components/page/mytasks/my-tasks.component';
 import { BoardMarkComponent } from './components/page/bookmarks/bookmarks.component';
 import { NotificationsComponent } from './components/page/notifications/notifications.component';
 import { ReportingComponent } from './components/page/reporting/reporting.component';

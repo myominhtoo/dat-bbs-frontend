@@ -6,4 +6,6 @@ export class Board {
     description !: string;
     image !: File;
     deleteStatus !: boolean;
+    invitedEmails !: string[];
+    userId !: number;
 }

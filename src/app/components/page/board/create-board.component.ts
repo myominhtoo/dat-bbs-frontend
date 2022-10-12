@@ -1,21 +1,26 @@
 import { Component } from "@angular/core";
+import { ToggleStore } from "src/app/model/service/store/toggle.service";
 
 @Component({
     selector :'create-board',
     templateUrl : './create-board.component.html'
 })
 export class CreateBoardComponent{
-  emailStr :string ='';
-  emails : string [] = [];
 
-  status = {
-    update : {
-      idx : 0,
-      willUpdate : false
-    },
-    error : {
-      hasError : false,
-      msg : ''
+    constructor( public toggleStore : ToggleStore ){}
+
+    emailStr :string ='';
+    emails : string [] = [];
+  
+    status = {
+      update : {
+        idx : 0,
+        willUpdate : false
+      },
+      error : {
+        hasError : false,
+        msg : ''
+      }
     }
   }
   
