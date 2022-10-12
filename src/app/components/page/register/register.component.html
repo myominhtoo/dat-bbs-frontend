@@ -12,32 +12,33 @@
             <img src="../../../../assets/img/3D/undraw_access_account_re_8spm.svg" alt="" class="register-icon">
         </div>
         <div class="col-6 register-rounded-form bg-light">
-            <form (ngSubmit)="onSubmit()">
+            <form  #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
                 <h2 class="text-center fw-bold mt-4">Create New Account</h2>
                 <div class="mx-4 my-3">
                     <label for="username" class="form-label">Username</label>
 
-                    <input type="text" placeholder="Enter username " class="form-control" id="username" [(ngModel)]="user.username" name="username"  [class.is-invalid]="username" autofocus>
-                    <p style="color:red;" >{{username}}</p>
+                    <input type="text" placeholder="Enter Your Name" class="form-control" id="username" [(ngModel)]="user.username" name="username" #username="ngModel"  [class.is-invalid]="username.touched && username.invalid " autofocus required>
+                   <p style="color:red;" *ngIf="!user.username && username.touched">Username is Required</p>
+
                   </div>
                 <div class="mx-4 my-3 ">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" placeholder="Enter email address" class="form-control" id="email" value="company@gmail.com" [(ngModel)]="user.email" name="email" [class.is-invalid]="email" readonly >
-                    <p style="color:red;" >{{email}}</p>
+
                   </div>
                 <div class="mx-4 my-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" placeholder="Enter password" class="form-control" id="password" [(ngModel)]="user.password" name="password" [class.is-invalid]="password">
-                    <p style="color:red;" >{{password}}</p>
+                    <input type="password" placeholder="Enter password" class="form-control" id="password" [(ngModel)]="user.password" name="password" #password="ngModel" [class.is-invalid]="password.touched && password.invalid" required>
+                    <p style="color:red;" *ngIf="!user.password && password.touched">Password is Required</p>
                   </div>
                 <div class="mx-4 my-3">
                     <label for="code" class="form-label">Verification Code</label>
-                    <input type="text" placeholder="Enter verification code" class="form-control" id="code" [(ngModel)]="user.code" name="code" [class.is-invalid]="code">
-                    <p style="color:red;" >{{code}}</p>
+                    <input type="text" placeholder="Enter verification code" class="form-control" id="code" [(ngModel)]="user.code" name="code" #code="ngModel" [class.is-invalid]="code.touched && code.invalid" required>
+                    <p style="color:red;" *ngIf="!user.code && code.touched">Verification code is Required</p>
                   </div>
                 <div class="mx-4 my-3">
                 <div class="d-grid">
-                    <input type="submit" class="btn signup-btn" value="Create Account">
+                    <input type="submit"  [disabled]="registerForm.invalid" class="btn signup-btn" value="Create Account">
                 </div>
                 <p class="text-center mt-2">Already have an account? <a routerLink="/login" class="fw-bold d-inline-block nav-link">Login here</a></p>
             </div>

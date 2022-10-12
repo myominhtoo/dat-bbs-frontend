@@ -15,12 +15,12 @@ export class LoginComponent {
     status = {
         pwdNotMatch : ''
     }
-    
+
     error = {
        hasError : false,
        msg : '',
     }
-    
+
     user : User = new User ();
     constructor(private userService : UserService , private router : Router ){}
 
@@ -33,14 +33,14 @@ export class LoginComponent {
                 icon : 'success',
             }).then(() => {
                 this.router.navigateByUrl('/home');
-            })           
+            })
          }, error : err => {
             this.user.password = '';
            this.error = { hasError : true , msg :err.error.message};
          }
 
         }
-        
+
         )
      }
 }
