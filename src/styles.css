@@ -346,3 +346,12 @@ padding-bottom:3px;
     /* background-color: whitesmoke; */
     /* background-color: white; */
 }
+.emailbox{
+    height: 100px;
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+}
+.emailbox::-webkit-scrollbar {
+    display: none; 
+  }
