@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
 :root{
-    --pale-dark:rgba(0,0,0,0.95);
-    --dark:rgba(0,0,0,0.99);
+    --pale-dark:rgba(0,0,0,0.80);
+    --dark:rgba(0,0,0,0.83);
     --snow:rgba(255,255,255,0.9);
     --pale-snow:rgba(255,255,255,0.75);
     --thm:rgba(51,102,153,1);
@@ -114,7 +114,7 @@ header ( width is 100% , height: 8%)
 }
 
 #main #sidebar{
-    width:18%;
+    width:18% !important;
     height:92vh !important;
     max-height:92vh !important;
     background-color:var(--dark);
@@ -122,6 +122,16 @@ header ( width is 100% , height: 8%)
     box-shadow: 0 0 0.5px var(--pale-snow);
     position: fixed;
     color:var(--pale-snow);
+    transition: 0.5s all;
+}
+
+#main #sidebar.sidebar-hide{
+    width: 0 !important;
+    /* display: none; */
+}
+
+#main #sidebar.sidebar-hide *{
+    display: none;
 }
 
 #main #main-area{
@@ -129,6 +139,14 @@ header ( width is 100% , height: 8%)
     max-width:82%;
     height:auto;
     margin-left: 18vw !important;
+    transition: 0.5s all;
+}
+
+#main #main-area.sidebar-hide{
+    background: red !important;
+    width: 100% !important;
+    max-width:100%;
+    margin-left: 0 !important;
 }
 
 
@@ -142,6 +160,7 @@ header ( width is 100% , height: 8%)
 #create-btn:hover{
     background:rgba(255,255,255,0.15) !important;
 }
+
 
 #main #sidebar .item{
     width:100%;
