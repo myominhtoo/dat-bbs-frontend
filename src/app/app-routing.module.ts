@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {  LoginComponent } from './components/page/login/login.component';
 import { HomeComponent } from './components/page/home/home.component';
 import { CreateBoardComponent } from './components/page/board/create-board.component';
-import { MyTaskComponent } from './components/page/mytasks/my-tasks.componet';
+import { MyTaskComponent } from './components/page/mytasks/my-tasks.component';
 import { BoardMarkComponent } from './components/page/bookmarks/bookmarks.component';
 import { NotificationsComponent } from './components/page/notifications/notifications.component';
 import { ReportingComponent } from './components/page/reporting/reporting.component';

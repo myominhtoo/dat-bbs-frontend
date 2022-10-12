@@ -1,10 +1,14 @@
 import { Component } from "@angular/core";
+import { ToggleStore } from "src/app/model/service/store/toggle.service";
 
 @Component({
     selector :'create-board',
     templateUrl : './create-board.component.html'
 })
 export class CreateBoardComponent{
+
+    constructor( public toggleStore : ToggleStore ){}
+
     emailStr :string ='';
     emails : string [] = [];
   

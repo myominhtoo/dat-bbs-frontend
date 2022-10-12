@@ -128,20 +128,21 @@ header ( width is 100% , height: 8%)
     height:92vh !important;
     max-height:92vh !important;
     background-color:var(--dark);
-    z-index: 100;
+    z-index: 10;
     box-shadow: 0 0 0.5px var(--pale-snow);
     position: fixed;
     color:var(--pale-snow);
     transition: 0.5s all;
+    /* width:0% !important; */
 }
 
 #main #sidebar.sidebar-hide{
     width: 0 !important;
-    /* display: none; */
 }
 
 #main #sidebar.sidebar-hide *{
-    display: none;
+    width:0;
+    display: none !important;
 }
 
 #main #main-area{
@@ -153,7 +154,7 @@ header ( width is 100% , height: 8%)
 }
 
 #main #main-area.sidebar-hide{
-    background: red !important;
+    /* background: red !important; */
     width: 100% !important;
     max-width:100%;
     margin-left: 0 !important;
@@ -164,7 +165,6 @@ header ( width is 100% , height: 8%)
     width:100px;
     border-radius: 30px;
     box-shadow: 0 0 1px var(--pale-snow);
-    transition:0.1s all;
 }
 
 #create-btn:hover{
@@ -176,7 +176,6 @@ header ( width is 100% , height: 8%)
     width:100%;
     margin:0;
     padding:8px 30px;
-    transition: 0.1s all;
 }
 
 #main #sidebar .item:hover{
@@ -258,7 +257,6 @@ padding-bottom:3px;
 }
 
 .register-bg{
-    
     background-color: var(--thm)!important;
     
 }
