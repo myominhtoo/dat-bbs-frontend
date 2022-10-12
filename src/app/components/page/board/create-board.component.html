@@ -1,9 +1,88 @@
 <navbar></navbar>
 
 <main class="p-0 m-0 d-flex gap-0" id="main">
-   <sidebar></sidebar>
+    <sidebar></sidebar>
 
-    <div id="main-area" class="m-0 p-3">
-        <h1>i am create board</h1>
+    <div id="main-area" class="m-0 p-3 board-con">
+        <section class="container-fluid ">
+            <div class="container">
+                <form action="">
+                    <div class="row">
+                        <div class="col-6">
+                            <!-- boardprofile -->
+                        <div class="col-8 mx-auto mb-3 ">                    
+                                <img src="/assets/img/board-profile-img/kyawgyi.png" class=" boardprofile " alt="Board-Img">                             
+                                <span class="imgedit badge">                                    
+                                    <span class="" type="button" data-bs-toggle="dropdown">
+                                        <i class="fas fa-edit"></i>
+                                        Edit
+                                    </span>
+                                    <ul class="dropdown-menu p-1 text-center">
+                                      <li>
+                                    <input type="file" name="file" id="file"  class="dropdown-item inputfile" value="Upload Image"/>
+                                    <label for="file" class="d-block">Upload Image</label>
+                                    </li>
+                                      <li><input type="file" name="file" id="file"  class="dropdown-item inputfile" value="Remove Images"/>
+                                        <label for="file" class="d-block">Remove Image</label>
+                                    </li>
+                                    </ul>
+                                </span>                   
+                                
+                                <!--  -->  
+                        </div>
+                               
+                            <div class="col-12 ">
+                                <div class="mb-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                                    <textarea class="form-control textarea-box" id="exampleFormControlTextarea1" rows="3" placeholder="write something about your boards..."></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="invite" class="form-label">Invite Member</label>
+                                <div  class="d-flex gap-1 flex-wrap">               
+                                    <div *ngFor="let email of emails;let idx =index" (click)="setUpdateEmail(idx)"  class="badge d-inline-block fs-6 fw-light py-2 my-2 align-items-center " id="mail-capsule">
+                                         {{email}}   
+                                         <span (click)="removeEmail(idx)" class="mx-1 fs-6 fas fa-close"></span>
+                                    </div>
+                                </div>
+                                <input class="form-control mt-2" name="emailStr" [(ngModel)]="emailStr" (keyup)="onChange($event)" [value]="emailStr" [class.is-invalid]="status.error.hasError" id="invite" placeholder="member@gmail.com" />
+                                <small>{{ status.error.msg }}</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Name</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3 mt-3 float-end">
+                                <button class="btn me-4">Cancel</button>
+                                <button class="btn btn-primary">Create Board</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
     </div>
 </main>
