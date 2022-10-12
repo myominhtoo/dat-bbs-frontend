@@ -5,32 +5,23 @@
 
     <div id="main-area" class="m-0 p-3 board-con" [class.sidebar-hide]="!toggleStore.isShow">
         <section class="container-fluid ">
-            <div class="container">
+            <div class="container card py-5">
                 <form action="">
                     <div class="row d-flex justify-content-center align-items-center">
                         <h1 class="text-center">Create Board</h1>
                         <div class="col-6">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Name</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1">
-                            </div>
-                      
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1">
+                                <label for="exampleInputEmail1" class="form-label">Board Name</label>
+                                <input type="text" class="form-control" placeholder="Enter board name" />
                             </div>
                             <div class="col-12 ">
                                 <div class="mb-3">
                                     <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-                                    <textarea class="form-control textarea-box" id="exampleFormControlTextarea1" rows="3" placeholder="write something about your boards..."></textarea>
+                                    <textarea class="form-control textarea-box"  rows="3" placeholder="Write something about your board..."></textarea>
                                 </div>
                             </div>
-                            <div class="col-12 emailbox">
-                                <label for="invite" class="form-label">Invite Member</label>
+                            <div class="col-12 emailbox" [style]="emails.length > 3 ? 'height:100px !important;' : 'height:auto;'">
+                                <label for="invite" class="form-label">Invite Members</label>
                                 <div  class="d-flex gap-1 flex-wrap ">               
                                     <span *ngFor="let email of emails;let idx =index" (click)="setUpdateEmail(idx)"  class="badge d-inline-block fs-6 fw-light py-2 my-2" id="mail-capsule">
                                          {{email}}   
