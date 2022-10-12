@@ -281,18 +281,20 @@ padding-bottom:3px;
 
 } */
 .boardprofile{
-    width: 200px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
+    border: 1px solid black;
+    border-radius: 50%;
     object-fit: cover;
     /* background-image: url(assets/img/board-profile-img/download.jpg); */
 }
 .imgedit{
-    position: absolute;
+    position: relative;
     text-align: center;
     width: 60px;
     background-color: rgb(33, 33, 33);
-    bottom: -5px;
-    right: -20px;
+    bottom: -100px;
+    right: 70px;
 }
 .textareaBox{
     resize: none;
