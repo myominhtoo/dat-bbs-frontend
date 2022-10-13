@@ -24,13 +24,13 @@
                             </div>
                             <div class="col-12 emailbox" [style]="emails.length > 3 ? 'height:100px !important;' : 'height:auto;'">
                                 <label for="invite" class="form-label">Invite Members</label>
-                                <div  class="d-flex gap-1 flex-wrap ">               
+                                <div  class="d-flex gap-1 flex-wrap ">
                                     <span *ngFor="let email of emails;let idx =index" (click)="setUpdateEmail(idx)"  class="badge d-inline-block fs-6 fw-light py-2 my-2" id="mail-capsule">
-                                         {{email}}   
+                                         {{email}}
                                          <span (click)="removeEmail(idx)" class="mx-1 fs-6 fas fa-close"></span>
                                     </span>
                                 </div>
-                              
+
                             </div>
                             <input class="form-control mt-2" name="emailStr" [(ngModel)]="emailStr" (keyup)="onChange($event)" [value]="emailStr" [class.is-invalid]="status.error.email.hasError" id="invite" placeholder="member@gmail.com" />
                             <small>{{ status.error.email.msg }}</small>
@@ -38,7 +38,7 @@
                                 <button class="btn me-4">Cancel</button>
                                 <button class="btn btn-primary">{{ status.isLoading ? 'Creating Board' : 'Create Board'}}</button>
                             </div>
-                            
+
                         </div>
                     </div>
                 </form>
