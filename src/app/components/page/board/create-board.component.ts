@@ -1,24 +1,35 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Board } from "src/app/model/bean/board";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { BoardService } from "src/app/model/service/http/board.service";
 import { Router } from '@angular/router';
 import swal from 'sweetalert';
 import { User } from "src/app/model/bean/user";
+import { UserService } from "src/app/model/service/http/user.service";
+import { filter, map } from "rxjs";
 
 @Component({
     selector :'create-board',
     templateUrl : './create-board.component.html'
 })
-export class CreateBoardComponent{
+export class CreateBoardComponent implements OnInit {
 
-    constructor( public toggleStore : ToggleStore , private boardService :BoardService ,private router : Router ){}
+    constructor( public toggleStore : ToggleStore , 
+      private boardService :BoardService ,
+      private router : Router ,
+      private userService : UserService ){}
 
     emailStr :string ='';
     emails : string [] = [];  
 
     board : Board = new Board();
-  
+    
+    /*
+      for auto fill
+    */
+    storedEmails : string [] = [];
+
+
     status = {
       update : {
         idx : 0,
@@ -39,6 +50,10 @@ export class CreateBoardComponent{
         }
       },
       isLoading : false,
+    }
+
+    ngOnInit(): void {
+      this.getAllUsers();
     }
   
     onChange( event : KeyboardEvent ){
@@ -82,7 +97,7 @@ export class CreateBoardComponent{
   
     createBoard(){
       const user = new User();
-      user.id = 7 ;
+      user.id = 1;
       this.board.user = user;
       this.board.invitedEmails = this.emails;
       this.status.isLoading = true;
@@ -106,13 +121,31 @@ export class CreateBoardComponent{
             alert("Succesfully Created!");
           },
           error : err => {
+            console.log(err);
             this.board.boardName = '';
             this.board.description = '';
-
           }
         });
   
       }
+  }
+
+  getAllUsers(){
+    const users$ = this.userService.getUsers();
+    users$.pipe(
+      map( resUsers => {
+        return resUsers.map( user => {
+          return user.email;
+        })
+      }),
+    ).subscribe({
+      next : resEmails => {
+        this.storedEmails = resEmails;
+      },
+      error : err => {
+        console.log(err);
+      }
+    });
   }
 
 }

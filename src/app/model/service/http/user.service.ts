@@ -24,4 +24,8 @@ export class UserService {
     LoginUser( user : User ) : Observable <HttpResponse> {
         return this.httpClient.post <HttpResponse> (`http://localhost:8080/api/login` ,  user);
     }
+
+    getUsers() : Observable<User[]> {
+        return this.httpClient.get<User[]>('http://localhost:8080/api/users');
+    }
 }

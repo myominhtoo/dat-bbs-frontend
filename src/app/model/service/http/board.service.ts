@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Board } from "../../bean/board";
 import { HttpResponse } from "../../bean/httpResponse";
-import { Observable, observable } from "rxjs";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn  : 'root'   
