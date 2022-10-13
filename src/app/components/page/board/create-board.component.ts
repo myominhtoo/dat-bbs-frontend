@@ -104,11 +104,11 @@ export class CreateBoardComponent{
             this.status.isLoading = false;
             console.log(data);
             alert("Succesfully Created!");
-          }
-          ,
+          },
           error : err => {
             this.board.boardName = '';
             this.board.description = '';
+
           }
         });
   
