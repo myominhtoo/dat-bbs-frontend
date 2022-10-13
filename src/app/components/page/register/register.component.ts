@@ -35,6 +35,7 @@ export class RegisterComponent implements OnInit{
         this.user.email= storedData ==null ? '' : JSON.parse( atob (`${storedData}`)).email;
     }
 
+
     onSubmit(){
         // this.userService.sendRegisteration(this.user).subscribe({
         //     next : (res) => {
@@ -42,23 +43,8 @@ export class RegisterComponent implements OnInit{
         //     }
         // })
 
-        if(this.user.username==null || this.user.email == null || this.user.password == null || this.user.code == null ||
-          this.user.username=="" || this.user.email == "" || this.user.password == "" ){
-
-            this.emptyErrorMessage="Please Fill the blank";
-
-            if(this.user.username==null || this.user.username=="")
-              this.username="Name is Required";
-            if(this.user.email==null || this.user.email=="")
-              this.email="Email is Required";
-              if(this.user.password==null || this.user.password=="")
-              this.password="Password is Required";
-              if(this.user.code==null)
-              this.code="Code is Required";
-          }else{
-            this.savedUser();
-          }
-    }
+      this.userService.sendRegisteration(this.user).subscribe(data=>{
+        this.router.navigateByUrl('/login');
 
     savedUser(){
       this.userService.sendRegisteration(this.user).subscribe({
@@ -80,5 +66,7 @@ export class RegisterComponent implements OnInit{
           });
         }
       })
+
+
     }
 }
