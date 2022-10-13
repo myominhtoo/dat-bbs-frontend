@@ -32,16 +32,12 @@ export class RegisterComponent implements OnInit{
 
     ngOnInit(): void {
         let storedData = localStorage.getItem ( btoa ("data"))
+
         this.user.email= storedData ==null ? '' : JSON.parse( atob (`${storedData}`)).email;
     }
 
 
     onSubmit(){
-        // this.userService.sendRegisteration(this.user).subscribe({
-        //     next : (res) => {
-        //         console.log(res);
-        //     }
-        // })
       this.savedUser();
     }
 

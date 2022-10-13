@@ -15,11 +15,7 @@ export class CreateBoardComponent{
     constructor( public toggleStore : ToggleStore , private boardService :BoardService ,private router : Router ){}
 
     emailStr :string ='';
-    emails : string [] = [];
-    error = {
-      hasError : false,
-      msg : '',
-   }
+    emails : string [] = [];  
 
     board : Board = new Board();
   
@@ -29,15 +25,26 @@ export class CreateBoardComponent{
         willUpdate : false
       },
       error : {
-        hasError : false,
-        msg : ''
-      }
+          boardName : {
+            hasError : false,
+            msg : '',
+          },
+          description : {
+            hasError : false,
+            msg : ''
+          },
+        email : {
+          hasError : false,
+          msg : ''
+        }
+      },
+      isLoading : false,
     }
   
     onChange( event : KeyboardEvent ){
       let emailStr = this.emailStr; // this ko ma thone chin loh
       let lastChar = emailStr[emailStr.length - 1];
-      this.status.error = { hasError : false , msg : ''}
+      this.status.error.email = { hasError : false , msg : ''}
       if( lastChar === ',' || lastChar === ' ' || event.keyCode == 13 ){
         // previous char before last char
         let prevLastChar = emailStr[emailStr.length - 2];
@@ -51,15 +58,15 @@ export class CreateBoardComponent{
           this.status.update.willUpdate
           ? this.emails[this.status.update.idx] = emailStr
           : this.emails.includes(storeEmail)
-           ? this.status.error = { hasError : true , msg : 'This email has already included!' }
+           ? this.status.error.email = { hasError : true , msg : 'This email has already included!' }
            : this.emails.push( storeEmail );
   
           this.status.update = { idx : 0 , willUpdate : false }
-          this.emailStr = this.status.error.hasError ? this.emailStr : '';
+          this.emailStr = this.status.error.email.hasError ? this.emailStr : '';
   
         }else{
   
-          this.status.error = { hasError : true , msg : 'Invalid email!'}
+          this.status.error.email = { hasError : true , msg : 'Invalid email!'}
           
         }
       }
@@ -75,23 +82,38 @@ export class CreateBoardComponent{
   
     createBoard(){
       const user = new User();
-      user.id = 7;
+      user.id = 7 ;
       this.board.user = user;
       this.board.invitedEmails = this.emails;
-      this.boardService.createBoard(this.board)
-      // .subscribe({
-      //   next : ( res ) => {
-      //     if (res.ok){
-      //   console.log(res);
-      //     alert("Succesfully Created!");
-      //     }
-      //   }
-      // })
-      .subscribe(data =>{
-        console.log(data);
-        alert("Succesfully Created!");
+      this.status.isLoading = true;
+
+
+      this.board.boardName == null || this.board.boardName == ''
+      ? this.status.error.boardName = { hasError : true , msg : 'Board Name is required!'}
+      : this.status.error.boardName = { hasError : false , msg : '' };
+
+      this.board.description == null || this.board.description == ''
+      ? this.status.error.description = { hasError : true , msg : 'Description is required!'}
+      : this.status.error.description = { hasError : false , msg : '' };
+
+      
+      if( !this.status.error.boardName.hasError && !this.status.error.description.hasError ){
+        this.boardService.createBoard(this.board)
+        .subscribe({
+          next : data => {
+            this.status.isLoading = false;
+            console.log(data);
+            alert("Succesfully Created!");
+          },
+          error : err => {
+            this.board.boardName = '';
+            this.board.description = '';
+
+          }
+        });
+  
       }
-      );
   }
 
 }
+
