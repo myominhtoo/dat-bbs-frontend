@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export class Board {
     id !: number;
     boardName !: string;
@@ -7,5 +9,5 @@ export class Board {
     image !: File;
     deleteStatus !: boolean;
     invitedEmails !: string[];
-    userId !: number;
+    user !: User;
 }

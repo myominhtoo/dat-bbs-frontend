@@ -1,6 +1,10 @@
 import { Component } from "@angular/core";
 import { Board } from "src/app/model/bean/board";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
+import { BoardService } from "src/app/model/service/http/board.service";
+import { Router } from '@angular/router';
+import swal from 'sweetalert';
+import { User } from "src/app/model/bean/user";
 
 @Component({
     selector :'create-board',
@@ -8,10 +12,14 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
 })
 export class CreateBoardComponent{
 
-    constructor( public toggleStore : ToggleStore ){}
+    constructor( public toggleStore : ToggleStore , private boardService :BoardService ,private router : Router ){}
 
     emailStr :string ='';
     emails : string [] = [];
+    error = {
+      hasError : false,
+      msg : '',
+   }
 
     board : Board = new Board();
   
@@ -65,5 +73,25 @@ export class CreateBoardComponent{
       this.status.update = { idx : idx , willUpdate : true }
     }
   
-  
+    createBoard(){
+      const user = new User();
+      user.id = 7;
+      this.board.user = user;
+      this.board.invitedEmails = this.emails;
+      this.boardService.createBoard(this.board)
+      // .subscribe({
+      //   next : ( res ) => {
+      //     if (res.ok){
+      //   console.log(res);
+      //     alert("Succesfully Created!");
+      //     }
+      //   }
+      // })
+      .subscribe(data =>{
+        console.log(data);
+        alert("Succesfully Created!");
+      }
+      );
+  }
+
 }
