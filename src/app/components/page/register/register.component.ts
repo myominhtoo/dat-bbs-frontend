@@ -42,9 +42,8 @@ export class RegisterComponent implements OnInit{
         //         console.log(res);
         //     }
         // })
-
-      this.userService.sendRegisteration(this.user).subscribe(data=>{
-        this.router.navigateByUrl('/login');
+      this.savedUser();
+    }
 
     savedUser(){
       this.userService.sendRegisteration(this.user).subscribe({
@@ -66,7 +65,6 @@ export class RegisterComponent implements OnInit{
           });
         }
       })
-
 
     }
 }
