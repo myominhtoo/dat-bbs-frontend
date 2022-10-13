@@ -43,4 +43,11 @@ export class VerifyEmailComponent implements OnInit{
        })
     }
 
+
+    backToSendVerification(){
+        this.status.hasGotVerification = false;
+        localStorage.removeItem(btoa('data'));
+    }
+    
 }
+

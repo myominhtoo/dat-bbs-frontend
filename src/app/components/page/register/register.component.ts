@@ -3,6 +3,7 @@ import { Component, OnInit } from  "@angular/core";
 import { User } from "src/app/model/bean/user";
 import { UserService } from "src/app/model/service/http/user.service";
 import { Router } from "@angular/router";
+import swal from 'sweetalert';
 
 @Component({
     selector : 'register',
@@ -35,13 +36,35 @@ export class RegisterComponent implements OnInit{
     }
 
 
-    onSubmit(registerForm: NgForm){
-      console.log(this.user)
-
-
+    onSubmit(){
+        // this.userService.sendRegisteration(this.user).subscribe({
+        //     next : (res) => {
+        //         console.log(res);
+        //     }
+        // })
 
       this.userService.sendRegisteration(this.user).subscribe(data=>{
         this.router.navigateByUrl('/login');
+
+    savedUser(){
+      this.userService.sendRegisteration(this.user).subscribe({
+        next : res => {
+          if( res.ok ){
+            localStorage.removeItem(btoa('data'));
+            swal({
+              text : res.message,
+              icon : 'success'
+            }).then(() => {
+              this.router.navigateByUrl('/login');
+            });
+          }
+        },
+        error : err => {
+          swal({
+            text : err.error.message,
+            icon : 'warning'
+          });
+        }
       })
 
 

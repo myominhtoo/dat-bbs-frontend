@@ -353,3 +353,7 @@ padding-bottom:3px;
 .emailbox::-webkit-scrollbar {
     display: none; 
   }
+
+#verification-btn:hover{
+    cursor: pointer;
+}
