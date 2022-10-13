@@ -6,18 +6,20 @@
     <div id="main-area" class="m-0 p-3 board-con" [class.sidebar-hide]="!toggleStore.isShow">
         <section class="container-fluid ">
             <div class="container card py-5">
-                <form (ngSubmit)="createBoard()">
+                <form (ngSubmit)="createBoard()" novalidate>
                     <div class="row d-flex justify-content-center align-items-center">
                         <h1 class="text-center">Create Board</h1>
                         <div class="col-6">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Board Name</label>
-                                <input type="text" class="form-control" placeholder="Enter board name" name=boardName [(ngModel)]="board.boardName" />
+                                <input type="text" class="form-control is" placeholder="Enter board name" name=boardName [(ngModel)]="board.boardName" [class.is-invalid]="status.error.boardName.hasError" required/>
+                                <small *ngIf="status.error.boardName.hasError" class="text-danger">{{ status.error.boardName.msg }}</small>
                             </div>
                             <div class="col-12 ">
                                 <div class="mb-3">
                                     <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-                                    <textarea class="form-control textarea-box"  rows="3" placeholder="Write something about your board..."></textarea>
+                                    <textarea class="form-control textarea-box"  rows="3" placeholder="Write something about your board..." [(ngModel)]="board.description" name="description" [class.is-invalid]="status.error.description.hasError" required ></textarea>
+                                    <small *ngIf="status.error.description.hasError" class="text-danger">{{ status.error.description.msg }}</small>
                                 </div>
                             </div>
                             <div class="col-12 emailbox" [style]="emails.length > 3 ? 'height:100px !important;' : 'height:auto;'">
@@ -30,11 +32,11 @@
                                 </div>
                               
                             </div>
-                            <input class="form-control mt-2" name="emailStr" [(ngModel)]="emailStr" (keyup)="onChange($event)" [value]="emailStr" [class.is-invalid]="status.error.hasError" id="invite" placeholder="member@gmail.com" />
-                            <small>{{ status.error.msg }}</small>
+                            <input class="form-control mt-2" name="emailStr" [(ngModel)]="emailStr" (keyup)="onChange($event)" [value]="emailStr" [class.is-invalid]="status.error.email.hasError" id="invite" placeholder="member@gmail.com" />
+                            <small>{{ status.error.email.msg }}</small>
                             <div class="mb-3 mt-3 float-end">
                                 <button class="btn me-4">Cancel</button>
-                                <button class="btn btn-primary">Create Board</button>
+                                <button class="btn btn-primary">{{ status.isLoading ? 'Creating Board' : 'Create Board'}}</button>
                             </div>
                             
                         </div>
