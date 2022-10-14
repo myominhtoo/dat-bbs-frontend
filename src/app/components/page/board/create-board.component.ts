@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import swal from 'sweetalert';
 import { User } from "src/app/model/bean/user";
 import { UserService } from "src/app/model/service/http/user.service";
-import { filter, map } from "rxjs";
+import { map ,  Subject } from "rxjs";
 
 @Component({
     selector :'create-board',
@@ -23,12 +23,13 @@ export class CreateBoardComponent implements OnInit {
     emails : string [] = [];  
 
     board : Board = new Board();
+    debounceInput!: Function;
     
     /*
       for auto fill
     */
     storedEmails : string [] = [];
-
+    filterEmails : string [] = [];
 
     status = {
       update : {
@@ -54,9 +55,16 @@ export class CreateBoardComponent implements OnInit {
 
     ngOnInit(): void {
       this.getAllUsers();
+      
     }
   
     onChange( event : KeyboardEvent ){
+
+      this.emailStr  == ''
+      ? this.filterEmails = []
+      : this.filterAutoCompleteEmails( this.emailStr);
+
+
       let emailStr = this.emailStr; // this ko ma thone chin loh
       let lastChar = emailStr[emailStr.length - 1];
       this.status.error.email = { hasError : false , msg : ''}
@@ -146,6 +154,14 @@ export class CreateBoardComponent implements OnInit {
         console.log(err);
       }
     });
+  }
+
+  filterAutoCompleteEmails(   filterEmail : string ){
+    this.filterEmails =  this.storedEmails.filter(
+      ( email )=>{
+        return email.toLocaleLowerCase().includes( filterEmail.toLocaleLowerCase());
+      }
+    )
   }
 
 }

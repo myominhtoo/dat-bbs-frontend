@@ -18,6 +18,9 @@ import { NotificationsComponent } from './components/page/notifications/notifica
 import { ReportingComponent } from './components/page/reporting/reporting.component';
 import { MyBoardsComponent } from './components/page/board/my-boards.component';
 import { BoardComponent } from './components/page/board/board.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { BoardComponent } from './components/page/board/board.component';
     AppRoutingModule,
     LayoutModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,8 +4,8 @@
     <sidebar></sidebar>
 
     <div id="main-area" class="m-0 p-3 board-con" [class.sidebar-hide]="!toggleStore.isShow">
-        <section class="container-fluid ">
-            <div class="container card py-5">
+        <section class="container-fluid h-auto">
+            <div class="container card py-5 h-auto">
                 <form (ngSubmit)="createBoard()" novalidate>
                     <div class="row d-flex justify-content-center align-items-center">
                         <h1 class="text-center">Create Board</h1>
@@ -32,8 +32,22 @@
                                 </div>
 
                             </div>
-                            <input class="form-control mt-2" name="emailStr" [(ngModel)]="emailStr" (keyup)="onChange($event)" [value]="emailStr" [class.is-invalid]="status.error.email.hasError" id="invite" placeholder="member@gmail.com" />
-                            <small>{{ status.error.email.msg }}</small>
+                            <mat-form-field class="w-100">
+                                    <input 
+                                     name="emailStr" 
+                                    [(ngModel)]="emailStr" (keyup)="onChange($event)" 
+                                    [value]="emailStr" [class.is-invalid]="status.error.email.hasError" 
+                                    id="invite" placeholder="member@gmail.com" 
+                                    [matAutocomplete]="emailAutoComplete"
+                                    matInput
+                                    />
+                                    <mat-autocomplete #emailAutoComplete="matAutocomplete" >
+                                        <mat-option *ngFor="let email of filterEmails" [value]="email">
+                                            {{ email }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                            </mat-form-field>
+                            <small class="text-danger">{{ status.error.email.msg }}</small>
                             <div class="mb-3 mt-3 float-end">
                                 <button class="btn me-4">Cancel</button>
                                 <button class="btn btn-primary">{{ status.isLoading ? 'Creating Board' : 'Create Board'}}</button>
