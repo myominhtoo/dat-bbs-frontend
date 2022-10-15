@@ -16,12 +16,12 @@ import { MyTaskComponent } from './components/page/mytasks/my-tasks.component';
 import { BoardMarkComponent } from './components/page/bookmarks/bookmarks.component';
 import { NotificationsComponent } from './components/page/notifications/notifications.component';
 import { ReportingComponent } from './components/page/reporting/reporting.component';
-import { MyBoardsComponent } from './components/page/board/my-boards.component';
-import { BoardComponent } from './components/page/board/board.component';
+import { WorkspaceComponent } from './components/page/board/workspace.component';
+import { MyBoardComponent } from './components/page/board/my-board.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { MatButton, MatButtonModule } from '@angular/material/button';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,8 +35,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BoardMarkComponent,
     NotificationsComponent,
     ReportingComponent,
-    MyBoardsComponent,
-    BoardComponent
+    WorkspaceComponent,
+    MyBoardComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +46,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     MatInputModule,
     MatAutocompleteModule,
+    MatButtonModule,
     BrowserAnimationsModule
   ],
   providers: [],

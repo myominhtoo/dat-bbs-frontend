@@ -3,23 +3,29 @@
 <main class="p-0 m-0 d-flex gap-0" id="main">
     <sidebar></sidebar>
 
-    <div id="main-area" class="m-0 p-3 board-con" [class.sidebar-hide]="!toggleStore.isShow">
-        <section class="container-fluid h-auto">
-            <div class="container card py-5 h-auto">
+    <div id="main-area" class="m-0 p-3 board-icon" [class.sidebar-hide]="!toggleStore.isShow">
+        <section class="container-fluid d-flex justify-content-center align-items-center mt-5">
+            <div class="container w-auto rounded-5 text-white create-board  bg-black  py-5 h-auto">
                 <form (ngSubmit)="createBoard()" novalidate>
                     <div class="row d-flex justify-content-center align-items-center">
                         <h1 class="text-center">Create Board</h1>
                         <div class="col-6">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Board Name</label>
-                                <input type="text" class="form-control is" placeholder="Enter board name" name=boardName [(ngModel)]="board.boardName" [class.is-invalid]="status.error.boardName.hasError" required/>
+                                <mat-form-field class="w-100">
+                                    <mat-label class="text-white">Enter board name</mat-label>
+                                <!-- <label for="exampleInputEmail1" class="form-label">Board Name</label> -->
+                                <input matInput type="text" name=boardName  [(ngModel)]="board.boardName" [class.is-invalid]="status.error.boardName.hasError" required/>
                                 <small *ngIf="status.error.boardName.hasError" class="text-danger">{{ status.error.boardName.msg }}</small>
+                            </mat-form-field>
                             </div>
                             <div class="col-12 ">
                                 <div class="mb-3">
-                                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-                                    <textarea class="form-control textarea-box"  rows="3" placeholder="Write something about your board..." [(ngModel)]="board.description" name="description" [class.is-invalid]="status.error.description.hasError" required ></textarea>
+                                    <mat-form-field class="w-100">
+                                        <mat-label class="text-white">Write something about your board...</mat-label>
+                                    <!-- <label for="exampleFormControlTextarea1" class="form-label">Description</label> -->
+                                    <textarea matInput   rows="3" [(ngModel)]="board.description" name="description" [class.is-invalid]="status.error.description.hasError" required ></textarea>
                                     <small *ngIf="status.error.description.hasError" class="text-danger">{{ status.error.description.msg }}</small>
+                                </mat-form-field>
                                 </div>
                             </div>
                             <div class="col-12 emailbox" [style]="emails.length > 3 ? 'height:100px !important;' : 'height:auto;'">
@@ -32,6 +38,7 @@
                                 </div>
 
                             </div>
+
                             <mat-form-field class="w-100">
                                     <input 
                                      name="emailStr" 

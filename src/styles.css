@@ -3,8 +3,9 @@
     /* --pale-dark:rgba(0,0,0,0.95);
     --dark:rgba(0,0,0,0.99); */
     /* --pale-dark:rgba(37,38,40);
-    --dark:rgba(30,31,33); */
+    --dark:rgba(34,0,31,33); */
     --thm:rgba(51,102,153,1);
+    --tw-color : rgba(255,204,51);
 /* Dark Mode */
     --pale-dark:rgba(32,32,32);
     --dark:rgba(24,24,24);    
@@ -23,7 +24,10 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    
 }
+
+
 
 .bg-pale-dark{
     background-color: var(--pale-dark);
@@ -40,7 +44,9 @@
 .bg-thm{
     background-color: var(--thm);
 }
-
+.bg-tw{
+    background-color: var(--tw-color);
+}
 .snow{
     color:var(--snow);
 }
@@ -59,6 +65,14 @@
 
 .pale-snow{
     color:var(--pale-snow);
+}
+
+.thm{
+    color:var(--thm) !important;
+}
+
+.tw-color{
+    color:var(--tw-color) !important;
 }
 
 
@@ -226,7 +240,8 @@ padding-bottom:3px;
 
 /* Start Sign Up */
 .bbmsnav-color{
-    background: var(--snow)!important;
+    /* background: var(--snow)!important; */
+    background-color: rgb(33, 31, 31) !important;
     padding-right:20px ;
     padding-left:20px ;
 }
@@ -356,4 +371,27 @@ padding-bottom:3px;
 
 #verification-btn:hover{
     cursor: pointer;
+}
+body{
+    background-color:rgb(33, 31, 31) !important;
+}
+.board{
+    color: white;
+    height: 150px !important;
+    /* width : 280px !important;
+    max-width: 280px; */
+       max-height: 150px;
+    border: 1px solid rgba(229, 225, 225, 0.3) !important;
+    /* box-shadow: 2px 2px 2px rgba(245, 245, 245, 0.368); */
+    background-color:var(--dark) !important;
+    transition: 0.2s all;
+}
+
+.board:hover{
+    border: 2px solid var(--thm) !important;
+    cursor: pointer;
+}
+.create-board{
+
+    border: 1px solid rgba(128, 128, 128, 0.628);
 }

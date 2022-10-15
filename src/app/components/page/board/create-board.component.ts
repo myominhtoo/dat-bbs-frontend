@@ -121,20 +121,32 @@ export class CreateBoardComponent implements OnInit {
 
       
       if( !this.status.error.boardName.hasError && !this.status.error.description.hasError ){
-        this.boardService.createBoard(this.board)
-        .subscribe({
-          next : data => {
-            this.status.isLoading = false;
-            console.log(data);
-            alert("Succesfully Created!");
-          },
-          error : err => {
-            console.log(err);
-            this.board.boardName = '';
-            this.board.description = '';
+        swal({
+          text : 'Are you sure to create board?',
+          icon : 'warning',
+          buttons : [ 'No' , 'Yes' ]
+        }).then( isYes => {
+          if( isYes ){
+            this.boardService.createBoard(this.board)
+            .subscribe({
+              next : data => {
+                this.status.isLoading = false;
+                
+                swal({
+                  text : data.message,
+                  icon : 'success'
+                }).then( () => {
+                  this.router.navigateByUrl('/my-boards');
+                })
+              },
+              error : err => {
+                console.log(err);
+                this.board.boardName = '';
+                this.board.description = '';
+              }
+            });  
           }
-        });
-  
+        })
       }
   }
 

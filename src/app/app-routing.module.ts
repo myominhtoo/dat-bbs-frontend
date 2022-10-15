@@ -9,8 +9,8 @@ import { MyTaskComponent } from './components/page/mytasks/my-tasks.component';
 import { BoardMarkComponent } from './components/page/bookmarks/bookmarks.component';
 import { NotificationsComponent } from './components/page/notifications/notifications.component';
 import { ReportingComponent } from './components/page/reporting/reporting.component';
-import { MyBoardsComponent } from './components/page/board/my-boards.component';
-import { BoardComponent } from './components/page/board/board.component';
+import { WorkspaceComponent } from './components/page/board/workspace.component';
+import { MyBoardComponent } from './components/page/board/my-board.component';
 
 const routes: Routes = [
   {
@@ -56,11 +56,11 @@ const routes: Routes = [
   },
   {
     path : 'my-boards',
-    component : MyBoardsComponent
+    component : WorkspaceComponent
   },
   {
     path : 'boards/:id',
-    component : BoardComponent
+    component : MyBoardComponent
   }
 ];
 
