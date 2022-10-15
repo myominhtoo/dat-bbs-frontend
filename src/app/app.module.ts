@@ -22,6 +22,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButton, MatButtonModule } from '@angular/material/button';
+import { CreateTaskCardComponent } from './components/page/mytasks/create-taskCard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +37,8 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
     NotificationsComponent,
     ReportingComponent,
     WorkspaceComponent,
-    MyBoardComponent
+    MyBoardComponent,
+    CreateTaskCardComponent
   ],
   imports: [
     BrowserModule,
