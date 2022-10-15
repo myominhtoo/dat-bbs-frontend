@@ -8,7 +8,7 @@
         <verify-pass *ngIf="status.hasGotVerification" (handle-back)="backToSendVerification()"></verify-pass>
         <div style="transform: translateY(40%);" *ngIf="!status.hasGotVerification" class="col-10 mx-auto mw-100 ">
             <div class="col-12 mb-3 text-center">
-                <p [class.d-none]="status.hasError" class=" register-header fw-bold">
+                <p [class.d-none]="status.hasError" class=" register-header fw-bold thm">
                     Enter Your Email                    
                 </p> 
                 <p *ngIf="status.hasError" class="register-header text-danger   ">
@@ -20,7 +20,7 @@
             <form  #emailverify="ngForm" (ngSubmit)="onSubmit(emailverify)"> 
                 <div class="d-grid">
                     <input type="email" class="form-control signup-text" name="email" placeholder="name@company.com" #email="ngModel" ngModel [class.is-invalid]="email.touched && email.invalid" required>
-                    <input [disabled]="status.isLoading || emailverify.invalid" type="submit" class="btn  signup-btn" [value]="status.isLoading ? 'Verifying' : 'Verify'">
+                    <input [disabled]="status.isLoading || emailverify.invalid"  mat-button  type="submit" class="btn  signup-btn" [value]="status.isLoading ? 'Verifying' : 'Verify'">
                 </div>
             </form>
             <p class="text-center text-secondary my-2">By signing up, I agree to  

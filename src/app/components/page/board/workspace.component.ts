@@ -2,9 +2,9 @@ import { Component } from "@angular/core";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 
 @Component({
-    selector : 'my-boards',
-    templateUrl : './my-boards.component.html'
+    selector : 'workspace',
+    templateUrl : './workspace.component.html'
 })
-export class MyBoardsComponent{
+export class WorkspaceComponent{
     constructor( public toggleStore : ToggleStore ){}
 }
