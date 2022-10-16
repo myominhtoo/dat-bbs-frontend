@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "src/app/app-routing.module";
 import { BoardComponent } from "./board.component";
+import { LoadingComponent } from "./loading.component";
 import { NavbarComponent } from "./navbar.component";
 import { SidebarComponent } from "./sidebar.component";
 
@@ -9,7 +10,8 @@ import { SidebarComponent } from "./sidebar.component";
     declarations : [
         NavbarComponent,
         SidebarComponent,
-        BoardComponent
+        BoardComponent,
+        LoadingComponent
     ],
     imports : [
         BrowserModule,
@@ -18,7 +20,8 @@ import { SidebarComponent } from "./sidebar.component";
     exports : [
         NavbarComponent,
         SidebarComponent,
-        BoardComponent
+        BoardComponent,
+        LoadingComponent
     ]
 })
 export class LayoutModule{}

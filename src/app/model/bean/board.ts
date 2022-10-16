@@ -11,6 +11,7 @@ export class Board {
     deleteStatus !: boolean;
     invitedEmails !: string[];
     user !: User;
+    bookMark! : boolean;
 
     /*
      only to display in ui
