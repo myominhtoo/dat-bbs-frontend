@@ -5,5 +5,12 @@
 
     <div id="main-area" class="m-0 p-3" [class.sidebar-hide]="!toggleStore.isShow">
         <h1>I am {{ route.snapshot.params['id'] }}</h1>
+
+       <!--  just for test  -->
+       <ul *ngIf="!status.isLoading">
+         <li *ngFor="let stage of stages">{{ stage.stageName }}</li>
+       </ul>
+
+        <loading [show]="status.isLoading" target="Tasks"></loading>
     </div>
 </main>
