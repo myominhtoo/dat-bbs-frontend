@@ -5,28 +5,24 @@
             <span class="">
                 <!-- <i class="fa-solid fa-star mx-1"></i> -->
                 <i class="fa-regular fa-star text-muted "></i>
-                Board Title
+               {{ data.boardName | titlecase }}
             </span>
             <span data-bs-toggle="dropdown">
                 <i class="fa-solid fa-ellipsis-vertical "></i>
             </span>
         </div>
-
-        <!-- <div class="fw-light">
-            <ul class="list-unstyled">
-                <li><i class="fas fa-duotone fa-users mx-1 text-muted  opacity-75"></i></li>
-                <li><i class="fas fa-duotone fa-calendar-days mx-1 text-muted  opacity-75"></i>Created Date : 2022-01-20 </li>
-            </ul>
-        </div> -->
         
         <div class="d-flex justify-content-between ">
-            <span class="text-muted mx-1"> <span class="fw-light text-black">21</span> Tasks</span>
+            <span class="text-muted mx-1"> <span class="fw-light text-black">{{ data.tasks && data.tasks.length }}</span> Tasks</span>
             <div class="d-flex align-items-center gap-3">
                 <p class="d-flex align-items-center p-0 m-0 gap-1 fw-light">
-                    <span>10</span>
+                    <span>{{ data.members && data.members.length }}</span>
                     <i class="fas fa-duotone fa-users text-muted  "></i>
                 </p>
-                <img src="/assets/img/board-profile-img/kyawgyi.png"  style="width:25px;height:25px;border-radius:100%; object-fit: cover; border: 1px #eee;" class="thm m-0 bg-primary p-0 border-1" alt="">
+                <p *ngIf="!data.user.imageUrl" style="width:25px;height:25px;border-radius:100%; object-fit: cover; border: 1px #eee;" class=" d-flex justify-content-center align-items-center bg-thm m-0 text-light p-0 border-1">
+                   <span> {{ data.user.username[0] | titlecase }}</span>
+                </p>
+                <img *ngIf="data.user.imageUrl" src="/assets/img/board-profile-img/kyawgyi.png"  style="width:25px;height:25px;border-radius:100%; object-fit: cover; border: 1px #eee;" class="thm m-0 bg-primary p-0 border-1" alt="">
             </div>
         </div>
     </div>

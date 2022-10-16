@@ -1,3 +1,4 @@
+import { TaskCard } from "./taskCard";
 import { User } from "./user";
 
 export class Board {
@@ -10,4 +11,10 @@ export class Board {
     deleteStatus !: boolean;
     invitedEmails !: string[];
     user !: User;
+
+    /*
+     only to display in ui
+    */
+   tasks !: TaskCard[];
+   members !: User[];
 }

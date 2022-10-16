@@ -9,9 +9,16 @@ import { Observable } from "rxjs";
 })
 
 export class BoardService{
+
     constructor ( private httpClient : HttpClient ){
     }
+
     createBoard(board: Board) : Observable <HttpResponse> {
       return this.httpClient.post<HttpResponse> (`http://localhost:8080/api/create-board` ,  board);
     }
+
+    getBoardsForUser( userId : number ) : Observable<Board[]> {
+      return this.httpClient.get<Board[]>(`http://localhost:8080/api/users/${userId}/boards`);
+    }
+
 }

@@ -28,4 +28,9 @@ export class UserService {
     getUsers() : Observable<User[]> {
         return this.httpClient.get<User[]>('http://localhost:8080/api/users');
     }
+
+    getUsersForBoard( boardId : number ) : Observable<User[]> {
+        return this.httpClient.get<User[]>( `http://localhost:8080/api/boards/${boardId}/members` );
+    }
+
 }
