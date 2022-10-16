@@ -241,7 +241,7 @@ padding-bottom:3px;
 /* Start Sign Up */
 .bbmsnav-color{
     /* background: var(--snow)!important; */
-    background-color: rgb(33, 31, 31) !important;
+    background-color: transparent;
     padding-right:20px ;
     padding-left:20px ;
 }
@@ -276,7 +276,7 @@ padding-bottom:3px;
     
 }
 .register-form{
-    width: 70%;
+    width: 60%;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px !important;
 }
 
@@ -373,27 +373,40 @@ padding-bottom:3px;
     cursor: pointer;
 }
 body{
-    background-color:rgb(33, 31, 31) !important;
+    /* background-color: var(--snow) !important; */
+    background-color:rgba(225, 225, 225, 0.75) !important; 
+    /* background-color: #fbfbfbbe !important; */
 }
 .board{
-    color: white;
+    color: black;
     height: 150px !important;
-    /* width : 280px !important;
-    max-width: 280px; */
-       max-height: 150px;
-    border: 1px solid rgba(229, 225, 225, 0.3) !important;
-    /* box-shadow: 2px 2px 2px rgba(245, 245, 245, 0.368); */
-    background-color:var(--dark) !important;
-    transition: 0.2s all;
+    max-height: 150px;
+    border: 1px solid rgba(225, 225, 225, 0.75) !important; 
+     /* background-color:rgba(225, 225, 225, 0.75) !important;  */
+     background-color: #fbfbfbbe !important;
+     
+    
+     
+    
 }
 
 .board:hover{
-    border: 2px solid var(--thm) !important;
+    border: 1px solid var(--thm) !important;
     cursor: pointer;
 }
 .create-board{
 
     border: 1px solid rgba(128, 128, 128, 0.628);
+}
+.h-test{
+    max-height: 450px !important;
+    height: 450px !important;
+}
+.r-test{
+    max-height: 510px !important;
+    height: 510px !important;
+}
+
 } 
 
 /* taskCard */

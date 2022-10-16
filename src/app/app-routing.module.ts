@@ -55,7 +55,7 @@ const routes: Routes = [
     component : ReportingComponent
   },
   {
-    path : 'my-boards',
+    path : 'boards',
     component : WorkspaceComponent
   },
   {
