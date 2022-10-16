@@ -11,7 +11,7 @@ import { NotificationsComponent } from './components/page/notifications/notifica
 import { ReportingComponent } from './components/page/reporting/reporting.component';
 import { WorkspaceComponent } from './components/page/board/workspace.component';
 import { MyBoardComponent } from './components/page/board/my-board.component';
-
+import { CreateTaskCardComponent } from './components/page/mytasks/create-taskCard.component';
 const routes: Routes = [
   {
     path : '',
@@ -61,6 +61,10 @@ const routes: Routes = [
   {
     path : 'boards/:id',
     component : MyBoardComponent
+  },
+  {
+    path : 'create-taskCard',
+    component : CreateTaskCardComponent
   }
 ];
 

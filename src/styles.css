@@ -406,3 +406,14 @@ body{
     max-height: 510px !important;
     height: 510px !important;
 }
+
+} 
+
+/* taskCard */
+.create-taskCard{
+    border: 1px solid rgba(128, 128, 128, 0.628);
+    background-color:rgb(254, 254, 254);
+    height: 480px;
+    
+}
+
