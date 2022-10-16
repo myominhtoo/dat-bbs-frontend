@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-between">
             <span class="">
                 <!-- <i class="fa-solid fa-star mx-1"></i> -->
-                <i class="fa-regular fa-star text-muted "></i>
+                <i class="fa-regular fa-star text-muted" [class.fw-bold]="data.bookMark"></i>
                {{ data.boardName | titlecase }}
             </span>
             <span data-bs-toggle="dropdown">
