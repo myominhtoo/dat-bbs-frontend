@@ -2,8 +2,98 @@
 
 <main class="p-0 m-0 d-flex gap-0" id="main">
    <sidebar></sidebar>
+    <div id="main-area" class="m-0 p-0 pt-3" [class.sidebar-hide]="!toggleStore.isShow">
+        <!-- container-fluid -> w-100 some changes -->
+        <div class="w-100">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h1>Dat</h1>
+                    </div>
+                </div>
+                <div class="row task-box-shadow">
+                    
+                        <div class="scrolling-wrapper task-box-shadow">
+                            <div class="task-card-container d-inline-block  rounded-2 task-box-shadow">
+                                <!-- start task-card-header -->
+                                <div class="w-100 bg-transparent task-card-header p-2">
+                                <div class="d-flex justify-content-between">
+                                    <!-- task-card-title -->
+                                    <div class="text-justify">
+                                        <h5 class="stage-title m-0 fw-bold">To do</h5>
+                                    </div>
+                                    <!-- task-card-title -->
+                                    <!-- task-card-icon -->
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="stage-icon">
+                                            <i class="fas fa-solid fa-plus"></i>
+                                        </div>
+                                        <div class="stage-icon">
+                                            <i class="fas fa-solid fa-ellipsis"></i>
+                                        </div>    
+                                </div>
+                                <!-- task-card-icon -->
+                                
+                        </div>
+                    </div>
+                    <!-- end task-card-header -->
+                        <div class="container-fluid task-card-scroll task-box-shadow">     
+                                    <div class="w-100  d-flex flex-column">
+                                        <div class="task-cards my-1 rounded-2 p-2 task-box-shadow " data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions">
+                                            <h5>Task Card</h5>
+                                            
 
-    <div id="main-area" class="m-0 p-3" [class.sidebar-hide]="!toggleStore.isShow">
-        <h1>I am {{ route.snapshot.params['id'] }}</h1>
+                                             <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions">
+                                                <div class="offcanvas-header">
+                                                  <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+                                                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                                </div>
+                                                <div class="offcanvas-body">
+                                                  <p>Try scrolling the rest of the page to see this option in action.</p>
+                                                </div>
+                                              </div>
+                                        </div>
+
+                                        <div class="task-cards my-1 rounded-2 p-2 task-box-shadow">
+                                            <h5>Task Card</h5>
+                                        </div>        
+                                       
+        
+                                    </div>
+                            </div>
+                        </div>
+                        
+        
+                        
+                    
+                    </div>
+                                   
+                            
+                          
+                    
+                </div>
+            </div>
+        </div>   
     </div>
 </main>
+
+      <!-- Start bugger -->
+            <!-- <button class="navbar-toggler navbuttons" data-bs-toggle="collapse" data-bs-target="#nav">
+                <div class="bg-light line1"></div>
+                <div class="bg-light line2"></div>
+                <div class="bg-light line3"></div>
+              </button> -->
+              <!-- End bugger -->
+        
+              <!-- <div id="nav" class="navbar-collapse collapse justify-content-start text-uppercase ps-2"> -->
+
+                  <!-- <div class="col-12">
+            <nav class="navbar  navbar-expand container bg-dark navbar-dark">
+                <div id="nav" class="d-flex justify-content-start ps-2">
+                <ul class="navbar-nav nav-link-effect ">
+                  <li class="nav-item"><a href="javascript:void(0)" class="text-light nav-link mx-1"><span >Board</span></a></li>
+                  <li class="nav-item"> <a href="javascript:void(0)" class="text-light nav-link mx-1"><span>DashBoard</span></a> </li>
+                </ul>
+              </div>
+            </nav>
+                </div> -->
