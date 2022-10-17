@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Board } from "src/app/model/bean/board";
 import { Stage } from "src/app/model/bean/stage";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { StageService } from "src/app/model/service/http/stage.service";
@@ -11,11 +12,13 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
 })
 export class MyBoardComponent implements OnInit {
 
-    stages : Stage [] = [];
+    public stages : Stage [] = [];
     tasks : TaskCard [] = [];
-    status = {
+
+    public status = {
         isLoading : false,
     }
+    // @Input('data') data : Stage = new Stage();
 
     constructor( public toggleStore : ToggleStore ,
          public route : ActivatedRoute ,

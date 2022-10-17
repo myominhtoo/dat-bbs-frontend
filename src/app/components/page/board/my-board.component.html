@@ -12,13 +12,13 @@
                     </div>
                 </div>
                 <div class="row">                   
-                        <div class="scrolling-wrapper  px-5 bg-transparent">
-                            <task-card-container></task-card-container>
-                            <loading [show]="status.isLoading" target="Tasks"></loading>
+                        <div *ngIf="!status.isLoading" class="scrolling-wrapper  px-5 bg-transparent">
+                            <task-card-container *ngFor="let stage of stages" [data]="stage" ></task-card-container> 
                         </div>
+                        <loading [show]="status.isLoading" target="Tasks"></loading>
                   </div>   
             </div>
-        </div>   
+        </div>    
     </div>
 </main>
 
