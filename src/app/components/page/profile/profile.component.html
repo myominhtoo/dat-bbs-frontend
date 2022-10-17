@@ -1,0 +1,118 @@
+<navbar></navbar>
+<main class="p-0 m-0 d-flex gap-0" id="main">
+    <sidebar></sidebar>
+
+    <div id="main-area" class="m-0 p-3 board-con" [class.sidebar-hide]="!toggleStore.isShow">
+        <section class="container-fluid ">
+            <div class="container card py-5">
+                <div class="row">
+                <div class="col-6">
+                    <div class="row">
+                        <div class="row card-title">
+                            <h1 class="text-center">Public profile</h1>
+                        </div>  
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            <div class="mb-3 mx-auto">                    
+                                <img src="/assets/img/board-profile-img/gru.jpg" class=" boardprofile" alt="Board-Img">                             
+                                <span class="imgedit badge">                                    
+                                    <span class="fw-light" type="button" data-bs-toggle="dropdown">
+                                        <i class="fas fa-edit"></i>
+                                        Edit
+                                    </span>
+                                    
+                                    <ul class="dropdown-menu p-1 text-center">
+                                    <li>
+                                    <input type="file" name="file" id="file"  class="dropdown-item inputfile" value="Upload Image"/>
+                                    <label for="file" class="d-block fw-light">Upload Image</label>
+                                    </li>
+                                    <li><input type="file" name="file" id="file"  class="dropdown-item inputfile" value="Remove Images"/>
+                                        <label for="file" class="d-block fw-light">Remove Image</label>
+                                    </li>
+                                    </ul>
+                                </span>                    
+                            </div> 
+                        </div>
+                        <div class="col-12">
+                                
+                           <div class="card">
+                            <div class="card-body">
+                                <div class="col12">
+                                    <h1>Info</h1>
+                                </div>
+                            <div class="row card-title">
+                                <div class="form-label float-start col-4">User Name :</div>
+                                <div class="col-8">{{user.username}}</div>
+                            </div>
+                            <div class="row card-title">
+                                <div class="form-label float-start col-4">Bio :</div>
+                                <div class="col-8">{{user.bio}}</div>
+                            </div>
+                            <div class="row card-title">
+                                <div class="form-label float-start col-4">Email :</div>
+
+                                <div class="col-8">{{user.email}}</div>
+
+                            </div>  
+                            <div class="row card-title">
+                                <div class="form-label float-start col-4">Position :</div>
+
+                                <div class="col-8">{{user.position}}</div>
+                            </div> 
+                            </div>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 ">
+                <form #profile="ngForm" (ngSubmit)="saveProfile(profile)">
+                    <div class="row d-flex justify-content-center align-items-center">
+          
+                        <div class="col-12">
+                                
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">User Name</label>
+                                <input type="text" class="form-control" placeholder="Enter your name" name=userName  [(ngModel)]="user.username" [class.is-invalid]="status.error.username.hasError" required/>
+                                <small *ngIf="status.error.username.hasError" class="text-danger">{{ status.error.username.msg }}</small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Email</label>
+                                <input type="text" class="form-control" placeholder="Enter your email" name=email  [(ngModel)]="user.email" [class.is-invalid]="status.error.email.hasError" required/>
+                                <small *ngIf="status.error.email.hasError" class="text-danger">{{ status.error.email.msg }}</small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Phone</label>
+                                <input type="text" class="form-control" placeholder="Enter your phone" name=phone  [(ngModel)]="user.phone"/>
+                            </div> 
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Gender</label><br>
+                                <label for="male" class="form-check-label pe-1">Male</label>
+                                <input type="radio" class="form-check-input" id="male" name="gender" value="1" [(ngModel)]="user.gender"/>
+                                &nbsp; &nbsp; &nbsp;
+                                <label for="female" class="form-check-label pe-1">Female</label>
+                                <input type="radio" class="form-check-input" id="female" name="gender" value="0" [(ngModel)]="user.gender"/>
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Position</label>
+                                <input type="text" class="form-control" placeholder="Enter your position" name=position [(ngModel)]="user.position"/>
+                            </div>
+                            <div class="col-12 ">
+                                <div class="mb-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Bio </label>
+                                    <textarea class="form-control textarea-box"  rows="3" placeholder="Write something about your bio..." name=bio [(ngModel)]="user.bio"></textarea>
+                                </div>
+                            </div>
+                            <div class="mb-3 mt-3 float-end">
+                                <button class="btn me-4">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save </button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+            </div>
+        </section>
+    </div>
+</main>
