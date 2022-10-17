@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Stage } from 'src/app/model/bean/stage';
 
 @Component({
   selector: 'task-card-container',
@@ -9,7 +10,7 @@ import { Component } from '@angular/core';
         <div class="d-flex justify-content-between">
           <!-- task-card-title -->
           <div class="text-justify">
-            <h5 class="stage-title h5 text-muted m-0 fw-bold">To do</h5>
+            <h5 class="stage-title h5 text-muted m-0 fw-bold">{{data.stageName}}</h5>
           </div>
           <!-- task-card-title -->
           <!-- task-card-icon -->
@@ -69,4 +70,6 @@ import { Component } from '@angular/core';
     </div>
   `,
 })
-export class TaskCardContainerComponent {}
+export class TaskCardContainerComponent {
+  @Input('data') data : Stage = new Stage();
+}
