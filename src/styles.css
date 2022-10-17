@@ -451,7 +451,7 @@ body{
     left: 0px;
     transform: scaleX(0);
     background: rgb(255, 189, 57);
-    transition: all 0.3s ease-in-out 0s;
+    /* transition: all 0.3s ease-in-out 0s; */
   }
   
   .nav-link-effect span:hover::after {
@@ -530,11 +530,8 @@ body{
       display: flex;
       justify-content:start;
       align-items: center;
-      /* max-height: 70px; */
-      /* background-color:rgba(232, 232, 232, 1) !important;  */
       background-color: #fbfbfbbe !important;
       pointer-events: auto;
-      /* transition: 0.1s all; */
   }
 
   .task-cards:hover{
@@ -542,7 +539,6 @@ body{
   }
   
   .task-card-scroll{
-      /* height: 100vh; */
       overflow-y: scroll;
   }
   .task-card-scroll::-webkit-scrollbar{
@@ -562,11 +558,8 @@ body{
     opacity: 0 !important;
 }
 
-
-
-  
   ::-webkit-scrollbar {
-    width: 0px;
+    width: 5px;
     height:8px;
   }
   
@@ -578,4 +571,9 @@ body{
    background-color: var(--thm);
   }
 
+  #invitedEmails{
+    height:auto;
+    max-height:150px;
+    overflow-y: scroll;
+  }
   

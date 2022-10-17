@@ -10,7 +10,7 @@ import { Stage } from 'src/app/model/bean/stage';
         <div class="d-flex justify-content-between">
           <!-- task-card-title -->
           <div class="text-justify">
-            <h5 class="stage-title h5 text-muted m-0 fw-bold">{{data.stageName}}</h5>
+            <h5 class="stage-title h5 text-muted m-0 fw-bold">{{ data.stageName | uppercase }}</h5>
           </div>
           <!-- task-card-title -->
           <!-- task-card-icon -->

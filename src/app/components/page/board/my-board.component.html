@@ -7,8 +7,42 @@
         <div class="w-100">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="px-5 col-12">
-                        <h1>Dat</h1>
+                    <div class="px-5 col-12 d-flex justify-content-between align-items-center">
+                        <h1 class="text-muted h2 my-1">Board Name - {{ board.boardName && board.boardName | titlecase }}</h1>
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#invite-modal"><i class="fa-solid fa-user-plus mx-1"></i>Invite</button>
+                         <!--  model for invite members -->
+                        <div class="modal fade" id="invite-modal">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="model-title h4 text-muted">
+                                            Invite Members
+                                        </div>
+                                        <button class="btn-close" data-bs-dismiss="modal" data-bs-target="#invite-modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="" class="form">
+                                            <div id="invitedEmails">
+                                                <div  class="d-flex gap-1 flex-wrap my-1 ">
+                                                    <span class="badge d-inline-block fs-6 fw-light py-2 my-2 " id="mail-capsule">
+                                                         Test
+                                                         <span class="mx-1 fs-6 fas fa-close"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                           <div class="form-floating">
+                                                <input type="text" id="invite-emails" class=" py-1 form-control" placeholder="member@gmail.com" >         
+                                                <label for="invite-emails text-muted">member@gmail.com</label>                                      
+                                           </div>
+                                           <div class="form-group my-2 d-flex justify-content-end gap-1">
+                                                <button class="btn btn-sm" data-bs-dismiss="modal" data-bs-target="#invite-modal">Cancel</button>
+                                                <button type="submit" class="btn btn-primary btn-sm ">Invite</button>
+                                           </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
                     </div>
                 </div>
                 <div class="row">                   
@@ -21,24 +55,3 @@
         </div>    
     </div>
 </main>
-
-      <!-- Start bugger -->
-            <!-- <button class="navbar-toggler navbuttons" data-bs-toggle="collapse" data-bs-target="#nav">
-                <div class="bg-light line1"></div>
-                <div class="bg-light line2"></div>
-                <div class="bg-light line3"></div>
-              </button> -->
-              <!-- End bugger -->
-        
-              <!-- <div id="nav" class="navbar-collapse collapse justify-content-start text-uppercase ps-2"> -->
-
-                  <!-- <div class="col-12">
-            <nav class="navbar  navbar-expand container bg-dark navbar-dark">
-                <div id="nav" class="d-flex justify-content-start ps-2">
-                <ul class="navbar-nav nav-link-effect ">
-                  <li class="nav-item"><a href="javascript:void(0)" class="text-light nav-link mx-1"><span >Board</span></a></li>
-                  <li class="nav-item"> <a href="javascript:void(0)" class="text-light nav-link mx-1"><span>DashBoard</span></a> </li>
-                </ul>
-              </div>
-            </nav>
-                </div> -->

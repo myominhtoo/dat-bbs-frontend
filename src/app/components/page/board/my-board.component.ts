@@ -3,7 +3,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
 import { Stage } from "src/app/model/bean/stage";
 import { TaskCard } from "src/app/model/bean/taskCard";
+import { BoardService } from "src/app/model/service/http/board.service";
 import { StageService } from "src/app/model/service/http/stage.service";
+import { BoardStore } from "src/app/model/service/store/board.store";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 
 @Component({
@@ -14,8 +16,9 @@ export class MyBoardComponent implements OnInit {
 
     public stages : Stage [] = [];
     tasks : TaskCard [] = [];
+    board : Board = new Board();
 
-    public status = {
+    status = {
         isLoading : false,
     }
     // @Input('data') data : Stage = new Stage();
@@ -23,23 +26,20 @@ export class MyBoardComponent implements OnInit {
     constructor( public toggleStore : ToggleStore ,
          public route : ActivatedRoute ,
          private router : Router , 
-         private stageService : StageService  ){}
+         private stageService : StageService ,
+         private boardService : BoardService  ){}
 
     ngOnInit(): void {
-        console.log('hi')
         this.doActionForCurrentBoard( this.route.snapshot.params['id'] );
     }
 
     /*
         getting stages for baord
     */
-    getStages( boardId : number ){
-        this.status.isLoading = true;
+    async getStages( boardId : number ) : Promise<void>{
         this.stageService.getStagesForBoard( boardId )
         .subscribe({
             next : datas => {
-                console.log(datas)
-                this.status.isLoading = false;
                 this.stages = datas;
             },
             error : err => {
@@ -47,6 +47,19 @@ export class MyBoardComponent implements OnInit {
                 window.history.back();
             }
         });
+    }
+
+    async getBoard( boardId : number ) : Promise<void> {
+        this.boardService.getBoardWithBoardId( boardId )
+        .subscribe({
+            next : board => {
+                this.status.isLoading = false;
+                this.board = board;
+            },
+            error : err  => {
+                window.history.back();
+            }
+        })
     }
 
     doActionForCurrentBoard( boardId : any ){
@@ -58,7 +71,10 @@ export class MyBoardComponent implements OnInit {
         */
         window.history.back();
       }else{
-        this.getStages( boardId );
+        this.status.isLoading = true;
+        this.getStages( boardId ).then(() => {
+            this.getBoard( boardId );
+        })
       }
     }
 

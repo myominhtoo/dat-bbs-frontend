@@ -21,4 +21,8 @@ export class BoardService{
       return this.httpClient.get<Board[]>(`http://localhost:8080/api/users/${userId}/boards`);
     }
 
+    getBoardWithBoardId( boardId : number ) : Observable<Board> {
+      return this.httpClient.get<Board>(`http://localhost:8080/api/boards/${boardId}`);
+    }
+
 }
