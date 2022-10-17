@@ -31,4 +31,8 @@ export class BoardStore{
         });
     }
 
+    public refetchBoardsByUserId( userId : number ){
+        this.getBoardsByUserId( userId );
+    }
+
 }

@@ -11,8 +11,8 @@ export class TaskCardService {
 
     constructor ( private httpClient : HttpClient ){}
      
-    createTaskCard( taskCard : TaskCard ) : Observable <HttpResponse>{
-        return this.httpClient.post<HttpResponse> (`http://localhost:8080/api/create-task` , taskCard);
+    createTaskCard( taskCard : TaskCard ) : Observable <HttpResponse<any>>{
+        return this.httpClient.post<HttpResponse<any>> (`http://localhost:8080/api/create-task` , taskCard);
     }
 
     getTaskCards( boardId : number ) : Observable<TaskCard[]> {

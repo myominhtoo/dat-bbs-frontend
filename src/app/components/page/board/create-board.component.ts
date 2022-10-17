@@ -7,6 +7,7 @@ import swal from 'sweetalert';
 import { User } from "src/app/model/bean/user";
 import { UserService } from "src/app/model/service/http/user.service";
 import { map ,  Subject } from "rxjs";
+import { BoardStore } from "src/app/model/service/store/board.store";
 
 @Component({
     selector :'create-board',
@@ -17,7 +18,8 @@ export class CreateBoardComponent implements OnInit {
     constructor( public toggleStore : ToggleStore , 
       private boardService :BoardService ,
       private router : Router ,
-      private userService : UserService ){}
+      private userService : UserService ,
+      public boardStore : BoardStore ){}
 
     emailStr :string ='';
     emails : string [] = [];  
@@ -131,12 +133,12 @@ export class CreateBoardComponent implements OnInit {
             .subscribe({
               next : data => {
                 this.status.isLoading = false;
-                
+                this.boardStore.refetchBoardsByUserId( 1); 
                 swal({
                   text : data.message,
                   icon : 'success'
                 }).then( () => {
-                  this.router.navigateByUrl('/my-boards');
+                  this.router.navigateByUrl('/boards');
                 })
               },
               error : err => {

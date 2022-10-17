@@ -12,17 +12,17 @@ export class UserService {
     constructor ( private httpClient : HttpClient ){
     }
 
-    sendVerification(email : string) : Observable <HttpResponse> {
-        return this.httpClient.get<HttpResponse>(`http://localhost:8080/api/send-verification?email=${email}`);
+    sendVerification(email : string) : Observable <HttpResponse<any>> {
+        return this.httpClient.get<HttpResponse<any>>(`http://localhost:8080/api/send-verification?email=${email}`);
 
     }
 
-    sendRegisteration( user : User ) : Observable <HttpResponse> {
-        return this.httpClient.post <HttpResponse> (`http://localhost:8080/api/register` ,  user);
+    sendRegisteration( user : User ) : Observable <HttpResponse<any>> {
+        return this.httpClient.post <HttpResponse<any>> (`http://localhost:8080/api/register` ,  user);
     }
 
-    LoginUser( user : User ) : Observable <HttpResponse> {
-        return this.httpClient.post <HttpResponse> (`http://localhost:8080/api/login` ,  user);
+    LoginUser( user : User ) : Observable <HttpResponse<any>> {
+        return this.httpClient.post <HttpResponse<any>> (`http://localhost:8080/api/login` ,  user);
     }
 
     getUsers() : Observable<User[]> {

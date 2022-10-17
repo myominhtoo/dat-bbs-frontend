@@ -13,8 +13,8 @@ export class BoardService{
     constructor ( private httpClient : HttpClient ){
     }
 
-    createBoard(board: Board) : Observable <HttpResponse> {
-      return this.httpClient.post<HttpResponse> (`http://localhost:8080/api/create-board` ,  board);
+    createBoard(board: Board) : Observable <HttpResponse<any>> {
+      return this.httpClient.post<HttpResponse<any>> (`http://localhost:8080/api/create-board` ,  board);
     }
 
     getBoardsForUser( userId : number ) : Observable<Board[]> {
