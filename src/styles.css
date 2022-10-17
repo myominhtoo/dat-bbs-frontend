@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap'); */
 :root{
     /* --pale-dark:rgba(0,0,0,0.95);
     --dark:rgba(0,0,0,0.99); */
@@ -395,8 +395,7 @@ body{
     cursor: pointer;
 }
 .create-board{
-
-    border: 1px solid rgba(128, 128, 128, 0.628);
+    background-color: #fbfbfbbe !important;
 }
 .h-test{
     max-height: 450px !important;
@@ -406,8 +405,6 @@ body{
     max-height: 510px !important;
     height: 510px !important;
 }
-
-
 /* taskCard */
 .create-taskCard{
     border: 1px solid rgba(128, 128, 128, 0.628);
@@ -416,3 +413,143 @@ body{
     
 }
 
+/* nav */
+.line1,.line2,.line3{
+    width: 25px;
+    height: 3px;
+    margin: 6px;
+    transition: all 0.6s;
+  }
+  
+  .crossxs .line1{
+    transform: rotate(-45deg) translate(-6px,6px);
+  }
+  
+  .crossxs .line2 {
+    opacity: 0;
+  }
+  
+  .crossxs .line3 {
+    transform: rotate(45deg) translate(-6px, -6px);
+  }
+  /* End bugger */
+  
+  /* Start nav-link-effect */
+  
+  .nav-link-effect span{
+  position: relative;
+  padding-bottom: 5px;
+  
+  }
+  
+  .nav-link-effect span::after{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0px;
+    left: 0px;
+    transform: scaleX(0);
+    background: rgb(255, 189, 57);
+    transition: all 0.3s ease-in-out 0s;
+  }
+  
+  .nav-link-effect span:hover::after {
+    transform: scaleX(1);
+  }
+  .nav-link-effect span:active::after {
+    transform: scaleX(1);
+  }
+  .nav-link-active{
+    border-bottom: 2px solid yellow;
+  }
+  
+  
+/* nav */
+
+/* TaskCard */
+
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+  box-sizing: border-box;
+  height: 500px;
+  padding: 16px 12px 0;
+  /* position: relative; */
+  background-color:rgb(225, 225, 225) !important; 
+  /* z-index: -4; */
+  }
+    .scrolling-wrapper {
+      -webkit-overflow-scrolling: touch;
+    }
+    
+  .task-card-container{
+      box-sizing: border-box;
+      display: flex;
+      
+      flex-direction: column;
+      
+      width: 304px;
+      max-width: 304px;
+      background-color: transparent !important;
+      pointer-events: none; /*none ထားတဲ့အတွက်ကြောင့် ကျန်တဲ့ကောင်တွေမှာ hover တို့ pointer တို့သုံးချင်ရင် events ကို
+      လုပ်ပေးရတယ် ကိုဘ်သုံးမဲ့ div မှာ  */
+      z-index: 1000;
+     
+  }
+  /* Becareful Error */
+  .task-card-header{
+    pointer-events: auto;
+    
+  }
+  
+.task-card-container:hover{
+    border: 1px solid rgba(128, 128, 128, 0.532) !important;
+}  
+
+
+
+
+  
+  .stage-icon{
+      cursor: pointer;
+      height: 28px;
+      min-height: 28px;
+      min-width: 28px;
+      width: 28px;
+  }
+  .stage-title{
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 20px;
+  }
+  .task-cards{
+    cursor: pointer;
+      width: auto;
+      height: 70px;
+      max-height: 70px;
+      background-color:rgba(232, 232, 232, 1) !important; 
+      pointer-events: auto;
+  }
+  
+  .task-card-scroll{
+      height: 100vh;
+      overflow-y: scroll;
+  }
+  .task-card-scroll::-webkit-scrollbar{
+    display: none;
+}
+.task-box-shadow{
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px !important;
+}
+ 
+
+/* Change Some Bootstrap code */
+.offcanvas.offcanvas-end {
+    top: 110px !important;
+    transition: all 1s !important;
+}
+.offcanvas-backdrop.show {
+    opacity: 0 !important;
+}
