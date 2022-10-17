@@ -23,6 +23,7 @@ export class MyBoardComponent implements OnInit {
          private stageService : StageService  ){}
 
     ngOnInit(): void {
+        console.log('hi')
         this.doActionForCurrentBoard( this.route.snapshot.params['id'] );
     }
 
@@ -34,6 +35,7 @@ export class MyBoardComponent implements OnInit {
         this.stageService.getStagesForBoard( boardId )
         .subscribe({
             next : datas => {
+                console.log(datas)
                 this.status.isLoading = false;
                 this.stages = datas;
             },

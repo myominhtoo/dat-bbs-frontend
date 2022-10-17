@@ -5,13 +5,15 @@ import { BoardComponent } from "./board.component";
 import { LoadingComponent } from "./loading.component";
 import { NavbarComponent } from "./navbar.component";
 import { SidebarComponent } from "./sidebar.component";
+import { TaskCardContainerComponent } from "./task-card-container.component";
 
 @NgModule({
     declarations : [
         NavbarComponent,
         SidebarComponent,
         BoardComponent,
-        LoadingComponent
+        LoadingComponent,
+        TaskCardContainerComponent,
     ],
     imports : [
         BrowserModule,
@@ -21,7 +23,8 @@ import { SidebarComponent } from "./sidebar.component";
         NavbarComponent,
         SidebarComponent,
         BoardComponent,
-        LoadingComponent
+        LoadingComponent,
+        TaskCardContainerComponent
     ]
 })
 export class LayoutModule{}

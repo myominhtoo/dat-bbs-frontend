@@ -31,21 +31,21 @@ export class BoardComponent implements OnInit {
         this.getMembers( this.data.id  )
         .then( () => {
             this.getCards( this.data.id ).then( () => {
-                console.log('hi')
+                // console.log('hi')
             });
         });
     }
 
     async getMembers( boardId : number ) : Promise<void> {
-       this.userService.getUsersForBoard( boardId )
-       .subscribe({
-         next : members => {
-            this.data.members = members;
-         },
-         error : err => {
-            console.log('error in getting members!'+err);
-         }
-        });
+    //    this.userService.getUsersForBoard( boardId )
+    //    .subscribe({
+    //      next : members => {
+    //         this.data.members = members;
+    //      },
+    //      error : err => {
+    //         console.log('error in getting members!'+err);
+    //      }
+    //     });
     }
 
 

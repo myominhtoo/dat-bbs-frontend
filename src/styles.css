@@ -112,6 +112,7 @@ header ( width is 100% , height: 8%)
 #main{
     width:100%;
     max-width:100vh;
+    margin-top:8vh !important;
 }
 
 #menu-icon{
@@ -139,6 +140,7 @@ header ( width is 100% , height: 8%)
 
 #main #sidebar{
     width:18% !important;
+    max-width:18% !important;
     height:92vh !important;
     max-height:92vh !important;
     background-color:var(--dark);
@@ -378,16 +380,14 @@ body{
     /* background-color: #fbfbfbbe !important; */
 }
 .board{
+    border-radius: 0 !important;
     color: black;
     height: 150px !important;
     max-height: 150px;
     border: 1px solid rgba(225, 225, 225, 0.75) !important; 
      /* background-color:rgba(225, 225, 225, 0.75) !important;  */
      background-color: #fbfbfbbe !important;
-     
-    
-     
-    
+
 }
 
 .board:hover{
@@ -471,10 +471,11 @@ body{
 
 .scrolling-wrapper {
     overflow-x: scroll;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
     white-space: nowrap;
   box-sizing: border-box;
-  height: 500px;
+  /* height:auto; */
+  height: 82vh;
   padding: 16px 12px 0;
   /* position: relative; */
   background-color:rgb(225, 225, 225) !important; 
@@ -492,10 +493,12 @@ body{
       
       width: 304px;
       max-width: 304px;
-      background-color: transparent !important;
+      /* background: rgba(255,255,255,0.75); */
+      /* background-color: transparent !important; */
       pointer-events: none; /*none ထားတဲ့အတွက်ကြောင့် ကျန်တဲ့ကောင်တွေမှာ hover တို့ pointer တို့သုံးချင်ရင် events ကို
       လုပ်ပေးရတယ် ကိုဘ်သုံးမဲ့ div မှာ  */
       z-index: 1000;
+      /* border: 1px solid rgba(128, 128, 128, 0.2) !important; */
      
   }
   /* Becareful Error */
@@ -505,13 +508,9 @@ body{
   }
   
 .task-card-container:hover{
-    border: 1px solid rgba(128, 128, 128, 0.532) !important;
+    /* border: 1px solid rgba(128, 128, 128, 0.4) !important; */
 }  
 
-
-
-
-  
   .stage-icon{
       cursor: pointer;
       height: 28px;
@@ -527,14 +526,23 @@ body{
   .task-cards{
     cursor: pointer;
       width: auto;
-      height: 70px;
-      max-height: 70px;
-      background-color:rgba(232, 232, 232, 1) !important; 
+      height:auto;
+      display: flex;
+      justify-content:start;
+      align-items: center;
+      /* max-height: 70px; */
+      /* background-color:rgba(232, 232, 232, 1) !important;  */
+      background-color: #fbfbfbbe !important;
       pointer-events: auto;
+      /* transition: 0.1s all; */
+  }
+
+  .task-cards:hover{
+    border: 1px solid var(--thm);
   }
   
   .task-card-scroll{
-      height: 100vh;
+      /* height: 100vh; */
       overflow-y: scroll;
   }
   .task-card-scroll::-webkit-scrollbar{
@@ -553,3 +561,21 @@ body{
 .offcanvas-backdrop.show {
     opacity: 0 !important;
 }
+
+
+
+  
+  ::-webkit-scrollbar {
+    width: 0px;
+    height:8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color:none;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+   background-color: var(--thm);
+  }
+
+  
