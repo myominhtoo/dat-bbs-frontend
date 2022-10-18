@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component , OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
 import { Stage } from "src/app/model/bean/stage";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { BoardService } from "src/app/model/service/http/board.service";
 import { StageService } from "src/app/model/service/http/stage.service";
-import { BoardStore } from "src/app/model/service/store/board.store";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import swal from 'sweetalert';
+import $ from 'jquery'
 
 @Component({
     selector : 'my-board',
@@ -24,7 +24,7 @@ export class MyBoardComponent implements OnInit {
     filterEmails : string [] = [];
     storedEmails : string [] = [];
 
-
+    stage  : Stage = new Stage();
 
     status = {
         isLoading : false,
@@ -40,7 +40,7 @@ export class MyBoardComponent implements OnInit {
         update : {
             idx : 0,
             willUpdate : false
-          }
+          },
         addingStageError : {
             hasError : false,
             msg : "",
@@ -53,7 +53,6 @@ export class MyBoardComponent implements OnInit {
          private router : Router , 
          private stageService : StageService ,
          private boardService : BoardService  ){
-            
          }
 
     ngOnInit(): void {
@@ -145,10 +144,6 @@ export class MyBoardComponent implements OnInit {
     saveData(){
         this.board.invitedEmails=this.emails;
         this.status.isInviting = true;
-
-        
-        console.log(this.emails)
-   
         swal({
             text : 'Are you sure to invite this members?',
             icon : 'warning',
@@ -162,6 +157,10 @@ export class MyBoardComponent implements OnInit {
                   swal({
                     text : 'successfully Invited !',
                     icon : 'success'
+                  }).then(() => {
+                    this.emails = [];
+                    this.email = "";
+                    $("#invite-modal .btn-close").click();
                   })
                 },
                 error : err => {
