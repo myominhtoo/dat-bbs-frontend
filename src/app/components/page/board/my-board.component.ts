@@ -106,8 +106,14 @@ export class MyBoardComponent implements OnInit {
             .subscribe({
                 next : res => {
                     this.status.isAddingStage = false;
+                   if( res.ok ){
                     this.stages.push( res.data );
                     this.status.isAddStage = false;
+                    this.stage.stageName = "";
+                   }else{
+                    this.status.addingStageError = { hasError : true , msg : 'Duplicate Stage!'}
+                   }
+                    // window.scrollTo( scrollX + 100 , 0 );
                 },
                 error : err => {
                     console.log(err);
