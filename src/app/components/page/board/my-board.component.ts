@@ -44,7 +44,7 @@ export class MyBoardComponent implements OnInit {
             },
             error : err => {
                 console.log(err);
-                window.history.back();
+                // window.history.back();
             }
         });
     }
@@ -57,7 +57,7 @@ export class MyBoardComponent implements OnInit {
                 this.board = board;
             },
             error : err  => {
-                window.history.back();
+                // window.history.back();
             }
         })
     }

@@ -41,7 +41,6 @@ export class BoardComponent implements OnInit {
        .subscribe({
          next : members => {
             this.data.members = members;
-            console.log(members)
          },
          error : err => {
             console.log('error in getting members!'+err);
