@@ -19,9 +19,9 @@
                             <div class="col-12 ">
                                 <div class="form-floating mb-3">
                                     
-                                    <textarea class="form-control" name="description" id="floatingTextarea2" placeholder="Description" style="height: 100px" [(ngModel)]="board.description"  [class.is-invalid]="status.error.description.hasError" required ></textarea>
+                                    <textarea class="form-control" name="description" id="floatingTextarea2" placeholder="Description" style="height: 100px" [(ngModel)]="board.description"  required ></textarea>
                                     <label for="floatingTextarea2" class="text-black-50">Description</label>
-                                    <small *ngIf="status.error.description.hasError" class="text-danger">{{ status.error.description.msg }}</small>
+                                    <!-- <small *ngIf="status.error.description.hasError" class="text-danger">{{ status.error.description.msg }}</small> -->
                         
                                 </div>
                             </div>
@@ -56,7 +56,7 @@
                             <small class="text-danger">{{ status.error.email.msg }}</small>
                             <div class="mb-3 mt-3 float-end">
                                 <button class="btn me-4">Cancel</button>
-                                <button class="btn btn-primary">{{ status.isLoading ? 'Creating Board' : 'Create Board'}}</button>
+                                <button class="btn btn-primary" [disabled]="status.isLoading">{{ status.isLoading ? 'Creating Board' : 'Create Board'}}</button>
                             </div>
 
                         </div>
