@@ -20,6 +20,8 @@ export class MyBoardComponent implements OnInit {
 
     status = {
         isLoading : false,
+        isAddStage : false,
+        isAddingStage : false
     }
     // @Input('data') data : Stage = new Stage();
 
@@ -76,6 +78,10 @@ export class MyBoardComponent implements OnInit {
             this.getBoard( boardId );
         })
       }
+    }
+
+    toggleIsAddStage(){
+        this.status.isAddStage = !this.status.isAddStage;
     }
 
 }

@@ -8,7 +8,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="px-5 col-12 d-flex justify-content-between align-items-center">
-                        <h1 class="text-muted h2 my-1">Board Name - {{ board.boardName && board.boardName | titlecase }}</h1>
+                        <h1 class="text-muted h2 my-1 mx-3">{{ board.boardName && board.boardName | titlecase }}</h1>
                         <div class="d-flex gap-2">
                             <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#invite-modal"><i class="fa-solid fa-user-plus mx-1"></i>Invite</button>
                             <button class="btn btn-sm btn-primary"><i class="fa-solid fa-users mx-1"></i>Members</button>
@@ -51,7 +51,18 @@
                 <div class="row">                   
                         <div *ngIf="!status.isLoading" class="scrolling-wrapper d-flex  px-5 bg-transparent">
                             <task-card-container *ngFor="let stage of stages" [data]="stage" ></task-card-container>
-                            <div><h1>hi</h1></div> 
+                            <div>
+                                <button (click)="toggleIsAddStage()" *ngIf="!status.isAddStage" class="btn btn-secondary btn-sm px-5 mt-2 opacity-50">
+                                    <i class="fa-solid fa-plus mx-1"></i> Add Stage
+                                </button>
+                                <form *ngIf="status.isAddStage" class="form mt-2">
+                                    <input type="text" style="width:187.26px !important;" id="add-stage" placeholder="Stage Name" class="py-1 form-control py-1" />
+                                    <div class="d-flex justify-content-end gap-1">
+                                        <button (click)="toggleIsAddStage()" class="btn  btn-sm my-1">Cancel</button>
+                                        <button class="btn btn-primary btn-sm my-1" [disabled]="status.isAddingStage" >{{ status.isAddingStage ? 'Adding' : 'Add' }}</button>
+                                    </div>
+                                </form>
+                            </div> 
                         </div>
                         <loading [show]="status.isLoading" target="Tasks"></loading>
                   </div>   
