@@ -33,8 +33,7 @@ export class LoginComponent {
          next : (res) => {
             this.error = { hasError : false , msg : '' }
             console.log(res.data)
-            // localStorage.setItem(btoa('data'),btoa(JSON.stringify({id : userForm.value.id , username : userForm.value.username , email : userForm.value.email })))
-            localStorage.setItem(btoa('user'),btoa(JSON.stringify({id : res.data.id  , username : res.data.username , imageUrl : res.data.imageUrl} )))
+            localStorage.setItem(btoa('user'),btoa(JSON.stringify({id : res.data.id  , username : res.data.username , imageUrl : res.data.imageUrl})))
             swal({
                 text : res.message,
                 icon : 'success',
