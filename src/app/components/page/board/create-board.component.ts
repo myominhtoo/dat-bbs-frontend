@@ -97,7 +97,7 @@ export class CreateBoardComponent implements OnInit {
       }
     } 
     removeEmail( idx : number ){
-      this.emails.splice(idx,1);
+      if(!this.status.isLoading) this.emails.splice(idx,1);
     }
   
     setUpdateEmail( idx : number ){
@@ -147,6 +147,9 @@ export class CreateBoardComponent implements OnInit {
                 this.board.description = '';
               }
             });  
+          }else{
+            // console.log('he')
+            this.status.isLoading = false;
           }
         })
       }
