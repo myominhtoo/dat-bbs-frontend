@@ -37,15 +37,16 @@ export class BoardComponent implements OnInit {
     }
 
     async getMembers( boardId : number ) : Promise<void> {
-    //    this.userService.getUsersForBoard( boardId )
-    //    .subscribe({
-    //      next : members => {
-    //         this.data.members = members;
-    //      },
-    //      error : err => {
-    //         console.log('error in getting members!'+err);
-    //      }
-    //     });
+       this.userService.getUsersForBoard( boardId )
+       .subscribe({
+         next : members => {
+            this.data.members = members;
+            console.log(members)
+         },
+         error : err => {
+            console.log('error in getting members!'+err);
+         }
+        });
     }
 
 
