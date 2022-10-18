@@ -17,11 +17,16 @@ export class MyBoardComponent implements OnInit {
     public stages : Stage [] = [];
     tasks : TaskCard [] = [];
     board : Board = new Board();
+    stage : Stage = new Stage();
 
     status = {
         isLoading : false,
         isAddStage : false,
-        isAddingStage : false
+        isAddingStage : false,
+        addingStageError : {
+            hasError : false,
+            msg : "",
+        }
     }
     // @Input('data') data : Stage = new Stage();
 
@@ -33,6 +38,8 @@ export class MyBoardComponent implements OnInit {
 
     ngOnInit(): void {
         this.doActionForCurrentBoard( this.route.snapshot.params['id'] );
+        this.stage.stageName = "";
+        this.stage.defaultStatus = false;
     }
 
     /*
@@ -82,6 +89,31 @@ export class MyBoardComponent implements OnInit {
 
     toggleIsAddStage(){
         this.status.isAddStage = !this.status.isAddStage;
+        this.status.addingStageError = { hasError : false , msg : '' };
+    }
+
+    handleAddStage(){
+        this.stage.stageName === '' 
+        ? this.status.addingStageError = { hasError : true , msg : 'Stage is Required!'}
+        : this.status.addingStageError = { hasError : false , msg : ''};
+
+        if( !this.status.addingStageError.hasError ){
+            this.status.isAddingStage = true;
+            
+            this.stage.board  = this.board;
+
+            this.stageService.createStage( this.stage )
+            .subscribe({
+                next : res => {
+                    this.status.isAddingStage = false;
+                    this.stages.push( res.data );
+                    this.status.isAddStage = false;
+                },
+                error : err => {
+                    console.log(err);
+                }
+            })
+        }
     }
 
 }

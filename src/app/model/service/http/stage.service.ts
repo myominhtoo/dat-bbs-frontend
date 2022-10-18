@@ -11,7 +11,7 @@ export class StageService {
   constructor ( private httpClient : HttpClient ){
   }
 
-  createStage( stage : Stage ) : Observable<HttpResponse<any>> {
+  createStage( stage : Stage ) : Observable<HttpResponse<Stage>> {
     return this.httpClient.post <HttpResponse<any>> (`http://localhost:8080/api/create-stage` ,  stage);
   }
 
