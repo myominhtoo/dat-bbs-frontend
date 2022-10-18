@@ -21,7 +21,6 @@ export class VerifyEmailComponent implements OnInit{
         let storedData = localStorage.getItem(btoa('data'));
         this.status.hasGotVerification = storedData ==  null ? false : JSON.parse(atob(`${storedData}`)).hasGotVerification;
 
-
     }
 
     onSubmit(verifyemail:NgForm){

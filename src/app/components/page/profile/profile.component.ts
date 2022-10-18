@@ -8,6 +8,7 @@ import { UserService } from './../../../model/service/http/user.service';
     selector : "profile",
     templateUrl : "./profile.component.html"
 })
+
 export class ProfileComponent{
     constructor( public toggleStore : ToggleStore,private userService : UserService){}
 
@@ -30,6 +31,10 @@ export class ProfileComponent{
         },
         isLoading : false,
       }
+
+      ngOnInit(): void {
+        let storeUser = localStorage.getItem(btoa('user'));
+    }
 
       SaveUser(){
 
