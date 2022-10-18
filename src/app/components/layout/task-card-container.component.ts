@@ -1,23 +1,24 @@
 import { Component, Input } from '@angular/core';
 import { Stage } from 'src/app/model/bean/stage';
+import { TaskCard } from 'src/app/model/bean/taskCard';
 
 @Component({
   selector: 'task-card-container',
   template: `
     <div class="task-card-container mx-2 d-inline-block rounded-1 ">
       <!-- start task-card-header -->
-      <div class="w-100 bg-transparent task-card-header p-2">
-        <div class="d-flex justify-content-between">
+      <div class="w-100 bg-transparent task-card-header p-2 ">
+        <div class="d-flex justify-content-between bg-snow p-2 rounded-sm">
           <!-- task-card-title -->
           <div class="text-justify">
-            <h5 class="stage-title h5 text-muted m-0 fw-bold">{{ data.stageName | uppercase }}</h5>
+            <h5 class="stage-title h5 text-muted m-0 fw-bold">{{ data.stageName | titlecase }}</h5>
           </div>
           <!-- task-card-title -->
           <!-- task-card-icon -->
           <div class="d-flex justify-content-between align-items-center">
             <div class="stage-icon">
               <!-- <i class="fas fa-solid fa-plus"></i> -->
-              <i class="fa-solid fa-pen text-muted"></i>
+              <i *ngIf="data.id > 3" class="fa-solid fa-pen text-muted"></i>
             </div>
             <div class="stage-icon">
               <i class="fas fa-solid fa-ellipsis text-muted"></i>
@@ -29,48 +30,48 @@ import { Stage } from 'src/app/model/bean/stage';
       <!-- end task-card-header -->
       <div class="container-fluid task-card-scroll ">
         <div class="w-100  d-flex flex-column">
-          <div
-            class="task-cards my-1  px-2 py-3"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasWithBothOptions"
-          >
-            <h5 class="h6 text-muted">Task Card</h5>
-
-            <div
-              class="offcanvas offcanvas-end"
-              data-bs-scroll="true"
-              tabindex="-1"
-              id="offcanvasWithBothOptions"
-            >
-              <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
-                  Backdrop with scrolling
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="offcanvas"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="offcanvas-body">
-                <p>
-                  Try scrolling the rest of the page to see this option in
-                  action.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="task-cards my-1  px-2 py-3 text-muted">
-            <h5 class="text-muted h6">Task Card</h5>
-          </div>
-
+            <task-card *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
         </div>
+        <button class="w-100 btn btn-sm btn-secondary my-2"><i class="fa-solid fa-plus mx-1"></i>Add Task</button>
       </div>
     </div>
   `,
 })
 export class TaskCardContainerComponent {
-  @Input('data') data : Stage = new Stage();
+  @Input('stage') data : Stage = new Stage();
+  @Input('task-cards') taskCards : Map<string,TaskCard[]> = new  Map();
 }
+
+// <div
+//             class="task-cards my-1  px-2 py-3"
+//             data-bs-toggle="offcanvas"
+//             data-bs-target="#offcanvasWithBothOptions"
+//           >
+//             <h5 class="h6 text-muted">Task Card</h5>
+
+//             <div
+//               class="offcanvas offcanvas-end"
+//               data-bs-scroll="true"
+//               tabindex="-1"
+//               id="offcanvasWithBothOptions"
+//             >
+//               <div class="offcanvas-header">
+//                 <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
+//                   Backdrop with scrolling
+//                 </h5>
+//                 <button
+//                   type="button"
+//                   class="btn-close"
+//                   data-bs-dismiss="offcanvas"
+//                   aria-label="Close"
+//                 ></button>
+//               </div>
+//               <div class="offcanvas-body">
+//                 <p>
+//                   Try scrolling the rest of the page to see this option in
+//                   action.
+//                 </p>
+//               </div>
+//             </div>
+//           </div> -->
+

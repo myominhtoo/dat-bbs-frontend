@@ -58,9 +58,9 @@
                 </div>
                 <div class="row">                   
                         <div *ngIf="!status.isLoading" class="scrolling-wrapper d-flex  px-5 bg-transparent">
-                            <task-card-container *ngFor="let stage of stages" [data]="stage" ></task-card-container>
+                            <task-card-container *ngFor="let stage of stages" [stage]="stage" [task-cards]="taskCardsMap" ></task-card-container>
                             <div>
-                                <button (click)="toggleIsAddStage()" *ngIf="!status.isAddStage" class="btn btn-secondary btn-sm px-5 mt-2 opacity-50">
+                                <button (click)="toggleIsAddStage()" *ngIf="!status.isAddStage" class="btn btn-secondary btn-sm px-5 mt-2">
                                     <i class="fa-solid fa-plus mx-1"></i> Add Stage
                                 </button>
                                 <div *ngIf="status.isAddStage" class="form mt-2">

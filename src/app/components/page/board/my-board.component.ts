@@ -8,6 +8,7 @@ import { StageService } from "src/app/model/service/http/stage.service";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import swal from 'sweetalert';
 import $ from 'jquery'
+import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 
 @Component({
     selector : 'my-board',
@@ -16,7 +17,7 @@ import $ from 'jquery'
 export class MyBoardComponent implements OnInit {
 
     public stages : Stage [] = [];
-    tasks : TaskCard [] = [];
+    taskCardsMap : Map<string,TaskCard[]> = new Map();
     board : Board = new Board();
 
     email : string ='';
@@ -52,7 +53,8 @@ export class MyBoardComponent implements OnInit {
          public route : ActivatedRoute ,
          private router : Router , 
          private stageService : StageService ,
-         private boardService : BoardService  ){
+         private boardService : BoardService ,
+         private taskCardService : TaskCardService ){
          }
 
     ngOnInit(): void {
@@ -69,7 +71,7 @@ export class MyBoardComponent implements OnInit {
         .subscribe({
             next : datas => {
                 this.stages = datas;
-            },
+              },
             error : err => {
                 console.log(err);
                 // window.history.back();
@@ -83,6 +85,8 @@ export class MyBoardComponent implements OnInit {
             next : board => {
                 this.status.isLoading = false;
                 this.board = board;
+
+                this.getTaskCards( boardId );
             },
             error : err  => {
                 // window.history.back();
@@ -101,7 +105,7 @@ export class MyBoardComponent implements OnInit {
       }else{
         this.status.isLoading = true;
         this.getStages( boardId ).then(() => {
-            this.getBoard( boardId );
+            this.getBoard( boardId )
         })
       }
     }
@@ -127,12 +131,13 @@ export class MyBoardComponent implements OnInit {
                     this.status.isAddingStage = false;
                    if( res.ok ){
                     this.stages.push( res.data );
+                    this.taskCardsMap.set( res.data.stageName , [] );
+
                     this.status.isAddStage = false;
                     this.stage.stageName = "";
                    }else{
                     this.status.addingStageError = { hasError : true , msg : 'Duplicate Stage!'}
                    }
-                    // window.scrollTo( scrollX + 100 , 0 );
                 },
                 error : err => {
                     console.log(err);
@@ -224,5 +229,31 @@ export class MyBoardComponent implements OnInit {
         this.status.update = { idx : index , willUpdate : true }
         console.log(index)
       }
+
+  
+    async getTaskCards( boardId : number ) : Promise<void>{
+      this.taskCardService.getTaskCards( boardId )
+      .subscribe({
+        next : tasks => {
+            this.createTaskCardsWithStageMap( this.stages ,  tasks );
+        },
+        error : err => {
+          console.log(err);
+        }
+      });
+    }
+
+    createTaskCardsWithStageMap( stages : Stage[] , taskCards : TaskCard[] ){
+       // need to create key with steage name
+       stages.forEach( stage => {
+        this.taskCardsMap.set( stage.stageName , [] );
+       })
+       
+       taskCards.forEach( taskCard => {
+         let prevTaskCards = this.taskCardsMap.get(taskCard.stage.stageName);
+         prevTaskCards?.push(taskCard);
+         this.taskCardsMap.set( taskCard.stage.stageName , prevTaskCards! );
+       })
+    }
 
 }

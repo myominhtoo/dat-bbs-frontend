@@ -38,7 +38,7 @@
 }
 
 .bg-snow{
-    background-color: var(--snow);
+    background-color: var(--snow) !important;
 }
 
 .bg-thm{
@@ -501,7 +501,7 @@ body{
       /* background-color: transparent !important; */
       pointer-events: none; /*none ထားတဲ့အတွက်ကြောင့် ကျန်တဲ့ကောင်တွေမှာ hover တို့ pointer တို့သုံးချင်ရင် events ကို
       လုပ်ပေးရတယ် ကိုဘ်သုံးမဲ့ div မှာ  */
-      z-index: 1000;
+      /* z-index: 1000;s */
       /* border: 1px solid rgba(128, 128, 128, 0.2) !important; */
      
   }
