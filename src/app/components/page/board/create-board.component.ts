@@ -70,7 +70,7 @@ export class CreateBoardComponent implements OnInit {
       let emailStr = this.emailStr; // this ko ma thone chin loh
       let lastChar = emailStr[emailStr.length - 1];
       this.status.error.email = { hasError : false , msg : ''}
-      if( lastChar === ',' || lastChar === ' ' || event.keyCode == 13 ){
+      if( lastChar === ',' || lastChar === ' ' ){
         // previous char before last char
         let prevLastChar = emailStr[emailStr.length - 2];
   
