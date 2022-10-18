@@ -63,13 +63,14 @@
                                 <button (click)="toggleIsAddStage()" *ngIf="!status.isAddStage" class="btn btn-secondary btn-sm px-5 mt-2 opacity-50">
                                     <i class="fa-solid fa-plus mx-1"></i> Add Stage
                                 </button>
-                                <form *ngIf="status.isAddStage" class="form mt-2">
-                                    <input type="text" style="width:187.26px !important;" id="add-stage" placeholder="Stage Name" class="py-1 form-control py-1" />
-                                    <div class="d-flex justify-content-end gap-1">
+                                <div *ngIf="status.isAddStage" class="form mt-2">
+                                    <input [(ngModel)]="stage.stageName" name="stageName" type="text" style="width:187.26px !important;" id="add-stage" placeholder="Stage Name" [class.is-invalid]="status.addingStageError.hasError" class="py-1 form-control py-1" />
+                                    <span *ngIf="status.addingStageError.hasError" class="text-danger fs-0 my-0" style="font-size:11px !important;">{{ status.addingStageError.msg }}</span>
+                                    <div class="d-flex justify-content-end gap-1 my-0">
                                         <button (click)="toggleIsAddStage()" class="btn  btn-sm my-1">Cancel</button>
-                                        <button class="btn btn-primary btn-sm my-1" [disabled]="status.isAddingStage" >{{ status.isAddingStage ? 'Adding' : 'Add' }}</button>
+                                        <button type="submit" (click)="handleAddStage()" class="btn btn-primary btn-sm my-1" [disabled]="status.isAddingStage" >{{ status.isAddingStage ? 'Adding' : 'Add' }}</button>
                                     </div>
-                                </form>
+                                </div>
                             </div> 
                         </div>
                         <loading [show]="status.isLoading" target="Tasks"></loading>

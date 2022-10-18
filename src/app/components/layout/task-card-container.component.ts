@@ -16,10 +16,11 @@ import { Stage } from 'src/app/model/bean/stage';
           <!-- task-card-icon -->
           <div class="d-flex justify-content-between align-items-center">
             <div class="stage-icon">
-              <i class="fas fa-solid fa-plus"></i>
+              <!-- <i class="fas fa-solid fa-plus"></i> -->
+              <i class="fa-solid fa-pen text-muted"></i>
             </div>
             <div class="stage-icon">
-              <i class="fas fa-solid fa-ellipsis"></i>
+              <i class="fas fa-solid fa-ellipsis text-muted"></i>
             </div>
           </div>
           <!-- task-card-icon -->

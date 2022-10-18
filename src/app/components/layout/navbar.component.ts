@@ -1,16 +1,26 @@
-import { Component  } from  "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { User } from "src/app/model/bean/user";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 
 @Component({
     selector : 'navbar',
     templateUrl:"./navbar.components.html",
 })
-export class NavbarComponent{
+export class NavbarComponent implements OnInit {
     
     constructor( private toggleStore : ToggleStore ){}
 
+    user : User = new User();
+
     toggleSidebar(){
         this.toggleStore.isShow = !this.toggleStore.isShow;
+    }
+
+    ngOnInit(): void {
+        let storedUser =  JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`));
+        this.user.id = storedUser.id;
+        this.user.username = storedUser.username;
+        this.user.imageUrl = storedUser.imageUrl;
     }
 
 }
