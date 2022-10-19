@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Stage } from 'src/app/model/bean/stage';
 import { TaskCard } from 'src/app/model/bean/taskCard';
+import { StageService } from 'src/app/model/service/http/stage.service';
+import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
 
 @Component({
   selector: 'task-card-container',
@@ -11,14 +13,16 @@ import { TaskCard } from 'src/app/model/bean/taskCard';
         <div class="d-flex justify-content-between bg-snow p-2 rounded-sm">
           <!-- task-card-title -->
           <div class="text-justify">
-            <h5 class="stage-title h5 text-muted m-0 fw-bold">{{ data.stageName | titlecase }}</h5>
+            <h5 *ngIf="!status.isEditStage" class="stage-title h5 text-muted mx-1 m-0 fw-bold">{{ data.stageName | titlecase }}</h5>
+            <input *ngIf="status.isEditStage" [(ngModel)]="data.stageName" type="text" (keydown)="handleUpdateStage($event)"  class="form-control mx-2">
+            <span *ngIf="status.stageError"  style="font-size:14px;" class="text-danger mx-2">{{ status.stageError }}</span>
           </div>
           <!-- task-card-title -->
           <!-- task-card-icon -->
           <div class="d-flex justify-content-between align-items-center">
             <div class="stage-icon">
               <!-- <i class="fas fa-solid fa-plus"></i> -->
-              <i *ngIf="data.id > 3" class="fa-solid fa-pen text-muted"></i>
+              <i *ngIf="data.id > 3 && !status.isEditStage" (click)="handleSetUpStageEdit()" class="fa-solid fa-pen text-muted mx-2"></i>
             </div>
             <div class="stage-icon">
               <i class="fas fa-solid fa-ellipsis text-muted"></i>
@@ -37,9 +41,54 @@ import { TaskCard } from 'src/app/model/bean/taskCard';
     </div>
   `,
 })
-export class TaskCardContainerComponent {
+export class TaskCardContainerComponent{
+
+  constructor( private stageService : StageService  ){}
+
   @Input('stage') data : Stage = new Stage();
   @Input('task-cards') taskCards : Map<string,TaskCard[]> = new  Map();
+  tempStage : string  = '';
+
+  status = {
+    isEditStage : false,
+    isEditing : false,   
+    stageError : '',
+  }
+
+  handleSetUpStageEdit(){
+     this.status.isEditStage = true;
+     this.tempStage = this.data.stageName;
+  }
+
+  handleUpdateStage( e : KeyboardEvent ){
+    if( e.keyCode === 27 ){
+      this.status.isEditStage = false;
+      this.status.stageError = '';
+      this.data.stageName = this.tempStage;
+    }
+
+    if( e.keyCode === 13 ){
+      this.status.stageError = '';
+      if( this.data.stageName == '' ){
+        this.status.stageError = 'Stage Name Is Required!';
+      }else{
+        this.stageService.editStageName( this.data )
+        .subscribe({
+          next : res => {
+            if( res.ok ){
+              this.status.isEditStage = false;
+            }else{
+              this.status.stageError = "Duplicate Stagename!"
+            }
+          },
+          error : err => {
+            console.log(err);
+          }
+        });
+      }
+    }
+  }
+
 }
 
 // <div

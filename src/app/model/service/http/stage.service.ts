@@ -18,4 +18,8 @@ export class StageService {
   getStagesForBoard ( boardId : Number) : Observable<Stage[]>{
     return this.httpClient.get <Stage[]> (`http://localhost:8080/api/stages?boardId=${boardId}`);
   }
+
+  editStageName( stage : Stage ) : Observable<HttpResponse<Stage>>{
+    return this.httpClient.put<HttpResponse<Stage>>(`http://localhost:8080/api/update-stage` , stage );
+  }
 }

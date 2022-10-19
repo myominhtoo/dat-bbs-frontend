@@ -1,6 +1,8 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { DragDropModule } from '@angular/cdk/drag-drop'
+import { FormsModule  } from "@angular/forms";
+import { HttpClientModule  } from "@angular/common/http";
 import { AppRoutingModule } from "src/app/app-routing.module";
 import { BoardComponent } from "./board.component";
 import { LoadingComponent } from "./loading.component";
@@ -21,7 +23,9 @@ import { TaskCardComponent } from "./task-card.component";
     imports : [
         BrowserModule,
         AppRoutingModule,  
-        DragDropModule
+        DragDropModule,
+        FormsModule,
+        HttpClientModule
     ],
     exports : [
         NavbarComponent,
