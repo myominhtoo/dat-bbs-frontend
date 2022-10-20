@@ -1,10 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { Board } from "src/app/model/bean/board";
-import { BoardService } from "src/app/model/service/http/board.service";
-import { TaskCardService } from "src/app/model/service/http/taskCard.service";
-import { UserService } from "src/app/model/service/http/user.service";
 import { BoardStore } from "src/app/model/service/store/board.store";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
+import { CdkDragDrop , moveItemInArray } from '@angular/cdk/drag-drop';
+import { Board } from "src/app/model/bean/board";
 
 @Component({
     selector : 'workspace',
@@ -25,6 +23,10 @@ export class WorkspaceComponent implements OnInit {
 
     ngOnInit(): void {
         // this.getMyBoards();// getting boards for target logged in user
+    }
+
+    drop( e : CdkDragDrop<Board[]> ){
+        moveItemInArray( this.boardStore.boards , e.previousIndex , e.currentIndex );
     }
 
 

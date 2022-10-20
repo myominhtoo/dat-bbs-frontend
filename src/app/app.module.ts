@@ -2,7 +2,7 @@ import {  RegisterComponent } from './components/page/register/register.componen
 import {  VerifyEmailComponent } from './components/page/verifyEmail/verify-email.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './components/layout/layout.module';
@@ -21,7 +21,7 @@ import { MyBoardComponent } from './components/page/board/my-board.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import {  MatButtonModule } from '@angular/material/button';
 import { CreateTaskCardComponent } from './components/page/mytasks/create-taskCard.component';
 import { ProfileComponent } from './components/page/profile/profile.component';
 @NgModule({
@@ -52,6 +52,7 @@ import { ProfileComponent } from './components/page/profile/profile.component';
     MatAutocompleteModule,
     MatButtonModule,
     BrowserAnimationsModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]
