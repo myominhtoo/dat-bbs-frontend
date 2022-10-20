@@ -483,7 +483,7 @@ body{
   padding: 16px 12px 0;
   /* position: relative; */
   background-color:rgb(225, 225, 225) !important; 
-  /* z-index: -4; */
+  
   }
     .scrolling-wrapper {
       -webkit-overflow-scrolling: touch;
@@ -492,16 +492,15 @@ body{
   .task-card-container{
       box-sizing: border-box;
       display: flex;
-      
       flex-direction: column;
-      z-index:5;
+      z-index:9000 !important;
       width: 304px;
       max-width: 304px;
       /* background: rgba(255,255,255,0.75); */
       /* background-color: transparent !important; */
     /*none ထားတဲ့အတွက်ကြောင့် ကျန်တဲ့ကောင်တွေမှာ hover တို့ pointer တို့သုံးချင်ရင် events ကို
       လုပ်ပေးရတယ် ကိုဘ်သုံးမဲ့ div မှာ  */
-      /* z-index: 1000;s */
+      
       /* border: 1px solid rgba(128, 128, 128, 0.2) !important; */
      
   }
@@ -536,10 +535,10 @@ body{
     border: 1px solid var(--thm);
   }
   
-  .task-card-scroll{
-    z-index: 100;
+  /* .task-card-scroll{
+    
       overflow-y: scroll;
-  }
+  } */
   .task-card-scroll::-webkit-scrollbar{
     display: none;
 }

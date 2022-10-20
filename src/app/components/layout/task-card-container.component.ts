@@ -33,7 +33,9 @@ import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
         </div>
       </div>
       <!-- end task-card-header -->
-      <div class="container-fluid task-card-scroll ">
+      <!-- task-card start -->
+      <!-- task-card-scroll -->
+      <div class="container-fluid">
         <div class="w-100  d-flex flex-column">
             <task-card *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
         </div>
