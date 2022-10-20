@@ -39,8 +39,10 @@ import { ChangeStageType } from 'src/app/model/types/custom-types';
       <!-- task-card-scroll -->
       <div class="container-fluid">
         <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="data.stageName" [cdkDropListConnectedTo]="containers" class="w-100 py-2 d-flex flex-column">
-            <task-card cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
+            <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
         </div>
+
+        <task-offcanvas></task-offcanvas>
         <div class="my-2">
           <span class="text-danger fs-6">{{ status.addTaskError }}</span>
         </div>

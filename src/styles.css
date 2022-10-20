@@ -550,7 +550,7 @@ body{
 /* Change Some Bootstrap code */
 .offcanvas.offcanvas-end {
     top: 110px !important;
-    transition: all 1s !important;
+    /* transition: all s !important; */
 }
 .offcanvas-backdrop.show {
     opacity: 0 !important;

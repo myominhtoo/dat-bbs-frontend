@@ -33,7 +33,8 @@ export class ProfileComponent{
       }
 
       ngOnInit(): void {
-        let storeUser = localStorage.getItem(btoa('user'));
+        let storeUser = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)); 
+        console.log(storeUser)
     }
 
       SaveUser(){

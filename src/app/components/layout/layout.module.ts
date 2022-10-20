@@ -10,6 +10,7 @@ import { NavbarComponent } from "./navbar.component";
 import { SidebarComponent } from "./sidebar.component";
 import { TaskCardContainerComponent } from "./task-card-container.component";
 import { TaskCardComponent } from "./task-card.component";
+import { TaskOffCanvasComponent } from "./task-offcanvas.component";
 
 @NgModule({
     declarations : [
@@ -18,7 +19,8 @@ import { TaskCardComponent } from "./task-card.component";
         BoardComponent,
         LoadingComponent,
         TaskCardContainerComponent,
-        TaskCardComponent
+        TaskCardComponent,
+        TaskOffCanvasComponent
     ],
     imports : [
         BrowserModule,

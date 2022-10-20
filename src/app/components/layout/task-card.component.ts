@@ -4,7 +4,7 @@ import { TaskCard } from "src/app/model/bean/taskCard";
 @Component({
     selector : 'task-card',
     template : `
-     <div class="task-cards my-1  px-2 py-3 text-muted">
+     <div data-bs-toggle="offcanvas" data-bs-target="#task-offcanvas" class="task-cards my-1  px-2 py-3 text-muted">
         <h5 class="text-muted h6">{{ task.taskName | titlecase }}</h5>
      </div>
     `
