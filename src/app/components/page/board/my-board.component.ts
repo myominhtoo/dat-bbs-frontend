@@ -9,6 +9,7 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import swal from 'sweetalert';
 import $ from 'jquery'
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
+import { ChangeStageType } from "src/app/model/types/custom-types";
 
 @Component({
     selector : 'my-board',
@@ -261,6 +262,31 @@ export class MyBoardComponent implements OnInit {
       let prevTasks = this.taskCardsMap.get(taskCard.stage.stageName);
       prevTasks?.push(taskCard);
       this.taskCardsMap.set( taskCard.stage.stageName , prevTasks! ); 
+    }
+
+    handleChangeStage( payload : ChangeStageType ){
+       let targetStage = this.stages.filter( stage => {
+        return payload.stageTo === stage.stageName;
+       })[0];
+       payload.task.stage = targetStage; //setting updated stage to task
+
+       this.taskCardService.updateTaskCard( payload.task )
+       .subscribe({
+        next : res => {
+          // let prevTasks = this.taskCardsMap.get( payload.stageTo );
+          
+          // it is also ok without following cuz of line 271 
+          // this.taskCardsMap.set( payload.stageTo , prevTasks?.map( task => {
+          //   if( task.id ===  res.data.id ){
+          //      return res.data;
+          //   }
+          //   return task;
+          // })! );
+        },
+        error : err => {
+          console.log(err);
+        }
+       });
     }
 
 }

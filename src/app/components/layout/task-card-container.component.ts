@@ -5,6 +5,7 @@ import { TaskCard } from 'src/app/model/bean/taskCard';
 import { StageService } from 'src/app/model/service/http/stage.service';
 import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
 import { CdkDragDrop , moveItemInArray , transferArrayItem , CdkDragMove  } from '@angular/cdk/drag-drop';
+import { ChangeStageType } from 'src/app/model/types/custom-types';
 
 @Component({
   selector: 'task-card-container',
@@ -37,7 +38,7 @@ import { CdkDragDrop , moveItemInArray , transferArrayItem , CdkDragMove  } from
       <!-- task-card start -->
       <!-- task-card-scroll -->
       <div class="container-fluid">
-        <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="'container-'+data.id" [cdkDropListConnectedTo]="containers" class="w-100 py-2 d-flex flex-column">
+        <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="data.stageName" [cdkDropListConnectedTo]="containers" class="w-100 py-2 d-flex flex-column">
             <task-card cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
         </div>
         <div class="my-2">
@@ -64,6 +65,7 @@ export class TaskCardContainerComponent implements OnInit {
   @Input('board') board = new Board();
 
   @Output('add-task') addTask = new EventEmitter<TaskCard>();
+  @Output('change-stage') changeStage = new EventEmitter<ChangeStageType>();
 
   tempStage : string  = '';
   tempTask : string = '';
@@ -84,7 +86,7 @@ export class TaskCardContainerComponent implements OnInit {
     this.containers = this.stages.filter( stage => {
       return stage.id != this.data.id;
     }).map( filterStage => {
-      return `container-${filterStage.id}`;
+      return `${filterStage.stageName}`;
     })
   }
 
@@ -155,10 +157,13 @@ export class TaskCardContainerComponent implements OnInit {
 
   drop( e : CdkDragDrop<TaskCard[]> ){
     if( e.previousContainer === e.container ){
-          moveItemInArray( this.taskCards.get(this.data.stageName )! , e.previousIndex , e.currentIndex );
+      moveItemInArray( this.taskCards.get(this.data.stageName )! , e.previousIndex , e.currentIndex );
     }else{
-      console.log(e)
-      transferArrayItem( e.previousContainer.data , e.container.data , e.previousIndex , e.currentIndex )
+      transferArrayItem( e.previousContainer.data , e.container.data , e.previousIndex , e.currentIndex );
+      this.changeStage.emit({
+        task : e.container.data[e.currentIndex],
+        stageTo : e.container.id
+      });
     }
   }
 

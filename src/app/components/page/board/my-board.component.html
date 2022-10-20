@@ -58,7 +58,7 @@
                 </div>
                 <div class="row">                   
                         <div id="task-container" *ngIf="!status.isLoading" class="scrolling-wrapper d-flex  px-5 bg-transparent">
-                            <task-card-container *ngFor="let stage of stages" [stage]="stage" [task-cards]="taskCardsMap" [stages]="stages" (add-task)="handleAddTask($event)" [board]="board" ></task-card-container>
+                            <task-card-container *ngFor="let stage of stages" [stage]="stage" [task-cards]="taskCardsMap" [stages]="stages" (change-stage)="handleChangeStage($event)" (add-task)="handleAddTask($event)" [board]="board" ></task-card-container>
                             <div>
                                 <button (click)="toggleIsAddStage()" *ngIf="!status.isAddStage" class="btn btn-secondary btn-sm px-5 mt-2">
                                     <i class="fa-solid fa-plus mx-1"></i> Add Stage
