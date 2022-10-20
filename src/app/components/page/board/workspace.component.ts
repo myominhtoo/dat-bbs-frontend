@@ -26,8 +26,10 @@ export class WorkspaceComponent implements OnInit {
     }
 
     drop( e : CdkDragDrop<Board[]> ){
-        moveItemInArray( this.boardStore.boards , e.previousIndex , e.currentIndex );
+        console.log(e);
+        // moveItemInArray( this.boardStore.boards , e.previousIndex , e.currentIndex );
     }
+
 
 
     // func to get boards 

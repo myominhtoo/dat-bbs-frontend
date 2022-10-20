@@ -4,6 +4,7 @@ import { Stage } from 'src/app/model/bean/stage';
 import { TaskCard } from 'src/app/model/bean/taskCard';
 import { StageService } from 'src/app/model/service/http/stage.service';
 import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
+import { CdkDragDrop , moveItemInArray , transferArrayItem , CdkDragMove  } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'task-card-container',
@@ -36,8 +37,8 @@ import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
       <!-- task-card start -->
       <!-- task-card-scroll -->
       <div class="container-fluid">
-        <div class="w-100  d-flex flex-column">
-            <task-card *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
+        <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="'container-'+data.id" [cdkDropListConnectedTo]="containers" class="w-100 py-2 d-flex flex-column">
+            <task-card cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
         </div>
         <div class="my-2">
           <span class="text-danger fs-6">{{ status.addTaskError }}</span>
@@ -50,13 +51,14 @@ import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
     </div>
   `,
 })
-export class TaskCardContainerComponent{
+export class TaskCardContainerComponent implements OnInit {
 
   constructor( 
     private stageService : StageService ,
     private taskService : TaskCardService
     ){}
 
+  @Input('stages') stages : Stage [] = [];
   @Input('stage') data : Stage = new Stage();
   @Input('task-cards') taskCards : Map<string,TaskCard[]> = new  Map();
   @Input('board') board = new Board();
@@ -66,6 +68,9 @@ export class TaskCardContainerComponent{
   tempStage : string  = '';
   tempTask : string = '';
 
+  containers : string [] = [];
+
+
   status = {
     isEditStage : false,
     isEditing : false,
@@ -73,6 +78,14 @@ export class TaskCardContainerComponent{
     isAddTask : false,
     isAddingTask : false,
     addTaskError : '',
+  }
+
+  ngOnInit(): void {
+    this.containers = this.stages.filter( stage => {
+      return stage.id != this.data.id;
+    }).map( filterStage => {
+      return `container-${filterStage.id}`;
+    })
   }
 
   handleSetUpStageEdit(){
@@ -138,6 +151,30 @@ export class TaskCardContainerComponent{
       })
     }
 
+  }
+
+  drop( e : CdkDragDrop<TaskCard[]> ){
+    if( e.previousContainer === e.container ){
+          moveItemInArray( this.taskCards.get(this.data.stageName )! , e.previousIndex , e.currentIndex );
+    }else{
+      console.log(e)
+      transferArrayItem( e.previousContainer.data , e.container.data , e.previousIndex , e.currentIndex )
+    }
+  }
+
+  handleDragging( e : CdkDragMove<any> ){
+    const container = document.getElementById('task-container');
+    let curPosition = e.pointerPosition.x;
+    let realWidth = container?.clientWidth;
+
+    if( curPosition - realWidth! < 600 ){
+      // console.log( curPosition , realWidth! )
+
+      container?.scrollTo({
+        left : container.scrollLeft + curPosition - realWidth! + 100,
+        behavior : 'smooth'
+      })
+    }
   }
 
 }

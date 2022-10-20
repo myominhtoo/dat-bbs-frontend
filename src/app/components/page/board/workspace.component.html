@@ -5,8 +5,8 @@
 
     <div id="main-area" class="m-0 p-5" [class.sidebar-hide]="!toggleStore.isShow">
         <!-- <h1>I am my boards</h1> -->
-        <div cdkDropList [cdkDropListData]="boardStore.boards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
-            <board *ngFor="let board of boardStore.boards" [data]="board" [routerLink]="'/boards/'+board.id"  class="col-3"></board>
+        <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="boardStore.boards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
+            <board cdkDrag  *ngFor="let board of boardStore.boards;let idx = index;" [data]="board" [routerLink]="'/boards/'+board.id"  class="col-3"></board>
         </div>
          <!-- <div *ngIf="boardStore.status.isLoading" class="w-100 d-flex justify-content-center flex-column align-items-center" style="height:70vh !important;">
             <p class="spinner-border thm" style="width:50px;height:50px;"></p>

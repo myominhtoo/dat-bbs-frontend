@@ -10,6 +10,7 @@ import { UserService } from "src/app/model/service/http/user.service";
 export class BoardComponent implements OnInit {
 
     @Input('data') data : Board = new Board();
+    @Input('target') target : number = 0;
 
     constructor(
         private userService : UserService ,
