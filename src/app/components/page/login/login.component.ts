@@ -32,7 +32,6 @@ export class LoginComponent {
         this.userService.LoginUser(this.user).subscribe({
          next : (res) => {
             this.error = { hasError : false , msg : '' }
-            console.log(res.data)
             localStorage.setItem(btoa('user'),btoa(JSON.stringify({id : res.data.id  , username : res.data.username , imageUrl : res.data.imageUrl})))
             swal({
                 text : res.message,

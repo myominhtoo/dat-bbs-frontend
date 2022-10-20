@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Board } from 'src/app/model/bean/board';
 import { Stage } from 'src/app/model/bean/stage';
 import { TaskCard } from 'src/app/model/bean/taskCard';
 import { StageService } from 'src/app/model/service/http/stage.service';
@@ -36,23 +37,40 @@ import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
         <div class="w-100  d-flex flex-column">
             <task-card *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
         </div>
-        <button class="w-100 btn btn-sm btn-secondary my-2"><i class="fa-solid fa-plus mx-1"></i>Add Task</button>
+        <div class="my-2">
+          <span class="text-danger fs-6">{{ status.addTaskError }}</span>
+        </div>
+        <div *ngIf="status.isAddTask" class="my-1">
+          <input  [(ngModel)]="tempTask" name="tempTask" (keydown)="handleAddTask($event)"type="text" [class.is-invalid]="status.addTaskError" class="form-control" placeholder="Enter Task" />
+        </div>
+        <button (click)="handleSetUpAddTask()" class="w-100 btn btn-sm btn-secondary my-2"><i class="fa-solid fa-plus mx-1"></i>Add Task</button>
       </div>
     </div>
   `,
 })
 export class TaskCardContainerComponent{
 
-  constructor( private stageService : StageService  ){}
+  constructor( 
+    private stageService : StageService ,
+    private taskService : TaskCardService
+    ){}
 
   @Input('stage') data : Stage = new Stage();
   @Input('task-cards') taskCards : Map<string,TaskCard[]> = new  Map();
+  @Input('board') board = new Board();
+
+  @Output('add-task') addTask = new EventEmitter<TaskCard>();
+
   tempStage : string  = '';
+  tempTask : string = '';
 
   status = {
     isEditStage : false,
-    isEditing : false,   
+    isEditing : false,
     stageError : '',
+    isAddTask : false,
+    isAddingTask : false,
+    addTaskError : '',
   }
 
   handleSetUpStageEdit(){
@@ -87,6 +105,37 @@ export class TaskCardContainerComponent{
         });
       }
     }
+  }
+
+  handleSetUpAddTask(){
+    this.status.isAddTask = true;
+  }
+
+  handleAddTask( e : KeyboardEvent ){
+    this.status.addTaskError = '';
+    if( e.key === "Escape" ){
+      this.status.isAddTask = false;
+    }
+
+    if( e.key === "Enter" ){
+      const taskCard = new TaskCard();
+      taskCard.taskName = this.tempTask;// setting taskName from tempTask
+      taskCard.stage = this.data;
+      taskCard.board = this.board;
+
+      this.taskService.createTaskCard( taskCard )
+      .subscribe({
+        next : res => {
+          this.tempTask = '';
+          this.status.isAddTask = false;
+          this.addTask.emit( res.data );
+        },
+        error : err => {
+          this.status.addTaskError = err.error.message;
+        }
+      })
+    }
+
   }
 
 }

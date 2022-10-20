@@ -45,7 +45,8 @@ export class MyBoardComponent implements OnInit {
         addingStageError : {
             hasError : false,
             msg : "",
-        }
+        },
+        addTaskError : '',
     }
     // @Input('data') data : Stage = new Stage();
 
@@ -254,6 +255,12 @@ export class MyBoardComponent implements OnInit {
          prevTaskCards?.push(taskCard);
          this.taskCardsMap.set( taskCard.stage.stageName , prevTaskCards! );
        })
+    }
+
+    handleAddTask( taskCard : TaskCard ){
+      let prevTasks = this.taskCardsMap.get(taskCard.stage.stageName);
+      prevTasks?.push(taskCard);
+      this.taskCardsMap.set( taskCard.stage.stageName , prevTasks! ); 
     }
 
 }

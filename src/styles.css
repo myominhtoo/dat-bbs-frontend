@@ -494,21 +494,16 @@ body{
       display: flex;
       
       flex-direction: column;
-      
+      z-index:5;
       width: 304px;
       max-width: 304px;
       /* background: rgba(255,255,255,0.75); */
       /* background-color: transparent !important; */
-      pointer-events: none; /*none ထားတဲ့အတွက်ကြောင့် ကျန်တဲ့ကောင်တွေမှာ hover တို့ pointer တို့သုံးချင်ရင် events ကို
+    /*none ထားတဲ့အတွက်ကြောင့် ကျန်တဲ့ကောင်တွေမှာ hover တို့ pointer တို့သုံးချင်ရင် events ကို
       လုပ်ပေးရတယ် ကိုဘ်သုံးမဲ့ div မှာ  */
       /* z-index: 1000;s */
       /* border: 1px solid rgba(128, 128, 128, 0.2) !important; */
      
-  }
-  /* Becareful Error */
-  .task-card-header{
-    pointer-events: auto;
-    
   }
   
 .task-card-container:hover{
@@ -535,14 +530,14 @@ body{
       justify-content:start;
       align-items: center;
       background-color: #fbfbfbbe !important;
-      pointer-events: auto;
-  }
+      }
 
   .task-cards:hover{
     border: 1px solid var(--thm);
   }
   
   .task-card-scroll{
+    z-index: 100;
       overflow-y: scroll;
   }
   .task-card-scroll::-webkit-scrollbar{
