@@ -1,3 +1,4 @@
+import { Subject, Observable } from 'rxjs';
 import { Component, OnInit } from "@angular/core";
 import { User } from "src/app/model/bean/user";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
@@ -9,11 +10,16 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
 export class NavbarComponent implements OnInit {
     
     constructor( private toggleStore : ToggleStore ){}
-
+    b=true;
     user : User = new User();
+    private subject = new Subject<any>();
 
     toggleSidebar(){
-        this.toggleStore.isShow = !this.toggleStore.isShow;
+        this.toggleStore.isShow=!this.toggleStore.isShow;
+        let show=this.toggleStore.isShowSubject.value;
+        this.toggleStore.isShowSubject.next(!show);
+        
+
     }
 
     ngOnInit(): void {
