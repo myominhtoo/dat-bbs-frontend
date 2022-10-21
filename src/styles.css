@@ -612,3 +612,71 @@ body{
   #task-canvas #activity:focus{
     outline:none ;
   }
+
+  #tab:hover{
+    cursor: pointer;
+  }
+
+
+ #tab{
+    font-weight: 400;
+ }
+
+
+ #comments-container{
+    height:600px;
+    max-height:600px;
+    /* background: red; */
+    /* overflow-y: scroll; */
+    position: relative;
+    padding:50px 0 0 0;
+ }
+
+ #comments-container #comments{
+    width:100%;
+    height:90%;
+    max-height:92%;
+    overflow-y: scroll;
+ }
+
+ #comments-container #comments #comment{
+    width:75%;
+    padding:15px 10px;
+    background: #eee;
+ }
+
+ #comments-container #comments #comment-container{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0 !important;
+ }
+
+ #comments-container #comments #comment-container #comment-icon{
+    width:auto;
+    height:auto;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+ }
+
+ #comments-container #comments #comment-container #comment-icon #icon{
+    width:35px;
+    height:35px;
+    border-radius: 100%;
+    background-color: #eee;
+ }  
+
+ #comments-container #comments #comment-container.my-cmt{
+    display: flex;
+    align-items: flex-end;
+ }
+
+ #comments-container #comment-send-box{
+    height:8%;
+    width:100%;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    padding:10px;
+    margin:0;
+ }

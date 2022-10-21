@@ -10,12 +10,12 @@ import { TaskCard } from "src/app/model/bean/taskCard";
                 <!-- <button class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#task-offcanvas" ></button> -->
                 <div id="comment-btn" class="d-flex justify-content-center gap-3 text-muted align-items-center">
                     <!-- <p class="fa-regular fa-comment text-center text-muted p-0 m-0"></p> -->
-                    <span>Activities</span>
-                    <span class="d-flex align-items-center">Comments</span>
+                    <span id="tab" (click)="changeTab('activity')" >Activities</span>
+                    <span id="tab" (click)="changeTab('comment')" class="d-flex align-items-center">Comments</span>
                 </div>
             </div>
-            <div class=" offcanvas-body overflow-scroll">
-                <div class="container">
+            <div class=" offcanvas-body overflow-scroll py-0 px-2">
+                <div *ngIf="tab == 'activity'" class="container py-3">
 
                    <ul class="list-group list-unstyled text-muted p-3 gap-4">
                       <li class="list-item d-flex ">
@@ -81,31 +81,63 @@ import { TaskCard } from "src/app/model/bean/taskCard";
                             </div>
                         </div>
 
-                        <div class="w-100 position-relative d-flex gap-1 ">
-                            <input type="checkbox" name="" id="" />
-                            <input id="activity" class="text-muted" value="Hello" />
-                            <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
-                                <i class="fa-solid fa-eye"></i>
-                                <i class="fa-solid fa-calendar-days"></i>
-                                <input type="file" id="attachment" class="d-none">
-                                <label for="attachment" class="fa-solid fa-paperclip"></label>
-                            </div>
-                        </div>
-
-                        <div class="w-100 position-relative d-flex gap-1 ">
-                            <input type="checkbox" name="" id="" />
-                            <input id="activity" class="text-muted" value="Hello" />
-                            <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
-                                <i class="fa-solid fa-eye"></i>
-                                <i class="fa-solid fa-calendar-days"></i>
-                                <input type="file" id="attachment" class="d-none">
-                                <label for="attachment" class="fa-solid fa-paperclip"></label>
-                            </div>
-                        </div>
-
                     </div>
 
                     <button class="btn btn-sm btn-secondary"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
+                </div>
+
+                <div *ngIf="tab == 'comment' " id="comments-container" style="max-height:800px !important;" class="container">
+                    <div id="comments">
+
+                        <div id="comment-container" class="w-100 my-2">
+                            <div id="comment-icon">
+                                <!-- <p id="icon"></p> -->
+                                <h6 class="h6 mx-2" style="font-size:17px !important;">Ninja <small class="text-muted" style="font-size:13px;">Just Now</small></h6>
+                            </div>
+                            <p id="comment">
+                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus doloribus distinctio sint aliquid debitis laudantium autem maxime commodi nemo enim!   
+                            </p>
+                        </div>
+
+                        <div id="comment-container" class="w-100 my-2 ">
+                            <div id="comment-icon">
+                                <h6 class="h6 mx-2" style="font-size:17px !important;">Ninja <small class="text-muted" style="font-size:13px;">Just Now</small></h6>
+                                <!-- <p id="icon"></p> -->
+                            </div>
+                            <p id="comment">
+                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum, error.
+                            </p>
+                        </div>
+
+                        <div id="comment-container" class="w-100 my-2 ">
+                            <div id="comment-icon">
+                                <h6 class="h6 mx-2" style="font-size:17px !important;">Ninja <small class="text-muted" style="font-size:13px;">Just Now</small></h6>
+                                <!-- <p id="icon"></p> -->
+                            </div>
+                            <p id="comment">
+                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum, error.
+                            </p>
+                        </div>
+
+                        <div id="comment-container" class="w-100 my-2 ">
+                            <div id="comment-icon">
+                                <h6 class="h6 mx-2" style="font-size:17px !important;">Ninja <small class="text-muted" style="font-size:13px;">Just Now</small></h6>
+                                <!-- <p id="icon"></p> -->
+                            </div>
+                            <p id="comment">
+                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum, error.
+                            </p>
+                        </div>
+                        
+                    </div>
+
+                    <div id="comment-send-box">
+                        <form class="w-100 d-flex gap-1">
+                            <input type="text" class="form-control w-75" placeholder="Comment Here" />
+                            <button class="btn btn-sm w-25 btn-primary"><i class="fa-solid fa-paper-plane mx-1"></i>Send</button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -114,5 +146,12 @@ import { TaskCard } from "src/app/model/bean/taskCard";
 export class TaskOffCanvasComponent {
     
     @Input('task') task : TaskCard = new TaskCard();
+
+    tab : string = 'activity';
+
+
+    changeTab( tab : string ){
+        this.tab = tab;
+    }
 
 }
