@@ -172,7 +172,7 @@ export class TaskCardContainerComponent implements OnInit {
     let curPosition = e.pointerPosition.x;
     let realWidth = container?.clientWidth;
 
-    if( curPosition - realWidth! < 600 ){
+    if( curPosition - realWidth! < 100 ){
       // console.log( curPosition , realWidth! )
 
       container?.scrollTo({
