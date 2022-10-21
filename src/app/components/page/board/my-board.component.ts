@@ -27,6 +27,8 @@ export class MyBoardComponent implements OnInit {
     storedEmails : string [] = [];
 
     stage  : Stage = new Stage();
+    
+    offCanvasTask : TaskCard = new TaskCard();
 
     status = {
         isLoading : false,
@@ -287,6 +289,12 @@ export class MyBoardComponent implements OnInit {
           console.log(err);
         }
        });
+    }
+
+    handleShowOffCanvas( task  : TaskCard ){
+      $('#task-offcanvas-btn').click();
+      
+      this.offCanvasTask = task;
     }
 
 }

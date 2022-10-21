@@ -35,7 +35,8 @@ import { TaskOffCanvasComponent } from "./task-offcanvas.component";
         BoardComponent,
         LoadingComponent,
         TaskCardContainerComponent,
-        TaskCardComponent
+        TaskCardComponent,
+        TaskOffCanvasComponent
     ]
 })
 export class LayoutModule{}

@@ -549,7 +549,7 @@ body{
 
 /* Change Some Bootstrap code */
 .offcanvas.offcanvas-end {
-    top: 110px !important;
+    top: 60px !important;
     /* transition: all s !important; */
 }
 .offcanvas-backdrop.show {
@@ -576,6 +576,7 @@ body{
   }
   .cdk-drag-preview {
     box-sizing: border-box;
+    background-color: var(--pale-snow) !important;
     border-radius: 4px;
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
                 0 8px 10px 1px rgba(0, 0, 0, 0.14),
@@ -590,3 +591,24 @@ body{
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
   
+
+  #task-offcanvas{
+    width:700px !important;
+  }
+
+  #task-offcanvas .offcanvas-header input{
+    border: none !important;
+    background-color: var(--snow);
+  }
+
+  #task-offcanvas #activity{
+    background: #eee !important;
+    padding:5px 10px;;
+    outline: none;
+    border: none;
+    width:100% !important;
+  }
+
+  #task-canvas #activity:focus{
+    outline:none ;
+  }
