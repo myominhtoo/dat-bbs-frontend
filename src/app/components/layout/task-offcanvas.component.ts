@@ -152,7 +152,7 @@ export class TaskOffCanvasComponent {
 
     setUpAddActivity(){
         // to control clicking this button again & again
-       if( !this.status.isAddActivity ){
+       if( !this.status.isAddActivity || this.activities.length == 0 ){
         this.status.isAddActivity = true;
         
         const newActivity = new Activity();
@@ -182,16 +182,17 @@ export class TaskOffCanvasComponent {
             next : res => {
                 this.status.msg = res.message;
                 this.activities[ targetIdx ] = res.data;
-                this.status.isAddActivity = false;
+                setTimeout(() => {
+                    this.status.msg  = "";
+                } , 1000 );
             },  
             error : err => {
                this.status.errorTargetIdx = targetIdx;
                this.status.activityError = err.error.message;
             }
          });
+         this.status.isAddActivity = false;
        }
     }
-
-    
 
 }
