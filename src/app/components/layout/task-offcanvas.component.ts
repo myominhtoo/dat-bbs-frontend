@@ -1,5 +1,7 @@
 import { Component, Input } from "@angular/core";
+import { Activity } from "src/app/model/bean/activity";
 import { TaskCard } from "src/app/model/bean/taskCard";
+import { ActivityService } from "src/app/model/service/http/activity.service";
 
 @Component({
     selector : 'task-offcanvas',
@@ -15,7 +17,7 @@ import { TaskCard } from "src/app/model/bean/taskCard";
                 </div>
             </div>
             <div class=" offcanvas-body overflow-scroll py-0 px-2">
-                <div *ngIf="tab == 'activity'" class="container py-3">
+                <div *ngIf="tab == 'activity' && !isLoading" class="container py-3">
 
                    <ul class="list-group list-unstyled text-muted p-3 gap-4">
                       <li class="list-item d-flex ">
@@ -48,31 +50,9 @@ import { TaskCard } from "src/app/model/bean/taskCard";
                     <!-- activites -->
                     <div class="list-group d-flex flex-column list-unstyled text-muted p-2 gap-3 my-2">
 
-                        <div class="w-100 position-relative d-flex gap-1 ">
-                            <input type="checkbox" name="" id="" />
-                            <input id="activity" class="text-muted" value="Hello" />
-                            <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
-                                <i class="fa-solid fa-eye"></i>
-                                <i class="fa-solid fa-calendar-days"></i>
-                                <input type="file" id="attachment" class="d-none">
-                                <label for="attachment" class="fa-solid fa-paperclip"></label>
-                            </div>
-                        </div>
-
-                        <div class="w-100 position-relative d-flex gap-1 ">
-                            <input type="checkbox" name="" id="" />
-                            <input id="activity" class="text-muted" value="Hello" />
-                            <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
-                                <i class="fa-solid fa-eye"></i>
-                                <i class="fa-solid fa-calendar-days"></i>
-                                <input type="file" id="attachment" class="d-none">
-                                <label for="attachment" class="fa-solid fa-paperclip"></label>
-                            </div>
-                        </div>
-
-                        <div class="w-100 position-relative d-flex gap-1 ">
-                            <input type="checkbox" name="" id="" />
-                            <input id="activity" class="text-muted" value="Hello" />
+                        <div *ngFor="let activity of activities;let idx = index;" class="w-100 position-relative d-flex gap-1 ">
+                            <input type="checkbox" [checked]="activity.status" name="" id="" />
+                            <input (keydown)="handleAddActivity( $event , idx )" id="activity" [(ngModel)]="activity.activityName" class="text-muted" value="Hello" />
                             <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
                                 <i class="fa-solid fa-eye"></i>
                                 <i class="fa-solid fa-calendar-days"></i>
@@ -82,11 +62,11 @@ import { TaskCard } from "src/app/model/bean/taskCard";
                         </div>
 
                     </div>
-
-                    <button class="btn btn-sm btn-secondary"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
+                    <small class="text-danger">{{ status.activityError && status.activityError }}</small><br/>
+                    <button (click)="setUpAddActivity()" class="btn btn-sm btn-secondary"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
                 </div>
 
-                <div *ngIf="tab == 'comment' " id="comments-container" style="max-height:800px !important;" class="container">
+                <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" style="max-height:800px !important;" class="container">
                     <div id="comments">
 
                         <div id="comment-container" class="w-100 my-2">
@@ -139,6 +119,8 @@ import { TaskCard } from "src/app/model/bean/taskCard";
                     </div>
 
                 </div>
+
+                <loading [show]="isLoading" target="Activities.."></loading>
             </div>
         </div>
     `
@@ -146,12 +128,50 @@ import { TaskCard } from "src/app/model/bean/taskCard";
 export class TaskOffCanvasComponent {
     
     @Input('task') task : TaskCard = new TaskCard();
+    @Input('activities') activities : Activity [] = [];
+    @Input('comments') comments : Comment [] = [];
+    @Input('isLoading') isLoading : boolean = false;
 
     tab : string = 'activity';
 
+    status = {
+        isAddActivity : false,
+        activityError : '',
+    }
+
+    constructor( private activityService : ActivityService ){}
 
     changeTab( tab : string ){
         this.tab = tab;
     }
+
+    setUpAddActivity(){
+        // to control clicking this button again & again
+       if( !this.status.isAddActivity ){
+        this.status.isAddActivity = true;
+        
+        const newActivity = new Activity();
+
+        this.activities.push( newActivity );
+       }
+    }
+
+    handleAddActivity( e : KeyboardEvent , targetIdx : number ){
+       this.status.activityError = '';
+       let curActivityName =  this.activities[ targetIdx ].activityName;
+       if( e.code === 'Enter' ){
+          if( curActivityName  == '' || curActivityName == null ){           
+            this.status.activityError = 'Acitiviy is required!';
+            return;
+          }
+
+          /* 
+           code to connect backend
+          */
+          this.status.isAddActivity = false;
+       }
+    }
+
+    
 
 }

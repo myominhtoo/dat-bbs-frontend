@@ -9,7 +9,7 @@ import { Activity } from "../../bean/activity";
 export class ActivityService{
     constructor ( private httpClient : HttpClient ){}
 
-    createTaskCard( activity : Activity ) : Observable <HttpResponse<Activity>>{
+    createActivity( activity : Activity ) : Observable <HttpResponse<Activity>>{
         return this.httpClient.post<HttpResponse<Activity>> (`http://localhost:8080/api/create-activity` , activity);
     }
 

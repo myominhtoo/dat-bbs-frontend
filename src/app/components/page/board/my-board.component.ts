@@ -10,6 +10,8 @@ import swal from 'sweetalert';
 import $ from 'jquery'
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { ChangeStageType } from "src/app/model/types/custom-types";
+import { ActivityService } from "src/app/model/service/http/activity.service";
+import { Activity } from "src/app/model/bean/activity";
 
 @Component({
     selector : 'my-board',
@@ -29,6 +31,8 @@ export class MyBoardComponent implements OnInit {
     stage  : Stage = new Stage();
     
     offCanvasTask : TaskCard = new TaskCard();
+    activities : Activity [] = [];
+    comments : Comment [] = [];
 
     status = {
         isLoading : false,
@@ -50,6 +54,7 @@ export class MyBoardComponent implements OnInit {
             msg : "",
         },
         addTaskError : '',
+        isLoadingOffcanvas : false
     }
     // @Input('data') data : Stage = new Stage();
 
@@ -58,8 +63,8 @@ export class MyBoardComponent implements OnInit {
          private router : Router , 
          private stageService : StageService ,
          private boardService : BoardService ,
-         private taskCardService : TaskCardService ){
-         }
+         private taskCardService : TaskCardService,
+         private activityService : ActivityService  ){}
 
     ngOnInit(): void {
         this.doActionForCurrentBoard( this.route.snapshot.params['id'] );
@@ -97,6 +102,7 @@ export class MyBoardComponent implements OnInit {
             }
         })
     }
+
 
     doActionForCurrentBoard( boardId : any ){
       if( isNaN(boardId) ){
@@ -291,10 +297,26 @@ export class MyBoardComponent implements OnInit {
        });
     }
 
+    getActivitiesForTaskCard( taskCardId : number ){
+      this.status.isLoadingOffcanvas = true;
+      this.activityService.getActivities( taskCardId )
+      .subscribe({
+        next : resActivities => {
+          this.status.isLoadingOffcanvas = false;
+          
+          this.activities = resActivities;
+        },
+        error : err => {
+          console.log(err);
+        }
+      });
+    }
+
     handleShowOffCanvas( task  : TaskCard ){
       $('#task-offcanvas-btn').click();
       
       this.offCanvasTask = task;
+      this.getActivitiesForTaskCard( task.id );
     }
 
 }
