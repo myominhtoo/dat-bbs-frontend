@@ -50,9 +50,12 @@ import { ActivityService } from "src/app/model/service/http/activity.service";
                     <!-- activites -->
                     <div class="list-group d-flex flex-column list-unstyled text-muted p-2 gap-3 my-2">
 
-                        <div *ngFor="let activity of activities;let idx = index;" class="w-100 position-relative d-flex gap-1 ">
-                            <input type="checkbox" [checked]="activity.status" name="" id="" />
-                            <input (keydown)="handleAddActivity( $event , idx )" id="activity" [(ngModel)]="activity.activityName" class="text-muted" value="Hello" />
+                        <div *ngFor="let activity of activities;let idx = index;" class="w-100 position-relative ">
+                            <div class="p-0 w-100  d-flex gap-1">
+                                <input type="checkbox" [checked]="activity.status" name="" id="" />
+                                <input (keydown)="handleAddActivity( $event , idx )" id="activity" [(ngModel)]="activity.activityName" class="text-muted" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" />
+                            </div>
+                            <small class="mx-2 text-danger" *ngIf="status.errorTargetIdx === idx && status.activityError">{{ status.activityError }}</small>
                             <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
                                 <i class="fa-solid fa-eye"></i>
                                 <i class="fa-solid fa-calendar-days"></i>
@@ -62,8 +65,8 @@ import { ActivityService } from "src/app/model/service/http/activity.service";
                         </div>
 
                     </div>
-                    <small class="text-danger">{{ status.activityError && status.activityError }}</small><br/>
-                    <button (click)="setUpAddActivity()" class="btn btn-sm btn-secondary"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
+                    <small class="text-success mx-2 my-1">{{ status.msg && status.msg }}</small><br/>
+                    <button (click)="setUpAddActivity()" class="btn my-1 btn-sm btn-secondary"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
                 </div>
 
                 <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" style="max-height:800px !important;" class="container">
@@ -137,6 +140,8 @@ export class TaskOffCanvasComponent {
     status = {
         isAddActivity : false,
         activityError : '',
+        msg : '',
+        errorTargetIdx : 0,
     }
 
     constructor( private activityService : ActivityService ){}
@@ -168,7 +173,22 @@ export class TaskOffCanvasComponent {
           /* 
            code to connect backend
           */
-          this.status.isAddActivity = false;
+         const newActivity = this.activities[ targetIdx ];
+         newActivity.taskCard = this.task;
+
+         this.activityService
+         .createActivity( this.activities[ targetIdx ])
+         .subscribe({
+            next : res => {
+                this.status.msg = res.message;
+                this.activities[ targetIdx ] = res.data;
+                this.status.isAddActivity = false;
+            },  
+            error : err => {
+               this.status.errorTargetIdx = targetIdx;
+               this.status.activityError = err.error.message;
+            }
+         });
        }
     }
 
