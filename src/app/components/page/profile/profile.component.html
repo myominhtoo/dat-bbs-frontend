@@ -12,9 +12,9 @@
                             <h1 class="text-center">Public profile</h1>
                         </div>  
                         <div class="col-12 d-flex justify-content-center align-items-center">
-                            <div class="mb-3 mx-auto">         
+                            <div class="mb-3 mx-auto imgholder">         
                                 <div *ngIf="user.imageUrl == null && user.username != null" class="text-dark boardprofile">{{ user.username[0].toUpperCase() }}</div>
-                                <img *ngIf="user.imageUrl != null"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" >                             
+                                <!-- <img   src="/assets/img/board-profile-img/download.jpg" class=" boardprofile" alt="Board-Img" >                              -->
                                 <span class="imgedit badge">                                    
                                     <span class="fw-light" type="button" data-bs-toggle="dropdown">
                                         <i class="fas fa-edit"></i>
