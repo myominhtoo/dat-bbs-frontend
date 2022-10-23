@@ -35,11 +35,14 @@ export class UserService {
     uploadPhoto(image:FormData,id:number): Observable<User>{
         
         return this.httpClient.put<User>(`http://localhost:8080/api/users/${id}/upload-image`,image,
-        {
+        {   
+            
             headers:{
                 'Content-type':`multipart/form-data; boundary=${image}`
-        }}
-        );
+                    }
+    
+    }
+        )
     }
 
 }

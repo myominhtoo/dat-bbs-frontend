@@ -326,13 +326,17 @@ padding-bottom:3px;
     object-fit: cover;
     /* background-image: url(assets/img/board-profile-img/download.jpg); */
 }
-.imgedit{
+
+.imgholder{
     position: relative;
+}
+.imgedit{
+    position: absolute;
     text-align: center;
     width: 60px;
     background-color: rgb(33, 33, 33);
-    bottom: -100px;
-    right: 70px;
+    bottom: 0px;
+    right: 0px;
 }
 .textareaBox{
     resize: none;
