@@ -66,7 +66,7 @@ import { ActivityService } from "src/app/model/service/http/activity.service";
 
                     </div>
                     
-                    <div class="d-flex flex-column align-items-end ">
+                    <div class="d-flex justify-content-between align-items-end ">
                         <small class="text-success mx-2">{{ status.msg && status.msg }}</small><br/>
                         <button (click)="setUpAddActivity()" class="btn btn-sm btn-secondary"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
                     </div>
