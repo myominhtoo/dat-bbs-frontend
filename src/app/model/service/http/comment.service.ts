@@ -1,6 +1,8 @@
-import { HttpClient, HttpResponse } from "@angular/common/http";
+import { HttpClient  } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Comment } from "../../bean/comment";
+import { HttpResponse  } from "../../bean/httpResponse";
 
 @Injectable({
     providedIn : 'root'
@@ -12,8 +14,8 @@ export class CommentService{
         return this.httpClient.post<HttpResponse<Comment>> (`http://localhost:8080/api/create-comment` , comment);
     }
 
-    getComment( id : number ) : Observable<Comment[]> {
-        return this.httpClient.get<Comment[]> (`http://localhost:8080/api/task-card/${id}/comments`);
+    getComments( id : number ) : Observable<Comment[]> {
+        return this.httpClient.get<Comment[]> (`http://localhost:8080/api/tasks/${id}/comments`);
     }
 
 }

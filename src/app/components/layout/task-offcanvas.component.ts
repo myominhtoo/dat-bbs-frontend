@@ -3,6 +3,9 @@ import { Activity } from "src/app/model/bean/activity";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { ActivityService } from "src/app/model/service/http/activity.service";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
+import { Comment } from "src/app/model/bean/comment";
+import { CommentService } from "src/app/model/service/http/comment.service";
+import { User } from "src/app/model/bean/user";
 
 @Component({
     selector : 'task-offcanvas',
@@ -82,21 +85,21 @@ import { TaskCardService } from "src/app/model/service/http/taskCard.service";
                 <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" style="max-height:800px !important;" class="container">
                     
                     <div id="comments">
-                        <div id="comment-container" class="w-100 my-2 ">
+                        <div *ngFor="let comment of comments" id="comment-container" class="w-100 my-2 ">
                             <div id="comment-icon">
-                                <h6 class="h6 mx-2" style="font-size:17px !important;">Ninja <small class="text-muted" style="font-size:13px;">Just Now</small></h6>
+                                <h6 class="h6 mx-2" style="font-size:17px !important;">{{ comment.user.username && comment.user.username | titlecase }}<small class="text-muted mx-2" style="font-size:13px;">Just Now</small></h6>
                                 <!-- <p id="icon"></p> -->
                             </div>
                             <p id="comment">
-                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum, error.
+                                {{ comment.comment }}
                             </p>
                         </div>                       
                     </div>
 
                     <div id="comment-send-box">
-                        <form class="w-100 d-flex gap-1">
-                            <input type="text" class="form-control w-75" placeholder="Comment Here" />
-                            <button class="btn btn-sm w-25 btn-primary"><i class="fa-solid fa-paper-plane mx-1"></i>Send</button>
+                        <form (ngSubmit)="handleComment()" class="w-100 d-flex gap-2">
+                            <input [(ngModel)]="comment.comment" name="comment" type="text" class="form-control w-75" placeholder="Comment Here" />
+                            <button type="submit" [disabled]="!comment.comment" class="btn btn-sm w-25 btn-primary"><i class="fa-solid fa-paper-plane mx-1"></i>Send</button>
                         </form>
                     </div>
 
@@ -194,6 +197,7 @@ export class TaskOffCanvasComponent {
 
     tab : string = 'activity';
     detailActivity : Activity = new Activity();
+    comment : Comment = new Comment();
 
     status = {
         isAddActivity : false,
@@ -205,7 +209,8 @@ export class TaskOffCanvasComponent {
 
     constructor( 
         private activityService : ActivityService , 
-        private taskCardService : TaskCardService  ){}
+        private taskCardService : TaskCardService , 
+        private commentService : CommentService  ){}
 
     changeTab( tab : string ){
         this.tab = tab;
@@ -280,5 +285,26 @@ export class TaskOffCanvasComponent {
             });
        }
     }
+    
+    handleComment(){
+       this.comment.user = new User();
+       this.comment.taskCard = new TaskCard();
+       
+       this.comment.user.id = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)).id;
+       this.comment.taskCard.id = this.task.id;
 
+       this.commentService.createComment( this.comment )
+       .subscribe({
+        next : res => {
+            if( res.ok ){
+                this.comment.comment = '';
+                console.log(res.data)
+                this.comments.push(res.data);
+            }
+        },
+        error : err => {
+            console.log(err);
+        }
+       })
+    }
 }

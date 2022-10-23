@@ -12,6 +12,8 @@ import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { ChangeStageType } from "src/app/model/types/custom-types";
 import { ActivityService } from "src/app/model/service/http/activity.service";
 import { Activity } from "src/app/model/bean/activity";
+import { CommentService } from "src/app/model/service/http/comment.service";
+import { Comment } from "src/app/model/bean/comment";
 
 @Component({
     selector : 'my-board',
@@ -64,7 +66,8 @@ export class MyBoardComponent implements OnInit {
          private stageService : StageService ,
          private boardService : BoardService ,
          private taskCardService : TaskCardService,
-         private activityService : ActivityService  ){}
+         private activityService : ActivityService , 
+         private commentService : CommentService  ){}
 
     ngOnInit(): void {
         this.doActionForCurrentBoard( this.route.snapshot.params['id'] );
@@ -298,12 +301,9 @@ export class MyBoardComponent implements OnInit {
     }
 
     getActivitiesForTaskCard( taskCardId : number ){
-      this.status.isLoadingOffcanvas = true;
       this.activityService.getActivities( taskCardId )
       .subscribe({
         next : resActivities => {
-          this.status.isLoadingOffcanvas = false;
-          
           this.activities = resActivities;
         },
         error : err => {
@@ -311,12 +311,28 @@ export class MyBoardComponent implements OnInit {
         }
       });
     }
+    
+    getCommentsForTaskCard( taskCardId : number ){
+      this.commentService.getComments( taskCardId )
+      .subscribe({
+        next : resComments => {
+          this.status.isLoadingOffcanvas = false;
+          this.comments = resComments;
+        },
+        error : err => {
+          console.log(err);
+        }
+      })
+    }
 
     handleShowOffCanvas( task  : TaskCard ){
       $('#task-offcanvas-btn').click();
       
       this.offCanvasTask = task;
+      this.status.isLoadingOffcanvas = true;
+
       this.getActivitiesForTaskCard( task.id );
+      this.getCommentsForTaskCard( task.id );
     }
 
 }
