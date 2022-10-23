@@ -11,9 +11,8 @@ import { UserService } from './../../../model/service/http/user.service';
 
 export class ProfileComponent{
     constructor( public toggleStore : ToggleStore,private userService : UserService){}
-
     user : User = new User();
-
+    storeUser = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)); 
     status = {
         update : {
           idx : 0,
@@ -33,19 +32,10 @@ export class ProfileComponent{
       }
 
       ngOnInit(): void {
-        let storeUser = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)); 
-        console.log(storeUser)
+    this.user.username=this.storeUser.username;
     }
 
       SaveUser(){
-
-        // const user = new User();
-        // user.id = 1;
-        // this.board.user = user;
-        // this.board.invitedEmails = this.emails;
-        // this.status.isLoading = true;
-    
-  
         this.user.username == null || this.user.username == ''
         ? this.status.error.username = { hasError : true , msg : 'User Name is required!'}
         : this.status.error.username = { hasError : false , msg : '' };
@@ -54,34 +44,28 @@ export class ProfileComponent{
         ? this.status.error.email = { hasError : true , msg : 'Email is required!'}
         : this.status.error.email = { hasError : false , msg : '' };
   
-        
-        // if( !this.status.error.username.hasError && !this.status.error.email.hasError ){
-        //   this.boardService.createBoard(this.board)
-        //   .subscribe({
-        //     next : data => {
-        //       this.status.isLoading = false;
-        //       console.log(data);
-        //       alert("Succesfully Created!");
-        //     },
-        //     error : err => {
-        //       this.board.boardName = '';
-        //       this.board.description = '';
-  
-        //     }
-        //   });
-    
-        // }
+
     }
 
   saveProfile(profile:NgForm){
-//      console.log(this.user)
-//     this.userService.ProfileUser(this.user).subscribe({
-//       next:(res)=>{
-//                   console.log("Work!!")
-        
-//       },
-// er
-//     }
-//     )
+    }
+
+    onFileChanged(event:any ){
+       //Select File
+    this.user.image =  event.target.files[0];
+    console.log(this.user.image);
+    const uploadImageData = new FormData();
+    uploadImageData.append('file', this.user.image, this.user.image.name);
+
+    this.userService.uploadPhoto(uploadImageData,this.storeUser.id).subscribe({
+      next:(res)=>{
+              this.user.imageUrl=res.imageUrl;
+              console.log("It's works"+res.imageUrl)
+      },
+      error:(err)=>{
+        console.log(err)
+      }
+    })
+    
     }
 }
