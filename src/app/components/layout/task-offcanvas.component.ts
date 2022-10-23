@@ -17,7 +17,7 @@ import { ActivityService } from "src/app/model/service/http/activity.service";
                 </div>
             </div>
             <div class=" offcanvas-body overflow-scroll py-0 px-2">
-                <div *ngIf="tab == 'activity' && !isLoading" class="container py-3">
+                <div *ngIf="tab == 'activity' && !isLoading" class="container py-5">
 
                    <ul class="list-group list-unstyled text-muted p-3 gap-4">
                       <li class="list-item d-flex ">
@@ -65,8 +65,11 @@ import { ActivityService } from "src/app/model/service/http/activity.service";
                         </div>
 
                     </div>
-                    <small class="text-success mx-2 my-1">{{ status.msg && status.msg }}</small><br/>
-                    <button (click)="setUpAddActivity()" class="btn my-1 btn-sm btn-secondary"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
+                    
+                    <div class="d-flex flex-column align-items-end ">
+                        <small class="text-success mx-2">{{ status.msg && status.msg }}</small><br/>
+                        <button (click)="setUpAddActivity()" class="btn btn-sm btn-secondary"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
+                    </div>
                 </div>
 
                 <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" style="max-height:800px !important;" class="container">

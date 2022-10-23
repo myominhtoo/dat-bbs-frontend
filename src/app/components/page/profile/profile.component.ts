@@ -71,7 +71,9 @@ export class ProfileComponent{
 
       this.userService.uploadPhoto( this.user.image ,this.user.id).subscribe({
         next:(res)=>{
-              this.user.imageUrl = res.data.imageUrl;
+              setTimeout(() => {
+                this.user.imageUrl = res.data.imageUrl;
+              } , 1000 );
         },
         error:(err)=>{
           console.log(err)
