@@ -13,8 +13,8 @@
                         </div>  
                         <div class="col-12 d-flex justify-content-center align-items-center">
                             <div class="mb-3 mx-auto imgholder">         
-                                <div *ngIf="user.imageUrl == null && user.username != null" class="text-dark boardprofile">{{ user.username[0].toUpperCase() }}</div>
-                                <!-- <img   src="/assets/img/board-profile-img/download.jpg" class=" boardprofile" alt="Board-Img" >                              -->
+                                <div *ngIf="user.imageUrl == null" class="text-dark boardprofile">{{ user.username &&  user.username[0].toUpperCase() }}</div>
+                                <img *ngIf="user.imageUrl != null"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" >                             
                                 <span class="imgedit badge">                                    
                                     <span class="fw-light" type="button" data-bs-toggle="dropdown">
                                         <i class="fas fa-edit"></i>
@@ -43,22 +43,22 @@
                                 </div>
                             <div class="row card-title">
                                 <div class="form-label float-start col-4">User Name :</div>
-                                <div class="col-8">{{user.username}}</div>
+                                <div class="col-8">{{ user.username | titlecase }}</div>
                             </div>
                             <div class="row card-title">
                                 <div class="form-label float-start col-4">Bio :</div>
-                                <div class="col-8">{{user.bio}}</div>
+                                <div class="col-8">{{ user.bio | titlecase }}</div>
                             </div>
                             <div class="row card-title">
                                 <div class="form-label float-start col-4">Email :</div>
 
-                                <div class="col-8">{{user.email}}</div>
+                                <div class="col-8">{{ user.email }}</div>
 
                             </div>  
                             <div class="row card-title">
                                 <div class="form-label float-start col-4">Position :</div>
 
-                                <div class="col-8">{{user.position}}</div>
+                                <div class="col-8">{{ user.position  | titlecase }}</div>
                             </div> 
                             </div>
                            </div>

@@ -1,5 +1,5 @@
 import { User } from 'src/app/model/bean/user';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpResponse } from "../../bean/httpResponse";
@@ -32,17 +32,20 @@ export class UserService {
     getUsersForBoard( boardId : number ) : Observable<User[]> {
         return this.httpClient.get<User[]>( `http://localhost:8080/api/boards/${boardId}/members` );
     }
-    uploadPhoto(image:FormData,id:number): Observable<User>{
+
+    uploadPhoto(image:File,id:number): Observable<HttpResponse<User>>{
         
-        return this.httpClient.put<User>(`http://localhost:8080/api/users/${id}/upload-image`,image,
-        {   
-            
-            headers:{
-                'Content-type':`multipart/form-data; boundary=${image}`
-                    }
-    
+        const data = new FormData();
+        data.append( 'file' , image );
+
+        const headers = new HttpHeaders();
+        headers.set('Content-Type','multipart/form-data');
+
+        return this.httpClient.post<HttpResponse<User>>(`http://localhost:8080/api/users/${id}/upload-image`, data ,{ headers  } );
     }
-        )
+
+    getUser( userId : number ) : Observable<User> {
+        return this.httpClient.get<User>(`http://localhost:8080/api/users/${userId}`);
     }
 
 }
