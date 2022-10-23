@@ -600,6 +600,10 @@ body{
     width:700px !important;
   }
 
+  #task-offcanvas i:hover{
+    cursor : pointer;
+  }
+
   #task-offcanvas .offcanvas-header input{
     border: none !important;
     background-color: var(--snow);

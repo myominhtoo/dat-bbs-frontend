@@ -57,8 +57,8 @@ import { ActivityService } from "src/app/model/service/http/activity.service";
                             </div>
                             <small class="mx-2 text-danger" *ngIf="status.errorTargetIdx === idx && status.activityError">{{ status.activityError }}</small>
                             <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
-                                <i class="fa-solid fa-eye"></i>
-                                <i class="fa-solid fa-calendar-days"></i>
+                                <i (click)="handleShowDetailActivity( activity.id )" class="fa-solid fa-eye"></i>
+                                <!-- <i class="fa-solid fa-calendar-days"></i> -->
                                 <input type="file" id="attachment" class="d-none">
                                 <label for="attachment" class="fa-solid fa-paperclip"></label>
                             </div>
@@ -73,18 +73,8 @@ import { ActivityService } from "src/app/model/service/http/activity.service";
                 </div>
 
                 <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" style="max-height:800px !important;" class="container">
+                    
                     <div id="comments">
-
-                        <div id="comment-container" class="w-100 my-2">
-                            <div id="comment-icon">
-                                <!-- <p id="icon"></p> -->
-                                <h6 class="h6 mx-2" style="font-size:17px !important;">Ninja <small class="text-muted" style="font-size:13px;">Just Now</small></h6>
-                            </div>
-                            <p id="comment">
-                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus doloribus distinctio sint aliquid debitis laudantium autem maxime commodi nemo enim!   
-                            </p>
-                        </div>
-
                         <div id="comment-container" class="w-100 my-2 ">
                             <div id="comment-icon">
                                 <h6 class="h6 mx-2" style="font-size:17px !important;">Ninja <small class="text-muted" style="font-size:13px;">Just Now</small></h6>
@@ -93,28 +83,7 @@ import { ActivityService } from "src/app/model/service/http/activity.service";
                             <p id="comment">
                                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum, error.
                             </p>
-                        </div>
-
-                        <div id="comment-container" class="w-100 my-2 ">
-                            <div id="comment-icon">
-                                <h6 class="h6 mx-2" style="font-size:17px !important;">Ninja <small class="text-muted" style="font-size:13px;">Just Now</small></h6>
-                                <!-- <p id="icon"></p> -->
-                            </div>
-                            <p id="comment">
-                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum, error.
-                            </p>
-                        </div>
-
-                        <div id="comment-container" class="w-100 my-2 ">
-                            <div id="comment-icon">
-                                <h6 class="h6 mx-2" style="font-size:17px !important;">Ninja <small class="text-muted" style="font-size:13px;">Just Now</small></h6>
-                                <!-- <p id="icon"></p> -->
-                            </div>
-                            <p id="comment">
-                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum, error.
-                            </p>
-                        </div>
-                        
+                        </div>                       
                     </div>
 
                     <div id="comment-send-box">
@@ -123,6 +92,84 @@ import { ActivityService } from "src/app/model/service/http/activity.service";
                             <button class="btn btn-sm w-25 btn-primary"><i class="fa-solid fa-paper-plane mx-1"></i>Send</button>
                         </form>
                     </div>
+
+                </div>
+
+                <div *ngIf="tab == 'activity-detail' && !isLoading " id="comments-container" style="max-height:800px !important;" class="container px-3">
+                    
+                    <div class="text-muted d-flex align-items-center my-4">
+                        <span class="w-25">Activity Name</span>
+                        <input type="text" class="form-control w-75 text-muted" [(ngModel)]="detailActivity.activityName" >
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center my-4">
+                        <span class="w-25">Date</span>
+                        <div class="w-75 text-muted d-flex gap-2">
+                            <div class="w-25">
+                                <small>Start Date</small>
+                                <input type="date" class="form-control w-100" />
+                           </div>
+                            <div class="w-25">
+                                <small>Due Date</small>
+                                <input type="date" class="form-control w-100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center my-4">
+                        <span class="w-25">Status</span>
+                        <div class="w-75 text-muted d-flex justify-content-start  align-items-center ">
+                            <div class="w-25 d-flex gap-2 m-0">
+                                <label for="undone">Undone</label>
+                                <input type="radio" name="status" id="undone" class="form-check">
+                            </div>
+                            <div class="w-25 d-flex gap-2 m-0">
+                                <label for="done">Done</label>
+                                <input type="radio" name="status" id="done" class="form-check" />
+                           </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-muted d-flex align-items-center my-4">
+                        <span class="w-25">Attachments</span>
+                        <div class="w-75">
+                            <table class="table w-100 text-muted  ">
+                                <thead >
+                                    <tr>
+                                        <td>Name</td>
+                                        <td>Uploaded By</td>
+                                        <td>Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>kt source file</td>
+                                        <td>John</td>
+                                        <td class="d-flex gap-1 justify-content-center" style="font-size:17px;">
+                                           <a class="link"><i class="fa-solid fa-download"></i></a>
+                                           <!-- <a class="link"><i class="fa-solid fa-pen-to-square"></i></a>
+                                           <a class="link"><i class="fa-solid fa-trash-can"></i></a> -->
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>java file</td>
+                                        <td>John</td>
+                                        <td class="d-flex gap-1 justify-content-center" style="font-size:17px;">
+                                           <a class="link"><i class="fa-solid fa-download"></i></a>
+                                           <!-- <a class="link"><i class="fa-solid fa-pen-to-square"></i></a>
+                                           <a class="link"><i class="fa-solid fa-trash-can"></i></a> -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="text-end my-2">
+                                <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-plus"></i>Add</button>
+                            </div>
+                        </div>
+                    </div>
+                    
 
                 </div>
 
@@ -139,6 +186,7 @@ export class TaskOffCanvasComponent {
     @Input('isLoading') isLoading : boolean = false;
 
     tab : string = 'activity';
+    detailActivity : Activity = new Activity();
 
     status = {
         isAddActivity : false,
@@ -196,6 +244,15 @@ export class TaskOffCanvasComponent {
          });
          this.status.isAddActivity = false;
        }
+    }
+
+
+    handleShowDetailActivity( activityId : number ){
+        this.isLoading = true;
+        this.detailActivity = this.activities.filter( activity => activity.id === activityId )[0];
+        this.isLoading = false;
+
+        this.tab = 'activity-detail';
     }
 
 }
