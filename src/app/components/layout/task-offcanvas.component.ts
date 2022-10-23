@@ -2,13 +2,17 @@ import { Component, Input } from "@angular/core";
 import { Activity } from "src/app/model/bean/activity";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { ActivityService } from "src/app/model/service/http/activity.service";
+import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 
 @Component({
     selector : 'task-offcanvas',
     template : `
         <div class='offcanvas offcanvas-end' id='task-offcanvas' >
-            <div class="offcanvas-header shadow-sm p-1 px-3">
-                <input type="text" class="form-control fs-4 fw-bold w-75 outline-none text-capitalize text-muted py-1"  placeholder="Enter task name"  [value]="task.taskName"/>
+            <div class="offcanvas-header shadow-sm py-3 px-3">
+                <div class="d-flex flex-column w-75">
+                    <input (keydown)="handleUpdateTaskName($event)" [(ngModel)]="task.taskName" type="text" [class.is-invalid]="status.errorTask && task.taskName" class="form-control fs-4 fw-bold w-100 outline-none text-capitalize text-muted py-0"  placeholder="Enter task name"  [value]="task.taskName"/>
+                    <small class="text-danger" style="font-size:15px;">{{ status.errorTask }}</small>
+                </div>
                 <!-- <button class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#task-offcanvas" ></button> -->
                 <div id="comment-btn" class="d-flex justify-content-center gap-3 text-muted align-items-center">
                     <!-- <p class="fa-regular fa-comment text-center text-muted p-0 m-0"></p> -->
@@ -44,6 +48,9 @@ import { ActivityService } from "src/app/model/service/http/activity.service";
                         <div class="w-75">
                             <textarea id="input" class="form-control" cols="30" rows="5" placeholder="Enter description about task card "></textarea>
                         </div>
+                      </li>
+                      <li class="text-end">
+                         <button class="btn btn-sm btn-secondary"><i class="fa-solid fa-pencil mx-1"></i>Update</button>
                       </li>
                    </ul>
 
@@ -193,9 +200,12 @@ export class TaskOffCanvasComponent {
         activityError : '',
         msg : '',
         errorTargetIdx : 0,
+        errorTask : '',
     }
 
-    constructor( private activityService : ActivityService ){}
+    constructor( 
+        private activityService : ActivityService , 
+        private taskCardService : TaskCardService  ){}
 
     changeTab( tab : string ){
         this.tab = tab;
@@ -253,6 +263,22 @@ export class TaskOffCanvasComponent {
         this.isLoading = false;
 
         this.tab = 'activity-detail';
+    }
+
+    handleUpdateTaskName( e : KeyboardEvent ){
+       this.status.errorTask = '';
+       if( e.key === 'Enter' ){
+            this.taskCardService.updateTaskCard( this.task )
+            .subscribe({
+                next : res => {
+                    this.task = res.data;
+                    // console.log(res);
+                },
+                error : err => {
+                    this.status.errorTask = err.error.message;
+                }
+            });
+       }
     }
 
 }
