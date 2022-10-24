@@ -18,8 +18,6 @@ export class NavbarComponent implements OnInit {
         this.toggleStore.isShow=!this.toggleStore.isShow;
         let show=this.toggleStore.isShowSubject.value;
         this.toggleStore.isShowSubject.next(!show);
-        
-
     }
 
     ngOnInit(): void {

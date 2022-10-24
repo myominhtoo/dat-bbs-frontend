@@ -47,8 +47,9 @@ export class UserService {
     getUser( userId : number ) : Observable<User> {
         return this.httpClient.get<User>(`http://localhost:8080/api/users/${userId}`);
     }
-    updateUser(user:User):Observable<User>{
-        return this.httpClient.put<User>(`http://localhost:8080/api/update-user`,user)
+
+    updateUser(user:User):Observable<HttpResponse<User>>{
+        return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/api/update-user`,user)
     }
 
 }

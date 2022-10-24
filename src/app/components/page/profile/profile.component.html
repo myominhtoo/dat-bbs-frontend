@@ -2,7 +2,7 @@
 <main class="p-0 m-0 d-flex gap-0" id="main">
     <sidebar></sidebar>
 
-    <div id="main-area" class="m-0 p-3 board-con" [class.sidebar-hide]="!toggleStore.isShow">
+    <div id="main-area" class="m-0 p-3 board-con" style="background-color: #eee;" [class.sidebar-hide]="!toggleStore.isShow">
         <section class="container-fluid ">
             <div class="container card py-5">
                 <div class="row">
@@ -14,7 +14,7 @@
                         <div class="col-12 d-flex justify-content-center align-items-center">
                             <div class="mb-3 mx-auto imgholder">         
                                 <div *ngIf="user.imageUrl == null" class="text-dark boardprofile">{{ user.username &&  user.username[0].toUpperCase() }}</div>
-                                <img *ngIf="user.imageUrl != null"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" >                             
+                                <img *ngIf="user.imageUrl != null"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" loading="lazy" >                             
                                 <span class="imgedit badge">                                    
                                     <span class="fw-light" type="button" data-bs-toggle="dropdown">
                                         <i class="fas fa-edit"></i>
@@ -37,12 +37,12 @@
                         <div class="col-12">
                                 
                            <div class="card">
-                            <div class="card-body">
-                                <div class="col12">
+                        <div class="card-body">
+                            <div class="col12">
                                     <h1>Info</h1>
-                                </div>
+                            </div>
                             <div class="row card-title">
-                                <div class="form-label float-start col-4">User Name :</div>
+                                <div class="form-label float-start col-4">Username :</div>
                                 <div class="col-8">{{ user.username | titlecase }}</div>
                             </div>
                             <div class="row card-title">
@@ -72,8 +72,8 @@
                         <div class="col-12">
                                 
                             <div class="mb-3">
-                                <label for="exampleInpuxxtEmail1" class="form-label">User Name</label>
-                                <input type="text" class="form-control" placeholder="Enter your name" name=userName  [(ngModel)]="user.username" [class.is-invalid]="status.error.username.hasError" required/>
+                                <label for="exampleInpuxxtEmail1" class="form-label">Username</label>
+                                <input type="text" class="form-control" placeholder="Enter your name" name=username  [(ngModel)]="user.username" [class.is-invalid]="status.error.username.hasError" required/>
                                 <small *ngIf="status.error.username.hasError" class="text-danger">{{ status.error.username.msg }}</small>
                             </div>
                             <div class="mb-3">
@@ -88,10 +88,10 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Gender</label><br>
                                 <label for="male" class="form-check-label pe-1">Male</label>
-                                <input type="radio" class="form-check-input" id="male" name="gender" value="1" [(ngModel)]="user.gender"/>
+                                <input type="radio" class="form-check-input" id="male" name="gender" value="1" ngModel [checked]="user.gender == 1" />
                                 &nbsp; &nbsp; &nbsp;
                                 <label for="female" class="form-check-label pe-1">Female</label>
-                                <input type="radio" class="form-check-input" id="female" name="gender" value="0" [(ngModel)]="user.gender"/>
+                                <input type="radio" class="form-check-input" id="female" name="gender" value="0" ngModel [checked]="user.gender == 0"/>
 
                             </div>
                             <div class="mb-3">

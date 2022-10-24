@@ -3,6 +3,7 @@ import { NgForm } from "@angular/forms";
 import { User } from "src/app/model/bean/user";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { UserService } from './../../../model/service/http/user.service';
+import swal from "sweetalert";
 
 @Component({
     selector : "profile",
@@ -32,8 +33,7 @@ export class ProfileComponent{
         isLoading : false,
       }
 
-    ngOnInit(): void {
-      
+    ngOnInit(): void {      
       this.getUserData(this.storeUser.id);
     }
 
@@ -51,6 +51,7 @@ export class ProfileComponent{
       this.userService.getUser( userId )
       .subscribe({
         next : resUser => {
+          console.log(resUser)
           this.user = resUser;
         },
         error : err => {
@@ -60,19 +61,34 @@ export class ProfileComponent{
     }
 
     saveProfile(profile:NgForm){
-      console.log(profile.value);
-      this.user=profile.value;
-      this.user.id=this.storeUser.id;
-      this.userService.updateUser(this.user).subscribe(
-        {
-          next:(res)=>{
-            this.user=res;
-          },
-          error:(err)=>{
-            console.log(err)
-          }
+     
+      swal({
+        text : 'Are you sure to update your profile?',
+        icon : 'warning',
+        buttons : [ 'No' , 'Yes' ]
+      }).then( isYes => {
+        if( isYes ){
+          this.user=profile.value;
+          this.user.id=this.storeUser.id;
+          this.userService.updateUser(this.user).subscribe(
+            {
+              next:(res)=>{
+                if( res.ok ){
+                  swal({
+                    text : res.message,
+                    icon : 'success'
+                  }).then(() => {
+                    this.user = res.data;
+                  })
+                }
+              },
+              error:(err)=>{
+                console.log(err)
+              }
+            }
+          )
         }
-      )
+      })
     }
 
     onFileChanged(event:any ){
