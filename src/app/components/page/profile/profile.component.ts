@@ -11,7 +11,7 @@ import { UserService } from './../../../model/service/http/user.service';
 
 export class ProfileComponent{
     constructor( public toggleStore : ToggleStore,private userService : UserService){}
-
+    storeUser = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)); 
     user : User = new User();
 
     status = {
@@ -33,8 +33,8 @@ export class ProfileComponent{
       }
 
     ngOnInit(): void {
-      let storeUser = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)); 
-      this.getUserData(storeUser.id);
+      
+      this.getUserData(this.storeUser.id);
     }
 
     SaveUser(){
@@ -60,6 +60,19 @@ export class ProfileComponent{
     }
 
     saveProfile(profile:NgForm){
+      console.log(profile.value);
+      this.user=profile.value;
+      this.user.id=this.storeUser.id;
+      this.userService.updateUser(this.user).subscribe(
+        {
+          next:(res)=>{
+            this.user=res;
+          },
+          error:(err)=>{
+            console.log(err)
+          }
+        }
+      )
     }
 
     onFileChanged(event:any ){
