@@ -21,7 +21,8 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        let storedUser =  JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`));
+        
+        let storedUser =  JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
         this.user.id = storedUser.id;
         this.user.username = storedUser.username;
         this.user.imageUrl = storedUser.imageUrl;

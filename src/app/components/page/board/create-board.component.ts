@@ -108,7 +108,7 @@ export class CreateBoardComponent implements OnInit {
       /*
       to change
       */
-      let userId = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)).id;
+      let userId = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))).id;
 
 
       const user = new User();
