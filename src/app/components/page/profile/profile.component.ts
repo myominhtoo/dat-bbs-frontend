@@ -11,6 +11,7 @@ import swal from "sweetalert";
 })
 
 export class ProfileComponent{
+  
     constructor( public toggleStore : ToggleStore,private userService : UserService){}
     storeUser = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)); 
     user : User = new User();
@@ -51,7 +52,6 @@ export class ProfileComponent{
       this.userService.getUser( userId )
       .subscribe({
         next : resUser => {
-          console.log(resUser)
           this.user = resUser;
         },
         error : err => {

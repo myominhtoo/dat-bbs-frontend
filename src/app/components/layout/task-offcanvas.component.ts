@@ -19,8 +19,8 @@ import { User } from "src/app/model/bean/user";
                 <!-- <button class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#task-offcanvas" ></button> -->
                 <div id="comment-btn" class="d-flex justify-content-center gap-3 text-muted align-items-center">
                     <!-- <p class="fa-regular fa-comment text-center text-muted p-0 m-0"></p> -->
-                    <span id="tab" (click)="changeTab('activity')" >Activities</span>
-                    <span id="tab" (click)="changeTab('comment')" class="d-flex align-items-center">Comments</span>
+                    <span id="tab" (click)="changeTab('activity')" [class.fw-bold]="tab == 'activity'" >Activities</span>
+                    <span id="tab" (click)="changeTab('comment')" [class.fw-bold]="tab == 'comment'" class="d-flex align-items-center">Comments</span>
                 </div>
             </div>
             <div class=" offcanvas-body overflow-scroll py-0 px-2">
@@ -53,7 +53,7 @@ import { User } from "src/app/model/bean/user";
                         </div>
                       </li>
                       <li class="text-end">
-                         <button class="btn btn-sm btn-secondary"><i class="fa-solid fa-pencil mx-1"></i>Update</button>
+                         <button class="btn btn-sm btn-secondary px-3"><i class="fa-solid fa-pencil mx-1"></i>Update</button>
                       </li>
                    </ul>
 
@@ -78,7 +78,7 @@ import { User } from "src/app/model/bean/user";
                     
                     <div class="d-flex justify-content-between align-items-end ">
                         <small class="text-success mx-2">{{ status.msg && status.msg }}</small><br/>
-                        <button (click)="setUpAddActivity()" class="btn btn-sm btn-secondary"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
+                        <button (click)="setUpAddActivity()" class="btn btn-sm btn-secondary mx-3"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
                     </div>
                 </div>
 

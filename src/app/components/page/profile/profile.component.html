@@ -2,15 +2,15 @@
 <main class="p-0 m-0 d-flex gap-0" id="main">
     <sidebar></sidebar>
 
-    <div id="main-area" class="m-0 p-3 board-con" style="background-color: #eee;" [class.sidebar-hide]="!toggleStore.isShow">
+    <div id="main-area" class="m-0 p-3 py-5 board-con" style="background-color: #eee;" [class.sidebar-hide]="!toggleStore.isShow">
         <section class="container-fluid ">
             <div class="container card py-5">
                 <div class="row">
                 <div class="col-6">
                     <div class="row">
-                        <div class="row card-title">
+                        <!-- <div class="row card-title">
                             <h1 class="text-center">Public profile</h1>
-                        </div>  
+                        </div>   -->
                         <div class="col-12 d-flex justify-content-center align-items-center">
                             <div class="mb-3 mx-auto imgholder">         
                                 <div *ngIf="user.imageUrl == null" class="text-dark boardprofile">{{ user.username &&  user.username[0].toUpperCase() }}</div>
@@ -34,6 +34,9 @@
                                 </span>                    
                             </div> 
                         </div>
+
+                        <h3 class="text-muted text-center my-2">Test</h3>
+                        
                         <div class="col-12">
                                 
                            <div class="card">

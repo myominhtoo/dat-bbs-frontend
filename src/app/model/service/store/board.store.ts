@@ -12,7 +12,8 @@ export class BoardStore{
     }
 
     constructor( private boaredService : BoardService ){
-        this.getBoardsByUserId( 1 );
+        let storeUser = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)); 
+        this.getBoardsByUserId( storeUser.id );
     }
 
     private getBoardsByUserId( userId : number ){

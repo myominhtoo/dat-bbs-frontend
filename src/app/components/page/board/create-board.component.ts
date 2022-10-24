@@ -56,8 +56,7 @@ export class CreateBoardComponent implements OnInit {
     }
 
     ngOnInit(): void {
-      this.getAllUsers();
-      
+      this.getAllUsers();     
     }
   
     onChange( event : KeyboardEvent ){
@@ -106,8 +105,14 @@ export class CreateBoardComponent implements OnInit {
     }
   
     createBoard(){
+      /*
+      to change
+      */
+      let userId = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)).id;
+
+
       const user = new User();
-      user.id = 1;
+      user.id = userId;
       this.board.user = user;
       this.board.invitedEmails = this.emails;
       this.status.isLoading = true;
@@ -133,7 +138,7 @@ export class CreateBoardComponent implements OnInit {
             .subscribe({
               next : data => {
                 this.status.isLoading = false;
-                this.boardStore.refetchBoardsByUserId( 1); 
+                this.boardStore.refetchBoardsByUserId( userId ); 
                 swal({
                   text : data.message,
                   icon : 'success'

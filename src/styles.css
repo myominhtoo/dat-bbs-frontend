@@ -632,10 +632,8 @@ body{
 
 
  #comments-container{
-    height:600px;
-    max-height:600px;
-    /* background: red; */
-    /* overflow-y: scroll; */
+    height:580px;
+    max-height:580;
     position: relative;
     padding:50px 0 0 0;
  }
@@ -656,7 +654,7 @@ body{
  #comments-container #comments #comment-container{
     display: flex;
     flex-direction: column;
-    margin: 10px 0 !important;
+    /* margin: 10px 0 !important; */
  }
 
  #comments-container #comments #comment-container #comment-icon{
