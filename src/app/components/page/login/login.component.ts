@@ -37,7 +37,7 @@ export class LoginComponent {
         this.userService.LoginUser(this.user).subscribe({
          next : (res) => {
             this.error = { hasError : false , msg : '' }
-            
+
             this.userStore.saveUserData(res.data);
             // localStorage.setItem(window.btoa(('user')),encode({id : res.data.id  , username : res.data.username , imageUrl : res.data.imageUrl}));
             swal({
