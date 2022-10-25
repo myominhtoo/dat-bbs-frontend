@@ -12,8 +12,8 @@
     <div id="header-right" class="gap-2 px-2 w-25 d-flex justify-content-end gap-2">
         <div class="btn-group"> 
             <div  class="bg-pale-snow p-0 d-flex justify-content-center align-items-center" data-bs-toggle="dropdown" id="profile">
-                <span *ngIf="userStore.user.imageUrl == null && userStore.user.username != null" class="text-dark">{{ userStore.user.username[0].toUpperCase() }}</span>
-                <img  *ngIf="userStore.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;" [src]="'http://localhost:8080/img/'+userStore.user.imageUrl"  alt="">
+                <span *ngIf="user.imageUrl == null && user.username != null" class="text-dark">{{ user.username[0].toUpperCase() }}</span>
+                <img  *ngIf="user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;" [src]="'http://localhost:8080/img/'+user.imageUrl"  alt="">
             </div>     
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
               <li><button class="dropdown-item" type="button" routerLink="/profile">My Profile</button></li>

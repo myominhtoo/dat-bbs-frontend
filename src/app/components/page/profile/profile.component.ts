@@ -4,7 +4,6 @@ import { User } from "src/app/model/bean/user";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { UserService } from './../../../model/service/http/user.service';
 import swal from "sweetalert";
-import { UserStore } from "src/app/model/service/store/user.store";
 
 @Component({
     selector : "profile",
@@ -13,9 +12,7 @@ import { UserStore } from "src/app/model/service/store/user.store";
 
 export class ProfileComponent{
   
-    constructor( public toggleStore : ToggleStore ,  
-      private userService : UserService , 
-      public userStore : UserStore ){}
+    constructor( public toggleStore : ToggleStore,private userService : UserService){}
     storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))); 
     user : User = new User();
 
@@ -82,7 +79,6 @@ export class ProfileComponent{
                     icon : 'success'
                   }).then(() => {
                     this.user = res.data;
-                    this.userStore.saveUserData( res.data );
                   })
                 }
               },
@@ -98,6 +94,7 @@ export class ProfileComponent{
     onFileChanged(event:any ){
        //Select File
       this.user.image =  event.target.files[0];
+      console.log(this.user.image);
       const uploadImageData = new FormData();
       uploadImageData.append('file', this.user.image);
 
@@ -105,7 +102,6 @@ export class ProfileComponent{
         next:(res)=>{
               setTimeout(() => {
                 this.user.imageUrl = res.data.imageUrl;
-                this.userStore.saveUserData( res.data );
               } , 1000 );
         },
         error:(err)=>{

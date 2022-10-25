@@ -1,3 +1,4 @@
+<navbar></navbar>
 
 <main class="p-0 m-0 d-flex gap-0" id="main">
    <sidebar></sidebar>
@@ -10,8 +11,47 @@
                         <h1 class="text-muted h2 my-1 mx-3">{{ board.boardName && board.boardName | titlecase }}</h1>
                         <div class="d-flex gap-2">
                             <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#invite-modal"><i class="fa-solid fa-user-plus mx-1"></i>Invite</button>
-                            <button class="btn btn-sm btn-primary"><i class="fa-solid fa-users mx-1"></i>Members</button>
+
+
+                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+                          Members
+                         </button>
+                     </div>
+
+                     <!-- Show offcanvas bar -->
+
+                     <div class="offcanvas offcanvas-end" id="demo">
+                       <div class="offcanvas-header">
+                         <h1 class="offcanvas-title">Team Members</h1>
+                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                       </div>
+                       <div class="offcanvas-body">
+
+                         <!-- Showing views -->
+                        <table class="c" >
+
+                         <tr *ngFor = "let u of userMember">
+                           <td>  <img src="{{u.imageUrl}}"  style="width:25px;height:25px;border-radius:100%; object-fit: cover; border: 1px #eee;" class="thm m-0 bg-primary p-0 border-1" alt=""></td>
+                           <td style="color: rgb(113, 14, 225); font-size: large;">{{u.username}} </td>
+                           <td style="color: rgb(30, 211, 199); font-size: medium;">{{u.email}} </td>
+
+                           <td><button type="submit" style="background-color: paleturquoise; padding: 5px 7px;">CHAT</button></td>
+                           <br>
+                           <br>
+                           <br>
+                           </table>
+                                 <br>
+                                 <hr>
+                           </div>
                         </div>
+                          <!-- View container end!-->
+
+
+
+
+
+
+
                          <!--  model for invite members -->
                         <div class="modal fade" id="invite-modal">
                             <div class="modal-dialog modal-dialog-centered">
@@ -33,15 +73,15 @@
                                                 </div>
                                             </div>
                                            <div class="form-floating">
-                                                <input type="text" id="invite-emails" class=" py-1 form-control" placeholder="member@gmail.com" name="email" 
+                                                <input type="text" id="invite-emails" class=" py-1 form-control" placeholder="member@gmail.com" name="email"
                                                 [(ngModel)]="email" (keyup)="onChange($event)" [class.is-invalid]="status.error.email.hasError"
-                                                [value]="email" [matAutocomplete]="emailAutoComplete">         
-                                                <label for="invite-emails text-muted">member@gmail.com</label> 
+                                                [value]="email" [matAutocomplete]="emailAutoComplete">
+                                                <label for="invite-emails text-muted">member@gmail.com</label>
                                                 <mat-autocomplete #emailAutoComplete="matAutocomplete" >
                                                     <mat-option *ngFor="let email of filterEmails" [value]="email">
                                                         {{ email }}
                                                     </mat-option>
-                                                </mat-autocomplete>                                     
+                                                </mat-autocomplete>
                                            </div>
                                            <small class="text-danger">{{ status.error.email.msg }}</small>
                                            <div class="form-group my-2 d-flex justify-content-end gap-1">
@@ -55,7 +95,7 @@
                          </div>
                     </div>
                 </div>
-                <div class="row">                   
+                <div class="row">
                         <div id="task-container" *ngIf="!status.isLoading" class="scrolling-wrapper d-flex  px-5 bg-transparent">
                             <task-card-container *ngFor="let stage of stages" [stage]="stage" [task-cards]="taskCardsMap" [stages]="stages" (change-stage)="handleChangeStage($event)" (add-task)="handleAddTask($event)" [board]="board" (show-offcanvas)="handleShowOffCanvas($event)" ></task-card-container>
                             <div>
@@ -70,14 +110,14 @@
                                         <button type="submit" (click)="handleAddStage()" class="btn btn-primary btn-sm my-1" [disabled]="status.isAddingStage" >{{ status.isAddingStage ? 'Adding' : 'Add' }}</button>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         </div>
                         <task-offcanvas [task]="offCanvasTask" [activities]="activities" [isLoading]="status.isLoadingOffcanvas" [comments]="comments"></task-offcanvas>
                         <span data-bs-toggle="offcanvas" data-bs-target="#task-offcanvas" id="task-offcanvas-btn" class="d-none">clone</span>
 
                         <loading [show]="status.isLoading" target="Tasks"></loading>
-                  </div>   
+                  </div>
             </div>
-        </div>    
+        </div>
     </div>
 </main>

@@ -1,4 +1,5 @@
 export class User {
+      [x: string]: any;
       id !: number;
       username !: string;
       bio !: string;

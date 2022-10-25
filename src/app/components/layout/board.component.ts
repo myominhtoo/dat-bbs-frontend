@@ -19,7 +19,7 @@ export class BoardComponent implements OnInit {
         this.data.members = [];
         this.data.tasks = [];
     }
-    
+
     status = {
         isLoading : false,
     }
@@ -41,7 +41,7 @@ export class BoardComponent implements OnInit {
        this.userService.getUsersForBoard( boardId )
        .subscribe({
          next : members => {
-            this.data.members = members;
+            this.data.members = members.map( member => member.user)
          },
          error : err => {
             console.log('error in getting members!'+err);

@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit{
         let storedData = localStorage.getItem ( window.btoa(('user')));
 
         this.user.email= storedData ==null ? '' : JSON.parse(decodeURIComponent(escape(window.atob(`${storedData}`)))).email;
-        
+
     }
 
 
