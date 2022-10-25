@@ -4,6 +4,8 @@ import { Component, OnInit } from  "@angular/core";
 import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { Router } from '@angular/router';
+import { encode } from 'src/app/util/encoder';
+import { UserStore } from 'src/app/model/service/store/user.store';
 
 
 @Component({
@@ -22,7 +24,9 @@ export class LoginComponent {
     }
 
     user : User = new User ();
-    constructor(private userService : UserService , private router : Router ){}
+    constructor(private userService : UserService ,
+         private router : Router , 
+         private userStore : UserStore ){}
      
     ngOnInit(): void {
         let storeUser = localStorage.getItem(window.btoa(('user')));
@@ -34,7 +38,8 @@ export class LoginComponent {
          next : (res) => {
             this.error = { hasError : false , msg : '' }
             
-            localStorage.setItem(window.btoa(('user')),window.btoa(unescape(encodeURIComponent(JSON.stringify({id : res.data.id  , username : res.data.username , imageUrl : res.data.imageUrl})))))
+            this.userStore.saveUserData(res.data);
+            // localStorage.setItem(window.btoa(('user')),encode({id : res.data.id  , username : res.data.username , imageUrl : res.data.imageUrl}));
             swal({
                 text : res.message,
                 icon : 'success',

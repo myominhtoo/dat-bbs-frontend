@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { Activity } from "src/app/model/bean/activity";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { ActivityService } from "src/app/model/service/http/activity.service";
@@ -6,6 +6,8 @@ import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { Comment } from "src/app/model/bean/comment";
 import { CommentService } from "src/app/model/service/http/comment.service";
 import { User } from "src/app/model/bean/user";
+import $ from 'jquery';
+import 'emojionearea';
 
 @Component({
     selector : 'task-offcanvas',
@@ -96,9 +98,11 @@ import { User } from "src/app/model/bean/user";
                         </div>                       
                     </div>
 
+                    <!-- <emoji-mart></emoji-mart> -->
+
                     <div id="comment-send-box">
                         <form (ngSubmit)="handleComment()" class="w-100 d-flex gap-2">
-                            <input [(ngModel)]="comment.comment" name="comment" type="text" class="form-control w-75" placeholder="Comment Here" />
+                            <input [(ngModel)]="comment.comment" name="comment" id="cmt-input" type="text" class="form-control w-75" placeholder="Comment Here" />
                             <button type="submit" [disabled]="!comment.comment" class="btn btn-sm w-25 btn-primary"><i class="fa-solid fa-paper-plane mx-1"></i>Send</button>
                         </form>
                     </div>
@@ -211,6 +215,7 @@ export class TaskOffCanvasComponent {
         private activityService : ActivityService , 
         private taskCardService : TaskCardService , 
         private commentService : CommentService  ){}
+
 
     changeTab( tab : string ){
         this.tab = tab;

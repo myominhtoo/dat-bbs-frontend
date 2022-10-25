@@ -27,7 +27,7 @@ import { TaskOffCanvasComponent } from "./task-offcanvas.component";
         AppRoutingModule,  
         DragDropModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
     ],
     exports : [
         NavbarComponent,

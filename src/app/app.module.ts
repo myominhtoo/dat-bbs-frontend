@@ -24,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {  MatButtonModule } from '@angular/material/button';
 import { CreateTaskCardComponent } from './components/page/mytasks/create-taskCard.component';
 import { ProfileComponent } from './components/page/profile/profile.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +53,8 @@ import { ProfileComponent } from './components/page/profile/profile.component';
     MatAutocompleteModule,
     MatButtonModule,
     BrowserAnimationsModule,
-    DragDropModule
+    DragDropModule,
+    PickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
