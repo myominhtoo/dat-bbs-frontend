@@ -33,8 +33,12 @@ export class LoginComponent {
         this.userService.LoginUser(this.user).subscribe({
          next : (res) => {
             this.error = { hasError : false , msg : '' }
+<<<<<<< HEAD
+            localStorage.setItem(window.btoa('user'),window.btoa(JSON.stringify({id : res.data.id  , username : res.data.username , imageUrl : res.data.imageUrl})))
+=======
             
             localStorage.setItem(window.btoa(('user')),window.btoa(unescape(encodeURIComponent(JSON.stringify({id : res.data.id  , username : res.data.username , imageUrl : res.data.imageUrl})))))
+>>>>>>> 306b4406d31062b2a16ba4a36630bb456095445e
             swal({
                 text : res.message,
                 icon : 'success',

@@ -137,11 +137,15 @@ export class TaskCardContainerComponent implements OnInit {
 
     if( e.key === "Enter" ){
       const taskCard = new TaskCard();
-      taskCard.taskName = this.tempTask;// setting taskName from tempTask
+      taskCard.taskName = this.tempTask.trim();// setting taskName from tempTask
+      console.log(typeof taskCard.taskName);
       taskCard.stage = this.data;
       taskCard.board = this.board;
 
-      this.taskService.createTaskCard( taskCard )
+      if(taskCard.taskName==''){
+        this.status.addTaskError = "TaskCard Name cannot be null";
+      }else{
+        this.taskService.createTaskCard( taskCard )
       .subscribe({
         next : res => {
           this.tempTask = '';
@@ -152,6 +156,9 @@ export class TaskCardContainerComponent implements OnInit {
           this.status.addTaskError = err.error.message;
         }
       })
+      }
+
+      
     }
 
   }
