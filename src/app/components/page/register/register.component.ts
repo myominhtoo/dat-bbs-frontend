@@ -31,9 +31,10 @@ export class RegisterComponent implements OnInit{
     }
 
     ngOnInit(): void {
-        let storedData = localStorage.getItem ( btoa ("data"))
+        let storedData = localStorage.getItem ( window.btoa(('user')));
 
-        this.user.email= storedData ==null ? '' : JSON.parse( atob (`${storedData}`)).email;
+        this.user.email= storedData ==null ? '' : JSON.parse(decodeURIComponent(escape(window.atob(`${storedData}`)))).email;
+        
     }
 
 

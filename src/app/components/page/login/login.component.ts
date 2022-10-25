@@ -25,14 +25,20 @@ export class LoginComponent {
     constructor(private userService : UserService , private router : Router ){}
      
     ngOnInit(): void {
-        let storeUser = localStorage.getItem(btoa('user'));
+        let storeUser = localStorage.getItem(window.btoa(('user')));
+        
     }
 
     onSubmit(userForm:NgForm){
         this.userService.LoginUser(this.user).subscribe({
          next : (res) => {
             this.error = { hasError : false , msg : '' }
+<<<<<<< HEAD
             localStorage.setItem(window.btoa('user'),window.btoa(JSON.stringify({id : res.data.id  , username : res.data.username , imageUrl : res.data.imageUrl})))
+=======
+            
+            localStorage.setItem(window.btoa(('user')),window.btoa(unescape(encodeURIComponent(JSON.stringify({id : res.data.id  , username : res.data.username , imageUrl : res.data.imageUrl})))))
+>>>>>>> 306b4406d31062b2a16ba4a36630bb456095445e
             swal({
                 text : res.message,
                 icon : 'success',
@@ -43,7 +49,7 @@ export class LoginComponent {
             this.user.password = '';
            this.error = { hasError : true , msg :err.error.message};
          }
-
+            
         }
 
         )
