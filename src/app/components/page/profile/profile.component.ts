@@ -13,7 +13,7 @@ import swal from "sweetalert";
 export class ProfileComponent{
   
     constructor( public toggleStore : ToggleStore,private userService : UserService){}
-    storeUser = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)); 
+    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))); 
     user : User = new User();
 
     status = {

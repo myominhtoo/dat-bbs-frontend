@@ -290,7 +290,7 @@ export class TaskOffCanvasComponent {
        this.comment.user = new User();
        this.comment.taskCard = new TaskCard();
        
-       this.comment.user.id = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)).id;
+       this.comment.user.id = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))).id;
        this.comment.taskCard.id = this.task.id;
 
        this.commentService.createComment( this.comment )
