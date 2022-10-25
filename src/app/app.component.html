@@ -1,2 +1,2 @@
-<navbar *ngIf="!['/login','/register','/verify-email'].includes(currentUrl)"></navbar>
+<navbar *ngIf="!['/','/login','/register','/verify-email'].includes(currentUrl)"></navbar>
 <router-outlet></router-outlet>      
