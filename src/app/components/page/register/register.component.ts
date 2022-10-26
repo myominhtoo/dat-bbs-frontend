@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit{
 
     ngOnInit(): void {
         let storedData = localStorage.getItem(encode('email'));
-        this.user.email= storedData ==null ? '' : decode(storedData);       
+        this.user.email= storedData ==null ? '' : decode(storedData);
     }
 
 

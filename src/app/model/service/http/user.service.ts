@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpResponse } from "../../bean/httpResponse";
+import { BoardsHasUsers } from '../../bean/BoardsHasUser';
 
 
 @Injectable({
@@ -29,12 +30,12 @@ export class UserService {
         return this.httpClient.get<User[]>('http://localhost:8080/api/users');
     }
 
-    getUsersForBoard( boardId : number ) : Observable<User[]> {
-        return this.httpClient.get<User[]>( `http://localhost:8080/api/boards/${boardId}/members` );
+    getUsersForBoard( boardId : number ) : Observable<BoardsHasUsers[]> {
+        return this.httpClient.get<BoardsHasUsers[]>( `http://localhost:8080/api/boards/${boardId}/members` );
     }
 
     uploadPhoto(image:File,id:number): Observable<HttpResponse<User>>{
-        
+
         const data = new FormData();
         data.append( 'file' , image );
 

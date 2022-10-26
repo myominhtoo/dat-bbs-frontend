@@ -11,7 +11,7 @@ declare var $ : any;
 export class AppComponent {
 
   currentUrl : string = '';
-  
+
   constructor( public router : Router ){
     this.router.events.subscribe( ( event ) => {
       if( event instanceof NavigationEnd ){
