@@ -45,8 +45,9 @@ export class ProfileComponent{
       this.userService.getUser( userId )
       .subscribe({
         next : resUser => {
-          this.userInfo=resUser;
+          
           this.user = resUser;          
+          this.userInfo={...this.user};
         },
         error : err => {
           console.log(err);
@@ -72,6 +73,7 @@ export class ProfileComponent{
                     icon : 'success'
                   }).then(() => {
                     this.user = res.data;
+                    this.userInfo={...this.user}
                     // this.userStore.saveUserData( res.data );
                   })
                 }
@@ -122,8 +124,5 @@ export class ProfileComponent{
         this.status.preview.textShow=false;
         this.user.imageUrl=this.storeUser.imageUrl;     
       }
-    }
-    textShow(){
-      this.status.preview.textShow=true;
     }
 }
