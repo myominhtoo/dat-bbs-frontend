@@ -1,6 +1,7 @@
 import { NgForm } from '@angular/forms';
 import { Component , OnInit } from  "@angular/core";
 import { UserService } from "src/app/model/service/http/user.service";
+import { encode } from 'src/app/util/encoder';
 
 @Component({
     selector : 'verify-email',
@@ -30,7 +31,7 @@ export class VerifyEmailComponent implements OnInit{
             this.status.hasError = !res.ok;
             if( res.ok ) {
                 this.status.hasGotVerification = true;
-                localStorage.setItem(window.btoa(('user')),window.btoa(unescape(encodeURIComponent(JSON.stringify({id : res.data.id  , username : res.data.username , imageUrl : res.data.imageUrl})))))
+                localStorage.setItem(encode('email'),encode(verifyemail.value.email));
             }
             this.status.isLoading = false;
         },

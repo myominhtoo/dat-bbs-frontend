@@ -14,8 +14,7 @@ export class ProfileComponent{
   
 
     constructor( public toggleStore : ToggleStore ,  
-      private userService : UserService , 
-      
+      private userService : UserService ,  
       public userStore : UserStore ){}
 
     storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))); 
@@ -104,6 +103,7 @@ export class ProfileComponent{
       })    
       this.user.image =  event.target.files[0];  
       if (event.target.files && event.target.files[0]) {
+        console.log('h')
         const reader = new FileReader();
         reader.readAsDataURL(this.user.image);
         reader.onload = () => {
@@ -134,8 +134,7 @@ export class ProfileComponent{
       }else{
         this.imgValue=null
         this.status.preview.textShow=false;
-      this.user.imageUrl=this.storeUser.imageUrl;
-      
+        this.user.imageUrl=this.storeUser.imageUrl;     
       }
     }
     textShow(){

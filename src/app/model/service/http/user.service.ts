@@ -23,7 +23,7 @@ export class UserService {
     }
 
     LoginUser( user : User ) : Observable <HttpResponse<User>> {
-        return this.httpClient.post <HttpResponse<any>> (`http://localhost:8080/api/login` ,  user);
+        return this.httpClient.post <HttpResponse<User>> (`http://localhost:8080/api/login` ,  user);
     }
 
     getUsers() : Observable<User[]> {

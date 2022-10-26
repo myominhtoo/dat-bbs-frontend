@@ -4,6 +4,7 @@ import { User } from "src/app/model/bean/user";
 import { UserService } from "src/app/model/service/http/user.service";
 import { Router } from "@angular/router";
 import swal from 'sweetalert';
+import { decode, encode } from 'src/app/util/encoder';
 
 @Component({
     selector : 'register',
@@ -31,10 +32,8 @@ export class RegisterComponent implements OnInit{
     }
 
     ngOnInit(): void {
-        let storedData = localStorage.getItem ( window.btoa(('user')));
-
-        this.user.email= storedData ==null ? '' : JSON.parse(decodeURIComponent(escape(window.atob(`${storedData}`)))).email;
-
+        let storedData = localStorage.getItem(encode('email'));
+        this.user.email= storedData ==null ? '' : decode(storedData);       
     }
 
 
