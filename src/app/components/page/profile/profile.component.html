@@ -12,9 +12,14 @@
                             <h1 class="text-center">Public profile</h1>
                         </div>   -->
                         <div class="col-12 d-flex justify-content-center align-items-center">
-                            <div class="mb-3 mx-auto imgholder">         
-                                <div *ngIf="user.imageUrl == null" class="text-dark boardprofile">{{ user.username &&  user.username[0].toUpperCase() }}</div>
-                                <img *ngIf="user.imageUrl != null"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" loading="lazy" >                             
+                            <div class="mb-3 mx-auto imgholder">
+                                         
+                                <div *ngIf="this.status.preview.textShow" class="text-dark boardprofile d-flex justify-content-center align-items-center bg-secondary">
+                                <h1>{{ user.username &&  user.username[0].toUpperCase() }}</h1>
+                                </div>
+                                <img *ngIf="(user.imageUrl != null && this.imgValue==null) && this.status.preview.textShow==false"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" loading="lazy" >                     
+                                <img *ngIf="this.imgValue!=null && this.status.preview.textShow==false"  [src]="this.imgValue" class=" boardprofile" alt="Board-Img" loading="lazy" >
+                                
                                 <span class="imgedit badge">                                    
                                     <span class="fw-light" type="button" data-bs-toggle="dropdown">
                                         <i class="fas fa-edit"></i>
@@ -24,18 +29,29 @@
                                     <ul class="dropdown-menu p-1 text-center">
                                     <li>
                                     
-                                    <input type="file" (change)="onFileChanged($event)" name="file" id="file"  class="dropdown-item inputfile" value="Upload Image" accept="image/png, image/jpeg">
+                                    <input type="file" (change)="onFileChanged($event)" name="file" id="file"  class="dropdown-item inputfile" value="Upload Image" accept="image/png, image/jpeg , image/jpg">
                                     <label for="file" class="d-block fw-light">Upload Image</label>
                                     </li>
-                                    <li><input type="file" name="file" id="file"  class="dropdown-item inputfile" value="Remove Images"/>
-                                        <label for="file" class="d-block fw-light">Remove Image</label>
+                                    <li><input type="button" name="textShow" id="btn"  class="dropdown-item inputfile" value="Remove Images" (click)="textShow()"/>
+                                        <label for="btn" class="d-block fw-light">Remove Image</label>
                                     </li>
                                     </ul>
                                 </span>                    
                             </div> 
                         </div>
-
-                        <h3 class="text-muted text-center my-2">Test</h3>
+                        
+                        
+                            <div class="text-end" *ngIf="this.imgValue!=null">
+                            <div class="ask-container">
+                                <small class="text-start">Are you sure</small>
+                                <br>
+                                
+                                <button class="btn btn-primary btn-sm me-1 my-2  m-0" (click)="previewImg(true)">Yes</button>
+                                <button class="btn btn-primary btn-sm  my-2  m-0" (click)="previewImg(false)">No</button>
+                            
+                            </div>                                
+                            </div>                        
+                        
                         
                         <div class="col-12">
                                 
@@ -44,24 +60,24 @@
                             <div class="col12">
                                     <h1>Info</h1>
                             </div>
-                            <div class="row card-title">
+                            <div class="row card-title" *ngIf="userInfo.username">
                                 <div class="form-label float-start col-4">Username :</div>
-                                <div class="col-8">{{ user.username | titlecase }}</div>
+                                <div class="col-8">{{ userInfo.username | titlecase }}</div>
                             </div>
-                            <div class="row card-title">
+                            <div class="row card-title" *ngIf="userInfo.bio">
                                 <div class="form-label float-start col-4">Bio :</div>
-                                <div class="col-8">{{ user.bio | titlecase }}</div>
+                                <div class="col-8">{{ userInfo.bio | titlecase }}</div>
                             </div>
-                            <div class="row card-title">
+                            <div class="row card-title" *ngIf="userInfo.email">
                                 <div class="form-label float-start col-4">Email :</div>
 
-                                <div class="col-8">{{ user.email }}</div>
+                                <div class="col-8">{{ userInfo.email }}</div>
 
                             </div>  
-                            <div class="row card-title">
+                            <div class="row card-title" *ngIf="userInfo.position">
                                 <div class="form-label float-start col-4">Position :</div>
 
-                                <div class="col-8">{{ user.position  | titlecase }}</div>
+                                <div class="col-8">{{ userInfo.position  | titlecase }}</div>
                             </div> 
                             </div>
                            </div>
@@ -76,13 +92,13 @@
                                 
                             <div class="mb-3">
                                 <label for="exampleInpuxxtEmail1" class="form-label">Username</label>
-                                <input type="text" class="form-control" placeholder="Enter your name" name=username  [(ngModel)]="user.username" [class.is-invalid]="status.error.username.hasError" required/>
-                                <small *ngIf="status.error.username.hasError" class="text-danger">{{ status.error.username.msg }}</small>
+                                <input type="text" class="form-control" placeholder="Enter your name" id="username" name=username #username="ngModel"  [(ngModel)]="user.username" [class.is-invalid]="username.touched && username.invalid" required/>
+                                <small *ngIf="!user.username && username.touched" class="text-danger">UserName is required</small>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Email</label>
-                                <input type="text" class="form-control" placeholder="Enter your email" name=email  [(ngModel)]="user.email" [class.is-invalid]="status.error.email.hasError" required/>
-                                <small *ngIf="status.error.email.hasError" class="text-danger">{{ status.error.email.msg }}</small>
+                                <input type="text" class="form-control" placeholder="Enter your email" name=email #email="ngModel" id="email" [(ngModel)]="user.email" [class.is-invalid]="email.touched && email.invalid" required/>
+                                <small *ngIf="!user.email && email.touched" class="text-danger">Email is required</small>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Phone</label>
@@ -109,7 +125,7 @@
                             </div>
                             <div class="mb-3 mt-3 float-end">
                                 <button class="btn me-4">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Save </button>
+                                <button type="submit" class="btn btn-primary" [class.disabled]="!user.username || !user.email">Save </button>
                             </div>
                             
                         </div>
