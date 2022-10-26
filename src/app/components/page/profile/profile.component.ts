@@ -15,47 +15,37 @@ export class ProfileComponent{
   
     constructor( public toggleStore : ToggleStore ,  
       private userService : UserService , 
+      
       public userStore : UserStore ){}
     storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))); 
     user : User = new User();
-
+    userInfo:User=new User();
+    imgValue:any;
     status = {
+        preview:{
+          ok:false,
+          textShow:false
+        },
         update : {
           idx : 0,
           willUpdate : false
-        },
-        error : {
-            username : {
-              hasError : false,
-              msg : '',
-            },
-          email : {
-            hasError : false,
-            msg : ''
-          }
         },
         isLoading : false,
       }
 
     ngOnInit(): void {      
+      this.imgValue=null;
       this.getUserData(this.storeUser.id);
+      
     }
 
-    SaveUser(){
-      this.user.username == null || this.user.username == ''
-      ? this.status.error.username = { hasError : true , msg : 'User Name is required!'}
-      : this.status.error.username = { hasError : false , msg : '' };
-  
-      this.user.email == null || this.user.email == ''
-      ? this.status.error.email = { hasError : true , msg : 'Email is required!'}
-      : this.status.error.email = { hasError : false , msg : '' };
-    }
 
     getUserData( userId : number ){
       this.userService.getUser( userId )
       .subscribe({
         next : resUser => {
-          this.user = resUser;
+          this.userInfo=resUser;
+          this.user = resUser;          
         },
         error : err => {
           console.log(err);
@@ -64,7 +54,6 @@ export class ProfileComponent{
     }
 
     saveProfile(profile:NgForm){
-     
       swal({
         text : 'Are you sure to update your profile?',
         icon : 'warning',
@@ -82,7 +71,7 @@ export class ProfileComponent{
                     icon : 'success'
                   }).then(() => {
                     this.user = res.data;
-                    this.userStore.saveUserData( res.data );
+                    // this.userStore.saveUserData( res.data );
                   })
                 }
               },
@@ -97,20 +86,43 @@ export class ProfileComponent{
 
     onFileChanged(event:any ){
        //Select File
-      this.user.image =  event.target.files[0];
-      const uploadImageData = new FormData();
-      uploadImageData.append('file', this.user.image);
-
-      this.userService.uploadPhoto( this.user.image ,this.user.id).subscribe({
-        next:(res)=>{
-              setTimeout(() => {
-                this.user.imageUrl = res.data.imageUrl;
-                this.userStore.saveUserData( res.data );
-              } , 1000 );
-        },
-        error:(err)=>{
-          console.log(err)
-        }
-      })    
+      this.user.image =  event.target.files[0];  
+      if (event.target.files && event.target.files[0]) {
+        const reader = new FileReader();
+        reader.readAsDataURL(this.user.image);
+        reader.onload = () => {
+         this.imgValue= reader.result as string;
+         this.status.preview.textShow=false;
+        };
+  
+      }
+    }
+    previewImg(bol:boolean){
+      this.status.preview.ok=bol;
+      console.log(this.status.preview.ok)
+      if( this.status.preview.ok){
+        this.imgValue=null
+        this.status.preview.textShow=false;
+        this.userService.uploadPhoto( this.user.image ,this.user.id).subscribe({
+          next:(res)=>{
+                setTimeout(() => {
+                  this.user.imageUrl = res.data.imageUrl;
+                  // this.userStore.saveUserData( res.data );
+                } , 1000 );
+      
+          },
+          error:(err)=>{
+            console.log(err)
+          }
+        })    
+      }else{
+        this.imgValue=null
+        this.status.preview.textShow=false;
+      this.user.imageUrl=this.storeUser.imageUrl;
+      
+      }
+    }
+    textShow(){
+      this.status.preview.textShow=true;
     }
 }
