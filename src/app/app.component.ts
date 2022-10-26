@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
-import { map } from 'rxjs';
+import {  NavigationEnd, Router } from '@angular/router';
 
 declare var $ : any;
 

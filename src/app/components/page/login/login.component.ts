@@ -4,7 +4,6 @@ import { Component, OnInit } from  "@angular/core";
 import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { Router } from '@angular/router';
-import { encode } from 'src/app/util/encoder';
 import { UserStore } from 'src/app/model/service/store/user.store';
 import { BoardStore } from 'src/app/model/service/store/board.store';
 
