@@ -13,11 +13,11 @@
                         <div class="col-12 d-flex justify-content-center align-items-center">
                             <div class="mb-3 mx-auto imgholder">
                                          
-                                <div *ngIf="this.status.preview.textShow" class="text-dark boardprofile d-flex justify-content-center align-items-center bg-secondary">
+                                <div *ngIf="user.imageUrl==null && this.imgValue==null" class="text-dark boardprofile d-flex justify-content-center align-items-center bg-secondary">
                                 <h1>{{ user.username &&  user.username[0].toUpperCase() }}</h1>
                                 </div>
-                                <img *ngIf="(user.imageUrl != null && this.imgValue==null) && this.status.preview.textShow==false"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" loading="lazy" >                     
-                                <img *ngIf="this.imgValue!=null && this.status.preview.textShow==false"  [src]="this.imgValue" class=" boardprofile" alt="Board-Img" loading="lazy" >
+                                <img *ngIf="(user.imageUrl != null && this.imgValue==null)"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" loading="lazy" >                     
+                                <img *ngIf="this.imgValue!=null"  [src]="this.imgValue" class=" boardprofile" alt="Board-Img" loading="lazy" >
                                 
                                 <span class="imgedit badge">                                    
                                     <span class="fw-light" type="button" data-bs-toggle="dropdown">
@@ -31,9 +31,9 @@
                                     <input type="file" (change)="onFileChanged($event)" name="file" id="file"  class="dropdown-item inputfile" value="Upload Image" accept="image/png, image/jpeg , image/jpg">
                                     <label for="file" class="d-block fw-light">Upload Image</label>
                                     </li>
-                                    <li><input type="button" name="textShow" id="btn"  class="dropdown-item inputfile" value="Remove Images" (click)="textShow()"/>
+                                    <!-- <li><input type="button" name="textShow" id="btn"  class="dropdown-item inputfile" value="Remove Images" (click)="textShow()"/>
                                         <label for="btn" class="d-block fw-light">Remove Image</label>
-                                    </li>
+                                    </li> -->
                                     </ul>
                                 </span>                    
                             </div> 
