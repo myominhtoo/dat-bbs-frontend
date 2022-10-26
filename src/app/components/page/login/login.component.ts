@@ -32,7 +32,7 @@ export class LoginComponent {
      
     ngOnInit(): void {
         let storeUser = localStorage.getItem(window.btoa(('user')));
-        
+        document.title = "BBMS | Login";
     }
 
     onSubmit(userForm:NgForm){
