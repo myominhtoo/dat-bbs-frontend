@@ -6,6 +6,7 @@ import { TaskCard } from "src/app/model/bean/taskCard";
 import { BoardService } from "src/app/model/service/http/board.service";
 import { StageService } from "src/app/model/service/http/stage.service";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
+import { UserService } from "src/app/model/service/http/user.service";
 import swal from 'sweetalert';
 import $ from 'jquery'
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
@@ -14,6 +15,7 @@ import { ActivityService } from "src/app/model/service/http/activity.service";
 import { Activity } from "src/app/model/bean/activity";
 import { CommentService } from "src/app/model/service/http/comment.service";
 import { Comment } from "src/app/model/bean/comment";
+import { User } from "src/app/model/bean/user";
 
 @Component({
     selector : 'my-board',
@@ -21,6 +23,7 @@ import { Comment } from "src/app/model/bean/comment";
 })
 export class MyBoardComponent implements OnInit {
 
+     users:User[];
     public stages : Stage [] = [];
     taskCardsMap : Map<string,TaskCard[]> = new Map();
     board : Board = new Board();
@@ -31,7 +34,7 @@ export class MyBoardComponent implements OnInit {
     storedEmails : string [] = [];
 
     stage  : Stage = new Stage();
-    
+
     offCanvasTask : TaskCard = new TaskCard();
     activities : Activity [] = [];
     comments : Comment [] = [];
@@ -62,17 +65,30 @@ export class MyBoardComponent implements OnInit {
 
     constructor( public toggleStore : ToggleStore ,
          public route : ActivatedRoute ,
-         private router : Router , 
+         private router : Router ,
          private stageService : StageService ,
          private boardService : BoardService ,
          private taskCardService : TaskCardService,
-         private activityService : ActivityService , 
-         private commentService : CommentService  ){}
+         private activityService : ActivityService ,
+         private commentService : CommentService,
+         private userService :UserService  ){
+
+          this.users=[];
+         }
 
     ngOnInit(): void {
         this.doActionForCurrentBoard( this.route.snapshot.params['id'] );
         this.stage.stageName = "";
         this.stage.defaultStatus = false;
+
+        this.getUserMembers();
+    }
+
+
+    getUserMembers(){
+      this.userService.getUsersForBoard(this.route.snapshot.params['id']).subscribe(data=>{
+            this.users =  data.map( d => d.user )
+      });
     }
 
     /*
@@ -110,7 +126,7 @@ export class MyBoardComponent implements OnInit {
     doActionForCurrentBoard( boardId : any ){
       if( isNaN(boardId) ){
         /*
-         will do if boardId is not a number 
+         will do if boardId is not a number
          cuz we created boardId as a number
          to prevent manual entering to this page
         */
@@ -129,13 +145,13 @@ export class MyBoardComponent implements OnInit {
     }
 
     handleAddStage(){
-        this.stage.stageName === '' 
+        this.stage.stageName === ''
         ? this.status.addingStageError = { hasError : true , msg : 'Stage is Required!'}
         : this.status.addingStageError = { hasError : false , msg : ''};
 
         if( !this.status.addingStageError.hasError ){
             this.status.isAddingStage = true;
-            
+
             this.stage.board  = this.board;
 
             this.stageService.createStage( this.stage )
@@ -171,7 +187,7 @@ export class MyBoardComponent implements OnInit {
                 this.boardService.getBoardWithEmail(this.board.id, this.board)
               .subscribe({
                 next : data => {
-                  this.status.isInviting = false; 
+                  this.status.isInviting = false;
                   swal({
                     text : 'successfully Invited !',
                     icon : 'success'
@@ -185,7 +201,7 @@ export class MyBoardComponent implements OnInit {
                   console.log(err);
                   this.status.isInviting =false;
                 }
-              });  
+              });
             }else{
               this.status.isInviting = false;
             }
@@ -193,22 +209,22 @@ export class MyBoardComponent implements OnInit {
     }
 
     onChange( event : KeyboardEvent ){
-       
+
         this.email  == ''
         ? this.filterEmails = []
         : this.filterAutoCompleteEmails( this.email);
-  
-  
+
+
         let email = this.email;
         let lastChar = email[email.length - 1];
         this.status.error.email = { hasError : false , msg : ''}
         if( lastChar === ',' || lastChar === ' ' ){
           let prevLastChar = email[email.length - 2];
-    
+
           if( prevLastChar  == ' ' || prevLastChar == ','){
             this.email= prevLastChar == ' ' ? email.trim() : email.replaceAll(',','');
           }
-          
+
           if(email.includes('@') && email.includes('.')){
             let storeEmail = email.includes(',') ? email.replaceAll(',','') : email.replaceAll(' ','');
             this.status.update.willUpdate
@@ -216,14 +232,14 @@ export class MyBoardComponent implements OnInit {
             : this.emails.includes(storeEmail)
              ? this.status.error.email = { hasError : true , msg : 'This email has already included!' }
              : this.emails.push( storeEmail );
-    
+
             this.status.update = { idx : 0 , willUpdate : false }
             this.email = this.status.error.email.hasError ? this.email : '';
-    
+
           }else{
-    
+
             this.status.error.email = { hasError : true , msg : 'Invalid email!'}
-            
+
           }
         }
       }
@@ -243,7 +259,7 @@ export class MyBoardComponent implements OnInit {
         console.log(index)
       }
 
-  
+
     async getTaskCards( boardId : number ) : Promise<void>{
       this.taskCardService.getTaskCards( boardId )
       .subscribe({
@@ -261,7 +277,7 @@ export class MyBoardComponent implements OnInit {
        stages.forEach( stage => {
         this.taskCardsMap.set( stage.stageName , [] );
        })
-       
+
        taskCards.forEach( taskCard => {
          let prevTaskCards = this.taskCardsMap.get(taskCard.stage.stageName);
          prevTaskCards?.push(taskCard);
@@ -272,7 +288,7 @@ export class MyBoardComponent implements OnInit {
     handleAddTask( taskCard : TaskCard ){
       let prevTasks = this.taskCardsMap.get(taskCard.stage.stageName);
       prevTasks?.push(taskCard);
-      this.taskCardsMap.set( taskCard.stage.stageName , prevTasks! ); 
+      this.taskCardsMap.set( taskCard.stage.stageName , prevTasks! );
     }
 
     handleChangeStage( payload : ChangeStageType ){
@@ -285,8 +301,8 @@ export class MyBoardComponent implements OnInit {
        .subscribe({
         next : res => {
           // let prevTasks = this.taskCardsMap.get( payload.stageTo );
-          
-          // it is also ok without following cuz of line 271 
+
+          // it is also ok without following cuz of line 271
           // this.taskCardsMap.set( payload.stageTo , prevTasks?.map( task => {
           //   if( task.id ===  res.data.id ){
           //      return res.data;
@@ -311,7 +327,7 @@ export class MyBoardComponent implements OnInit {
         }
       });
     }
-    
+
     getCommentsForTaskCard( taskCardId : number ){
       this.commentService.getComments( taskCardId )
       .subscribe({
@@ -327,7 +343,7 @@ export class MyBoardComponent implements OnInit {
 
     handleShowOffCanvas( task  : TaskCard ){
       $('#task-offcanvas-btn').click();
-      
+
       this.offCanvasTask = task;
       this.status.isLoadingOffcanvas = true;
 

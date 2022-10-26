@@ -7,4 +7,5 @@ export class BoardsHasUsers {
   user! : User;
   joinedStatus ! : boolean;
   joinedDate ! : Date;
+  members: any;
 }
