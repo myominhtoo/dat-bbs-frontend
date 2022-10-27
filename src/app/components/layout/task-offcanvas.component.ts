@@ -77,7 +77,7 @@ import 'emojionearea';
                         </div>
 
                     </div>
-                    
+
                     <div class="d-flex justify-content-between align-items-end ">
                         <small class="text-success mx-2">{{ status.msg && status.msg }}</small><br/>
                         <button (click)="setUpAddActivity()" class="btn btn-sm btn-secondary mx-3"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
@@ -85,17 +85,16 @@ import 'emojionearea';
                 </div>
 
                 <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" style="max-height:800px !important;" class="container">
-                    
+
                     <div id="comments">
                         <div *ngFor="let comment of comments" id="comment-container" class="w-100 my-2 ">
                             <div id="comment-icon">
                                 <h6 class="h6 mx-2" style="font-size:17px !important;">{{ comment.user.username && comment.user.username | titlecase }}<small class="text-muted mx-2" style="font-size:13px;">{{ comment.createdDate | pentaDate }}</small></h6>
-                                <!-- <p id="icon"></p> -->
                             </div>
                             <p id="comment">
                                 {{ comment.comment }}
                             </p>
-                        </div>                       
+                        </div>
                     </div>
 
                     <!-- <emoji-mart></emoji-mart> -->
@@ -110,7 +109,7 @@ import 'emojionearea';
                 </div>
 
                 <div *ngIf="tab == 'activity-detail' && !isLoading " id="comments-container" style="max-height:800px !important;" class="container px-3">
-                    
+
                     <div class="text-muted d-flex align-items-center my-4">
                         <span class="w-25">Activity Name</span>
                         <input type="text" class="form-control w-75 text-muted" [(ngModel)]="detailActivity.activityName" >
@@ -143,7 +142,7 @@ import 'emojionearea';
                            </div>
                         </div>
                     </div>
-                    
+
                     <div class="text-muted d-flex align-items-center my-4">
                         <span class="w-25">Attachments</span>
                         <div class="w-75">
@@ -180,10 +179,11 @@ import 'emojionearea';
 
                             <div class="text-end my-2">
                                 <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-plus"></i>Add</button>
+
                             </div>
                         </div>
                     </div>
-                    
+
 
                 </div>
 
@@ -193,7 +193,13 @@ import 'emojionearea';
     `
 })
 export class TaskOffCanvasComponent {
-    
+
+
+    public now:Date =new Date();
+
+    showtime:Comment[] =[];
+
+
     @Input('task') task : TaskCard = new TaskCard();
     @Input('activities') activities : Activity [] = [];
     @Input('comments') comments : Comment [] = [];
@@ -211,10 +217,16 @@ export class TaskOffCanvasComponent {
         errorTask : '',
     }
 
-    constructor( 
-        private activityService : ActivityService , 
-        private taskCardService : TaskCardService , 
-        private commentService : CommentService  ){}
+    constructor(
+        private activityService : ActivityService ,
+        private taskCardService : TaskCardService ,
+        private commentService : CommentService  ){
+
+         }
+
+
+
+
 
 
     changeTab( tab : string ){
@@ -225,7 +237,7 @@ export class TaskOffCanvasComponent {
         // to control clicking this button again & again
        if( !this.status.isAddActivity || this.activities.length == 0 ){
         this.status.isAddActivity = true;
-        
+
         const newActivity = new Activity();
 
         this.activities.push( newActivity );
@@ -236,12 +248,12 @@ export class TaskOffCanvasComponent {
        this.status.activityError = '';
        let curActivityName =  this.activities[ targetIdx ].activityName;
        if( e.code === 'Enter' ){
-          if( curActivityName  == '' || curActivityName == null ){           
+          if( curActivityName  == '' || curActivityName == null ){
             this.status.activityError = 'Acitiviy is required!';
             return;
           }
 
-          /* 
+          /*
            code to connect backend
           */
          const newActivity = this.activities[ targetIdx ];
@@ -256,7 +268,7 @@ export class TaskOffCanvasComponent {
                 setTimeout(() => {
                     this.status.msg  = "";
                 } , 1000 );
-            },  
+            },
             error : err => {
                this.status.errorTargetIdx = targetIdx;
                this.status.activityError = err.error.message;
@@ -290,20 +302,22 @@ export class TaskOffCanvasComponent {
             });
        }
     }
-    
+
     handleComment(){
        this.comment.user = new User();
        this.comment.taskCard = new TaskCard();
-       
+
        this.comment.user.id = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))).id;
        this.comment.taskCard.id = this.task.id;
+
+       //console.log(this.comment.taskCard.id);
 
        this.commentService.createComment( this.comment )
        .subscribe({
         next : res => {
             if( res.ok ){
                 this.comment.comment = '';
-                console.log(res.data)
+               // console.log(res.data)
                 this.comments.push(res.data);
             }
         },
@@ -312,4 +326,7 @@ export class TaskOffCanvasComponent {
         }
        })
     }
+
+
+
 }
