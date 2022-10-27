@@ -1,9 +1,9 @@
 <main class="p-0 m-0 d-flex gap-0" id="main">
     <sidebar></sidebar>
 
-    <div id="main-area" class="m-0 p-3 py-5 board-con" style="background-color: #eee;" [class.sidebar-hide]="!toggleStore.isShow">
+    <div id="main-area" class="m-0 p-3 py-5   board-con" style="background-color: #eee;" [class.sidebar-hide]="!toggleStore.isShow">
         <section class="container-fluid ">
-            <div class="container ">
+            <div class="container">
                 <div class="row">
                 <div class="col-6">
                     <div class="row">
@@ -101,7 +101,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Phone</label>
-                                <input type="text" class="form-control" placeholder="Enter your phone" name=phone  [(ngModel)]="user.phone"/>
+                                <input type="text" class="form-control shadow-none" placeholder="Enter your phone" name=phone  [(ngModel)]="user.phone"/>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Gender</label><br>
