@@ -4,8 +4,8 @@ import { TaskCard } from "src/app/model/bean/taskCard";
 @Component({
     selector : 'task-card',
     template : `
-     <div (click)="handleShowOffCanvas( task)" class="task-cards my-1  px-2 py-3 text-muted">
-        <h5 class="text-muted h6">{{ task.taskName | titlecase }}</h5>
+     <div (click)="handleShowOffCanvas( task)" class="task-cards my-1 px-2 py-2 pb-4 shadow-sm bg-pale-snow">
+        <h5 class="fw-bold h6">{{ task.taskName | titlecase }}</h5>
      </div>
     `
 })

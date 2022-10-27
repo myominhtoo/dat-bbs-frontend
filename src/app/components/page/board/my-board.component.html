@@ -4,13 +4,14 @@
     <div id="main-area" class="m-0 p-0 pt-3" [class.sidebar-hide]="!toggleStore.isShow">
         <!-- container-fluid -> w-100 some changes -->
         <div class="w-100">
-            <div class="container-fluid">
-                <div class="row">
+            <div class="container-fluid bg-dark">
+                <div class="row border-board">
                     <div class="px-5 col-12 d-flex justify-content-between align-items-center">
-                        <h1 class="text-muted h2 my-1 mx-3">{{ board.boardName && board.boardName | titlecase }}</h1>
+                        <h3 class="text-dark-50 h2 my-0 mx-3">{{ board.boardName && board.boardName | titlecase }}</h3>
                         <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#invite-modal"><i class="fa-solid fa-user-plus mx-1"></i>Invite</button>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+                            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#invite-modal"><i class="fa-solid fa-user-plus mx-1"></i>Invite</button>
+                            <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+                                <i class="fa-solid fa-people-group"></i>
                               Members
                              </button>
                         </div>
@@ -18,28 +19,37 @@
                            <!-- Show offcanvas bar -->
 
                          <div class="offcanvas offcanvas-end" id="demo">
-                          <div class="offcanvas-header" style="background-color: rgb(96, 119, 111);">
-                            <h3 class="offcanvas-title" style="color: rgb(48, 50, 49); ">Team Members</h3>
-                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                          <div class="offcanvas-header shadow-sm" >
+                            <h5 class="offcanvas-title" >Team Members</h5>
+                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas"></button>
                           </div>
-                          <div class="offcanvas-body" style="background-color: rgb(121, 138, 138);">
+                          <div class="offcanvas-body " >
 
                             <!-- Showing views -->
-                           <table class="c">
-
-                            <tr *ngFor = "let u of users">
-
-
-                             <td style="padding: 13px; "> <div  class="bg-pale-snow p-0 d-flex justify-content-center align-items-center" data-bs-toggle="dropdown" id="profile">
-                              <span *ngIf="u.imageUrl == null && u.username != null" class="text-dark">{{ u.username[0].toUpperCase() }}</span>
-                              <img  *ngIf="u.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+u.imageUrl"  alt="">
-                             </div>     </td>
-
-                              <td style="color: rgb(13, 13, 11); font-size: 100%; padding: 40px;">{{u.username}} </td>
-
+                           <div class="container-fluid p-0 m-0">                            
+                            <div class="row p-0 m-0  d-flex justify-content-center align-items-center" *ngFor = "let u of users">
+                                <!-- start col-12 -->
+                            <div class="col-12 hover-member rounded-3 d-flex align-items-center p-0 m-0">
+                                
+                                <div class="p-2">                             
+                                <div  class="d-inline-block mx-3 " id="profile-member">
+                               <span *ngIf="u.imageUrl == null && u.username != null" class="text-dark">{{ u.username[0].toUpperCase() }}</span>
+                              <img  *ngIf="u.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+u.imageUrl"  alt="">                                                             
+                            </div>                             
+                            <div class="d-inline-block fw-light">{{u.username}}</div>
+                            </div>
 
                               <br>
-                              </table>
+                            </div>
+                            
+                            <!-- end col-12 -->
+                            
+                            
+                        </div>
+                        
+                              </div>
+                              <!-- </tr> -->
+                              
 
 
                               </div>
@@ -93,11 +103,11 @@
                         <div id="task-container" *ngIf="!status.isLoading" class="scrolling-wrapper d-flex  px-5 bg-transparent">
                             <task-card-container *ngFor="let stage of stages" [stage]="stage" [task-cards]="taskCardsMap" [stages]="stages" (change-stage)="handleChangeStage($event)" (add-task)="handleAddTask($event)" [board]="board" (show-offcanvas)="handleShowOffCanvas($event)" ></task-card-container>
                             <div>
-                                <button (click)="toggleIsAddStage()" *ngIf="!status.isAddStage" class="btn btn-secondary btn-sm px-5 mt-2">
+                                <button (click)="toggleIsAddStage()" *ngIf="!status.isAddStage" class="btn btn-sm px-5 mt-2 h1">
                                     <i class="fa-solid fa-plus mx-1"></i> Add Stage
                                 </button>
                                 <div *ngIf="status.isAddStage" class="form mt-2">
-                                    <input [(ngModel)]="stage.stageName" name="stageName" type="text" style="width:187.26px !important;" id="add-stage" placeholder="Stage Name" [class.is-invalid]="status.addingStageError.hasError" class="py-1 form-control py-1" />
+                                    <input [(ngModel)]="stage.stageName" name="stageName" type="text" style="width:187.26px !important;" id="add-stage" placeholder="Stage Name" [class.is-invalid]="status.addingStageError.hasError" class="py-1 form-control py-1 shadow-none" />
                                     <span *ngIf="status.addingStageError.hasError" class="text-danger fs-0 my-0" style="font-size:11px !important;">{{ status.addingStageError.msg }}</span>
                                     <div class="d-flex justify-content-end gap-1 my-0">
                                         <button (click)="toggleIsAddStage()" class="btn  btn-sm my-1">Cancel</button>

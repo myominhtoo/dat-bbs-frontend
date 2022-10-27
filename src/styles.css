@@ -47,6 +47,9 @@
 .bg-tw{
     background-color: var(--tw-color);
 }
+.bg-pale-snow{
+    background: var(--pale-snow);
+}
 .snow{
     color:var(--snow);
 }
@@ -67,9 +70,7 @@
     color:var(--pale-snow);
 }
 
-.bg-pale-snow{
-    background: var(--pale-snow);
-}
+
 
 .thm{
     color:var(--thm) !important;
@@ -133,7 +134,14 @@ header ( width is 100% , height: 8%)
     height:35px;
     border-radius: 100% !important;
     transform: translateX(100%);
-    border:0.1px solid var(--dark);
+    
+    box-shadow: 0 0 0.5px var(--snow)
+}
+#profile-member{
+    width:35px;
+    height:35px;
+    border-radius: 100% !important;
+    
     box-shadow: 0 0 0.5px var(--snow)
 }
 
@@ -190,7 +198,11 @@ header ( width is 100% , height: 8%)
 #create-btn:hover{
     background:rgba(255,255,255,0.15) !important;
 }
-
+.hover-member:hover{
+    cursor: pointer;
+    
+    background:rgba(15, 15, 15, 0.158) !important;
+}
 
 #main #sidebar .item{
     width:100%;
@@ -321,7 +333,7 @@ padding-bottom:3px;
 .boardprofile{
     width: 250px;
     height: 250px;
-    border: 1px solid black;
+    border: 1px solid rgba(15, 15, 15, 0.60);
     border-radius: 50%;
     object-fit: cover;
     /* background-image: url(assets/img/board-profile-img/download.jpg); */
@@ -365,8 +377,8 @@ padding-bottom:3px;
 	cursor: pointer; /* "hand" cursor */
 }
 .board-con{
-    background-color: var(--snow);
-    /* background-color: whitesmoke; */
+    background-color: var(--snow) !important;
+    /* background-color: whitesmoke !important; */
     /* background-color: white; */
 }
 .emailbox{
@@ -536,7 +548,7 @@ body{
       }
 
   .task-cards:hover{
-    border: 1px solid var(--thm);
+    border: 1px solid rgba(15, 15, 15, 0.336);
   }
   
   /* .task-card-scroll{
@@ -585,10 +597,14 @@ body{
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
                 0 8px 10px 1px rgba(0, 0, 0, 0.14),
                 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+
+    
   }
   
   .cdk-drag-placeholder {
-    opacity: 0;
+    box-sizing: border-box;
+    opacity: 0.3;
+    /* background-color:rgba(39, 37, 37, 0.781); */
   }
   
   .cdk-drag-animating {
@@ -698,4 +714,15 @@ body{
     display: flex;
     justify-content: start;
     align-items: flex-end;
+}
+.member-con{
+    background-color: red;
+    margin-top: 20px;
+}
+.bg-stage-dark{
+    background:rgba(39, 37, 37, 0.781);
+}
+.border-board{
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(39, 37, 37, 0.171);
 }

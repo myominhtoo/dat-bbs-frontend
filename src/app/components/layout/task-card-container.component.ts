@@ -10,13 +10,13 @@ import { ChangeStageType } from 'src/app/model/types/custom-types';
 @Component({
   selector: 'task-card-container',
   template: `
-    <div class="task-card-container mx-2 d-inline-block rounded-1 ">
+    <div class="task-card-container mx-2 d-inline-block rounded-1">
       <!-- start task-card-header -->
-      <div class="w-100 bg-transparent task-card-header p-2 ">
-        <div class="d-flex justify-content-between bg-snow p-2 rounded-sm">
+      <div class="w-100 bg-transparent task-card-header p-2 pb-0">
+        <div class="d-flex justify-content-between p-2 rounded-sm bg-stage-dark pb-3">
           <!-- task-card-title -->
           <div class="text-justify">
-            <h5 *ngIf="!status.isEditStage" class="stage-title h5 text-muted mx-1 m-0 fw-bold">{{ data.stageName | titlecase }}</h5>
+            <h1 *ngIf="!status.isEditStage" class="stage-title text-white pt-1 h5 mx-1 m-0 ">{{ data.stageName | titlecase }}</h1>
             <input *ngIf="status.isEditStage" [(ngModel)]="data.stageName" type="text" (keydown)="handleUpdateStage($event)"  class="form-control mx-2">
             <span *ngIf="status.stageError"  style="font-size:14px;" class="text-danger mx-2">{{ status.stageError }}</span>
           </div>
@@ -24,11 +24,7 @@ import { ChangeStageType } from 'src/app/model/types/custom-types';
           <!-- task-card-icon -->
           <div class="d-flex justify-content-between align-items-center">
             <div class="stage-icon">
-              <!-- <i class="fas fa-solid fa-plus"></i> -->
-              <i *ngIf="data.id > 3 && !status.isEditStage" (click)="handleSetUpStageEdit()" class="fa-solid fa-pen text-muted mx-2"></i>
-            </div>
-            <div class="stage-icon">
-              <i class="fas fa-solid fa-ellipsis text-muted"></i>
+              <i class="fas fa-solid fa-ellipsis text-white pt-1"></i>
             </div>
           </div>
           <!-- task-card-icon -->
@@ -37,7 +33,7 @@ import { ChangeStageType } from 'src/app/model/types/custom-types';
       <!-- end task-card-header -->
       <!-- task-card start -->
       <!-- task-card-scroll -->
-      <div class="container-fluid">
+      <div class="container-fluid p-2 pt-0 m-0">
         <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="data.stageName" [cdkDropListConnectedTo]="containers" class="w-100 py-2 d-flex flex-column">
             <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
         </div>
@@ -45,9 +41,9 @@ import { ChangeStageType } from 'src/app/model/types/custom-types';
           <span class="text-danger fs-6">{{ status.addTaskError }}</span>
         </div>
         <div *ngIf="status.isAddTask" class="my-1">
-          <input  [(ngModel)]="tempTask" name="tempTask" (keydown)="handleAddTask($event)"type="text" [class.is-invalid]="status.addTaskError" class="form-control" placeholder="Enter Task" />
+          <input  [(ngModel)]="tempTask" name="tempTask" (keydown)="handleAddTask($event)"type="text" [class.is-invalid]="status.addTaskError" class="form-control shadow-none" placeholder="Enter Task" />
         </div>
-        <button (click)="handleSetUpAddTask()" class="w-100 btn btn-sm btn-secondary my-2"><i class="fa-solid fa-plus mx-1"></i>Add Task</button>
+        <button (click)="handleSetUpAddTask()" class="w-100 btn btn-sm h1 my-2"><i class="fa-solid fa-plus mx-1"></i>Add Task</button>
       </div>
     </div>
   `,
