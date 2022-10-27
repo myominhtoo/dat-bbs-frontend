@@ -22,12 +22,13 @@ export class WorkspaceComponent implements OnInit {
         public boardStore : BoardStore  ){}
 
     ngOnInit(): void {
-        // this.getMyBoards();// getting boards for target logged in user
+        setTimeout(() => {
+            console.log(this.boardStore.boards)
+        } , 500  );
     }
 
     drop( e : CdkDragDrop<Board[]> ){
-        // console.log(e);
-        // moveItemInArray( this.boardStore.boards , e.previousIndex , e.currentIndex );
+       
     }
 
 
