@@ -693,3 +693,9 @@ body{
     
  }
  
+ 
+.lineText{
+    display: flex;
+    justify-content: start;
+    align-items: flex-end;
+}

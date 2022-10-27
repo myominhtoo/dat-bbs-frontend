@@ -3,7 +3,7 @@
 
     <div id="main-area" class="m-0 p-3 py-5 board-con" style="background-color: #eee;" [class.sidebar-hide]="!toggleStore.isShow">
         <section class="container-fluid ">
-            <div class="container card py-5">
+            <div class="container ">
                 <div class="row">
                 <div class="col-6">
                     <div class="row">
@@ -91,12 +91,12 @@
 
                             <div class="mb-3">
                                 <label for="exampleInpuxxtEmail1" class="form-label">Username</label>
-                                <input type="text" class="form-control" placeholder="Enter your name" id="username" name=username #username="ngModel"  [(ngModel)]="user.username" [class.is-invalid]="username.touched && username.invalid" required/>
+                                <input type="text" class="form-control shadow-none" placeholder="Enter your name" id="username" name=username #username="ngModel"  [(ngModel)]="user.username" [class.is-invalid]="username.touched && username.invalid" required/>
                                 <small *ngIf="!user.username && username.touched" class="text-danger">UserName is required</small>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Email</label>
-                                <input type="text" class="form-control" placeholder="Enter your email" name=email #email="ngModel" id="email" [(ngModel)]="user.email" [class.is-invalid]="email.touched && email.invalid" required/>
+                                <input type="text" class="form-control shadow-none" placeholder="Enter your email" name=email #email="ngModel" id="email" [(ngModel)]="user.email" [class.is-invalid]="email.touched && email.invalid" required/>
                                 <small *ngIf="!user.email && email.touched" class="text-danger">Email is required</small>
                             </div>
                             <div class="mb-3">
@@ -114,12 +114,12 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Position</label>
-                                <input type="text" class="form-control" placeholder="Enter your position" name=position [(ngModel)]="user.position"/>
+                                <input type="text" class="form-control shadow-none" placeholder="Enter your position" name=position [(ngModel)]="user.position"/>
                             </div>
                             <div class="col-12 ">
                                 <div class="mb-3">
                                     <label for="exampleFormControlTextarea1" class="form-label">Bio </label>
-                                    <textarea class="form-control textarea-box"  rows="3" placeholder="Write something about your bio..." name=bio [(ngModel)]="user.bio"></textarea>
+                                    <textarea class="form-control shadow-none textarea-box"  rows="3" placeholder="Write something about your bio..." name=bio [(ngModel)]="user.bio"></textarea>
                                 </div>
                             </div>
                             <div class="mb-3 mt-3 float-end">
