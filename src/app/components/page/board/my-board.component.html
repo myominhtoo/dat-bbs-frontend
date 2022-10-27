@@ -4,13 +4,13 @@
     <div id="main-area" class="m-0 p-0 pt-3" [class.sidebar-hide]="!toggleStore.isShow">
         <!-- container-fluid -> w-100 some changes -->
         <div class="w-100">
-            <div class="container-fluid">
-                <div class="row">
+            <div class="container-fluid bg-dark">
+                <div class="row border-board">
                     <div class="px-5 col-12 d-flex justify-content-between align-items-center">
-                        <h3 class="text-black my-1 mx-3">{{ board.boardName && board.boardName | titlecase }}</h3>
+                        <h3 class="text-dark-50 h2 my-0 mx-3">{{ board.boardName && board.boardName | titlecase }}</h3>
                         <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#invite-modal"><i class="fa-solid fa-user-plus mx-1"></i>Invite</button>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+                            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#invite-modal"><i class="fa-solid fa-user-plus mx-1"></i>Invite</button>
+                            <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
                                 <i class="fa-solid fa-people-group"></i>
                               Members
                              </button>

@@ -113,7 +113,7 @@ export class ProfileComponent{
           next:(res)=>{
                 setTimeout(() => {
                   this.user.imageUrl = res.data.imageUrl;
-                  // this.userStore.saveUserData( res.data );
+                  this.userStore.saveUserData( res.data );
                 } , 1000 );
       
           },

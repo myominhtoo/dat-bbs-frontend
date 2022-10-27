@@ -12,7 +12,7 @@ import { ChangeStageType } from 'src/app/model/types/custom-types';
   template: `
     <div class="task-card-container mx-2 d-inline-block rounded-1">
       <!-- start task-card-header -->
-      <div class="w-100 bg-transparent task-card-header p-2 ">
+      <div class="w-100 bg-transparent task-card-header p-2 pb-0">
         <div class="d-flex justify-content-between p-2 rounded-sm bg-stage-dark pb-3">
           <!-- task-card-title -->
           <div class="text-justify">
@@ -33,7 +33,7 @@ import { ChangeStageType } from 'src/app/model/types/custom-types';
       <!-- end task-card-header -->
       <!-- task-card start -->
       <!-- task-card-scroll -->
-      <div class="container-fluid">
+      <div class="container-fluid p-2 pt-0 m-0">
         <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="data.stageName" [cdkDropListConnectedTo]="containers" class="w-100 py-2 d-flex flex-column">
             <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
         </div>

@@ -47,6 +47,9 @@
 .bg-tw{
     background-color: var(--tw-color);
 }
+.bg-pale-snow{
+    background: var(--pale-snow);
+}
 .snow{
     color:var(--snow);
 }
@@ -67,9 +70,7 @@
     color:var(--pale-snow);
 }
 
-.bg-pale-snow{
-    background: var(--pale-snow);
-}
+
 
 .thm{
     color:var(--thm) !important;
@@ -596,11 +597,13 @@ body{
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
                 0 8px 10px 1px rgba(0, 0, 0, 0.14),
                 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+
+    
   }
   
   .cdk-drag-placeholder {
     box-sizing: border-box;
-    opacity: 0.2;
+    opacity: 0.3;
     /* background-color:rgba(39, 37, 37, 0.781); */
   }
   
@@ -718,4 +721,8 @@ body{
 }
 .bg-stage-dark{
     background:rgba(39, 37, 37, 0.781);
+}
+.border-board{
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(39, 37, 37, 0.171);
 }
