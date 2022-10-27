@@ -16,12 +16,12 @@
                 <h2 class="text-center fw-bold mt-5">User Login</h2>
                 <div class="mx-4 my-4">
                     <label for="email" class="form-label">Email</label>
-                    <input type="text" placeholder="Enter user email..." class="form-control" id="email" name="email" [(ngModel)]="user.email" [class.is-invalid]="error.hasError" required>
+                    <input type="text" placeholder="Enter user email..." class="form-control shadow-none" id="email" name="email" [(ngModel)]="user.email" [class.is-invalid]="error.hasError" required>
                     <small *ngIf="error.hasError" class="text-danger">{{error.msg}}</small>
                 </div>
                 <div class="mx-4 my-4">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" placeholder="Enter user password..." class="form-control" id="password" name="password" [(ngModel)]="user.password" [class.is-invalid]="error.hasError" required>
+                    <input type="password" placeholder="Enter user password..." class="form-control shadow-none" id="password" name="password" [(ngModel)]="user.password" [class.is-invalid]="error.hasError" required>
                     <small *ngIf="error.hasError" class="text-danger">{{error.msg}}</small>
                 </div>
                 <div class="mx-4 my-4">

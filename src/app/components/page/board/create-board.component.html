@@ -3,21 +3,21 @@
 
     <div id="main-area" class="m-0 p-3 board-icon" [class.sidebar-hide]="!toggleStore.isShow">
         <section class="container-fluid d-flex justify-content-center align-items-center mt-5 w-100">
-            <div class="container p-5 d-flex justify-content-center align-item w-auto rounded-1 text-black create-board bg-white py-5 h-auto shadow-sm" style="width:650px !important;max-width:650px;">
+            <div class="container p-5 d-flex justify-content-center align-item w-auto rounded-1 text-black   py-5 h-auto shadow-sm" style="width:650px !important;max-width:650px;">
                 <form (ngSubmit)="createBoard()" class="w-100" novalidate>
                     <div class="row d-flex justify-content-center align-items-center">
                         <h1 class="text-center mb-3 opacity-75">Create Board</h1>
                         <div class="col-8">
                             <div class="form-floating mb-3">              
                                 
-                                <input  type="text" class="form-control" name=boardName id="floatingInput" placeholder="UserName" [(ngModel)]="board.boardName" [class.is-invalid]="status.error.boardName.hasError" required/>
+                                <input  type="text" class="form-control shadow-none" name=boardName id="floatingInput" placeholder="UserName" [(ngModel)]="board.boardName" [class.is-invalid]="status.error.boardName.hasError" required/>
                                 <label for="floatingInput" class="text-black-50">Board Name</label>
                                 <small *ngIf="status.error.boardName.hasError" class="text-danger">{{ status.error.boardName.msg }}</small>
                             </div>
                             <div class="col-12 ">
                                 <div class="form-floating mb-3">
                                     
-                                    <textarea class="form-control" name="description" id="floatingTextarea2" placeholder="Description" style="height: 100px" [(ngModel)]="board.description"  required ></textarea>
+                                    <textarea class="form-control shadow-none" name="description" id="floatingTextarea2" placeholder="Description" style="height: 100px" [(ngModel)]="board.description"  required ></textarea>
                                     <label for="floatingTextarea2" class="text-black-50">Description</label>
                                     <!-- <small *ngIf="status.error.description.hasError" class="text-danger">{{ status.error.description.msg }}</small> -->
                         
@@ -41,7 +41,7 @@
                                     [value]="emailStr" [class.is-invalid]="status.error.email.hasError" 
                                     id="invitedEmail" 
                                     [matAutocomplete]="emailAutoComplete"
-                                    class="form-control"
+                                    class="form-control shadow-none"
                                     placeholder="member@gmail.com" 
                                     />
                                     <label for="invitedEmail" class="text-black-50">member@gmail.com</label>
