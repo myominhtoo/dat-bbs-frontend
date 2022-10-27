@@ -8,9 +8,7 @@ import { User } from "../../bean/user";
 export class UserStore{
     user : User = new User();
     
-    constructor(){
-      this.fetchUserData();
-    }
+    constructor(){}
 
     fetchUserData(){
        let savedUser = decode(localStorage.getItem(window.btoa('user')));
@@ -19,7 +17,6 @@ export class UserStore{
         this.user.username = savedUser.username;
         this.user.imageUrl = savedUser.imageUrl;
        }
-       console.log(this.user)
     }
 
 
