@@ -16,7 +16,9 @@ export class ProfileComponent{
     constructor( public toggleStore : ToggleStore ,  
       private userService : UserService , 
       public userStore : UserStore
-       ){}
+       ){
+        this.userStore.fetchUserData();
+       }
 
     storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))); 
     user : User = new User();
