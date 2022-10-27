@@ -17,23 +17,23 @@
                 <div class="mx-4 my-3">
                     <label for="username" class="form-label">Username</label>
 
-                    <input type="text" placeholder="Enter Your Name" class="form-control" id="username" [(ngModel)]="user.username" name="username" #username="ngModel"  [class.is-invalid]="username.touched && username.invalid " autofocus required>
+                    <input type="text" placeholder="Enter Your Name" class="form-control shadow-none" id="username" [(ngModel)]="user.username" name="username" #username="ngModel"  [class.is-invalid]="username.touched && username.invalid " autofocus required>
                    <small style="color:red;" *ngIf="!user.username && username.touched">Username is Required</small>
 
                   </div>
                 <div class="mx-4 my-3 ">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" placeholder="Enter email address" class="form-control" id="email" value="company@gmail.com" [(ngModel)]="user.email" name="email" [class.is-invalid]="email" readonly >
+                    <input type="email" placeholder="Enter email address" class="form-control shadow-none" id="email" value="company@gmail.com" [(ngModel)]="user.email" name="email" [class.is-invalid]="email" readonly >
                     
                   </div>
                 <div class="mx-4 my-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" placeholder="Enter password" #password="ngModel" class="form-control" id="password" [(ngModel)]="user.password" name="password" [class.is-invalid]="password.touched && password.invalid" required>
+                    <input type="password" placeholder="Enter password" #password="ngModel" class="form-control shadow-none" id="password" [(ngModel)]="user.password" name="password" [class.is-invalid]="password.touched && password.invalid" required>
                     <small class="text-danger" *ngIf="!user.password && password.touched" > Password is required</small>
                   </div>
                 <div class="mx-4 my-3">
                     <label for="code" class="form-label">Verification Code</label>
-                    <input type="text" placeholder="Enter verification code" class="form-control" #code="ngModel" id="code" [(ngModel)]="user.code" name="code" [class.is-invalid]="code.touched && password.invalid" required>
+                    <input type="text" placeholder="Enter verification code" class="form-control shadow-none" #code="ngModel" id="code" [(ngModel)]="user.code" name="code" [class.is-invalid]="code.touched && password.invalid" required>
                     <small class="text-danger" *ngIf="!user.code && code.touched" > Verification code is required</small>
                   </div>
                 <div class="mx-4 my-3">

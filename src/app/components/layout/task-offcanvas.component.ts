@@ -32,7 +32,7 @@ import 'emojionearea';
                       <li class="list-item d-flex ">
                         <h6 class="h6 w-25 fs-6">Assign To</h6>
                         <div class="w-75">
-                           <input type="text" id="input" class="form-control" placeholder="Assign Members"/>
+                           <input type="text" id="input" class="form-control outlineBtn shadow-none" placeholder="Assign Members"/>
                         </div>
                       </li>
                       <li class="list-item d-flex">
@@ -40,22 +40,22 @@ import 'emojionearea';
                         <div class="w-75 d-flex gap-2">
                            <div class="w-25">
                                 <small>Start Date</small>
-                                <input type="date" class="form-control w-100" />
+                                <input type="date" class="form-control w-100 outlineBtn shadow-none " />
                            </div>
                             <div class="w-25">
                                 <small>Due Date</small>
-                                <input type="date" class="form-control w-100">
+                                <input type="date" class="form-control w-100 outlineBtn shadow-none">
                             </div>
                         </div>
                       </li>
                       <li class="list-item d-flex">
                         <h6 class="h6 w-25 fs-6">Description</h6>
                         <div class="w-75">
-                            <textarea id="input" class="form-control" cols="30" rows="5" placeholder="Enter description about task card "></textarea>
+                            <textarea id="input" class="form-control outlineBtn shadow-none" cols="30" rows="5" placeholder="Enter description about task card "></textarea>
                         </div>
                       </li>
                       <li class="text-end">
-                         <button class="btn btn-sm btn-secondary px-3"><i class="fa-solid fa-pencil mx-1"></i>Update</button>
+                         <button class="btn btn-sm btn-success px-3"><i class="fa-solid fa-file-pen mx-1"></i>Update</button>
                       </li>
                    </ul>
 

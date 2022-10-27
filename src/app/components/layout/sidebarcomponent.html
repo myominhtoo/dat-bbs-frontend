@@ -9,36 +9,20 @@
     
     <ul class="w-100 p-0 m-0 snow">
         <!-- -->
-        <li routerLink="/home" class="item p-2 text-md-start text-center"><i class="fa-solid fa-house mx-2"></i> <span class="d-none d-md-inline-block">Home</span> </li>
-        <li routerLink="/my-tasks" class="item p-2 text-md-start text-center"><i class="fa-solid fa-bars-progress mx-2"></i><span class="d-none d-md-inline-block">My Tasks</span></li>
-        <li routerLink="/bookmarks" class="item p-2 text-md-start text-center"><i class="fa-solid fa-bookmark mx-2"></i><span class="d-none d-md-inline-block">Bookmarks</span></li>
-        <li routerLink="/notifications" class="item p-2 text-md-start text-center"><i class="fa-solid fa-bell mx-2"></i><span class="d-none d-md-inline-block">Notifications <span class="badge text-bg-danger rounded-pill">10+</span> </span></li>
-        <li routerLink="/reporting" class="item p-2 text-md-start text-center"><i class="fa-solid fa-chart-line mx-2"></i><span class="d-none d-md-inline-block">Reporting</span> </li>
+        <li routerLink="/home" class="item p-2 text-md-start text-center"><i class="bx bx-home-alt-2 bx-sm mx-2 bx-tada-hover color-hover-white"></i> <span class="d-none d-md-inline-block">Home</span> </li>
+        <li routerLink="/my-tasks" class="item p-2 text-md-start text-center"><i class="bx bx-task bx-sm bx-tada-hover mx-2 color-hover-white"></i><span class="d-none d-md-inline-block">My Tasks</span></li>
+        <li routerLink="/bookmarks" class="item p-2 text-md-start text-center"><i class="bx bx-bookmark bx-sm bx-tada-hover mx-2 color-hover-white"></i><span class="d-none d-md-inline-block">Bookmarks</span></li>
+        <li routerLink="/notifications" class="item p-2 text-md-start text-center"><i class='bx bx-bell bx-sm bx-tada-hover mx-2 color-hover-white'></i><span class="d-none d-md-inline-block">Notifications <span class="badge text-bg-danger rounded-pill">10+</span> </span></li>
+        <li routerLink="/reporting" class="item p-2 text-md-start text-center"><i class='bx bx-chart bx-sm mx-2 color-hover-white bx-tada-hover'></i><span class="d-none d-md-inline-block">Reporting</span> </li>
+        <li routerLink="/boards" class="item p-2 text-md-start text-center"><i class="bx bx-briefcase bx-sm bx-tada-hover mx-2 color-hover-white"></i>        <span  class="d-none d-md-inline-block"> My Workspace</span> </li>
+    
     </ul>
     <section class="container-fluid workspace mt-3 pt-1">
             <div class="row">
-                <div class="col-12 justify-content-center cursor-btn">
-                    <span routerLink="/boards" class="color-hover-white"> My Workspace</span>
-                    <i routerLink="/create-board" class="fas fa-folder-plus float-end pt-1 color-hover-white">
-                    </i>        
-                </div>                
-                
-                <ul class="d-flex list-unstyled col-5 mt-2 ">
-                    <li class="me-1 mt-1 ">
-                        <div class="rounded-icon cursor-btn ">Za</div>
-                    </li>
-                    <li class="me-1 mt-1 ">
-                        <div class="rounded-icon bg-secondary cursor-btn"></div>
-                    </li>
-                    <li class="me-1 mt-1 ">
-                        <div class="rounded-icon bg-secondary cursor-btn"></div>
-                    </li>
-                    
-                </ul>               
-                    <span class="col-7 badge  cursor-btn h-25 mt-3">
+                    <div class="col-12 badge  cursor-btn h-25 mt-0 mb-2 py-2">
                         <i class="fas fa-plus text-light"></i>
                             Invite people
-                    </span>           
+                    </div>           
                 <ul class="col-12 justify-content-center p-0 ">
                     <li routerLink="/boards/123" class="px-3 cursor-btn">
                         <i class="fas fa-square ws-icon text-primary"></i>

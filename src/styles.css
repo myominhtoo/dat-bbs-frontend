@@ -693,3 +693,8 @@ body{
     
  }
  
+ 
+/* 
+ .outlineBtn { outline:none; }
+
+.outlineBtn:hover, .outlineBtn:active, .outlineBtn:focus { outline: none; } */
