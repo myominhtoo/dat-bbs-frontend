@@ -12,22 +12,22 @@
                         </div>   -->
                         <div class="col-12 d-flex justify-content-center align-items-center">
                             <div class="mb-3 mx-auto imgholder">
-                                         
+
                                 <div *ngIf="user.imageUrl==null && this.imgValue==null" class="text-dark boardprofile d-flex justify-content-center align-items-center bg-secondary">
                                 <h1>{{ user.username &&  user.username[0].toUpperCase() }}</h1>
                                 </div>
-                                <img *ngIf="(user.imageUrl != null && this.imgValue==null)"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" loading="lazy" >                     
+                                <img *ngIf="(user.imageUrl != null && this.imgValue==null)"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" loading="lazy" >
                                 <img *ngIf="this.imgValue!=null"  [src]="this.imgValue" class=" boardprofile" alt="Board-Img" loading="lazy" >
-                                
-                                <span class="imgedit badge">                                    
+
+                                <span class="imgedit badge">
                                     <span class="fw-light" type="button" data-bs-toggle="dropdown">
                                         <i class="fas fa-edit"></i>
                                         Edit
                                     </span>
-                                    
+
                                     <ul class="dropdown-menu p-1 text-center">
                                     <li>
-                                    
+
                                     <input type="file" (change)="onFileChanged($event)" name="file" id="file"  class="dropdown-item inputfile" value="Upload Image" accept="image/png, image/jpeg , image/jpg">
                                     <label for="file" class="d-block fw-light">Upload Image</label>
                                     </li>
@@ -35,25 +35,25 @@
                                         <label for="btn" class="d-block fw-light">Remove Image</label>
                                     </li> -->
                                     </ul>
-                                </span>                    
-                            </div> 
+                                </span>
+                            </div>
                         </div>
-                        
-                        
+
+
                             <div class="text-end" *ngIf="this.imgValue!=null">
                             <div class="ask-container">
                                 <small class="text-start">Are you sure</small>
                                 <br>
-                                
+
                                 <button class="btn btn-primary btn-sm me-1 my-2  m-0" (click)="previewImg(true)">Yes</button>
                                 <button class="btn btn-primary btn-sm  my-2  m-0" (click)="previewImg(false)">No</button>
-                            
-                            </div>                                
-                            </div>                        
-                        
-                        
+
+                            </div>
+                            </div>
+
+
                         <div class="col-12">
-                                
+
                            <div class="card">
                         <div class="card-body">
                             <div class="col12">
@@ -72,12 +72,12 @@
 
                                 <div class="col-8">{{ userInfo.email }}</div>
 
-                            </div>  
+                            </div>
                             <div class="row card-title" *ngIf="userInfo.position">
                                 <div class="form-label float-start col-4">Position :</div>
 
                                 <div class="col-8">{{ userInfo.position  | titlecase }}</div>
-                            </div> 
+                            </div>
                             </div>
                            </div>
                         </div>
@@ -86,9 +86,9 @@
                 <div class="col-6 ">
                 <form #profile="ngForm" (ngSubmit)="saveProfile(profile)">
                     <div class="row d-flex justify-content-center align-items-center">
-          
+
                         <div class="col-12">
-                                
+
                             <div class="mb-3">
                                 <label for="exampleInpuxxtEmail1" class="form-label">Username</label>
                                 <input type="text" class="form-control" placeholder="Enter your name" id="username" name=username #username="ngModel"  [(ngModel)]="user.username" [class.is-invalid]="username.touched && username.invalid" required/>
@@ -102,7 +102,7 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Phone</label>
                                 <input type="text" class="form-control" placeholder="Enter your phone" name=phone  [(ngModel)]="user.phone"/>
-                            </div> 
+                            </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Gender</label><br>
                                 <label for="male" class="form-check-label pe-1">Male</label>
@@ -126,7 +126,7 @@
                                 <button class="btn me-4">Cancel</button>
                                 <button type="submit" class="btn btn-primary" [class.disabled]="!user.username || !user.email">Save </button>
                             </div>
-                            
+
                         </div>
                     </div>
                 </form>
