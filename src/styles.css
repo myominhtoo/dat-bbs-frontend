@@ -694,7 +694,8 @@ body{
  }
  
  
-/* 
- .outlineBtn { outline:none; }
-
-.outlineBtn:hover, .outlineBtn:active, .outlineBtn:focus { outline: none; } */
+.lineText{
+    display: flex;
+    justify-content: start;
+    align-items: flex-end;
+}
