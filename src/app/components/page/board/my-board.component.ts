@@ -89,7 +89,7 @@ export class MyBoardComponent implements OnInit {
 
     getUserMembers(){
       this.userService.getUsersForBoard(this.route.snapshot.params['id']).subscribe(data=>{
-            this.users =  data.map( d => d.user )
+            this.users =  data.map( d => d.user ).filter( user => user.username != null );
       });
     }
 
@@ -177,7 +177,8 @@ export class MyBoardComponent implements OnInit {
         }
     }
 
-    saveData(){
+    inviteMembers(){
+        if( this.emails.length == 0 && this.email.length > 5 ) this.emails.push(this.email);
         this.board.invitedEmails=this.emails;
         this.status.isInviting = true;
         swal({
@@ -196,6 +197,7 @@ export class MyBoardComponent implements OnInit {
                   }).then(() => {
                     this.emails = [];
                     this.email = "";
+                    this.getUserMembers();
                     $("#invite-modal .btn-close").click();
                   })
                 },

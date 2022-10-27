@@ -24,22 +24,24 @@ export class WorkspaceComponent implements OnInit {
 
     ngOnInit(): void {
         setTimeout(() => {
-            console.log(this.boardStore.boards)
                 this.getBoards();
         } , 500  );
         document.title = "BBMS | My Workspace";
-
     }
 
     drop( e : CdkDragDrop<Board[]> ){
 
     }
-getBoards(){
-    this.boards=this.boardStore.boards;
+    getBoards(){
+        this.boards=this.boardStore.boards;
 
-    this.ownerBoards= this.boards.filter((val)=>{
-            return val.user.id==this.storeUser.id;
+        this.ownerBoards= this.boards.filter((val)=>{
+                return val.user.id==this.storeUser.id;
+        })
+        this.assignBoards=this.boards.filter((val)=>{
+            return val.user.id!=this.storeUser.id;
     })
+
     this.assignBoards=this.boards.filter((val)=>{
         return val.user.id!=this.storeUser.id;
 })
