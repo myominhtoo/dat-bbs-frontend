@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Board } from "../../bean/board";
 import { BoardService } from "../http/board.service";
+import { UserStore } from "./user.store";
 
 @Injectable({
     providedIn : 'root'
@@ -11,9 +12,9 @@ export class BoardStore{
         isLoading : true
     }
 
-    constructor( private boaredService : BoardService ){
-        let storeUser = JSON.parse(atob(`${localStorage.getItem(btoa('user'))}`)); 
-        this.getBoardsByUserId( storeUser.id );
+    constructor( private boaredService : BoardService , private userStore : UserStore ){
+        this.userStore.fetchUserData();
+        if( this.userStore.user.id )  this.getBoardsByUserId( userStore.user.id );
     }
 
     private getBoardsByUserId( userId : number ){
