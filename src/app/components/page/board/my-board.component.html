@@ -18,26 +18,30 @@
                            <!-- Show offcanvas bar -->
 
                          <div class="offcanvas offcanvas-end" id="demo">
-                          <div class="offcanvas-header">
-                            <h1 class="offcanvas-title">Team Members</h1>
+                          <div class="offcanvas-header" style="background-color: rgb(96, 119, 111);">
+                            <h3 class="offcanvas-title" style="color: rgb(48, 50, 49); ">Team Members</h3>
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
                           </div>
-                          <div class="offcanvas-body">
+                          <div class="offcanvas-body" style="background-color: rgb(121, 138, 138);">
 
                             <!-- Showing views -->
-                           <table class="c" >
+                           <table class="c">
 
                             <tr *ngFor = "let u of users">
-                              <td>  <img src="/assets/img/board-profile-img/kyawgyi.png"  style="width:25px;height:25px;border-radius:100%; object-fit: cover; border: 1px #eee;" class="thm m-0 bg-primary p-0 border-1" alt=""></td>
-                              <td style="color: rgb(113, 14, 225); font-size: large; padding: 7px;">{{u.username}} </td>
-                              <td style="color: rgb(30, 211, 199); font-size: medium; padding: 5px;">{{u.email}} </td>
 
-                              <td><button type="submit" style="background-color: paleturquoise; padding: 5px 7px;">CHAT</button></td>
-                              <br>
+
+                             <td style="padding: 13px; "> <div  class="bg-pale-snow p-0 d-flex justify-content-center align-items-center" data-bs-toggle="dropdown" id="profile">
+                              <span *ngIf="u.imageUrl == null && u.username != null" class="text-dark">{{ u.username[0].toUpperCase() }}</span>
+                              <img  *ngIf="u.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+u.imageUrl"  alt="">
+                             </div>     </td>
+
+                              <td style="color: rgb(13, 13, 11); font-size: 100%; padding: 40px;">{{u.username}} </td>
+
+
                               <br>
                               </table>
 
-                                    <hr>
+
                               </div>
                            </div>
                              <!-- View container end!-->
