@@ -6,5 +6,5 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
     templateUrl  : './notifications.component.html'
 })
 export class NotificationsComponent{
-    constructor( public toggleStore : ToggleStore ){}
+    constructor( public toggleStore : ToggleStore ){document.title = "BBMS | Notification";}
 }

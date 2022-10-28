@@ -6,6 +6,6 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
     templateUrl : './create-taskCard.component.html'
 })
 export class CreateTaskCardComponent {
-    constructor( public toggleStore : ToggleStore ){}
+    constructor( public toggleStore : ToggleStore ){document.title = "BBMS | Create TaskCard";}
 
 }

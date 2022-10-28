@@ -30,6 +30,8 @@ export class WorkspaceComponent implements OnInit {
 =======
 >>>>>>> Stashed changes
         } , 500  );
+        document.title = "BBMS | My Workspace";
+
     }
 
     drop( e : CdkDragDrop<Board[]> ){

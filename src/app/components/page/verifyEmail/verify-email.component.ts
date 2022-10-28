@@ -21,6 +21,7 @@ export class VerifyEmailComponent implements OnInit{
     ngOnInit(): void {
         let storedData = localStorage.getItem(window.btoa(('user')));
         this.status.hasGotVerification = storedData ==  null ? false : JSON.parse(decodeURIComponent(escape(window.atob(`${storedData}`)))).hasGotVerification;
+        document.title = "BBMS | Verify Email";
 
     }
 
