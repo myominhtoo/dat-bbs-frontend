@@ -6,7 +6,6 @@ import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { Comment } from "src/app/model/bean/comment";
 import { CommentService } from "src/app/model/service/http/comment.service";
 import { User } from "src/app/model/bean/user";
-import $ from 'jquery';
 import 'emojionearea';
 
 @Component({

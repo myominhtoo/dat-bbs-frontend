@@ -17,7 +17,7 @@ export class TaskCardComponent implements OnInit {
     @Output('show-task') showTask = new EventEmitter<TaskCard>();
 
     ngOnInit() : void {
-        console.log((this.task.startedDate as unknown as Array<number>).toString())
+        // console.log((this.task.startedDate as unknown as Array<number>).toString())
     }
 
     handleShowOffCanvas( task : TaskCard ){

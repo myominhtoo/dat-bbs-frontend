@@ -38,7 +38,8 @@ import { PentaDatePipe } from "src/app/model/pipe/penta-date.pipe";
         LoadingComponent,
         TaskCardContainerComponent,
         TaskCardComponent,
-        TaskOffCanvasComponent
+        TaskOffCanvasComponent,
+        PentaDatePipe
     ]
 })
 export class LayoutModule{}
