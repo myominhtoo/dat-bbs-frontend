@@ -11,6 +11,7 @@ import { SidebarComponent } from "./sidebar.component";
 import { TaskCardContainerComponent } from "./task-card-container.component";
 import { TaskCardComponent } from "./task-card.component";
 import { TaskOffCanvasComponent } from "./task-offcanvas.component";
+import { PentaDatePipe } from "src/app/model/pipe/penta-date.pipe";
 
 @NgModule({
     declarations : [
@@ -20,7 +21,8 @@ import { TaskOffCanvasComponent } from "./task-offcanvas.component";
         LoadingComponent,
         TaskCardContainerComponent,
         TaskCardComponent,
-        TaskOffCanvasComponent
+        TaskOffCanvasComponent,
+        PentaDatePipe
     ],
     imports : [
         BrowserModule,

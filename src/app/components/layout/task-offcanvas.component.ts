@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input  } from "@angular/core";
 import { Activity } from "src/app/model/bean/activity";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { ActivityService } from "src/app/model/service/http/activity.service";
@@ -89,7 +89,7 @@ import 'emojionearea';
                     <div id="comments">
                         <div *ngFor="let comment of comments" id="comment-container" class="w-100 my-2 ">
                             <div id="comment-icon">
-                                <h6 class="h6 mx-2" style="font-size:17px !important;">{{ comment.user.username && comment.user.username | titlecase }}<small class="text-muted mx-2" style="font-size:13px;">Just Now</small></h6>
+                                <h6 class="h6 mx-2" style="font-size:17px !important;">{{ comment.user.username && comment.user.username | titlecase }}<small class="text-muted mx-2" style="font-size:13px;">{{ comment.createdDate | pentaDate }}</small></h6>
                                 <!-- <p id="icon"></p> -->
                             </div>
                             <p id="comment">
