@@ -18,7 +18,6 @@ export class BoardStore{
     }
 
     private getBoardsByUserId( userId : number ){
-        // console.log('helo')
         this.status.isLoading = true;
         this.boaredService.getBoardsForUser( userId )
         .subscribe({

@@ -177,7 +177,7 @@ export class MyBoardComponent implements OnInit {
         }
     }
 
-    saveData(){
+    inviteMembers(){
         this.board.invitedEmails=this.emails;
         this.status.isInviting = true;
         swal({

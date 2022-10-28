@@ -11,7 +11,9 @@ import { UserStore } from 'src/app/model/service/store/user.store';
 export class NavbarComponent{
     
     constructor( private toggleStore : ToggleStore , 
-        public userStore : UserStore ){}
+        public userStore : UserStore ){
+            userStore.fetchUserData();
+        }
 
     b = true;
 

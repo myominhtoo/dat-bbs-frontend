@@ -67,7 +67,7 @@
                                         <button class="btn-close" data-bs-dismiss="modal" data-bs-target="#invite-modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form (ngSubmit)="saveData()" class="form">
+                                        <form (ngSubmit)="inviteMembers()" class="form">
                                             <div id="invitedEmails">
                                                 <div  class="d-flex gap-1 flex-wrap my-1 ">
                                                     <span *ngFor="let email of emails ; let idx = index " (click)="updateEmail(idx)" class="badge d-inline-block fs-6 fw-light py-2 my-2 " id="mail-capsule">

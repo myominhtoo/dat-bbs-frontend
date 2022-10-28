@@ -19,7 +19,6 @@ export class UserStore{
        }
     }
 
-
     saveUserData( user : User ){
         localStorage.setItem(window.btoa(('user')),encode({id : user.id  , username : user.username , imageUrl : user.imageUrl}));
         this.fetchUserData();
