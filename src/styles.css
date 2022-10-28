@@ -743,4 +743,10 @@ body{
 .sider-scroll{
     height: 130px;
     overflow-y: scroll;
+
+}
+.board-input{
+    background:transparent;
+    outline: none;   
+    border: none;
 }

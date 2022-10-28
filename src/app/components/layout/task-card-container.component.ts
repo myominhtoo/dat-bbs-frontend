@@ -191,37 +191,3 @@ export class TaskCardContainerComponent implements OnInit {
   }
 
 }
-
-// <div
-//             class="task-cards my-1  px-2 py-3"
-//             data-bs-toggle="offcanvas"
-//             data-bs-target="#offcanvasWithBothOptions"
-//           >
-//             <h5 class="h6 text-muted">Task Card</h5>
-
-//             <div
-//               class="offcanvas offcanvas-end"
-//               data-bs-scroll="true"
-//               tabindex="-1"
-//               id="offcanvasWithBothOptions"
-//             >
-//               <div class="offcanvas-header">
-//                 <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
-//                   Backdrop with scrolling
-//                 </h5>
-//                 <button
-//                   type="button"
-//                   class="btn-close"
-//                   data-bs-dismiss="offcanvas"
-//                   aria-label="Close"
-//                 ></button>
-//               </div>
-//               <div class="offcanvas-body">
-//                 <p>
-//                   Try scrolling the rest of the page to see this option in
-//                   action.
-//                 </p>
-//               </div>
-//             </div>
-//           </div> -->
-

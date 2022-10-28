@@ -59,7 +59,8 @@ export class MyBoardComponent implements OnInit {
             msg : "",
         },
         addTaskError : '',
-        isLoadingOffcanvas : false
+        isLoadingOffcanvas : false,
+        isEditBoardName : false
     }
     // @Input('data') data : Stage = new Stage();
 
