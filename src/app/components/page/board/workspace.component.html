@@ -1,18 +1,16 @@
 <main class="p-0 m-0 d-flex gap-0" id="main">
    <sidebar></sidebar>
 
-    <div id="main-area" class="m-0 p-5" [class.sidebar-hide]="!toggleStore.isShow">
-        <div class="container-fluid">
-        <h1>I am Own by Me</h1>
-
+    <div id="main-area" class="m-0 p-4" [class.sidebar-hide]="!toggleStore.isShow">        
+        <div class="container-fluid mb-5">
+            <h2 *ngIf="ownerBoards.length!=0" class="border-board pb-3">My Boards <small  class="h6 text-muted"> (Created By Me) </small></h2>
         <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="ownerBoards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
             <board cdkDrag  *ngFor="let board of ownerBoards;let idx = index;" [data]="board" [routerLink]="'/boards/'+board.id"  class="col-3"></board>
         </div>
     </div>
     <div class="container-fluid">
-        <h1>I am assign by other</h1>
-        
-        <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="assignBoards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
+        <h2 *ngIf="assignBoards.length!=0" class="border-board pb-3">Joined Boards <small class="h6 text-muted">(Created By Others)</small></h2>
+        <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="assignBoards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap" >
             <board cdkDrag  *ngFor="let board of assignBoards;let idx = index;" [data]="board" [routerLink]="'/boards/'+board.id"  class="col-3"></board>
         </div>
     </div>

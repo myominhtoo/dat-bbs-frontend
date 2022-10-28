@@ -27,20 +27,31 @@
 
                             <!-- Showing views -->
                            <div class="container-fluid p-0 m-0">                            
+
                             <div *ngFor = "let u of users" class="row p-0 m-0  d-flex justify-content-center align-items-center">
+
                                 <!-- start col-12 -->
-                            <div class="col-12 hover-member rounded-3 d-flex align-items-center p-0 m-0">
+                            <div class="col-12 hover-member p-3 rounded-3 d-flex align-items-center justify-content-between p-0 m-0 member-container">
                                 
-                                <div class="p-2">                             
+                            <div class="">                             
                                 <div  class="d-inline-block mx-3 " id="profile-member">
                                <span *ngIf="u.imageUrl == null && u.username != null" class="text-dark">{{ u.username[0].toUpperCase() }}</span>
                               <img  *ngIf="u.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+u.imageUrl"  alt="">                                                             
                             </div>                             
                             <div class="d-inline-block fw-light">{{u.username}}</div>
-                            </div>
-
+                            
+                            </div>                            
                               <br>
+                              
+                                <small class="d-flex justify-content-center align-content-center badge bg-secondary">
+                                    <i class='bx bx-pulse bx-sm'></i>
+                                   <span class="pt-2">pending</span>
+                                </small>
+                         
+                                
+                              
                             </div>
+                            
                             
                             <!-- end col-12 -->
                             

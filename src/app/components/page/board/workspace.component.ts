@@ -41,6 +41,10 @@ export class WorkspaceComponent implements OnInit {
         this.assignBoards=this.boards.filter((val)=>{
             return val.user.id!=this.storeUser.id;
     })
+
+    this.assignBoards=this.boards.filter((val)=>{
+        return val.user.id!=this.storeUser.id;
+})
         
     }
 
