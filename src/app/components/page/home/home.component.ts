@@ -6,6 +6,10 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
     templateUrl : './home.component.html',
 })
 export class HomeComponent {
-    constructor( public toggleStore : ToggleStore ){}
+    constructor( public toggleStore : ToggleStore ){document.title = "BBMS | Home";}
 
 }
+
+
+
+    

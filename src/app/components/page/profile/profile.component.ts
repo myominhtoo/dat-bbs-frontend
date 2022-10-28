@@ -39,6 +39,8 @@ export class ProfileComponent{
     ngOnInit(): void {      
       this.imgValue=null;
       this.getUserData(this.storeUser.id);
+      document.title = "BBMS | Profile";
+
       
     }
 

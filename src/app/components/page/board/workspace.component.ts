@@ -25,6 +25,8 @@ export class WorkspaceComponent implements OnInit {
         setTimeout(() => {
             console.log(this.boardStore.boards)
         } , 500  );
+        document.title = "BBMS | My Workspace";
+
     }
 
     drop( e : CdkDragDrop<Board[]> ){

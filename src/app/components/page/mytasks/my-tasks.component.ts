@@ -6,5 +6,5 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
     templateUrl : './my-tasks.component.html',
 })
 export class MyTaskComponent{
-    constructor( public toggleStore : ToggleStore ){}
+    constructor( public toggleStore : ToggleStore ){document.title = "BBMS | My Tasks";}
 }

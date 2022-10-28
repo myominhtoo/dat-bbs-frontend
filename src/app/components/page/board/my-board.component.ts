@@ -82,6 +82,8 @@ export class MyBoardComponent implements OnInit {
         this.stage.defaultStatus = false;
 
         this.getUserMembers();
+        document.title = "BBMS | My Board";
+
     }
 
 
