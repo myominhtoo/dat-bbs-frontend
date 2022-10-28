@@ -59,6 +59,7 @@ export class MyBoardComponent implements OnInit {
             msg : "",
         },
         addTaskError : '',
+        addBoardError : '',
         isLoadingOffcanvas : false,
         isEditBoardName : false
     }
@@ -372,4 +373,36 @@ export class MyBoardComponent implements OnInit {
         }
       })
     }
+
+    handleUpdateBoardName( e : KeyboardEvent ){
+      const input = e.target as HTMLInputElement;
+      this.status.addBoardError = '';
+      if( e.key === "Escape" ){
+        this.status.isEditBoardName= false;
+        
+        input.blur();
+      }
+      if( e.key === 'Enter' ){
+           this.boardService.updateBoard( this.board )
+           .subscribe({
+               next : res => {
+                   this.board = res.data;
+                  
+                   this.status.isEditBoardName=false;
+                   input.blur();
+               },
+               error : err => {
+                   this.status.addBoardError = err.error.message;
+               }
+           });
+
+      }
+    
+
+   }
+
+   setupEditBoard(){
+    this.status.isEditBoardName=true;
+    console.log("hello");
+   }
 }

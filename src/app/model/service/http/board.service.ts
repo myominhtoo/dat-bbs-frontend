@@ -29,4 +29,9 @@ export class BoardService{
       return this.httpClient.post<Board[]> (`http://localhost:8080/api/boards/${boardId}/invite-members` ,board);
     }
 
+    updateBoard(board: Board) : Observable<HttpResponse<Board>>{
+      return this.httpClient.put<HttpResponse<Board>>(`http://localhost:8080/api/update-board`,board)
+    }
+
 }
+
