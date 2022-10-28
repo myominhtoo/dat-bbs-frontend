@@ -25,10 +25,7 @@ export class WorkspaceComponent implements OnInit {
     ngOnInit(): void {
         setTimeout(() => {
             // console.log(this.boardStore.boards)
-<<<<<<< Updated upstream
                 this.getBoards();
-=======
->>>>>>> Stashed changes
         } , 500  );
     }
 
