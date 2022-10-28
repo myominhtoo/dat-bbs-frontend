@@ -25,10 +25,7 @@ export class WorkspaceComponent implements OnInit {
     ngOnInit(): void {
         setTimeout(() => {
             // console.log(this.boardStore.boards)
-<<<<<<< Updated upstream
                 this.getBoards();
-=======
->>>>>>> Stashed changes
         } , 500  );
         document.title = "BBMS | My Workspace";
 
@@ -46,6 +43,7 @@ getBoards(){
     this.assignBoards=this.boards.filter((val)=>{
         return val.user.id!=this.storeUser.id;
 })
+console.log(this.assignBoards);
         
     }
 
