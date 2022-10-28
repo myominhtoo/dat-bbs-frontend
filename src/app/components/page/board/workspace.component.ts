@@ -9,17 +9,17 @@ import { Board } from "src/app/model/bean/board";
     templateUrl : './workspace.component.html'
 })
 export class WorkspaceComponent implements OnInit {
-    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))); 
+    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     boards : Board [] = [];
     ownerBoards:Board[]=[];
     assignBoards:Board[]=[];
     status = {
         isLoading : false
     }
-    
-    constructor( 
+
+    constructor(
         public toggleStore : ToggleStore ,
-        // private boardService : BoardService , 
+        // private boardService : BoardService ,
         public boardStore : BoardStore  ){}
 
     ngOnInit(): void {
@@ -30,7 +30,7 @@ export class WorkspaceComponent implements OnInit {
     }
 
     drop( e : CdkDragDrop<Board[]> ){
-       
+
     }
     getBoards(){
         this.boards=this.boardStore.boards;
@@ -45,17 +45,17 @@ export class WorkspaceComponent implements OnInit {
     this.assignBoards=this.boards.filter((val)=>{
         return val.user.id!=this.storeUser.id;
 })
-        
+
     }
 
 }
 
 
-    // func to get boards 
+    // func to get boards
     // getMyBoards(){
     //     this.status.isLoading = true;
     //     /*
-    //       param is to input user Id 
+    //       param is to input user Id
     //     */
     //     this.boardService.getBoardsForUser( 1 )
     //     .subscribe({
