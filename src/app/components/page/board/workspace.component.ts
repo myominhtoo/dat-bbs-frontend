@@ -9,9 +9,10 @@ import { Board } from "src/app/model/bean/board";
     templateUrl : './workspace.component.html'
 })
 export class WorkspaceComponent implements OnInit {
-
-    // boards : Board [] = [];
-
+    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))); 
+    boards : Board [] = [];
+    ownerBoards:Board[]=[];
+    assignBoards:Board[]=[];
     status = {
         isLoading : false
     }
@@ -23,14 +24,27 @@ export class WorkspaceComponent implements OnInit {
 
     ngOnInit(): void {
         setTimeout(() => {
-            console.log(this.boardStore.boards)
+            // console.log(this.boardStore.boards)
+                this.getBoards();
         } , 500  );
     }
 
     drop( e : CdkDragDrop<Board[]> ){
        
     }
+getBoards(){
+    this.boards=this.boardStore.boards;
 
+    this.ownerBoards= this.boards.filter((val)=>{
+            return val.user.id==this.storeUser.id;
+    })
+    this.assignBoards=this.boards.filter((val)=>{
+        return val.user.id!=this.storeUser.id;
+})
+        
+    }
+
+}
 
 
     // func to get boards 
@@ -51,4 +65,3 @@ export class WorkspaceComponent implements OnInit {
     //     });
     // }
 
-}
