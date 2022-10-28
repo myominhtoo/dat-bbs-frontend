@@ -27,6 +27,8 @@ export class WorkspaceComponent implements OnInit {
             // console.log(this.boardStore.boards)
                 this.getBoards();
         } , 500  );
+        document.title = "BBMS | My Workspace";
+
     }
 
     drop( e : CdkDragDrop<Board[]> ){

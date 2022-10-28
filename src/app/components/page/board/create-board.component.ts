@@ -56,7 +56,9 @@ export class CreateBoardComponent implements OnInit {
     }
 
     ngOnInit(): void {
-      this.getAllUsers();     
+      this.getAllUsers();
+      document.title = "BBMS | Create Board";
+     
     }
   
     onChange( event : KeyboardEvent ){

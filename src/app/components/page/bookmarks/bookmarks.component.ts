@@ -6,5 +6,5 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
     templateUrl : './bookmarks.component.html'
 })
 export class BoardMarkComponent{
-    constructor( public toggleStore : ToggleStore ){}
+    constructor( public toggleStore : ToggleStore ){document.title = "BBMS | Bookmarks";}
 }
