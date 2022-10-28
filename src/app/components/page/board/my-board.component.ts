@@ -1,5 +1,5 @@
 import { Component , OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, ChildActivationEnd, NavigationEnd, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
 import { Stage } from "src/app/model/bean/stage";
 import { TaskCard } from "src/app/model/bean/taskCard";
@@ -72,11 +72,14 @@ export class MyBoardComponent implements OnInit {
          private activityService : ActivityService ,
          private commentService : CommentService,
          private userService :UserService  ){
-
           this.users=[];
+          // console.log(this.router)
          }
 
     ngOnInit(): void {
+      //listening route
+      this.handleRouteChange();
+      
         this.doActionForCurrentBoard( this.route.snapshot.params['id'] );
         this.stage.stageName = "";
         this.stage.defaultStatus = false;
@@ -355,4 +358,17 @@ export class MyBoardComponent implements OnInit {
       this.getCommentsForTaskCard( task.id );
     }
 
+    handleRouteChange(){
+      this.router.events.subscribe( e => {
+        if( e instanceof NavigationEnd ){
+          if( e.url.includes('/boards')){
+            let boardId = this.route.snapshot.params['id'];
+            this.doActionForCurrentBoard( boardId );
+            this.stage.stageName = "";
+            this.stage.defaultStatus = false;  
+            this.getUserMembers();
+          }
+        }
+      })
+    }
 }

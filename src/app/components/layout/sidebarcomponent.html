@@ -19,25 +19,18 @@
     
     </ul>
     <section class="container-fluid workspace mt-3 pt-1">
-            <div class="row">
+            <div class="row ">
                     <div class="col-12 badge  cursor-btn h-25 mt-0 mb-2 py-2">
                         <i class="fas fa-plus text-light bx-tada-hover me-1"></i>
                             Invite people
                     </div>           
-                <ul class="col-12 justify-content-center p-0 ">
-                    <li routerLink="/boards/123" class="px-3 cursor-btn">
-                        <i class="fas fa-square ws-icon text-primary"></i>
-                        <span class="color-hover-white">DAT</span>                    
+                <ul class="col-12 justify-content-center p-0 sider-scroll" >
+                    <li *ngFor="let board of sideBoards" class="px-3 cursor-btn" (click)="handleGoBoard(board.id)">
+                        <i class="fas fa-square ws-icon"></i>
+                        <span  class="color-hover-white">{{board.boardName}}</span>                    
                           <i class="fas fa-ellipsis float-end pt-1 color-hover-white bx-tada-hover">
                           </i>        
-                    </li>
-                    <li routerLink="/boards/321" class="px-3 cursor-btn">
-                        <i class="fas fa-square ws-icon text-warning"></i>
-                        <span class="color-hover-white">ACE</span>
-                        
-                          <i class="fas fa-ellipsis float-end pt-1 color-hover-white bx-tada-hover">
-                            </i>        
-                    </li>                                     
+                    </li>                    
                 </ul>           
             </div>                              
     </section>

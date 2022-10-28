@@ -9,8 +9,8 @@
                     <div class="px-5 col-12 d-flex justify-content-between align-items-center">
                         <h3 class="text-dark-50 h2 my-0 mx-3">{{ board.boardName && board.boardName | titlecase }}</h3>
                         <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#invite-modal"><i class="fa-solid fa-user-plus mx-1"></i>Invite</button>
-                            <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+                            <button class="btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#invite-modal"><i class="fa-solid fa-user-plus mx-1"></i>Invite</button>
+                            <button class="btn btn-sm myboard-btn btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
                                 <i class="fa-solid fa-people-group"></i>
                               Members
                              </button>
@@ -43,9 +43,9 @@
                             </div>                            
                               <br>
                               
-                                <small class="d-flex justify-content-center align-content-center badge bg-secondary">
+                                <small class="d-flex justify-content-center align-content-center badge bg-stage-dark opacity-50">
                                     <i class='bx bx-pulse bx-sm'></i>
-                                   <span class="pt-2">pending</span>
+                                   <span class="pt-2 fw-light">pending</span>
                                 </small>
                          
                                 
