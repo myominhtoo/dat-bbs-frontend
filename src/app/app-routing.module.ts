@@ -65,7 +65,7 @@ const routes: Routes = [
   },
   {
     path : 'boards/:id',
-    component : MyBoardComponent
+    component : MyBoardComponent,
   },
   {
     path : 'create-taskCard',
