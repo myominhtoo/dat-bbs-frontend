@@ -15,7 +15,6 @@ export class AppComponent {
   constructor( public router : Router ){
     this.router.events.subscribe( ( event ) => {
       if( event instanceof NavigationEnd ){
-        console.log(event.url.includes('/register'))
          this.currentUrl = event.url;
       }
     })

@@ -23,17 +23,17 @@ export class PentaDatePipe implements PipeTransform {
 
       let hasYearDiff =  curYear - Number(year) >= 1;
       let hasMonthDiff =  (curMonth+1) - Number(month) >= 0;
+      let hasDayDiff =  Math.abs( curDay - Number(day)) > 1;
       let dayDiff =  curDay - Number(day);
 
       result += hasYearDiff ? year+' ' : '';
       result += hasYearDiff || hasMonthDiff ? this.months[Number(month) -1 ] : '';
+      result += ` ${day} `;
       result += ( hasYearDiff || hasMonthDiff ) ? ' At ' : '';
+      console.log(hasDayDiff)
 
-      if( (hasYearDiff || hasMonthDiff) ){
-        if( hour == '00' || min == '00') result += `01:00`;
-        else result += `${ Number(hour) > 12 ? Number(hour) -12 : hour }:${ Number(min) < 10 ? '0'+min : min }`;
-        return result;
-      }else{
+      if( !hasDayDiff ){
+
         if( dayDiff == 1 ){
           result = 'Yesterday';
           return result;
@@ -49,6 +49,11 @@ export class PentaDatePipe implements PipeTransform {
             result += Number(curMin) - Number(min) > 1 ? ' mins ago' : ' min ago';
           }
         }
+      }else{
+        if( hour == '00' || min == '00') result += `01:00`;
+        else result += `${ Number(hour) > 12 ? Number(hour) -12 : hour }:${ min }`;
+        result += `${ Number(hour) > 12 ? ' P.M' : ' A.M' }`;
+        return result;
       }
 
       return result;

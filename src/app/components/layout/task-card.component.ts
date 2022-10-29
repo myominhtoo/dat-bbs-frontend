@@ -21,7 +21,6 @@ export class TaskCardComponent implements OnInit {
     }
 
     handleShowOffCanvas( task : TaskCard ){
-        console.log(task);
         this.showTask.emit( task );
     }
 }
