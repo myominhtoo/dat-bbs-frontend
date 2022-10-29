@@ -1,5 +1,5 @@
 import { Component , OnInit } from "@angular/core";
-import { ActivatedRoute, ChildActivationEnd, NavigationEnd, Router } from "@angular/router";
+import { ActivatedRoute , NavigationEnd, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
 import { Stage } from "src/app/model/bean/stage";
 import { TaskCard } from "src/app/model/bean/taskCard";
@@ -23,7 +23,7 @@ import { User } from "src/app/model/bean/user";
 })
 export class MyBoardComponent implements OnInit {
 
-     users:User[];
+    users:User[];
     public stages : Stage [] = [];
     taskCardsMap : Map<string,TaskCard[]> = new Map();
     board : Board = new Board();
@@ -91,6 +91,13 @@ export class MyBoardComponent implements OnInit {
 
     }
 
+    getRelationContainers( me : Stage ){
+      return this.stages.filter( stage => {
+        return stage.id != me.id;
+      }).map( filterStage => {
+        return `${filterStage.stageName}`;
+      })
+    }
 
     getUserMembers(){
       this.userService.getUsersForBoard(this.route.snapshot.params['id']).subscribe(data=>{
@@ -290,7 +297,7 @@ export class MyBoardComponent implements OnInit {
        stages.forEach( stage => {
         this.taskCardsMap.set( stage.stageName , [] );
        })
-
+       console.log(taskCards)
        taskCards.forEach( taskCard => {
          let prevTaskCards = this.taskCardsMap.get(taskCard.stage.stageName);
          prevTaskCards?.push(taskCard);
