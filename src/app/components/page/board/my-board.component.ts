@@ -61,7 +61,8 @@ export class MyBoardComponent implements OnInit {
         addTaskError : '',
         addBoardError : '',
         isLoadingOffcanvas : false,
-        isEditBoardName : false
+        isEditBoardName : false,
+        tempBoardName : ''
     }
     // @Input('data') data : Stage = new Stage();
 
@@ -383,7 +384,7 @@ export class MyBoardComponent implements OnInit {
       this.status.addBoardError = '';
       if( e.key === "Escape" ){
         this.status.isEditBoardName= false;
-        
+        this.board.boardName=this.status.tempBoardName;
         input.blur();
       }
       if( e.key === 'Enter' ){
@@ -407,5 +408,6 @@ export class MyBoardComponent implements OnInit {
 
    setupEditBoard(){
     this.status.isEditBoardName=true;
+    this.status.tempBoardName=this.board.boardName;
    }
 }
