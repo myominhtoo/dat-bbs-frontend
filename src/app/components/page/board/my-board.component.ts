@@ -185,19 +185,20 @@ export class MyBoardComponent implements OnInit {
     inviteMembers(){
         if( this.emails.length == 0 && this.email.length > 5 ) this.emails.push(this.email);
         this.board.invitedEmails=this.emails;
-        this.status.isInviting = true;
-        swal({
+        if( this.emails.length > 0 || this.email.length > 5 ){
+          swal({
             text : 'Are you sure to invite this members?',
             icon : 'warning',
             buttons : [ 'No' , 'Yes' ]
           }).then( isYes => {
             if( isYes ){
-                this.boardService.getBoardWithEmail(this.board.id, this.board)
+              this.status.isInviting = true;
+              this.boardService.inviteMembersToBoard(this.board.id, this.board)
               .subscribe({
                 next : data => {
                   this.status.isInviting = false;
                   swal({
-                    text : 'successfully Invited !',
+                    text : 'Successfully Invited !',
                     icon : 'success'
                   }).then(() => {
                     this.emails = [];
@@ -215,6 +216,9 @@ export class MyBoardComponent implements OnInit {
               this.status.isInviting = false;
             }
           })
+        }else{
+          $("#invite-modal .btn-close").click();
+        }
     }
 
     onChange( event : KeyboardEvent ){
@@ -403,6 +407,5 @@ export class MyBoardComponent implements OnInit {
 
    setupEditBoard(){
     this.status.isEditBoardName=true;
-    console.log("hello");
    }
 }

@@ -25,7 +25,7 @@ export class BoardService{
       return this.httpClient.get<Board>(`http://localhost:8080/api/boards/${boardId}`);
     }
 
-    getBoardWithEmail( boardId : number , board : Board) : Observable<Board[]> {
+    inviteMembersToBoard( boardId : number , board : Board) : Observable<Board[]> {
       return this.httpClient.post<Board[]> (`http://localhost:8080/api/boards/${boardId}/invite-members` ,board);
     }
 

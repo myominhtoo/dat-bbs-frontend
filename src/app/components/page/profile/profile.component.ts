@@ -95,7 +95,6 @@ export class ProfileComponent{
        //Select File
       this.user.image =  event.target.files[0];  
       if (event.target.files && event.target.files[0]) {
-        console.log('h')
         const reader = new FileReader();
         reader.readAsDataURL(this.user.image);
         reader.onload = () => {
@@ -107,16 +106,15 @@ export class ProfileComponent{
     }
     previewImg(bol:boolean){
       this.status.preview.ok=bol;
-      console.log(this.status.preview.ok)
       if( this.status.preview.ok){
-        this.imgValue=null
         this.status.preview.textShow=false;
         this.userService.uploadPhoto( this.user.image ,this.user.id).subscribe({
           next:(res)=>{
                 setTimeout(() => {
+                  this.imgValue = null;
                   this.user.imageUrl = res.data.imageUrl;
                   this.userStore.saveUserData( res.data );
-                } , 1000 );
+                } , 500 );
       
           },
           error:(err)=>{

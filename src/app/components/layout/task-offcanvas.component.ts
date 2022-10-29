@@ -315,9 +315,15 @@ export class TaskOffCanvasComponent {
        .subscribe({
         next : res => {
             if( res.ok ){
+                const commentsContainer = document.getElementById('comments');
                 this.comment.comment = '';
-               // console.log(res.data)
                 this.comments.push(res.data);
+                commentsContainer?.scrollTo({
+                    top : commentsContainer.scrollHeight + 500,
+                    behavior : 'smooth'
+                })
+                console.log(commentsContainer?.scrollHeight)
+
             }
         },
         error : err => {

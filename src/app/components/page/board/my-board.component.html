@@ -36,40 +36,27 @@
                                 
                             <div class="">                             
                                 <div  class="d-inline-block mx-3 " id="profile-member">
-                               <span *ngIf="u.imageUrl == null && u.username != null" class="text-dark">{{ u.username[0].toUpperCase() }}</span>
-                              <img  *ngIf="u.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+u.imageUrl"  alt="">                                                             
-                            </div>                             
-                            <div class="d-inline-block fw-light">{{ u.username | titlecase }}</div>
-                            </div>
-
-                              <br>
-                              
+                                    <span *ngIf="u.imageUrl == null && u.username != null" class="text-dark">{{ u.username[0].toUpperCase() }}</span>
+                                    <img  *ngIf="u.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+u.imageUrl"  alt="">                                                             
+                                </div>                             
+                                <div class="d-inline-block fw-light">{{ u.username | titlecase }}</div>
+                                </div>
+                                <br>
                                 <small class="d-flex justify-content-center align-content-center badge bg-stage-dark opacity-50">
                                     <i class='bx bx-pulse bx-sm'></i>
                                    <span class="pt-2 fw-light">pending</span>
-                                </small>
-                         
-                                
-                              
-                            </div>
-                            
-                            
-                            <!-- end col-12 -->
-                            
-                            
+                                </small>          
+                            </div>                          
+                            <!-- end col-12 -->                           
                         </div>
-                        
-                              </div>
+                        </div>
                               <!-- </tr> -->
-                              
-
-
-                              </div>
-                           </div>
+                     </div>
+                </div>
                              <!-- View container end!-->
 
                          <!--  model for invite members -->
-                        <div class="modal fade" id="invite-modal">
+                        <div class="modal fade" id="invite-modal" data-bs-backdrop="static" data-bs-keyword="false">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">

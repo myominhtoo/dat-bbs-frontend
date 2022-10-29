@@ -4,9 +4,10 @@ import { Pipe, PipeTransform } from "@angular/core";
     name : 'pentaDate'
 })
 export class PentaDatePipe implements PipeTransform {
-  public dateObj : Date =new Date();
+    
+    public dateObj : Date =new Date();
 
-     months = ['Jan','Feb','Mar','Apr','May','June','July','Aug','Sep','Oct','Nov','Dec']
+    months = ['Jan','Feb','Mar','Apr','May','June','July','Aug','Sep','Oct','Nov','Dec']
 
     transform(value: any) {
       let [ date , time ] = value.split(' ');
@@ -24,29 +25,27 @@ export class PentaDatePipe implements PipeTransform {
       let hasYearDiff =  curYear - Number(year) >= 1;
       let hasMonthDiff =  (curMonth+1) - Number(month) >= 0;
       let hasDayDiff =  Math.abs( curDay - Number(day)) > 1;
-      let dayDiff =  curDay - Number(day);
+      let dayDiff =  Math.abs(curDay - Number(day));
 
       result += hasYearDiff ? year+' ' : '';
       result += hasYearDiff || hasMonthDiff ? this.months[Number(month) -1 ] : '';
       result += ` ${day} `;
       result += ( hasYearDiff || hasMonthDiff ) ? ' At ' : '';
-      console.log(hasDayDiff)
 
       if( !hasDayDiff ){
 
-        if( dayDiff == 1 ){
+        if( dayDiff == 1 && curHour >= Number(hour) ){
           result = 'Yesterday';
           return result;
         }else{
-          if( Number(curHour) - Number(hour) > 1 ){
-
-            let resultHour = Number(curHour) - Number(hour);
+          if( dayDiff == 0 &&  (Number(curHour) - Number(hour) < 1 || (curHour - Number(hour) == 1 && ((60 - Math.abs(curMin - Number(min))) < 60 )))){
+            result = `${ Number(curHour) - Number(hour) < 1 ? (curMin - Number(min)) : ( 60 - Math.abs(curMin - Number(min))) }`;
+            if( (curHour == Number(hour)) &&  curMin == Number(min)) return 'Just Now';
+            result +=  Number(result) > 1 ? ' mins ago' : ' min ago';
+          }else{
+            let resultHour = dayDiff == 1 ? ( 24 - (Math.abs(curHour - Number(hour)))) :  curHour > Number(hour) ? curHour - Number(hour) : ( curHour + Number(hour));
             result = `${resultHour}`;
             result += resultHour > 1 ? ' hrs ago' : ' hr ago';
-          }else{
-            result = `${Number(curMin) - Number(min)}`
-            if( Number(result) <= 1 ) return 'Just Now';
-            result += Number(curMin) - Number(min) > 1 ? ' mins ago' : ' min ago';
           }
         }
       }else{
