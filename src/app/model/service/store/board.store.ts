@@ -7,6 +7,7 @@ import { UserStore } from "./user.store";
     providedIn : 'root'
 })
 export class BoardStore{
+    colorBoards:string[]=["#F06A6A","#9EE7E3","#A9C953","#4573D2","#6D6E6F","#8D84E8","#F8DF72","#E7B568","#F1BD6C"]
     public boards : Board [] = [];
     public status = {
         isLoading : true
@@ -16,6 +17,10 @@ export class BoardStore{
         this.userStore.fetchUserData();
         if( this.userStore.user.id )  this.getBoardsByUserId( userStore.user.id );
     }
+    public randomNumberBoard(){
+        let number = Math.floor(Math.random() * this.colorBoards.length);
+        return this.colorBoards[number];
+    }
 
     private getBoardsByUserId( userId : number ){
         this.status.isLoading = true;
@@ -24,6 +29,10 @@ export class BoardStore{
             next : datas => {
                 this.status.isLoading = false;
                 this.boards = datas;
+                this.boards=this.boards.map(res=> {
+                    return{...res,color:this.randomNumberBoard()}
+                });
+                
                 // console.log('running')
             },
             error : err => {
@@ -31,7 +40,8 @@ export class BoardStore{
             }
         });
     }
-
+   
+    
     public refetchBoardsByUserId( userId : number ){
         this.getBoardsByUserId( userId );
     }

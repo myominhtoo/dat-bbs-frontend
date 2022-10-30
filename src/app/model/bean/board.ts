@@ -16,6 +16,7 @@ export class Board {
     /*
      only to display in ui
     */
+   color !:string;
    tasks !: TaskCard[];
    members !: User[];
 }

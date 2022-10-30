@@ -1,3 +1,4 @@
+import { BoardStore } from 'src/app/model/service/store/board.store';
 import { Component , OnInit } from "@angular/core";
 import { ActivatedRoute , NavigationEnd, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
@@ -22,12 +23,13 @@ import { User } from "src/app/model/bean/user";
     templateUrl : './my-board.component.html'
 })
 export class MyBoardComponent implements OnInit {
-
+  
+  
     users:User[];
     public stages : Stage [] = [];
     taskCardsMap : Map<string,TaskCard[]> = new Map();
     board : Board = new Board();
-
+    
     email : string ='';
     emails :string[] =[];
     filterEmails : string [] = [];
@@ -68,6 +70,7 @@ export class MyBoardComponent implements OnInit {
 
     constructor( public toggleStore : ToggleStore ,
          public route : ActivatedRoute ,
+         public boardStore:BoardStore,
          private router : Router ,
          private stageService : StageService ,
          private boardService : BoardService ,
@@ -127,8 +130,8 @@ export class MyBoardComponent implements OnInit {
         .subscribe({
             next : board => {
                 this.status.isLoading = false;
-                this.board = board;
-
+                this.board = board;   
+                
                 this.getTaskCards( boardId );
             },
             error : err  => {
@@ -416,4 +419,5 @@ export class MyBoardComponent implements OnInit {
     this.status.isEditBoardName=true;
     this.status.tempBoardName=this.board.boardName;
    }
+
 }

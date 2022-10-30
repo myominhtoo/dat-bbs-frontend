@@ -25,7 +25,7 @@ export class WorkspaceComponent implements OnInit {
     ngOnInit(): void {
         setTimeout(() => {
                 this.getBoards();
-        } , 500  );
+        } , 100  );
         document.title = "BBMS | My Workspace";
     }
 

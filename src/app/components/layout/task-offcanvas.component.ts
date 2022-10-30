@@ -232,13 +232,10 @@ export class TaskOffCanvasComponent {
 
          }
 
-<<<<<<< Updated upstream
-=======
 
     
 
 
->>>>>>> Stashed changes
     changeTab( tab : string ){
         this.tab = tab;
     }

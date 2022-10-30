@@ -7,8 +7,15 @@
             <div class="container-fluid">
                 <div class="row border-board">
                     <div class="px-5 col-12 d-flex justify-content-between align-items-center">
-                        <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->
+                        <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->            
+                        <div class=" d-flex p-0 m-0">
+                            <span class="iconBoard rounded-4 m-0 d-flex justify-content-center align-items-center" >                                
+                                    <i class='bx bx-md bx-list-ul'></i>
+                                    
+                            </span>
+                        
                         <input (focus)="setupEditBoard()" type="text" class="text-dark-50 h2 mx-3 board-input w-50 my-2 shadow-none board-input" (keydown)="handleUpdateBoardName($event)" [class.form-control]="status.isEditBoardName" placeholder="Enter board's name"  [(ngModel)]="board.boardName" >
+                    </div>
                         <div class="d-flex gap-2">
                             <button class="btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#invite-modal"><i class="fa-solid fa-user-plus mx-1"></i>Invite</button>
                             <button class="btn btn-sm myboard-btn btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
@@ -32,17 +39,17 @@
                             <div *ngFor = "let u of users" class="row p-0 m-0  d-flex justify-content-center align-items-center">
 
                                 <!-- start col-12 -->
-                            <div class="col-12 hover-member p-3 rounded-3 d-flex align-items-center justify-content-between p-0 m-0 member-container">
+                            <div class="col-12 hover-member p-2 mb-2 rounded-3 d-flex align-items-center justify-content-between p-0 m-0 member-container">
                                 
-                            <div class="">                             
-                                <div  class="d-inline-block mx-3 " id="profile-member">
-                                    <span *ngIf="u.imageUrl == null && u.username != null" class="text-dark">{{ u.username[0].toUpperCase() }}</span>
-                                    <img  *ngIf="u.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+u.imageUrl"  alt="">                                                             
+                            <div class="m-0 p-0 ">                             
+                                <div  class="d-inline-block mx-2 " id="profile-member">
+                                    <span *ngIf="u.imageUrl == null && u.username != null" class="text-dark bg-secondary d-flex justify-content-center align-items-center" id="profile-member">{{ u.username[0].toUpperCase() }}</span>
+                                    <img  *ngIf="u.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+u.imageUrl"  alt="">
                                 </div>                             
-                                <div class="d-inline-block fw-light">{{ u.username | titlecase }}</div>
+                                <div class="d-inline-block ps-1 fw-light">{{ u.username | titlecase }}</div>
                                 </div>
                                 <br>
-                                <small class="d-flex justify-content-center align-content-center badge bg-stage-dark opacity-50">
+                                <small class="d-flex justify-content-center align-content-center badge bg-stage-dark opacity-25">
                                     <i class='bx bx-pulse bx-sm'></i>
                                    <span class="pt-2 fw-light">pending</span>
                                 </small>          

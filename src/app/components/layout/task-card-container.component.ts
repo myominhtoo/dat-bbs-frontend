@@ -16,6 +16,7 @@ import { ChangeStageType } from 'src/app/model/types/custom-types';
         <div class="d-flex justify-content-between align-items-center p-2 rounded-sm bg-stage-dark pb-3">
           <!-- task-card-title -->
           <div class="text-justify">
+            
             <h1 *ngIf="!status.isEditStage" class="stage-title text-white pt-1 h5 mx-1 m-0 ">{{ data.stageName | titlecase }}</h1>
             <input *ngIf="status.isEditStage" [(ngModel)]="data.stageName" type="text" (keydown)="handleUpdateStage($event)"  class="form-control mx-2" style="box-shadow:none;" >
             <span *ngIf="status.stageError"  style="font-size:14px;" class="text-danger mx-2">{{ status.stageError }}</span>
@@ -183,7 +184,7 @@ export class TaskCardContainerComponent implements OnInit {
     let curPosition = e.pointerPosition.x;
     let realWidth = container?.clientWidth;
 
-    if( curPosition - realWidth! < 100 ){
+    if( curPosition - realWidth! < 8000 ){
       // console.log( curPosition , realWidth! )
 
       container?.scrollTo({

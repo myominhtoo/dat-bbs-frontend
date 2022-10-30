@@ -7,7 +7,7 @@
     </div>
     
     
-    <ul class="w-100 p-0 m-0 snow ">
+    <ul class="w-100 p-0 m-0 snow siderbarTab-font">
         <!-- -->
         <li routerLink="/home" class="item p-2 text-md-start justify-content-center  d-flex justify-content-md-start align-content-center"><i class="bx bx-home-alt-2 bx-sm mx-2 bx-tada-hover color-hover-white "></i> <span class="d-none d-md-inline-block ">Home</span> </li>
         <li routerLink="/my-tasks" class="item p-2 text-md-start justify-content-center d-flex justify-content-md-start align-content-center"><i class="bx bx-task bx-sm bx-tada-hover mx-2 color-hover-white"></i><span class="d-none d-md-inline-block">My Tasks</span></li>
@@ -26,8 +26,8 @@
                     </div>           
                 <ul class="col-12 justify-content-center p-0 sider-scroll" >
                     <li *ngFor="let board of sideBoards" class="px-3 cursor-btn" (click)="handleGoBoard(board.id)">
-                        <i class="fas fa-square ws-icon"></i>
-                        <span  class="color-hover-white fw-light">{{board.boardName}}</span>                    
+                        <i class="fas fa-square ws-icon boardColor" [ngStyle]="{'color': board.color}"></i>
+                        <span  class="color-hover-white fw-light siderboards-font">{{board.boardName}}</span>                    
                           <i class="fas fa-ellipsis float-end pt-1 color-hover-white bx-tada-hover">
                           </i>        
                     </li>                    
