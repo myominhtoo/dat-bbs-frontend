@@ -13,19 +13,20 @@ import { ChangeStageType } from 'src/app/model/types/custom-types';
     <div class="task-card-container mx-2 d-inline-block rounded-1">
       <!-- start task-card-header -->
       <div class="w-100 bg-transparent task-card-header p-2 pb-0">
-        <div class="d-flex justify-content-between p-2 rounded-sm bg-stage-dark pb-3">
+        <div class="d-flex justify-content-between align-items-center p-2 rounded-sm bg-stage-dark pb-3">
           <!-- task-card-title -->
           <div class="text-justify">
             
             <h1 *ngIf="!status.isEditStage" class="stage-title text-white pt-1 h5 mx-1 m-0 ">{{ data.stageName | titlecase }}</h1>
-            <input *ngIf="status.isEditStage" [(ngModel)]="data.stageName" type="text" (keydown)="handleUpdateStage($event)"  class="form-control mx-2">
+            <input *ngIf="status.isEditStage" [(ngModel)]="data.stageName" type="text" (keydown)="handleUpdateStage($event)"  class="form-control mx-2" style="box-shadow:none;" >
             <span *ngIf="status.stageError"  style="font-size:14px;" class="text-danger mx-2">{{ status.stageError }}</span>
           </div>
           <!-- task-card-title -->
           <!-- task-card-icon -->
           <div class="d-flex justify-content-between align-items-center">
-            <div class="stage-icon">
-              <i class="fas fa-solid fa-ellipsis text-white pt-1"></i>
+            <div class="stage-icon align-items-center">
+              <i *ngIf="![1,2,3].includes(data.id) && !status.isEditStage" (click)="handleSetUpStageEdit()" class="fa-solid fa-pencil text-white"></i>
+              <!-- <i class="fas fa-solid fa-ellipsis text-white"></i> -->
             </div>
           </div>
           <!-- task-card-icon -->

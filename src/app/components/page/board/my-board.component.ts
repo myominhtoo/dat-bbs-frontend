@@ -300,7 +300,6 @@ export class MyBoardComponent implements OnInit {
        stages.forEach( stage => {
         this.taskCardsMap.set( stage.stageName , [] );
        })
-       console.log(taskCards)
        taskCards.forEach( taskCard => {
          let prevTaskCards = this.taskCardsMap.get(taskCard.stage.stageName);
          prevTaskCards?.push(taskCard);
