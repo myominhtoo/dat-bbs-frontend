@@ -7,7 +7,8 @@ import { Comment } from "src/app/model/bean/comment";
 import { CommentService } from "src/app/model/service/http/comment.service";
 import { User } from "src/app/model/bean/user";
 import 'emojionearea';
-
+import swal from "sweetalert";
+import { ActivatedRoute } from "@angular/router";
 @Component({
     selector : 'task-offcanvas',
     template : `
@@ -39,22 +40,22 @@ import 'emojionearea';
                         <div class="w-75 d-flex gap-2">
                            <div class="w-25">
                                 <small>Start Date</small>
-                                <input type="date" class="form-control w-100 outlineBtn shadow-none " />
+                                <input type="date" class="form-control w-100 outlineBtn shadow-none "  [(ngModel)]="task.startedDate" name="startedDate"  />
                            </div>
                             <div class="w-25">
                                 <small>Due Date</small>
-                                <input type="date" class="form-control w-100 outlineBtn shadow-none">
+                                <input type="date" class="form-control w-100 outlineBtn shadow-none" [(ngModel)]="task.endedDate" name="endedDate" />
                             </div>
                         </div>
                       </li>
                       <li class="list-item d-flex">
                         <h6 class="h6 w-25 fs-6">Description</h6>
                         <div class="w-75">
-                            <textarea id="input" class="form-control outlineBtn shadow-none" cols="30" rows="5" placeholder="Enter description about task card "></textarea>
+                            <textarea id="input" class="form-control outlineBtn shadow-none" cols="30" rows="5" placeholder="Enter description about task card "[(ngModel)]="task.description" name="description" ></textarea>
                         </div>
                       </li>
                       <li class="text-end">
-                         <button class="btn btn-sm btn-success px-3"><i class="fa-solid fa-file-pen mx-1"></i>Update</button>
+                         <button (click)="updateTask()" class="btn btn-sm btn-success px-3"><i class="fa-solid fa-file-pen mx-1"></i>Update</button>
                       </li>
                    </ul>
 
@@ -197,8 +198,15 @@ export class TaskOffCanvasComponent {
     public now:Date =new Date();
 
     showtime:Comment[] =[];
+    boardId !: number;
+    taskCardId !: number;
+    activity : Activity= new Activity();
+    startedDate !: Date ;
+    endedDate !: Date;
+    description !: string;
+   
 
-
+    
     @Input('task') task : TaskCard = new TaskCard();
     @Input('activities') activities : Activity [] = [];
     @Input('comments') comments : Comment [] = [];
@@ -217,12 +225,20 @@ export class TaskOffCanvasComponent {
     }
 
     constructor(
+        public route : ActivatedRoute ,
         private activityService : ActivityService ,
         private taskCardService : TaskCardService ,
         private commentService : CommentService  ){
 
          }
 
+<<<<<<< Updated upstream
+=======
+
+    
+
+
+>>>>>>> Stashed changes
     changeTab( tab : string ){
         this.tab = tab;
     }
@@ -284,7 +300,7 @@ export class TaskOffCanvasComponent {
     handleUpdateTaskName( e : KeyboardEvent ){
        this.status.errorTask = '';
        if( e.key === 'Enter' ){
-            this.taskCardService.updateTaskCard( this.task )
+            this.taskCardService.updateTaskCard(this.task)
             .subscribe({
                 next : res => {
                     this.task = res.data;
@@ -327,6 +343,24 @@ export class TaskOffCanvasComponent {
        })
     }
 
-
+   
+    updateTask(){
+       // this.boardId=this.route.snapshot.params['id'];
+        console.log(this.task.startedDate);
+        this.taskCardService.updateTaskCard( this.task).subscribe({   
+                 next : res => {
+                   console.log(res.data);
+                   if( res ){
+                     swal({
+                       text : "successfully!",
+                       icon : 'success'
+                     })
+                  }
+                 },
+                 error : err => {
+                   console.log(err);
+                 }
+                });
+    }
 
 }

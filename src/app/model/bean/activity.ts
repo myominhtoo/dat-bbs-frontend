@@ -7,4 +7,4 @@ export class Activity {
     startedDate !: Date;
     endedDate !: Date;
     taskCard !: TaskCard;
-}
+} 
