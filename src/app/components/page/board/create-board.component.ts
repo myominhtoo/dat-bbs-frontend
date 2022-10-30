@@ -124,12 +124,12 @@ export class CreateBoardComponent implements OnInit {
       ? this.status.error.boardName = { hasError : true , msg : 'Board Name is required!'}
       : this.status.error.boardName = { hasError : false , msg : '' };
 
-      this.board.description == null || this.board.description == ''
-      ? this.status.error.description = { hasError : true , msg : 'Description is required!'}
-      : this.status.error.description = { hasError : false , msg : '' };
+      // this.board.description == null || this.board.description == ''
+      // ? this.status.error.description = { hasError : true , msg : 'Description is required!'}
+      // : this.status.error.description = { hasError : false , msg : '' };
 
       
-      if( !this.status.error.boardName.hasError && !this.status.error.description.hasError ){
+      if( !this.status.error.boardName.hasError ){
         swal({
           text : 'Are you sure to create board?',
           icon : 'warning',

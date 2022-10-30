@@ -1,3 +1,4 @@
+import { BoardStore } from 'src/app/model/service/store/board.store';
 import { Component , OnInit } from "@angular/core";
 import { ActivatedRoute, ChildActivationEnd, NavigationEnd, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
@@ -67,6 +68,7 @@ export class MyBoardComponent implements OnInit {
 
     constructor( public toggleStore : ToggleStore ,
          public route : ActivatedRoute ,
+         public boardStore:BoardStore,
          private router : Router ,
          private stageService : StageService ,
          private boardService : BoardService ,

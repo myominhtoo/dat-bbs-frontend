@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
     templateUrl:'./sidebarcomponent.html'
 })
 export class SidebarComponent implements OnInit {
+    
    sideBoards:Board[]=[];
-   randomNo!:number;
    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))); 
    
    constructor( public toggleStore : ToggleStore , 
@@ -19,19 +19,16 @@ export class SidebarComponent implements OnInit {
         private router : Router ){
         setTimeout(() => {
             this.getBoards();
-            let number = Math.random() * 1000;
-            this.randomNo=Math.trunc( number );
+        
         },500);
     }
 
     ngOnInit(): void {
-        // setTimeout(() => {
-        //     this.getBoards();
-        //     let number = Math.random() * 1000;
-        //     this.randomNo=Math.trunc( number );
-            
-        // },500);
+        
     }
+    
+    
+
 
     handleGoBoard( boardId : number ){
         this.router.navigateByUrl(`/boards/${boardId}`,);
@@ -44,4 +41,4 @@ export class SidebarComponent implements OnInit {
     
     
     
-}
+}   
