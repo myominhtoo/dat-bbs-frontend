@@ -26,7 +26,7 @@
                     </div>           
                 <ul class="col-12 justify-content-center p-0 sider-scroll" >
                     <li *ngFor="let board of sideBoards" class="px-3 cursor-btn" (click)="handleGoBoard(board.id)">
-                        <i class="fas fa-square ws-icon boardColor" [ngStyle]="{'color': this.boardStore.randomNumberBoard()}"></i>
+                        <i class="fas fa-square ws-icon boardColor" [ngStyle]="{'color': board.color}"></i>
                         <span  class="color-hover-white fw-light siderboards-font">{{board.boardName}}</span>                    
                           <i class="fas fa-ellipsis float-end pt-1 color-hover-white bx-tada-hover">
                           </i>        

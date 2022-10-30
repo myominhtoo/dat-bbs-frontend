@@ -23,12 +23,13 @@ import { User } from "src/app/model/bean/user";
     templateUrl : './my-board.component.html'
 })
 export class MyBoardComponent implements OnInit {
-
+  
+  
     users:User[];
     public stages : Stage [] = [];
     taskCardsMap : Map<string,TaskCard[]> = new Map();
     board : Board = new Board();
-
+    
     email : string ='';
     emails :string[] =[];
     filterEmails : string [] = [];
@@ -129,8 +130,8 @@ export class MyBoardComponent implements OnInit {
         .subscribe({
             next : board => {
                 this.status.isLoading = false;
-                this.board = board;
-
+                this.board = board;   
+                
                 this.getTaskCards( boardId );
             },
             error : err  => {
@@ -419,4 +420,5 @@ export class MyBoardComponent implements OnInit {
     this.status.isEditBoardName=true;
     this.status.tempBoardName=this.board.boardName;
    }
+
 }

@@ -38,7 +38,7 @@ export class SidebarComponent implements OnInit {
         this.sideBoards=this.boardStore.boards.filter(val=> val.user.id==this.storeUser.id);
     }
     
-    
+   
     
     
 }   
