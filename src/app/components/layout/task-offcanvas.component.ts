@@ -223,11 +223,6 @@ export class TaskOffCanvasComponent {
 
          }
 
-
-
-
-
-
     changeTab( tab : string ){
         this.tab = tab;
     }

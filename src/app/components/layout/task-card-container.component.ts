@@ -35,8 +35,13 @@ import { ChangeStageType } from 'src/app/model/types/custom-types';
       <!-- task-card start -->
       <!-- task-card-scroll -->
       <div class="container-fluid p-2 pt-0 m-0">
+<<<<<<< HEAD
         <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="data.stageName" [cdkDropListConnectedTo]="containers" class="w-100 py-3 d-flex flex-column">
             <task-card *ngFor="let task of taskCards.get(data.stageName)" cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)"   [task]="task"></task-card>
+=======
+        <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="''+data.stageName+''" [cdkDropListConnectedTo]="relationContainers" class="w-100 py-2 d-flex flex-column">
+            <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
+>>>>>>> e17f50b9f7913054627522007779a385d1473f24
         </div>
         <div class="my-2">
           <span class="text-danger fs-6">{{ status.addTaskError }}</span>
@@ -60,15 +65,17 @@ export class TaskCardContainerComponent implements OnInit {
   @Input('stage') data : Stage = new Stage();
   @Input('task-cards') taskCards : Map<string,TaskCard[]> = new  Map();
   @Input('board') board = new Board();
+  @Input('relations') relationContainers : string [] = [];
 
   @Output('add-task') addTask = new EventEmitter<TaskCard>();
   @Output('change-stage') changeStage = new EventEmitter<ChangeStageType>();
   @Output('show-offcanvas') showTaskOffcanvas = new EventEmitter<TaskCard>();
 
+
   tempStage : string  = '';
   tempTask : string = '';
 
-  containers : string [] = [];
+  // containers : string [] = [];
 
 
   status = {
@@ -81,12 +88,17 @@ export class TaskCardContainerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.containers = this.stages.filter( stage => {
-      return stage.id != this.data.id;
-    }).map( filterStage => {
-      return `${filterStage.stageName}`;
-    })
+    // this.handleJoinContainers();
   }
+
+
+  // handleJoinContainers(){
+  //   this.containers = this.stages.filter( stage => {
+  //     return stage.id != this.data.id;
+  //   }).map( filterStage => {
+  //     return `${filterStage.id}`;
+  //   })
+  // }
 
   handleSetUpStageEdit(){
      this.status.isEditStage = true;
