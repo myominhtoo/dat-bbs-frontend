@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpResponse } from "../../bean/httpResponse";
 import { TaskCard } from "../../bean/taskCard";
+import { User } from "../../bean/user";
 
 @Injectable({
     providedIn : 'root'
@@ -23,6 +24,8 @@ export class TaskCardService {
         return this.httpClient.put<HttpResponse<TaskCard>>(`http://localhost:8080/api/update-task` , taskCard  );
     }
     
-    
+    showMyTasks( userId : number ) : Observable<TaskCard[]> {
+        return this.httpClient.get<TaskCard[]> (`http://localhost:8080/api/users/${userId}/task-cards`)
+    }
 
 }
