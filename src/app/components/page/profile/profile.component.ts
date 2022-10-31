@@ -78,7 +78,7 @@ export class ProfileComponent{
                   }).then(() => {
                     this.user = res.data;
                     this.userInfo={...this.user}
-                    // this.userStore.saveUserData( res.data );
+                    this.userStore.saveUserData( res.data );
                   })
                 }
               },
@@ -124,7 +124,7 @@ export class ProfileComponent{
       }else{
         this.imgValue=null
         this.status.preview.textShow=false;
-        this.user.imageUrl=this.storeUser.imageUrl;     
+        this.user.imageUrl = this.user.imageUrl; 
       }
     }
 }

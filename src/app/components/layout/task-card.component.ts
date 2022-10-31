@@ -7,7 +7,9 @@ import { OnInit } from '@angular/core';
     template : `
      <div (click)="handleShowOffCanvas( task)" class="task-cards my-1 px-2 py-2 pb-4 shadow-sm bg-pale-snow">
         <h5 class="fw-light h6">{{ task.taskName | titlecase }}</h5>
-        <span>{{ task.startedDate }}</span>
+        <div class="d-flex justify-content-end gap-2">
+            <span>{{ task.startedDate }}</span>
+        </div>
      </div>
     `
 })
