@@ -17,6 +17,7 @@ import { Activity } from "src/app/model/bean/activity";
 import { CommentService } from "src/app/model/service/http/comment.service";
 import { Comment } from "src/app/model/bean/comment";
 import { User } from "src/app/model/bean/user";
+import { BoardsHasUsers } from 'src/app/model/bean/BoardsHasUser';
 
 @Component({
     selector : 'my-board',
@@ -25,7 +26,7 @@ import { User } from "src/app/model/bean/user";
 export class MyBoardComponent implements OnInit {
   
   
-    users:User[]  = [];
+    boardsHasUsers : BoardsHasUsers [] = [];
     members : User [] = [];
     public stages : Stage [] = [];
     taskCardsMap : Map<string,TaskCard[]> = new Map();
@@ -79,8 +80,7 @@ export class MyBoardComponent implements OnInit {
          private activityService : ActivityService ,
          private commentService : CommentService,
          private userService :UserService  ){
-          this.users=[];
-          // console.log(this.router)
+         
          }
 
     ngOnInit(): void {
@@ -104,8 +104,8 @@ export class MyBoardComponent implements OnInit {
 
     getUserMembers(){
       this.userService.getUsersForBoard(this.route.snapshot.params['id']).subscribe(data=>{
-            this.users =  data.map( d => d.user ).filter( user => user.username != null );
-            this.members = this.users.filter( user => user.id != this.board.user.id );
+            this.boardsHasUsers = data.filter( d => d.user.username != null );
+            this.members = data.map( d => d.user ).filter( user => user.username != null ).filter( user => user.id != this.board.user.id );
       });
     }
 

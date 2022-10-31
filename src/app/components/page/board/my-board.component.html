@@ -36,20 +36,20 @@
                             <!-- Showing views -->
                            <div class="container-fluid p-0 m-0">                            
 
-                            <div *ngFor = "let u of users" class="row p-0 m-0  d-flex justify-content-center align-items-center">
+                            <div *ngFor="let boardHasUser of boardsHasUsers;" class="row p-0 m-0  d-flex justify-content-center align-items-center">
 
                                 <!-- start col-12 -->
                             <div class="col-12 hover-member p-2 mb-2 rounded-3 d-flex align-items-center justify-content-between p-0 m-0 member-container">
                                 
                             <div class="m-0 p-0 ">                             
                                 <div  class="d-inline-block mx-2 " id="profile-member">
-                                    <span *ngIf="u.imageUrl == null && u.username != null" class="text-dark bg-secondary d-flex justify-content-center align-items-center" id="profile-member">{{ u.username[0].toUpperCase() }}</span>
-                                    <img  *ngIf="u.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+u.imageUrl"  alt="">
+                                    <span *ngIf="boardHasUser.user.imageUrl == null && boardHasUser.user.username != null" class="text-dark bg-secondary d-flex justify-content-center align-items-center" id="profile-member">{{ boardHasUser.user.username[0].toUpperCase() }}</span>
+                                    <img  *ngIf="boardHasUser.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+boardHasUser.user.imageUrl"  alt="">
                                 </div>                             
-                                <div class="d-inline-block ps-1 fw-light">{{ u.username | titlecase }}</div>
+                                <div class="d-inline-block ps-1 fw-light">{{ boardHasUser.user.username | titlecase }}</div>
                                 </div>
                                 <br>
-                                <small class="d-flex justify-content-center align-content-center badge bg-stage-dark opacity-25">
+                                <small *ngIf="!boardHasUser.joinedStatus" class="d-flex justify-content-center align-content-center badge bg-stage-dark opacity-25">
                                     <i class='bx bx-pulse bx-sm'></i>
                                    <span class="pt-2 fw-light">pending</span>
                                 </small>          

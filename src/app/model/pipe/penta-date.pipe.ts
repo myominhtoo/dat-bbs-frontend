@@ -37,8 +37,7 @@ export class PentaDatePipe implements PipeTransform {
         if( dayDiff == 1 && curHour >= Number(hour) ){
           result = 'Yesterday';
           return result;
-        }else{
-          if( dayDiff == 0 &&  (Number(curHour) - Number(hour) < 1 || (curHour - Number(hour) == 1 && ((60 - Math.abs(curMin - Number(min))) < 60 )))){
+        }else{ if( dayDiff == 0 &&  (Number(curHour) - Number(hour) < 1 || (curHour - Number(hour) == 1 && ((60 - Math.abs(curMin - Number(min))) < 60 )))){
             result = `${ Number(curHour) - Number(hour) < 1 ? (curMin - Number(min)) : ( 60 - Math.abs(curMin - Number(min))) }`;
             if( (curHour == Number(hour)) &&  curMin == Number(min)) return 'Just Now';
             result +=  Number(result) > 1 ? ' mins ago' : ' min ago';
@@ -47,6 +46,7 @@ export class PentaDatePipe implements PipeTransform {
             result = `${resultHour}`;
             result += resultHour > 1 ? ' hrs ago' : ' hr ago';
           }
+         
         }
       }else{
         if( hour == '00' || min == '00') result += `01:00`;
