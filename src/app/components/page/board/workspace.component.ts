@@ -17,7 +17,7 @@ export class WorkspaceComponent implements OnInit {
         isLoading : false,
         hasDoneFetching : false,
     }
-
+ 
     constructor(
         public toggleStore : ToggleStore ,
         // private boardService : BoardService ,
