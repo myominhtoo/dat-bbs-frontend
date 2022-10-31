@@ -1,4 +1,4 @@
-import { Component, Input  } from "@angular/core";
+import { Component, Input, OnInit  } from "@angular/core";
 import { Activity } from "src/app/model/bean/activity";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { ActivityService } from "src/app/model/service/http/activity.service";
@@ -9,6 +9,8 @@ import { User } from "src/app/model/bean/user";
 import 'emojionearea';
 import swal from "sweetalert";
 import { ActivatedRoute } from "@angular/router";
+import { Board } from "src/app/model/bean/board";
+
 @Component({
     selector : 'task-offcanvas',
     template : `
@@ -29,10 +31,22 @@ import { ActivatedRoute } from "@angular/router";
                 <div *ngIf="tab == 'activity' && !isLoading" class="container py-5">
 
                    <ul class="list-group list-unstyled text-muted p-3 gap-4">
+                     <li class="list-item d-flex ">
+                        <h6 class="h6 w-25 fs-6"></h6>
+                        <div class="w-75"  style="height:35px;overflow-y:scroll;">
+                          <span *ngFor="let assignMember of task.users" class="badge fs-6 fw-light bg-thm mx-1 my-1">{{ assignMember.username | titlecase }}<i (click)="handleRemoveUserFromAssign(assignMember.id)" class="fa-solid fa-xmark mx-2"></i></span>
+                        </div>
+                     </li>
                       <li class="list-item d-flex ">
                         <h6 class="h6 w-25 fs-6">Assign To</h6>
-                        <div class="w-75">
-                           <input type="text" id="input" class="form-control outlineBtn shadow-none" placeholder="Assign Members"/>
+                        <div class="w-75" *ngIf="members.length > 0">
+                           <select class="form-select" (change)="handleAssignTask($event)" >
+                             <option selected value='' >Assign Members</option>
+                             <option *ngFor="let member of members" class="text-capitalize" [value]="member.id" >{{ member.username }}</option>
+                           </select>
+                        </div>
+                        <div *ngIf="members.length == 0" class="w-75 fs-6">
+                            <h5 class="fs-6">There is no member to assign! <span class="link text-primary" >Click Here</span> to invite!</h5>
                         </div>
                       </li>
                       <li class="list-item d-flex">
@@ -192,7 +206,7 @@ import { ActivatedRoute } from "@angular/router";
         </div>
     `
 })
-export class TaskOffCanvasComponent {
+export class TaskOffCanvasComponent implements OnInit {
 
 
     public now:Date =new Date();
@@ -204,13 +218,14 @@ export class TaskOffCanvasComponent {
     startedDate !: Date ;
     endedDate !: Date;
     description !: string;
-   
 
     
     @Input('task') task : TaskCard = new TaskCard();
     @Input('activities') activities : Activity [] = [];
     @Input('comments') comments : Comment [] = [];
     @Input('isLoading') isLoading : boolean = false;
+    @Input('members') members : User [] = [];
+    @Input('board') board : Board = new Board();
 
     tab : string = 'activity';
     detailActivity : Activity = new Activity();
@@ -229,12 +244,11 @@ export class TaskOffCanvasComponent {
         private activityService : ActivityService ,
         private taskCardService : TaskCardService ,
         private commentService : CommentService  ){
-
          }
 
-
-    
-
+    ngOnInit(): void {
+        this.task.users = [];
+    }
 
     changeTab( tab : string ){
         this.tab = tab;
@@ -340,6 +354,18 @@ export class TaskOffCanvasComponent {
        })
     }
 
+    handleAssignTask( e : any ){
+       let userId = Number(e.target.value);
+       if( !this.task.users.some( member => member.id == userId )){
+          this.task.users.push(this.members.find( member => member.id == userId )!);
+       }
+    }
+
+    handleRemoveUserFromAssign( userId : number ){
+        this.task.users = this.task.users.filter( user => {
+            return user.id != userId;
+        });
+    }
    
     updateTask(){
        // this.boardId=this.route.snapshot.params['id'];

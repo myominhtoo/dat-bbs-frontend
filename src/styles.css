@@ -76,6 +76,7 @@
     color:var(--thm) !important;
 }
 
+
 .tw-color{
     color:var(--tw-color) !important;
 }
@@ -771,4 +772,8 @@ body{
     justify-content: center;
     align-items: center;
     
+}
+
+.link:hover{
+    cursor:pointer;
 }

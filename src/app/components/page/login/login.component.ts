@@ -1,6 +1,6 @@
 import { User } from './../../../model/bean/user';
 import { UserService } from './../../../model/service/http/user.service';
-import { Component, OnInit } from  "@angular/core";
+import { Component } from  "@angular/core";
 import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { Router } from '@angular/router';

@@ -25,7 +25,8 @@ import { User } from "src/app/model/bean/user";
 export class MyBoardComponent implements OnInit {
   
   
-    users:User[];
+    users:User[]  = [];
+    members : User [] = [];
     public stages : Stage [] = [];
     taskCardsMap : Map<string,TaskCard[]> = new Map();
     board : Board = new Board();
@@ -89,8 +90,6 @@ export class MyBoardComponent implements OnInit {
         this.doActionForCurrentBoard( this.route.snapshot.params['id'] );
         this.stage.stageName = "";
         this.stage.defaultStatus = false;
-
-        this.getUserMembers();
         document.title = "BBMS | My Board";
 
     }
@@ -106,6 +105,7 @@ export class MyBoardComponent implements OnInit {
     getUserMembers(){
       this.userService.getUsersForBoard(this.route.snapshot.params['id']).subscribe(data=>{
             this.users =  data.map( d => d.user ).filter( user => user.username != null );
+            this.members = this.users.filter( user => user.id != this.board.user.id );
       });
     }
 
@@ -152,7 +152,8 @@ export class MyBoardComponent implements OnInit {
       }else{
         this.status.isLoading = true;
         this.getStages( boardId ).then(() => {
-            this.getBoard( boardId )
+            this.getBoard( boardId );
+            this.getUserMembers();
         })
       }
     }

@@ -14,7 +14,8 @@ export class WorkspaceComponent implements OnInit {
     ownerBoards:Board[]=[];
     assignBoards:Board[]=[];
     status = {
-        isLoading : false
+        isLoading : false,
+        hasDoneFetching : false,
     }
 
     constructor(
@@ -32,6 +33,7 @@ export class WorkspaceComponent implements OnInit {
     drop( e : CdkDragDrop<Board[]> ){
 
     }
+
     getBoards(){
         this.boards=this.boardStore.boards;
 
@@ -40,11 +42,8 @@ export class WorkspaceComponent implements OnInit {
         })
         this.assignBoards=this.boards.filter((val)=>{
             return val.user.id!=this.storeUser.id;
-    })
-
-    this.assignBoards=this.boards.filter((val)=>{
-        return val.user.id!=this.storeUser.id;
-})
+        })
+        this.status.hasDoneFetching = true;
 
     }
 
