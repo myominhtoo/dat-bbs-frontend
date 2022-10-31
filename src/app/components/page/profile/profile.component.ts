@@ -124,7 +124,6 @@ export class ProfileComponent{
       }else{
         this.imgValue=null
         this.status.preview.textShow=false;
-        this.user.imageUrl = this.user.imageUrl; 
       }
     }
 }
