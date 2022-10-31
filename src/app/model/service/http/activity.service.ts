@@ -18,9 +18,9 @@ export class ActivityService{
         return this.httpClient.get<Activity[]> (`http://localhost:8080/api/task-card/${taskCardId}/activities`);
     }
 
-    // updateActivity ( boardId : number , activity : Activity ) : Observable<Activity>{
-    //     return this.httpClient.put<Activity>(`http://localhost:8080/api/boards/${boardId}/update-activity `, activity);
-    // }
+    updateActivity (  activity : Activity ) : Observable<HttpResponse<Activity>>{
+        return this.httpClient.put<HttpResponse<Activity>>(`http://localhost:8080/api/update-activity`, activity);
+    }
 
   
 }

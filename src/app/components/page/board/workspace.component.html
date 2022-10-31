@@ -2,12 +2,13 @@
    <sidebar></sidebar>
 
     <div id="main-area" class="m-0 p-4" [class.sidebar-hide]="!toggleStore.isShow">        
-        <div class="boards-not-have" *ngIf="assignBoards.length==0 && ownerBoards.length==0 && status.hasDoneFetching">
+        <div class="boards-not-have" *ngIf="assignBoards.length==0 && ownerBoards.length==0 && status.hasDoneFetching" >
             <!-- <span style='font-size:100px;'>🙁</span> -->
-            <img class="mb-4" src="assets/img/emoji/sadface.png" alt="">
-            <h3 class="fw-bold">No Boards Yet</h3>
-            <button class="btn btn-outline-dark btn-sm">Create Board Now</button>
+            <img class="mb-4 opacity-75" src="assets/img/emoji/sadface.png" alt="">
+            <h3 class="fw-bold opacity-75">No Boards Yet</h3>
+            <button  routerLink="/create-board" class="btn btn-outline-dark btn-sm opacity-50">Create Board Now</button>
         </div>
+        
         <div class="container-fluid mb-5">
             <h2 *ngIf="ownerBoards.length!=0" class="border-board pb-3">My Boards <small  class="h6 text-muted"> (Created By Me) </small></h2>
         <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="ownerBoards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
