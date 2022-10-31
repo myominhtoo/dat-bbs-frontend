@@ -1,2 +1,11 @@
-<navbar *ngIf="!['/','/login','/register','/verify-email'].includes(currentUrl) && !currentUrl.includes('/register')"></navbar>
-<router-outlet></router-outlet>      
+<navbar *ngIf="!isExceptionPage"></navbar>
+
+<router-outlet *ngIf="isExceptionPage"></router-outlet>
+
+<main  *ngIf="!isExceptionPage" class="p-0 m-0 d-flex gap-0" id="main">
+    <sidebar></sidebar>
+ 
+     <div id="main-area" class="m-0 p-4" [class.sidebar-hide]="!toggleStore.isShow">        
+        <router-outlet></router-outlet>
+     </div>
+ </main>

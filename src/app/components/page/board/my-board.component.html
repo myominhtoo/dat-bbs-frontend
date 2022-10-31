@@ -1,131 +1,125 @@
+<!-- container-fluid -> w-100 some changes -->
+<div class="w-100">
+    <div class="container-fluid">
+        <div class="row border-board">
+            <div class="px-5 col-12 d-flex justify-content-between align-items-center">
+                <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->            
+                <div class=" d-flex p-0 m-0">
+                    <span class="iconBoard rounded-4 m-0 d-flex justify-content-center align-items-center" >                                
+                            <i class='bx bx-md bx-list-ul'></i>                                   
+                    </span>                       
+                    <input (focus)="setupEditBoard()" type="text" class="text-dark-50 h2 mx-3 board-input w-50 my-2 shadow-none board-input text-capitalize" (keydown)="handleUpdateBoardName($event)" [class.form-control]="status.isEditBoardName" placeholder="Enter board's name"  [(ngModel)]="board.boardName" >
+            </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#invite-modal"><i class="fa-solid fa-user-plus mx-1"></i>Invite</button>
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+                        <i class="fa-solid fa-people-group"></i>
+                      Members
+                     </button>
+                </div> 
 
-<main class="p-0 m-0 d-flex gap-0" id="main">
-   <sidebar></sidebar>
-    <div id="main-area" class="m-0 p-0 pt-3" [class.sidebar-hide]="!toggleStore.isShow">
-        <!-- container-fluid -> w-100 some changes -->
-        <div class="w-100">
-            <div class="container-fluid">
-                <div class="row border-board">
-                    <div class="px-5 col-12 d-flex justify-content-between align-items-center">
-                        <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->            
-                        <div class=" d-flex p-0 m-0">
-                            <span class="iconBoard rounded-4 m-0 d-flex justify-content-center align-items-center" >                                
-                                    <i class='bx bx-md bx-list-ul'></i>                                   
-                            </span>                       
-                            <input (focus)="setupEditBoard()" type="text" class="text-dark-50 h2 mx-3 board-input w-50 my-2 shadow-none board-input text-capitalize" (keydown)="handleUpdateBoardName($event)" [class.form-control]="status.isEditBoardName" placeholder="Enter board's name"  [(ngModel)]="board.boardName" >
-                    </div>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#invite-modal"><i class="fa-solid fa-user-plus mx-1"></i>Invite</button>
-                            <button class="btn btn-sm myboard-btn btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
-                                <i class="fa-solid fa-people-group"></i>
-                              Members
-                             </button>
-                        </div> 
+                   <!-- Show offcanvas bar -->
 
-                           <!-- Show offcanvas bar -->
-
-                         <div class="offcanvas offcanvas-end" id="demo">
-                          <div class="offcanvas-header shadow-sm" >
-                            <h5 class="offcanvas-title" >Team Members</h5>
-                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas"></button>
-                          </div>
-                          <div class="offcanvas-body " >
-
-                            <!-- Showing views -->
-                           <div class="container-fluid p-0 m-0">                            
-
-                            <div *ngFor="let boardHasUser of boardsHasUsers;" class="row p-0 m-0  d-flex justify-content-center align-items-center">
-
-                                <!-- start col-12 -->
-                            <div class="col-12 hover-member p-2 mb-2 rounded-3 d-flex align-items-center justify-content-between p-0 m-0 member-container">
-                                
-                            <div class="m-0 p-0 ">                             
-                                <div  class="d-inline-block mx-2 " id="profile-member">
-                                    <span *ngIf="boardHasUser.user.imageUrl == null && boardHasUser.user.username != null" class="text-dark bg-secondary d-flex justify-content-center align-items-center" id="profile-member">{{ boardHasUser.user.username[0].toUpperCase() }}</span>
-                                    <img  *ngIf="boardHasUser.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+boardHasUser.user.imageUrl"  alt="">
-                                </div>                             
-                                <div class="d-inline-block ps-1 fw-light">{{ boardHasUser.user.username | titlecase }}</div>
-                                </div>
-                                <br>
-                                <small *ngIf="!boardHasUser.joinedStatus" class="d-flex justify-content-center align-content-center badge bg-stage-dark opacity-25">
-                                    <i class='bx bx-pulse bx-sm'></i>
-                                   <span class="pt-2 fw-light">pending</span>
-                                </small>          
-                            </div>                          
-                            <!-- end col-12 -->                           
-                        </div>
-                        </div>
-                              <!-- </tr> -->
-                     </div>
-                </div>
-                             <!-- View container end!-->
-
-                         <!--  model for invite members -->
-                        <div class="modal fade" id="invite-modal" data-bs-backdrop="static" data-bs-keyword="false">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <div class="model-title h4 text-muted">
-                                            Invite Members
-                                        </div>
-                                        <button class="btn-close" data-bs-dismiss="modal" data-bs-target="#invite-modal"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form (ngSubmit)="inviteMembers()" class="form">
-                                            <div id="invitedEmails">
-                                                <div  class="d-flex gap-1 flex-wrap my-1 ">
-                                                    <span *ngFor="let email of emails ; let idx = index " (click)="updateEmail(idx)" class="badge d-inline-block fs-6 fw-light py-2 my-2 " id="mail-capsule">
-                                                         {{email}}
-                                                         <span (click)="removeEmail(idx)" class="mx-1 fs-6 fas fa-close"></span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                           <div class="form-floating">
-                                                <input type="text" id="invite-emails" class=" py-1 form-control" placeholder="member@gmail.com" name="email"
-                                                [(ngModel)]="email" (keyup)="onChange($event)" [class.is-invalid]="status.error.email.hasError"
-                                                [value]="email" [matAutocomplete]="emailAutoComplete">
-                                                <label for="invite-emails text-muted">member@gmail.com</label>
-                                                <mat-autocomplete #emailAutoComplete="matAutocomplete" >
-                                                    <mat-option *ngFor="let email of filterEmails" [value]="email">
-                                                        {{ email }}
-                                                    </mat-option>
-                                                </mat-autocomplete>
-                                           </div>
-                                           <small class="text-danger">{{ status.error.email.msg }}</small>
-                                           <div class="form-group my-2 d-flex justify-content-end gap-1">
-                                                <button class="btn btn-sm" data-bs-dismiss="modal" data-bs-target="#invite-modal">Cancel</button>
-                                                <button type="submit" class="btn btn-primary btn-sm " [disabled]="status.isInviting">{{ status.isInviting ? 'Inviting' : 'Invite'}}</button>
-                                           </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                        <div id="task-container" *ngIf="!status.isLoading" class="scrolling-wrapper d-flex  px-5 bg-transparent">
-                            <task-card-container *ngFor="let stage of stages" [stage]="stage" [task-cards]="taskCardsMap" [stages]="stages" [relations]="getRelationContainers(stage)" (change-stage)="handleChangeStage($event)" (add-task)="handleAddTask($event)" [board]="board" (show-offcanvas)="handleShowOffCanvas($event)" ></task-card-container>
-                            <div>
-                                <button (click)="toggleIsAddStage()" *ngIf="!status.isAddStage" class="btn btn-sm px-5 mt-2 h1">
-                                    <i class="fa-solid fa-plus mx-1"></i> Add Stage
-                                </button>
-                                <div *ngIf="status.isAddStage" class="form mt-2">
-                                    <input [(ngModel)]="stage.stageName" name="stageName" type="text" style="width:187.26px !important;" id="add-stage" placeholder="Stage Name" [class.is-invalid]="status.addingStageError.hasError" class="py-1 form-control py-1 shadow-none" />
-                                    <span *ngIf="status.addingStageError.hasError" class="text-danger fs-0 my-0" style="font-size:11px !important;">{{ status.addingStageError.msg }}</span>
-                                    <div class="d-flex justify-content-end gap-1 my-0">
-                                        <button (click)="toggleIsAddStage()" class="btn  btn-sm my-1">Cancel</button>
-                                        <button type="submit" (click)="handleAddStage()" class="btn btn-primary btn-sm my-1" [disabled]="status.isAddingStage" >{{ status.isAddingStage ? 'Adding' : 'Add' }}</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <task-offcanvas  [task]="offCanvasTask" [activities]="activities" [board]="board" [members]="members" [isLoading]="status.isLoadingOffcanvas" [comments]="comments"></task-offcanvas>
-                        <span data-bs-toggle="offcanvas" data-bs-target="#task-offcanvas" id="task-offcanvas-btn" class="d-none">clone</span>
-
-                        <loading [show]="status.isLoading" target="Tasks"></loading>
+                 <div class="offcanvas offcanvas-end" id="demo">
+                  <div class="offcanvas-header shadow-sm" >
+                    <h5 class="offcanvas-title" >Team Members</h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas"></button>
                   </div>
+                  <div class="offcanvas-body " >
+
+                    <!-- Showing views -->
+                   <div class="container-fluid p-0 m-0">                            
+
+                    <div *ngFor="let boardHasUser of boardsHasUsers;" class="row p-0 m-0  d-flex justify-content-center align-items-center">
+
+                        <!-- start col-12 -->
+                    <div class="col-12 hover-member p-2 mb-2 rounded-3 d-flex align-items-center justify-content-between p-0 m-0 member-container">
+                        
+                    <div class="m-0 p-0 ">                             
+                        <div  class="d-inline-block mx-2 " id="profile-member">
+                            <span *ngIf="boardHasUser.user.imageUrl == null && boardHasUser.user.username != null" class="text-dark bg-secondary d-flex justify-content-center align-items-center" id="profile-member">{{ boardHasUser.user.username[0].toUpperCase() }}</span>
+                            <img  *ngIf="boardHasUser.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+boardHasUser.user.imageUrl"  alt="">
+                        </div>                             
+                        <div class="d-inline-block ps-1 fw-light">{{ boardHasUser.user.username | titlecase }}</div>
+                        </div>
+                        <br>
+                        <small *ngIf="!boardHasUser.joinedStatus" class="d-flex justify-content-center align-content-center badge bg-stage-dark opacity-25">
+                            <i class='bx bx-pulse bx-sm'></i>
+                           <span class="pt-2 fw-light">pending</span>
+                        </small>          
+                    </div>                          
+                    <!-- end col-12 -->                           
+                </div>
+                </div>
+                      <!-- </tr> -->
+             </div>
+        </div>
+                     <!-- View container end!-->
+
+                 <!--  model for invite members -->
+                <div class="modal fade" id="invite-modal" data-bs-backdrop="static" data-bs-keyword="false">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="model-title h4 text-muted">
+                                    Invite Members
+                                </div>
+                                <button class="btn-close" data-bs-dismiss="modal" data-bs-target="#invite-modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form (ngSubmit)="inviteMembers()" class="form">
+                                    <div id="invitedEmails">
+                                        <div  class="d-flex gap-1 flex-wrap my-1 ">
+                                            <span *ngFor="let email of emails ; let idx = index " (click)="updateEmail(idx)" class="badge d-inline-block fs-6 fw-light py-2 my-2 " id="mail-capsule">
+                                                 {{email}}
+                                                 <span (click)="removeEmail(idx)" class="mx-1 fs-6 fas fa-close"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                   <div class="form-floating">
+                                        <input type="text" id="invite-emails" class=" py-1 form-control" placeholder="member@gmail.com" name="email"
+                                        [(ngModel)]="email" (keyup)="onChange($event)" [class.is-invalid]="status.error.email.hasError"
+                                        [value]="email" [matAutocomplete]="emailAutoComplete">
+                                        <label for="invite-emails text-muted">member@gmail.com</label>
+                                        <mat-autocomplete #emailAutoComplete="matAutocomplete" >
+                                            <mat-option *ngFor="let email of filterEmails" [value]="email">
+                                                {{ email }}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                   </div>
+                                   <small class="text-danger">{{ status.error.email.msg }}</small>
+                                   <div class="form-group my-2 d-flex justify-content-end gap-1">
+                                        <button class="btn btn-sm" data-bs-dismiss="modal" data-bs-target="#invite-modal">Cancel</button>
+                                        <button type="submit" class="btn btn-primary btn-sm " [disabled]="status.isInviting">{{ status.isInviting ? 'Inviting' : 'Invite'}}</button>
+                                   </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
             </div>
         </div>
+        <div class="row">
+                <div id="task-container" *ngIf="!status.isLoading" class="scrolling-wrapper d-flex  px-5 bg-transparent">
+                    <task-card-container *ngFor="let stage of stages" [stage]="stage" [task-cards]="taskCardsMap" [stages]="stages" [relations]="getRelationContainers(stage)" (change-stage)="handleChangeStage($event)" (add-task)="handleAddTask($event)" [board]="board" (show-offcanvas)="handleShowOffCanvas($event)" ></task-card-container>
+                    <div>
+                        <button (click)="toggleIsAddStage()" *ngIf="!status.isAddStage" class="btn btn-sm px-5 mt-2 h1">
+                            <i class="fa-solid fa-plus mx-1"></i> Add Stage
+                        </button>
+                        <div *ngIf="status.isAddStage" class="form mt-2">
+                            <input [(ngModel)]="stage.stageName" name="stageName" type="text" style="width:187.26px !important;" id="add-stage" placeholder="Stage Name" [class.is-invalid]="status.addingStageError.hasError" class="py-1 form-control py-1 shadow-none" />
+                            <span *ngIf="status.addingStageError.hasError" class="text-danger fs-0 my-0" style="font-size:11px !important;">{{ status.addingStageError.msg }}</span>
+                            <div class="d-flex justify-content-end gap-1 my-0">
+                                <button (click)="toggleIsAddStage()" class="btn  btn-sm my-1">Cancel</button>
+                                <button type="submit" (click)="handleAddStage()" class="btn btn-primary btn-sm my-1" [disabled]="status.isAddingStage" >{{ status.isAddingStage ? 'Adding' : 'Add' }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <task-offcanvas  [task]="offCanvasTask" [activities]="activities" [board]="board" [members]="members" [isLoading]="status.isLoadingOffcanvas" [comments]="comments"></task-offcanvas>
+                <span data-bs-toggle="offcanvas" data-bs-target="#task-offcanvas" id="task-offcanvas-btn" class="d-none">clone</span>
+
+                <loading [show]="status.isLoading" target="Tasks"></loading>
+          </div>
     </div>
-</main>
+</div>

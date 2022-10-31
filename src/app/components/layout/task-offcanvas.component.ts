@@ -99,7 +99,7 @@ import { Board } from "src/app/model/bean/board";
                     </div>
                 </div>
 
-                <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" style="max-height:800px !important;" class="container">
+                <div *ngIf="tab == 'comment' && !isLoading " id="comments-container"  class="container ">
 
                     <div id="comments">
                         <div *ngFor="let comment of comments" id="comment-container" class="w-100 my-2 ">

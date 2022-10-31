@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {  NavigationEnd, Router } from '@angular/router';
+import { ToggleStore } from './model/service/store/toggle.service';
 
 declare var $ : any;
 
@@ -11,11 +12,13 @@ declare var $ : any;
 export class AppComponent {
 
   currentUrl : string = '';
+  isExceptionPage : boolean = false;
 
-  constructor( public router : Router ){
+  constructor( public router : Router , public toggleStore : ToggleStore ){
     this.router.events.subscribe( ( event ) => {
       if( event instanceof NavigationEnd ){
          this.currentUrl = event.url;
+         this.isExceptionPage =  ['/','/login','/register','/verify-email'].includes(this.currentUrl) || this.currentUrl.includes('/this.register');
       }
     })
   }
