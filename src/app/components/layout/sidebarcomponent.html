@@ -18,7 +18,7 @@
         
     
     </ul>
-    <section class="container-fluid workspace mt-3 pt-1">
+    <section *ngIf="sideBoards.length > 0" class="container-fluid workspace mt-3 pt-1">
             <div class="row ">
                     <div class="col-12 badge  cursor-btn h-25 mt-0 mb-2 py-2">
                         <i class="fas fa-plus text-light bx-tada-hover me-1"></i>
@@ -27,7 +27,7 @@
                 <ul class="col-12 justify-content-center p-0 sider-scroll" >
                     <li *ngFor="let board of sideBoards" class="px-3 cursor-btn" (click)="handleGoBoard(board.id)">
                         <i class="fas fa-square ws-icon boardColor" [ngStyle]="{'color': board.color}"></i>
-                        <span  class="color-hover-white fw-light siderboards-font">{{board.boardName}}</span>                    
+                        <span  class="color-hover-white fw-light siderboards-font text-capitalize">{{board.boardName}}</span>                    
                           <i class="fas fa-ellipsis float-end pt-1 color-hover-white bx-tada-hover">
                           </i>        
                     </li>                    

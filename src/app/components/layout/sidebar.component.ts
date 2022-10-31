@@ -18,8 +18,7 @@ export class SidebarComponent implements OnInit {
         public boardStore:BoardStore , 
         private router : Router ){
         setTimeout(() => {
-            this.getBoards();
-        
+            this.getBoards();      
         },500);
     }
 
@@ -27,9 +26,6 @@ export class SidebarComponent implements OnInit {
         
     }
     
-    
-
-
     handleGoBoard( boardId : number ){
         this.router.navigateByUrl(`/boards/${boardId}`,);
     }
@@ -37,8 +33,5 @@ export class SidebarComponent implements OnInit {
     getBoards(){
         this.sideBoards=this.boardStore.boards.filter(val=> val.user.id==this.storeUser.id);
     }
-    
-   
-    
-    
+
 }   

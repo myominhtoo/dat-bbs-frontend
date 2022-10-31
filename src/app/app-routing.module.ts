@@ -13,6 +13,7 @@ import { WorkspaceComponent } from './components/page/board/workspace.component'
 import { MyBoardComponent } from './components/page/board/my-board.component';
 import { CreateTaskCardComponent } from './components/page/mytasks/create-taskCard.component';
 import { ProfileComponent } from './components/page/profile/profile.component';
+import { NotFoundComponent } from './components/page/404/not-found.component';
 const routes: Routes = [
   {
     path : '',
@@ -70,6 +71,11 @@ const routes: Routes = [
   {
     path : 'create-taskCard',
     component : CreateTaskCardComponent
+  },
+  {
+    path : '**',
+    component : NotFoundComponent,
+    pathMatch : 'full'
   }
 ];
 
