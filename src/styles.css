@@ -768,6 +768,7 @@ body{
 .boards-not-have{
     width: 100%;
     display: flex;
+    padding: 150px;
     flex-direction: column;
     justify-content: center;
     align-items: center;

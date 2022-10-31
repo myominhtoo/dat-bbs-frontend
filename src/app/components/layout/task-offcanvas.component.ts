@@ -41,7 +41,7 @@ import { Board } from "src/app/model/bean/board";
                         <h6 class="h6 w-25 fs-6">Assign To</h6>
                         <div class="w-75" *ngIf="members.length > 0">
                            <select class="form-select" (change)="handleAssignTask($event)" >
-                             <option selected value='' >Assign Members</option>
+                             <option selected disabled>Assign Members</option>
                              <option *ngFor="let member of members" class="text-capitalize" [value]="member.id" >{{ member.username }}</option>
                            </select>
                         </div>
@@ -78,8 +78,9 @@ import { Board } from "src/app/model/bean/board";
 
                         <div *ngFor="let activity of activities;let idx = index;" class="w-100 position-relative ">
                             <div class="p-0 w-100  d-flex gap-1">
-                                <input type="checkbox" [checked]="activity.status" name="" id="" />
-                                <input (keydown)="handleAddActivity( $event , idx )" id="activity" [(ngModel)]="activity.activityName" class="text-muted" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" />
+                                <input type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,activity.id)" />
+                                <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" />
+
                             </div>
                             <small class="mx-2 text-danger" *ngIf="status.errorTargetIdx === idx && status.activityError">{{ status.activityError }}</small>
                             <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
@@ -238,6 +239,7 @@ export class TaskOffCanvasComponent implements OnInit {
         errorTargetIdx : 0,
         errorTask : '',
     }
+    checkActivity: Activity[]=[];
 
     constructor(
         public route : ActivatedRoute ,
@@ -253,16 +255,67 @@ export class TaskOffCanvasComponent implements OnInit {
     changeTab( tab : string ){
         this.tab = tab;
     }
+    changeChecked(check:boolean,checkId:number){
+        if(check==true){
+            swal({
+                text : 'Are you sure ?',
+                icon : 'warning',
+                buttons : [ 'No' , 'Yes' ]
+              }).then( isYes => {
+                
+                if( isYes ){
+                    this.checkActivity=this.activities.filter(res=> {
+                        return res.id==checkId
+                    });
+                    this.activityService.updateActivity(this.checkActivity[0]).subscribe(
+                        {
+                            next:(res)=>{
+                                    console.log(res);
+                            },error:(err)=>{
+                                console.log(err)
+                            }
+                        }
+                    )
+                }
+                 
+              })
+
+        }else{
+            
+            swal({
+                text : 'Are you sure ?',
+                icon : 'warning',
+                buttons : [ 'No' , 'Yes' ]
+              }).then( isYes => {
+                
+                if( isYes ){
+                    this.checkActivity=this.activities.filter(res=> {
+                        return res.id==checkId
+                    });
+                    this.activityService.updateActivity(this.checkActivity[0]).subscribe(
+                        {
+                            next:(res)=>{
+                                    console.log(res);
+                            },error:(err)=>{
+                                console.log(err)
+                            }
+                        }
+                    )
+                }
+                 
+              })
+        }
+    }
 
     setUpAddActivity(){
-        // to control clicking this button again & again
-       if( !this.status.isAddActivity || this.activities.length == 0 ){
-        this.status.isAddActivity = true;
+    //     // to control clicking this button again & again
+    //    if( !this.status.isAddActivity || this.activities.length == 0 ){
+    //     this.status.isAddActivity = true;
 
         const newActivity = new Activity();
 
         this.activities.push( newActivity );
-       }
+    //    }
     }
 
     handleAddActivity( e : KeyboardEvent , targetIdx : number ){
@@ -278,24 +331,44 @@ export class TaskOffCanvasComponent implements OnInit {
            code to connect backend
           */
          const newActivity = this.activities[ targetIdx ];
-         newActivity.taskCard = this.task;
-
-         this.activityService
-         .createActivity( this.activities[ targetIdx ])
-         .subscribe({
-            next : res => {
+         newActivity.taskCard = this.task;         
+         if(newActivity.id==undefined){
+            this.activityService
+            .createActivity( this.activities[ targetIdx ])
+            .subscribe({
+               next : res => {
+                console.log("It is create"+res);
+                   this.status.msg = res.message;
+                   this.activities[ targetIdx ] = res.data;
+                   setTimeout(() => {
+                       this.status.msg  = "";
+                   } , 1000 );
+               },
+               error : err => {
+                  this.status.errorTargetIdx = targetIdx;
+                  this.status.activityError = err.error.message;
+               }
+            });
+            this.status.isAddActivity = false;
+         }else{
+            this.activityService
+            .updateActivity( this.activities[ targetIdx ])
+            .subscribe({
+               next : res => {                   
                 this.status.msg = res.message;
-                this.activities[ targetIdx ] = res.data;
                 setTimeout(() => {
                     this.status.msg  = "";
                 } , 1000 );
-            },
-            error : err => {
-               this.status.errorTargetIdx = targetIdx;
-               this.status.activityError = err.error.message;
-            }
-         });
-         this.status.isAddActivity = false;
+               },
+               error : err => {
+                  this.status.errorTargetIdx = targetIdx;
+                  this.status.activityError = err.error.message;
+               }
+            });
+            this.status.isAddActivity = false;
+         }
+
+    
        }
     }
 
@@ -387,3 +460,4 @@ export class TaskOffCanvasComponent implements OnInit {
     }
 
 }
+
