@@ -8,7 +8,11 @@ import { Board } from "src/app/model/bean/board";
     template : `
      <div (click)="handleShowOffCanvas( task)" class="d-flex flex-column align-items-start task-cards my-1 px-2 py-2 gap-3 text-muted shadow-sm bg-pale-snow">
         <h5 class="fw-light h5">{{ task.taskName | titlecase }}</h5>
+            <span data-bs-toggle="dropdown">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </span>
         <div class="w-100 d-flex justify-content-end gap-2 ">
+            
             <span>{{ task.startedDate }}</span>
             <span *ngIf="task.startedDate != task.endedDate">-</span>
             <span *ngIf="task.startedDate != task.endedDate">{{ task.endedDate }}</span>
