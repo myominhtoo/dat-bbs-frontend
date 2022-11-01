@@ -77,7 +77,7 @@ import { Board } from "src/app/model/bean/board";
                     <div class="list-group d-flex flex-column list-unstyled text-muted p-2 gap-3 my-2">
 
                         <div *ngFor="let activity of activities;let idx = index;" class="w-100 position-relative ">
-                            <div class="p-0 w-100  d-flex gap-1">
+                            <div class="p-0 w-100  d-flex gap-2 align-items-center ">
                                 <input type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,activity.id)" />
                                 <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted text-capitalize" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" />
 
