@@ -26,7 +26,7 @@ import swal from "sweetalert";
           <div class="d-flex justify-content-between align-items-center px-3">
             <div class="stage-icon align-items-center">
               <i *ngIf="![1,2,3].includes(data.id) && !status.isEditStage" (click)="handleSetUpStageEdit()" class="fa-solid fa-pencil text-white"></i>
-              <i *ngIf="![1,2,3].includes(data.id)"  (click)="deleteStage(data.id)" class="fas fa-solid fa-trash text-white mx-2"></i>
+              <i *ngIf="![1,2,3].includes(data.id)"  (click)="deleteStage(data)" class="fas fa-solid fa-trash text-white mx-2"></i>
             </div>
           </div>
           <!-- task-card-icon -->
@@ -66,7 +66,7 @@ export class TaskCardContainerComponent implements OnInit {
   @Output('add-task') addTask = new EventEmitter<TaskCard>();
   @Output('change-stage') changeStage = new EventEmitter<ChangeStageType>();
   @Output('show-offcanvas') showTaskOffcanvas = new EventEmitter<TaskCard>();
-  @Output('deleteStage') emitDeleteStage = new EventEmitter<number>();
+  @Output('deleteStage') emitDeleteStage = new EventEmitter<Stage>();
 
 
   tempStage : string  = '';
@@ -199,18 +199,18 @@ export class TaskCardContainerComponent implements OnInit {
     this.showTaskOffcanvas.emit(task);
   }
 
-  deleteStage(id : number){ 
-     this.stageService.deleteStage(id).subscribe(data=>{
+  deleteStage(stage : Stage){ 
+    
       swal({
             text : 'Are you sure ?',
             icon : 'warning',
             buttons : [ 'No' , 'Yes' ]
           }).then( isYes => {
-            this.emitDeleteStage.emit(id);
-          })
-                  
+            if (isYes){
+              // this.stageService.deleteStage(stage.id).subscribe(data=>{
+              this.emitDeleteStage.emit(stage);
+              // }) 
+            }
     })
-
-      
   }
 }
