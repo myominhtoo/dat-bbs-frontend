@@ -43,14 +43,12 @@ export class ProfileComponent{
 
       
     }
-
-
+    
     getUserData( userId : number ){
       this.userService.getUser( userId )
       .subscribe({
-        next : resUser => {
-          
-          this.user = resUser;          
+        next : resUser => {    
+          this.user = resUser;        
           this.userInfo={...this.user};
         },
         error : err => {
@@ -75,6 +73,7 @@ export class ProfileComponent{
                     text : res.message,
                     icon : 'success'
                   }).then(() => {
+                    console.log(res.data)
                     this.user = res.data;
                     this.userInfo={...this.user}
                     this.userStore.saveUserData( res.data );

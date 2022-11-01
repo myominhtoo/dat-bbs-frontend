@@ -67,7 +67,6 @@ export class BoardComponent implements OnInit {
 
     handleBookMark( e : Event ){
         e.stopPropagation();
-       console.log(this.data , this.userStore.user )
     }
 
 }

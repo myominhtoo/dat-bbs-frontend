@@ -32,7 +32,7 @@ export class HomeComponent {
                 }
                 lastIdx++;
             }
-        } , 300 );
+        } , 200 );
     }
 
 }

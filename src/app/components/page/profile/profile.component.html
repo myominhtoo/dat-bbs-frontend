@@ -99,10 +99,10 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Gender</label><br>
                                 <label for="male" class="form-check-label pe-1">Male</label>
-                                <input type="radio" class="form-check-input" id="male" name="gender" value="1" ngModel [checked]="user.gender == 1" />
+                                <input type="radio" class="form-check-input" id="male" name="gender" [value]="1"  [(ngModel)]="user.gender"  />
                                 &nbsp; &nbsp; &nbsp;
                                 <label for="female" class="form-check-label pe-1">Female</label>
-                                <input type="radio" class="form-check-input" id="female" name="gender" value="0" ngModel [checked]="user.gender == 0"/>
+                                <input type="radio" class="form-check-input" id="female" name="gender" [value]="0" [(ngModel)]="user.gender" />
 
                             </div>
                             <div class="mb-3">
