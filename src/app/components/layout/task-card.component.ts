@@ -7,7 +7,7 @@ import { OnInit } from '@angular/core';
     template : `
      <div (click)="handleShowOffCanvas( task)" class="d-flex flex-column align-items-start task-cards my-1 px-2 py-2 gap-3 text-muted shadow-sm bg-pale-snow">
         <h5 class="fw-light h5">{{ task.taskName | titlecase }}</h5>
-        <div class="w-100 d-flex justify-content-end gap-2 ">
+        <div class="w-100 d-flex justify-content-end gap-2 " style="font-size:13px !important;">
             <span>{{ task.startedDate }}</span>
             <span *ngIf="task.startedDate != task.endedDate">-</span>
             <span *ngIf="task.startedDate != task.endedDate">{{ task.endedDate }}</span>

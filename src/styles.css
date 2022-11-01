@@ -42,7 +42,7 @@
 }
 
 .bg-thm{
-    background-color: var(--thm);
+    background-color: var(--thm) !important;
 }
 .bg-tw{
     background-color: var(--tw-color);
@@ -659,10 +659,10 @@ body{
 
 
  #comments-container{
-    height:650px;
-    max-height:650px;
+    height:580px;
+    max-height:580px;
     position: relative;
-    padding:50px 0 0 0;
+    padding:30px 0 0 0;
  }
 
  #comments-container #comments{
