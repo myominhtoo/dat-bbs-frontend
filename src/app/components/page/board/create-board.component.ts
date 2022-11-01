@@ -117,8 +117,6 @@ export class CreateBoardComponent implements OnInit {
       user.id = userId;
       this.board.user = user;
       this.board.invitedEmails = this.emails;
-      this.status.isLoading = true;
-
 
       this.board.boardName == null || this.board.boardName == ''
       ? this.status.error.boardName = { hasError : true , msg : 'Board Name is required!'}
@@ -136,6 +134,7 @@ export class CreateBoardComponent implements OnInit {
           buttons : [ 'No' , 'Yes' ]
         }).then( isYes => {
           if( isYes ){
+            this.status.isLoading = true;
             this.boardService.createBoard(this.board)
             .subscribe({
               next : data => {

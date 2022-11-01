@@ -10,6 +10,7 @@ import 'emojionearea';
 import swal from "sweetalert";
 import { ActivatedRoute } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
+import $ from 'jquery';
 
 @Component({
     selector : 'task-offcanvas',
@@ -46,7 +47,7 @@ import { Board } from "src/app/model/bean/board";
                            </select>
                         </div>
                         <div *ngIf="members.length == 0" class="w-75 fs-6">
-                            <h5 class="fs-6">There is no member to assign! <span class="link text-primary" >Click Here</span> to invite!</h5>
+                            <h5 class="fs-6">There is no member to assign! <span class="link text-primary" (click)="handleInviteMembers()" >Click Here</span> to invite!</h5>
                         </div>
                       </li>
                       <li class="list-item d-flex">
@@ -95,7 +96,7 @@ import { Board } from "src/app/model/bean/board";
 
                     <div class="d-flex justify-content-between align-items-end ">
                         <small class="text-success mx-2">{{ status.msg && status.msg }}</small><br/>
-                        <button (click)="setUpAddActivity()" class="btn btn-sm btn-success mx-3 px-3"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
+                        <button (click)="setUpAddActivity()" class="btn btn-sm bg-thm text-light mx-3 px-3"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
                     </div>
                 </div>
 
@@ -117,7 +118,7 @@ import { Board } from "src/app/model/bean/board";
                     <div id="comment-send-box">
                         <form (ngSubmit)="handleComment()" class="w-100 d-flex gap-2">
                             <input [(ngModel)]="comment.comment" name="comment" id="cmt-input" type="text" class="form-control w-75" placeholder="Comment Here" />
-                            <button type="submit" [disabled]="!comment.comment" class="btn btn-sm w-25 btn-primary"><i class="fa-solid fa-paper-plane mx-1"></i>Send</button>
+                            <button type="submit" [disabled]="!comment.comment" class="btn btn-sm w-25 bg-thm text-light"><i class="fa-solid fa-paper-plane mx-1"></i>Send</button>
                         </form>
                     </div>
 
@@ -457,6 +458,10 @@ export class TaskOffCanvasComponent implements OnInit {
                    console.log(err);
                  }
                 });
+    }
+
+    handleInviteMembers(){
+        $('#invite-members').click();
     }
 
 }

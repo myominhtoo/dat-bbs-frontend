@@ -105,7 +105,7 @@ export class MyBoardComponent implements OnInit {
     getUserMembers(){
       this.userService.getUsersForBoard(this.route.snapshot.params['id']).subscribe(data=>{
             this.boardsHasUsers = data.filter( d => d.user.username != null );
-            this.members = data.map( d => d.user ).filter( user => user.username != null ).filter( user => user.id != this.board.user.id );
+            this.members = data.map( d => d.user ).filter( user => user.username != null );
       });
     }
 
