@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Board } from "src/app/model/bean/board";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { UserService } from "src/app/model/service/http/user.service";
+import { UserStore } from "src/app/model/service/store/user.store";
 
 @Component({
     selector : 'board',
@@ -14,7 +15,8 @@ export class BoardComponent implements OnInit {
 
     constructor(
         private userService : UserService ,
-        private taskCardService : TaskCardService
+        private taskCardService : TaskCardService,
+        private userStore : UserStore,
     ){
         this.data.members = [];
         this.data.tasks = [];
@@ -62,5 +64,10 @@ export class BoardComponent implements OnInit {
         });
     }
 
+
+    handleBookMark( e : Event ){
+        e.stopPropagation();
+       console.log(this.data , this.userStore.user )
+    }
 
 }
