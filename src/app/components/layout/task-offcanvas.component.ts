@@ -107,9 +107,13 @@ import $ from 'jquery';
                             <div id="comment-icon">
                                 <h6 class="h6 mx-2" style="font-size:17px !important;">{{ comment.user.username && comment.user.username | titlecase }}<small class="text-muted mx-2" style="font-size:13px;">{{ comment.createdDate | pentaDate }}</small></h6>
                             </div>
-                            <p id="comment">
+                            <div id="comment">
                                 {{ comment.comment }}
-                            </p>
+                                <div id="comment-control" class="d-flex gap-3 text-muted">
+                                    <i class="fa-solid fa-pen"></i>
+                                    <i class="fa-solid fa-trash"></i>
+                                </div>
+                            </div>                            
                         </div>
                     </div>
 
