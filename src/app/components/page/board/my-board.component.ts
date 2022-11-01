@@ -421,4 +421,7 @@ export class MyBoardComponent implements OnInit {
     this.status.tempBoardName=this.board.boardName;
    }
 
+   handleDeleteStage( id : number ){
+    this.stages=this.stages.filter(stage=>stage.id != id);
+   }
 }
