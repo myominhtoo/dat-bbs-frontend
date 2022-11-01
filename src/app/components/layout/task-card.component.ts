@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { OnInit } from '@angular/core';
+import { Board } from "src/app/model/bean/board";
 
 @Component({
     selector : 'task-card',
@@ -18,7 +19,7 @@ import { OnInit } from '@angular/core';
 export class TaskCardComponent implements OnInit {
 
     @Input('task') task : TaskCard = new TaskCard();
-    
+    //@Input('board') board : Board= new Board();
     @Output('show-task') showTask = new EventEmitter<TaskCard>();
 
     ngOnInit() : void {

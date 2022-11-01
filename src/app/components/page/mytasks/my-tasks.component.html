@@ -1,4 +1,7 @@
-<div class="container-fluid">
-    <div *ngFor="let task of taskCards" [routerLink]="'/boards/'+task.board.id"  class="col-3">{{task.taskName}}</div>
+<div class="container-fluid ">
+    <h2 class="pb-4"> My TaskCards </h2>
+    <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="taskCards"  (cdkDropListDropped)="drop($event)" class="row d-flex " >
+        <task-card cdkDrag *ngFor="let task of taskCards"  [task]="task" [routerLink]="'/boards/'+task.board.id"  class="col-4"></task-card>  
+    </div>
 </div>
   
