@@ -81,6 +81,7 @@ export class MyBoardComponent implements OnInit {
          private commentService : CommentService,
          private userService :UserService  ){
           this.board.user = new User();
+          
          }
 
     ngOnInit(): void {
@@ -130,10 +131,7 @@ export class MyBoardComponent implements OnInit {
         .subscribe({
             next : board => {
                 this.status.isLoading = false;
-                this.board = board;   
-
-                console.log(board);
-                
+                this.board = board;     
                 this.getTaskCards( boardId );
             },
             error : err  => {

@@ -22,7 +22,7 @@ import { Stage } from "src/app/model/bean/stage";
                 <div class="d-flex flex-column w-75">
                     <input (keydown)="handleUpdateTaskName($event)" [(ngModel)]="task.taskName" type="text" [class.is-invalid]="status.errorTask && task.taskName" class="form-control fs-4 fw-bold w-100 outline-none text-capitalize text-muted py-0"  placeholder="Enter task name"  [value]="task.taskName"/>
                     <small class="text-danger" style="font-size:15px;">{{ status.errorTask }}</small>
-                </div>{{ task.stage.stageName }}
+                </div>
                 <!-- <button class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#task-offcanvas" ></button> -->
                 <div id="comment-btn" class="d-flex justify-content-center gap-3 text-muted align-items-center">
                     <!-- <p class="fa-regular fa-comment text-center text-muted p-0 m-0"></p> -->
@@ -256,6 +256,7 @@ export class TaskOffCanvasComponent implements OnInit {
         private taskCardService : TaskCardService ,
         private commentService : CommentService ,
         public userStore : UserStore ){
+            this.task.stage = new Stage();
          }
 
     ngOnInit(): void {
