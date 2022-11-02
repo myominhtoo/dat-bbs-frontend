@@ -112,12 +112,15 @@ import { Stage } from "src/app/model/bean/stage";
                             <div id="comment">
                                 {{ comment.comment }}
                                 <div *ngIf="comment.user.id == userStore.user.id" id="comment-control" class="d-flex gap-3 text-muted">
-                                    <i class="fa-solid fa-pen"></i>
+                                   
+                                    <span class="d-none" data-bs-toggle="modal" id="editComment" data-bs-target="#cmt-modal"></span>
+                                    <i class="fa-solid fa-pen" (click)="updateComment(comment)"></i>
                                     <i class="fa-solid fa-trash" (click)="deleteComment(comment)"></i>
                                 </div>
                             </div>                            
                         </div>
                     </div>
+
 
                     <!-- <emoji-mart></emoji-mart> -->
 
@@ -237,6 +240,7 @@ export class TaskOffCanvasComponent implements OnInit {
     @Output('deleteComment') emitDeleteComment = new EventEmitter<Comment>();
     @Input('tasks') tasks : Map<string,TaskCard[]> = new Map();
 
+    @Output('updateComment') emitUpdateComment = new EventEmitter<Comment>();
     tab : string = 'activity';
     detailActivity : Activity = new Activity();
     comment : Comment = new Comment();
@@ -534,6 +538,11 @@ export class TaskOffCanvasComponent implements OnInit {
               icon : 'warning'
             })
             }
-  })
-}
+        })
+   }
+
+   updateComment ( comment:Comment ){
+      this.emitUpdateComment.emit(comment);
+      $("#editComment").click();
+   }
 }

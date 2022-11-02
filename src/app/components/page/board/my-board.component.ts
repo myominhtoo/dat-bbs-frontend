@@ -31,7 +31,7 @@ export class MyBoardComponent implements OnInit {
     public stages : Stage [] = [];
     taskCardsMap : Map<string,TaskCard[]> = new Map();
     board : Board = new Board();
-    
+    comment : Comment = new Comment();
     email : string ='';
     emails :string[] =[];
     filterEmails : string [] = [];
@@ -442,9 +442,17 @@ export class MyBoardComponent implements OnInit {
       } 
    }
 
-   handleChangeDefaultStageWithActivity(){
-
+   setupUpdateComment( cmt : Comment ){
+     this.comment = cmt;
+     this.commentService.updateComment(this.comment).subscribe({
+       next : res =>{
+          cmt=res.data;
+          $("#cmt-modal .btn-close").click();
+       },
+       error : err =>{
+        console.log(err);
+       }
+     })
    }
-
 
 }
