@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Board } from "src/app/model/bean/board";
 import { BoardService } from "src/app/model/service/http/board.service";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
@@ -41,30 +41,33 @@ export class BoardComponent implements OnInit {
 
     }
 
+     @Output('updateBoardDeleteStatus')  emitBoard = new EventEmitter<Board>();
 
-
-    removeBoard( e : Event ){
+     removeBoard( e : Event ){
       e.stopPropagation();
       console.log('hi')
       this.data.deleteStatus = true;
 
-      console.log(this.data)
+      // console.log(this.data)
 
       swal({
-        text : 'Are you sure to invite this members?',
+        text : 'Are you sure to delete board?',
         icon : 'warning',
         buttons : [ 'No' , 'Yes' ]
-      })
+      }).then(isYes=>{
 
       this.boardServie.updateBoard(this.data)
       .subscribe({
         next : res => {
-          console.log(res )
+          // console.log(res )
+         this.emitBoard.emit(this.data)
         },
         error : err => {
           console.log(err)
         }
       });
+
+    })
 
         // this.boards=this.boardStore.boards;
 
@@ -117,7 +120,6 @@ export class BoardComponent implements OnInit {
 
     handleBookMark( e : Event ){
         e.stopPropagation();
-       console.log(this.data , this.userStore.user )
     }
 
 }

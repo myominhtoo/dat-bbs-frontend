@@ -105,7 +105,7 @@ export class MyBoardComponent implements OnInit {
     getUserMembers(){
       this.userService.getUsersForBoard(this.route.snapshot.params['id']).subscribe(data=>{
             this.boardsHasUsers = data.filter( d => d.user.username != null );
-            this.members = data.map( d => d.user ).filter( user => user.username != null ).filter( user => user.id != this.board.user.id );
+            this.members = data.map( d => d.user ).filter( user => user.username != null );
       });
     }
 
@@ -421,4 +421,21 @@ export class MyBoardComponent implements OnInit {
     this.status.tempBoardName=this.board.boardName;
    }
 
+   handleDeleteStage( stg : Stage ){
+    if(this.taskCardsMap.get(stg.stageName)?.length==0){
+      // swal({
+      //   text : 'Deleted SuccessFully!',
+      //   icon : 'success'
+      // }).then(()=>{
+           this.stageService.deleteStage(stg.id).subscribe(data=>{
+               }) ;
+           this.stages=this.stages.filter(stage=>stage.id != stg.id);
+      // })
+    }else{
+      swal({
+        text : 'Fail to Deleted!',
+        icon : 'warning'
+      })
+      }
+   }
 }
