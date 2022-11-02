@@ -99,7 +99,6 @@ export class ProfileComponent{
          this.imgValue= reader.result as string;
          this.status.preview.textShow=false;
         };
-  
       }
     }
     previewImg(bol:boolean){

@@ -1,3 +1,4 @@
+import { Activity } from 'src/app/model/bean/activity';
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -22,6 +23,11 @@ export class TaskCardService {
 
     updateTaskCard( taskCard : TaskCard ) : Observable<HttpResponse<TaskCard>> {
         return this.httpClient.put<HttpResponse<TaskCard>>(`http://localhost:8080/api/update-task` , taskCard  );
+    }
+
+    checkTaskCard( activity:Activity ) : Observable<HttpResponse<TaskCard>> {
+        console.log(activity)
+        return this.httpClient.put<HttpResponse<TaskCard>>(`http://localhost:8080/api/check-task`,activity);
     }
     
     showMyTasks( userId : number ) : Observable<TaskCard[]> {

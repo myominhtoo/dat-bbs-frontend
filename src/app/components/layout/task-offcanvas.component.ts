@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output  } from "@angular/core";
 import { Activity } from "src/app/model/bean/activity";
-import { TaskCard } from "src/app/model/bean/taskCard";
 import { ActivityService } from "src/app/model/service/http/activity.service";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { Comment } from "src/app/model/bean/comment";
@@ -12,6 +11,8 @@ import { ActivatedRoute } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
 import $ from 'jquery';
 import { UserStore } from "src/app/model/service/store/user.store";
+import { TaskCard } from "src/app/model/bean/taskCard";
+import { Stage } from "src/app/model/bean/stage";
 
 @Component({
     selector : 'task-offcanvas',
@@ -21,7 +22,7 @@ import { UserStore } from "src/app/model/service/store/user.store";
                 <div class="d-flex flex-column w-75">
                     <input (keydown)="handleUpdateTaskName($event)" [(ngModel)]="task.taskName" type="text" [class.is-invalid]="status.errorTask && task.taskName" class="form-control fs-4 fw-bold w-100 outline-none text-capitalize text-muted py-0"  placeholder="Enter task name"  [value]="task.taskName"/>
                     <small class="text-danger" style="font-size:15px;">{{ status.errorTask }}</small>
-                </div>
+                </div>{{ task.stage.stageName }}
                 <!-- <button class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#task-offcanvas" ></button> -->
                 <div id="comment-btn" class="d-flex justify-content-center gap-3 text-muted align-items-center">
                     <!-- <p class="fa-regular fa-comment text-center text-muted p-0 m-0"></p> -->
@@ -224,8 +225,9 @@ export class TaskOffCanvasComponent implements OnInit {
     startedDate !: Date ;
     endedDate !: Date;
     description !: string;
+    changeStage :Stage=new Stage();
+    changeTask:TaskCard=new TaskCard();
 
-    
     @Input('task') task : TaskCard = new TaskCard();
     @Input('activities') activities : Activity [] = [];
     @Input('comments') comments : Comment [] = [];
@@ -233,6 +235,8 @@ export class TaskOffCanvasComponent implements OnInit {
     @Input('members') members : User [] = [];
     @Input('board') board : Board = new Board();
     @Output('deleteComment') emitDeleteComment = new EventEmitter<Comment>();
+    @Input('tasks') tasks : Map<string,TaskCard[]> = new Map();
+
     tab : string = 'activity';
     detailActivity : Activity = new Activity();
     comment : Comment = new Comment();
@@ -275,20 +279,62 @@ export class TaskOffCanvasComponent implements OnInit {
                     this.checkActivity=this.activities.filter(res=> {
                         return res.id==checkId
                     });
+                    
+                    console.log(this.task)
 
-                    this.activityService.updateActivity(this.checkActivity[0]).subscribe(
-                        {
-                            next:(res)=>{
+                    this.activityService.updateActivity(this.checkActivity[0]).subscribe({
+                        next:(res)=>{
                                 this.status.msg = res.message;
                                 setTimeout(() => {
                                     this.status.msg = '';
-                                } , 500 );
-                            },error:(err)=>{
+                                } , 500 );                                                
+                                this.activityService.getActivities(this.checkActivity[0].taskCard.id).subscribe({
+                                    next:(res)=>{
+                                    const  prevTaskCardsOfTask = this.tasks.get(this.task.stage.stageName);
+                                    this.tasks.set( this.task.stage.stageName , prevTaskCardsOfTask?.filter( task => task.id != this.task.id )!);
+
+                                    if(res.every((res)=> res.status==true)){ 
+                                        
+                                        this.changeStage.id=3
+                                        this.changeTask={...this.task}
+                                        this.changeTask.stage=this.changeStage;
+                                        this.taskCardService.updateTaskCard( this.changeTask ).subscribe({
+                                            next : res => {
+                                                this.task = res.data;  
+                                                const resultTasks = this.tasks.get(this.task.stage.stageName);
+                                                resultTasks?.push(this.task);
+                                                this.tasks.set( this.task.stage.stageName , resultTasks! );              
+                                                },
+                                                error : err => {
+                                                    console.log(err);
+                                                }});
+                                    }else if(res.some((res)=> res.status==true)){
+                                        this.changeStage.id=2
+                                        this.changeTask={...this.task}
+                                        this.changeTask.stage=this.changeStage;
+                                        this.taskCardService.updateTaskCard( this.changeTask ).subscribe({
+                                            next : res => {
+                                                this.task = res.data;                                                  
+                                                const resultTasks = this.tasks.get(this.task.stage.stageName);
+                                                resultTasks?.push(this.task);
+                                                this.tasks.set( this.task.stage.stageName , resultTasks! );
+                                                },
+                                                error : err => {
+                                                    console.log(err);
+                                                }});
+                                        } 
+                                    },error:(res)=>{
+                                        console.log(res);
+                                    }
+                                })
+                                                            
+                        },error:(err)=>{
                                 console.log(err)
                             }
                         }
-                    )
 
+                    )
+                    
                 }
                  
               })
@@ -308,7 +354,7 @@ export class TaskOffCanvasComponent implements OnInit {
                     this.activityService.updateActivity(this.checkActivity[0]).subscribe(
                         {
                             next:(res)=>{
-                                    console.log(res);
+                                    // console.log(res);
                             },error:(err)=>{
                                 console.log(err)
                             }
@@ -347,7 +393,6 @@ export class TaskOffCanvasComponent implements OnInit {
             .createActivity( this.activities[ targetIdx ])
             .subscribe({
                next : res => {
-                console.log("It is create"+res);
                    this.status.msg = res.message;
                    this.activities[ targetIdx ] = res.data;
                    setTimeout(() => {
@@ -427,7 +472,6 @@ export class TaskOffCanvasComponent implements OnInit {
                     behavior : 'smooth'
                 })
                 console.log(commentsContainer?.scrollHeight)
-
             }
         },
         error : err => {

@@ -27,7 +27,7 @@ export class MyBoardComponent implements OnInit {
   
   
     boardsHasUsers : BoardsHasUsers [] = [];
-    members : User [] = [];
+    members : User [] = []; 
     public stages : Stage [] = [];
     taskCardsMap : Map<string,TaskCard[]> = new Map();
     board : Board = new Board();
@@ -321,6 +321,9 @@ export class MyBoardComponent implements OnInit {
        let targetStage = this.stages.filter( stage => {
         return payload.stageTo === stage.stageName;
        })[0];
+      //  console.log(payload.task)
+      //  console.log(payload.task.stage)
+      //  console.log(targetStage);
        payload.task.stage = targetStage; //setting updated stage to task
 
        this.taskCardService.updateTaskCard( payload.task )
@@ -440,4 +443,10 @@ export class MyBoardComponent implements OnInit {
       })
       } 
    }
+
+   handleChangeDefaultStageWithActivity(){
+
+   }
+
+
 }

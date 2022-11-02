@@ -1,3 +1,4 @@
+import { ActivityService } from 'src/app/model/service/http/activity.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Board } from 'src/app/model/bean/board';
 import { Stage } from 'src/app/model/bean/stage';
@@ -54,7 +55,8 @@ export class TaskCardContainerComponent implements OnInit {
 
   constructor( 
     private stageService : StageService ,
-    private taskService : TaskCardService
+    private taskService : TaskCardService,
+    private activityService:ActivityService
     ){}
 
   @Input('stages') stages : Stage [] = [];
@@ -167,7 +169,6 @@ export class TaskCardContainerComponent implements OnInit {
     }
 
   }
-
   drop( e : CdkDragDrop<TaskCard[]> ){
     if( e.previousContainer === e.container ){
       moveItemInArray( this.taskCards.get(this.data.stageName )! , e.previousIndex , e.currentIndex );
