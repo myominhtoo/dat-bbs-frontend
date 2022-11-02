@@ -109,6 +109,7 @@
                         </div>
                     </div>
                  </div>
+                 
             </div>
         </div>
         <div class="row">
@@ -128,10 +129,38 @@
                         </div>
                     </div>
                 </div>
-                <task-offcanvas  [task]="offCanvasTask" [tasks]="taskCardsMap" [activities]="activities" [board]="board" [members]="members" [isLoading]="status.isLoadingOffcanvas" [comments]="comments"></task-offcanvas>
+                <task-offcanvas (updateComment)="setupUpdateComment($event)" [task]="offCanvasTask" [activities]="activities" [board]="board" [members]="members" [isLoading]="status.isLoadingOffcanvas" [comments]="comments"></task-offcanvas>
                 <span data-bs-toggle="offcanvas" data-bs-target="#task-offcanvas" id="task-offcanvas-btn" class="d-none">clone</span>
 
                 <loading [show]="status.isLoading" target="Tasks"></loading>
           </div>
     </div>
 </div>
+
+
+<!-- modal for updateComment -->
+<div class="modal fade" id="cmt-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+             <div class="modal-header">
+                 <div class="model-title h4 text-muted">
+                      Edit Comment
+                 </div>
+                 <button class="btn-close" data-bs-dismiss="modal" data-bs-target="#cmt-modal"></button>
+             </div>
+             <div class="modal-body">
+                 <form class="form" (ngSubmit)="setupUpdateComment(comment)" >
+                     <div>
+                         <input type=text name="comment" id="comment" class="form-control" [(ngModel)]="comment.comment" placeholder="Enter Comment">
+                     </div>
+                     <div class="d-flex justify-content-end gap-1 my-0 mt-2">
+                        <button type="button" class="btn btn-sm" data-bs-dismiss="modal" data-bs-target="#cmt-modal">Close</button>
+                        <button type="submit" [disabled]="comment.comment == '' " class="btn text-light bg-thm btn-sm">Update</button>
+                     </div>
+                     
+                 </form>
+             </div>
+        </div>
+    </div>
+
+ </div>

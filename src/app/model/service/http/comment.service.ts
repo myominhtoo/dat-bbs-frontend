@@ -21,5 +21,9 @@ export class CommentService{
     deleteComment(commentId : Number) : Observable<HttpResponse<Comment>>{
         return this.httpClient.delete<HttpResponse<Comment>>(`http://localhost:8080/api/comment/delete-comment?id=${commentId}`);
     }
+
+    updateComment ( comment : Comment ) : Observable<HttpResponse<Comment>>{
+        return this.httpClient.put<HttpResponse<Comment>>(`http://localhost:8080/api/update-comment` , comment );
+    }
 }
 
