@@ -36,6 +36,7 @@ export class MyBoardComponent implements OnInit {
     emails :string[] =[];
     filterEmails : string [] = [];
     storedEmails : string [] = [];
+    tempComment : string ='';
 
     stage  : Stage = new Stage();
 
@@ -444,6 +445,7 @@ export class MyBoardComponent implements OnInit {
 
    setupUpdateComment( cmt : Comment ){
      this.comment = cmt;
+     this.tempComment=this.comment.comment;
      this.commentService.updateComment(this.comment).subscribe({
        next : res =>{
           cmt=res.data;
@@ -453,6 +455,13 @@ export class MyBoardComponent implements OnInit {
         console.log(err);
        }
      })
+   }
+
+   handleCancel(){
+    $("#cmt-modal .btn-close").click();
+    this.comment.comment=this.tempComment;
+
+
    }
 
 }
