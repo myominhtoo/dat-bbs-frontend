@@ -15,7 +15,7 @@ export class MyTaskComponent implements OnInit{
     taskCards : TaskCard [] = [];
     //userId : string = "";
 
-    constructor( public toggleStore : ToggleStore , 
+    constructor( public toggleStore : ToggleStore ,
         private taskCardService : TaskCardService ,
         public route : ActivatedRoute ,
         private userStore : UserStore
@@ -27,14 +27,14 @@ export class MyTaskComponent implements OnInit{
     }
     drop( e : CdkDragDrop<TaskCard[]> ){
         if (e.previousContainer === e.container ){
-           
+
         }
     }
-  
-        
+
+
         getTasks(userId : number){
             // console.log ("YouSee");
-           
+
             this.taskCardService.showMyTasks(userId).subscribe({
              next : data => {
                 this.taskCards = data;
@@ -44,5 +44,5 @@ export class MyTaskComponent implements OnInit{
              }
            });
         }
-} 
+}
 

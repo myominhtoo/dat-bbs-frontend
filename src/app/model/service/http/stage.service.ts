@@ -5,7 +5,7 @@ import { Stage } from "../../bean/stage";
 import { HttpResponse } from "../../bean/httpResponse";
 
 @Injectable({
-    providedIn  : 'root'   
+    providedIn  : 'root'
 })
 export class StageService {
   constructor ( private httpClient : HttpClient ){
@@ -22,6 +22,7 @@ export class StageService {
   editStageName( stage : Stage ) : Observable<HttpResponse<Stage>>{
     return this.httpClient.put<HttpResponse<Stage>>(`http://localhost:8080/api/update-stage` , stage );
   }
+
 
   deleteStage( stageId : Number ) : Observable<HttpResponse<Stage>>{
     return this.httpClient.delete<HttpResponse<Stage>>(`http://localhost:8080/api/delete-stage?id=${stageId}`);

@@ -1,8 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Board } from "src/app/model/bean/board";
+import { BoardService } from "src/app/model/service/http/board.service";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { UserService } from "src/app/model/service/http/user.service";
-import { UserStore } from "src/app/model/service/store/user.store";
+import { BoardStore } from "src/app/model/service/store/board.store";
+import swal from 'sweetalert';
+
 
 @Component({
     selector : 'board',
@@ -10,13 +13,20 @@ import { UserStore } from "src/app/model/service/store/user.store";
 })
 export class BoardComponent implements OnInit {
 
+  boards : Board [] = [];
+  ownerBoards:Board[]=[];
+  assignBoards:Board[]=[];
+
+  storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     @Input('data') data : Board = new Board();
     @Input('target') target : number = 0;
+  userStore: any;
 
     constructor(
         private userService : UserService ,
         private taskCardService : TaskCardService,
-        private userStore : UserStore,
+        public boardStore : BoardStore ,
+        private boardServie : BoardService
     ){
         this.data.members = [];
         this.data.tasks = [];
@@ -28,7 +38,41 @@ export class BoardComponent implements OnInit {
 
     ngOnInit(): void {
         this.fetchRequiredDatas();
+
     }
+
+     @Output('updateBoardDeleteStatus')  emitBoard = new EventEmitter<Board>();
+
+     removeBoard( e : Event ){
+      e.stopPropagation();
+      console.log('hi')
+      this.data.deleteStatus = true;
+
+      // console.log(this.data)
+
+      swal({
+        text : 'Are you sure to delete board?',
+        icon : 'warning',
+        buttons : [ 'No' , 'Yes' ]
+      }).then(isYes=>{
+
+        if( isYes ){
+          this.boardServie.updateBoard(this.data)
+          .subscribe({
+            next : res => {
+              // console.log(res )
+            this.emitBoard.emit(this.data)
+            },
+            error : err => {
+              console.log(err)
+            }
+          });
+        }
+
+    })
+    }
+
+
 
     fetchRequiredDatas(){
         this.getMembers( this.data.id  )
