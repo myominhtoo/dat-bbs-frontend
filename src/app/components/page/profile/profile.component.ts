@@ -23,6 +23,7 @@ export class ProfileComponent{
     storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))); 
     user : User = new User();
     userInfo:User=new User();
+    confirmInput=document.createElement("input");
     imgValue:any;
     status = {
         preview:{
@@ -50,6 +51,7 @@ export class ProfileComponent{
         next : resUser => {    
           this.user = resUser;        
           this.userInfo={...this.user};
+          console.log(resUser)
         },
         error : err => {
           console.log(err);
@@ -57,34 +59,70 @@ export class ProfileComponent{
       });
     }
 
+    
+
     saveProfile(profile:NgForm){
+    
       swal({
         text : 'Are you sure to update your profile?',
         icon : 'warning',
+        closeOnClickOutside: false,
         buttons : [ 'No' , 'Yes' ]
       }).then( isYes => {
         if( isYes ){
-          this.user.id=this.storeUser.id;
-          this.userService.updateUser(this.user).subscribe(
-            {
-              next:(res)=>{
-                if( res.ok ){
-                  swal({
-                    text : res.message,
-                    icon : 'success'
-                  }).then(() => {
-                    console.log(res.data)
-                    this.user = res.data;
-                    this.userInfo={...this.user}
-                    this.userStore.saveUserData( res.data );
-                  })
-                }
-              },
-              error:(err)=>{
-                console.log(err)
+          swal({
+            text : 'Confirm Your Old Password',
+            closeOnClickOutside: false,
+            content : {
+              element : 'input',
+              attributes: {
+                placeholder: "Type your password",
+                type: "password",
               }
             }
-          )
+          }).then( confirmpassword => {
+            this.user.confirmpassword=confirmpassword;
+            this.user.id=this.storeUser.id;
+            this.userService.updateUser(this.user).subscribe(
+              {
+                next:(res)=>{
+                  if( res.ok ){
+                    swal({
+                      text : res.message,
+                      icon : 'success',
+                      closeOnClickOutside: false
+                    }).then(() => {
+                      
+                      this.user = res.data;
+                      this.userInfo={...this.user}                      
+                      this.userStore.saveUserData( res.data );
+                      this.user.password="";
+                    })
+                  }
+                },
+                error:(err)=>{                
+                  swal({
+                    text:"Wrong Password",
+                    icon:"error",
+                    closeOnClickOutside: false          
+                  }).then(_=>{
+                    this.user={...this.userInfo};
+                  })
+                  
+                }
+              }
+            )
+          })
+          
+
+        }else{
+          swal({
+            text:"Nothing changed",        
+              icon: "info",  
+          }).then(_=>{            
+              this.user={...this.userInfo};
+            
+          })
         }
       })
     }
