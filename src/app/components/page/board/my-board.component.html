@@ -37,14 +37,14 @@
 
                     <div class="m-0 p-0 ">
                         <div  class="d-inline-block mx-2 " id="profile-member">
-                            <span *ngIf="boardHasUser.user.imageUrl == null && boardHasUser.user.username != null" class="text-dark bg-secondary d-flex justify-content-center align-items-center" id="profile-member">{{ boardHasUser.user.username[0].toUpperCase() }}</span>
+                            <span *ngIf="boardHasUser.user.imageUrl == null && boardHasUser.user.username != null" class="text-light d-flex justify-content-center align-items-center bg-dark opacity-50" id="profile-member">{{ boardHasUser.user.username[0].toUpperCase() }}</span>
                             <img  *ngIf="boardHasUser.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+boardHasUser.user.imageUrl"  alt="">
                         </div>
                         <div class="d-inline-block ps-1 fw-light">{{ boardHasUser.user.username | titlecase }}</div>
                         </div>
                         <br>
-                        <small *ngIf="!boardHasUser.joinedStatus" class="d-flex justify-content-center align-content-center badge bg-stage-dark opacity-25">
-                            <i class='bx bx-pulse bx-sm'></i>
+                        <small *ngIf="!boardHasUser.joinedStatus" class="d-flex justify-content-center align-content-center badge text-dark text-muted">
+                            <i class='bx bx-pulse bx-sm my-1'></i>
                            <span class="pt-2 fw-light">pending</span>
                         </small>
                     </div>

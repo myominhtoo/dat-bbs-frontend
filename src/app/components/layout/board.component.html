@@ -1,10 +1,11 @@
 <div  class=" card my-2 board  shadow-sm">
+<div  class=" card my-2 board  shadow-sm"  [routerLink]="'/boards/'+data.id">
     <!-- <img src="assets\img\board-profile-img\profilepic.png" alt=""> -->
     <div class="card-body d-flex justify-content-between flex-column py-2 px-2s fw-bold">
         <div class="d-flex justify-content-between">
-            <span >
+            <span style="z-index:1000" >
                 <!-- <i class="fa-solid fa-star mx-1"></i> -->
-                <i class="fa-regular fa-star text-muted" [class.fw-bold]="data.bookMark"></i>
+                <i class="fa-regular fa-star text-muted" (click)="handleBookMark($event)" [class.fw-bold]="data.bookMark"></i>
                {{ data.boardName | titlecase }}
             </span>
             <span >
@@ -15,6 +16,8 @@
         </div>
 
         <div class="d-flex justify-content-between ">
+
+        <div class="d-flex justify-content-between">
             <span class="text-muted mx-1"> <span class="fw-light text-black">{{ data.tasks && data.tasks.length }}</span> Tasks</span>
             <div class="d-flex align-items-center gap-3">
                 <p class="d-flex align-items-center p-0 m-0 gap-1 fw-light">

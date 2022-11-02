@@ -69,7 +69,7 @@ import { Board } from "src/app/model/bean/board";
                         </div>
                       </li>
                       <li class="text-end">
-                         <button (click)="updateTask()" class="btn btn-sm btn-success px-3"><i class="fa-solid fa-file-pen mx-1"></i>Update</button>
+                         <button (click)="updateTask()" class="btn btn-sm bg-thm px-4 text-light "><i class="fa-solid fa-file-pen mx-1"></i>Update</button>
                       </li>
                    </ul>
 
@@ -77,9 +77,9 @@ import { Board } from "src/app/model/bean/board";
                     <div class="list-group d-flex flex-column list-unstyled text-muted p-2 gap-3 my-2">
 
                         <div *ngFor="let activity of activities;let idx = index;" class="w-100 position-relative ">
-                            <div class="p-0 w-100  d-flex gap-1">
+                            <div class="p-0 w-100  d-flex gap-2 align-items-center ">
                                 <input type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,activity.id)" />
-                                <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" />
+                                <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted text-capitalize" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" />
 
                             </div>
                             <small class="mx-2 text-danger" *ngIf="status.errorTargetIdx === idx && status.activityError">{{ status.activityError }}</small>
@@ -95,14 +95,14 @@ import { Board } from "src/app/model/bean/board";
 
                     <div class="d-flex justify-content-between align-items-end ">
                         <small class="text-success mx-2">{{ status.msg && status.msg }}</small><br/>
-                        <button (click)="setUpAddActivity()" class="btn btn-sm btn-secondary mx-3"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
+                        <button (click)="setUpAddActivity()" class="btn btn-sm btn-success mx-3 px-3"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
                     </div>
                 </div>
 
-                <div *ngIf="tab == 'comment' && !isLoading " id="comments-container"  class="container ">
+                <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" >
 
                     <div id="comments">
-                        <div *ngFor="let comment of comments" id="comment-container" class="w-100 my-2 ">
+                        <div *ngFor="let comment of comments" id="comment-container" class="w-100 my-2 px-3 ">
                             <div id="comment-icon">
                                 <h6 class="h6 mx-2" style="font-size:17px !important;">{{ comment.user.username && comment.user.username | titlecase }}<small class="text-muted mx-2" style="font-size:13px;">{{ comment.createdDate | pentaDate }}</small></h6>
                             </div>
@@ -127,7 +127,7 @@ import { Board } from "src/app/model/bean/board";
 
                     <div class="text-muted d-flex align-items-center my-4">
                         <span class="w-25">Activity Name</span>
-                        <input type="text" class="form-control w-75 text-muted" [(ngModel)]="detailActivity.activityName" >
+                        <input type="text" class="form-control w-75 text-capitalize text-muted" [(ngModel)]="detailActivity.activityName" >
                     </div>
 
                     <div class="text-muted d-flex align-items-center my-4">
@@ -135,11 +135,11 @@ import { Board } from "src/app/model/bean/board";
                         <div class="w-75 text-muted d-flex gap-2">
                             <div class="w-25">
                                 <small>Start Date</small>
-                                <input type="date" class="form-control w-100" />
+                                <input type="datetime-local" [(ngModel)]="detailActivity.startedDate" class="form-control w-100" />
                            </div>
                             <div class="w-25">
                                 <small>Due Date</small>
-                                <input type="date" class="form-control w-100">
+                                <input type="datetime-local" [(ngModel)]="detailActivity.endedDate" class="form-control w-100">
                             </div>
                         </div>
                     </div>
@@ -149,11 +149,11 @@ import { Board } from "src/app/model/bean/board";
                         <div class="w-75 text-muted d-flex justify-content-start  align-items-center ">
                             <div class="w-25 d-flex gap-2 m-0">
                                 <label for="undone">Undone</label>
-                                <input type="radio" name="status" id="undone" class="form-check">
+                                <input type="radio" name="status" id="undone" [(ngModel)]="detailActivity.status"   [value]="false" class="form-check">
                             </div>
                             <div class="w-25 d-flex gap-2 m-0">
                                 <label for="done">Done</label>
-                                <input type="radio" name="status" id="done" class="form-check" />
+                                <input type="radio" name="status" id="done" [(ngModel)]="detailActivity.status" [value]="true"  class="form-check" />
                            </div>
                         </div>
                     </div>
@@ -194,7 +194,6 @@ import { Board } from "src/app/model/bean/board";
 
                             <div class="text-end my-2">
                                 <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-plus"></i>Add</button>
-
                             </div>
                         </div>
                     </div>
@@ -255,7 +254,9 @@ export class TaskOffCanvasComponent implements OnInit {
     changeTab( tab : string ){
         this.tab = tab;
     }
+
     changeChecked(check:boolean,checkId:number){
+        if( !checkId ) return ;
         if(check==true){
             swal({
                 text : 'Are you sure ?',
@@ -267,15 +268,20 @@ export class TaskOffCanvasComponent implements OnInit {
                     this.checkActivity=this.activities.filter(res=> {
                         return res.id==checkId
                     });
+
                     this.activityService.updateActivity(this.checkActivity[0]).subscribe(
                         {
                             next:(res)=>{
-                                    console.log(res);
+                                this.status.msg = res.message;
+                                setTimeout(() => {
+                                    this.status.msg = '';
+                                } , 500 );
                             },error:(err)=>{
                                 console.log(err)
                             }
                         }
                     )
+
                 }
                  
               })
@@ -313,7 +319,6 @@ export class TaskOffCanvasComponent implements OnInit {
     //     this.status.isAddActivity = true;
 
         const newActivity = new Activity();
-
         this.activities.push( newActivity );
     //    }
     }
@@ -327,11 +332,9 @@ export class TaskOffCanvasComponent implements OnInit {
             return;
           }
 
-          /*
-           code to connect backend
-          */
          const newActivity = this.activities[ targetIdx ];
          newActivity.taskCard = this.task;         
+
          if(newActivity.id==undefined){
             this.activityService
             .createActivity( this.activities[ targetIdx ])
@@ -377,7 +380,6 @@ export class TaskOffCanvasComponent implements OnInit {
         this.isLoading = true;
         this.detailActivity = this.activities.filter( activity => activity.id === activityId )[0];
         this.isLoading = false;
-
         this.tab = 'activity-detail';
     }
 
@@ -441,11 +443,9 @@ export class TaskOffCanvasComponent implements OnInit {
     }
    
     updateTask(){
-       // this.boardId=this.route.snapshot.params['id'];
-        console.log(this.task.startedDate);
+     
         this.taskCardService.updateTaskCard( this.task).subscribe({   
                  next : res => {
-                   console.log(res.data);
                    if( res ){
                      swal({
                        text : "successfully!",

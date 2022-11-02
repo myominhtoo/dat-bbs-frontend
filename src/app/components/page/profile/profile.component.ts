@@ -66,7 +66,6 @@ export class ProfileComponent{
         buttons : [ 'No' , 'Yes' ]
       }).then( isYes => {
         if( isYes ){
-          this.user=profile.value;
           this.user.id=this.storeUser.id;
           this.userService.updateUser(this.user).subscribe(
             {

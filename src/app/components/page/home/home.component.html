@@ -1,1 +1,3 @@
-<h1>I am home</h1>{{ toggleStore.isShow }} {{ toggleStore.msg }}
+<div class="w-75 mx-auto py-4 text-center">
+    <h1 class="thm">Welcome <span class="text-dark opacity-75 h3">{{ username | titlecase }}!<span *ngIf="username.length != userStore.user.username.length">|</span></span></h1>
+</div>
