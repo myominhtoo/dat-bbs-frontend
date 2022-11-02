@@ -182,15 +182,19 @@ export class TaskCardContainerComponent implements OnInit {
   }
 
   handleDragging( e : CdkDragMove<any> ){
-    const container = document.getElementById('task-container');
+    const container = document.getElementById('main-area');
     let curPosition = e.pointerPosition.x;
     let realWidth = container?.clientWidth;
 
-    if( curPosition - realWidth! < 8000 ){
-      // console.log( curPosition , realWidth! )
 
+    if( realWidth! - curPosition < 400 ){
       container?.scrollTo({
-        left : container.scrollLeft + curPosition - realWidth! + 100,
+        left : container.scrollLeft + 300,
+        behavior : 'smooth'
+      })
+    }else{
+      container?.scrollTo({
+        left : container.scrollLeft - 500,
         behavior : 'smooth'
       })
     }

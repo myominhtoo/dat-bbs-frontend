@@ -19,8 +19,8 @@ import { Stage } from "src/app/model/bean/stage";
     template : `
         <div class='offcanvas offcanvas-end' id='task-offcanvas' >
             <div class="offcanvas-header shadow-sm py-3 px-3">
-                <div class="d-flex flex-column w-75">
-                    <input (keydown)="handleUpdateTaskName($event)" [(ngModel)]="task.taskName" type="text" [class.is-invalid]="status.errorTask && task.taskName" class="form-control fs-4 fw-bold w-100 outline-none text-capitalize text-muted py-0"  placeholder="Enter task name"  [value]="task.taskName"/>
+                <div class="d-flex flex-column w-50">
+                    <input (keydown)="handleUpdateTaskName($event)" [(ngModel)]="task.taskName" type="text" [class.is-invalid]="status.errorTask && task.taskName" class="form-control fs-4 fw-bold w-100 outline-none text-capitalize text-muted py-0 shadow-none"  placeholder="Enter task name"  [value]="task.taskName"/>
                     <small class="text-danger" style="font-size:15px;">{{ status.errorTask }}</small>
                 </div>
                 <!-- <button class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#task-offcanvas" ></button> -->
@@ -72,7 +72,7 @@ import { Stage } from "src/app/model/bean/stage";
                         </div>
                       </li>
                       <li class="text-end">
-                         <button (click)="updateTask()" class="btn btn-sm bg-thm px-4 text-light "><i class="fa-solid fa-file-pen mx-1"></i>Update</button>
+                         <button (click)="updateTask()" class="btn btn-sm bg-thm px-4 text-light "><i class="fa-solid fa-file-pen mx-2"></i>Update</button>
                       </li>
                    </ul>
 
