@@ -56,29 +56,20 @@ export class BoardComponent implements OnInit {
         buttons : [ 'No' , 'Yes' ]
       }).then(isYes=>{
 
-      this.boardServie.updateBoard(this.data)
-      .subscribe({
-        next : res => {
-          // console.log(res )
-         this.emitBoard.emit(this.data)
-        },
-        error : err => {
-          console.log(err)
+        if( isYes ){
+          this.boardServie.updateBoard(this.data)
+          .subscribe({
+            next : res => {
+              // console.log(res )
+            this.emitBoard.emit(this.data)
+            },
+            error : err => {
+              console.log(err)
+            }
+          });
         }
-      });
 
     })
-
-        // this.boards=this.boardStore.boards;
-
-        // this.ownerBoards= this.boards.filter((val)=>{
-        //         return val.user.id==this.storeUser.id;
-        // })
-        // this.assignBoards=this.boards.filter((val)=>{
-        //     return val.user.id!=this.storeUser.id;
-        // })
-
-
     }
 
 

@@ -42,11 +42,9 @@ export class WorkspaceComponent implements OnInit {
 
      removeBoard(board : Board){
 
-
         // this.boardService.updateBoard(this.data).subscribe(datas=>{
          this.ownerBoards=this.ownerBoards.filter(boarding=> boarding.id!=board.id)
         // })
-
 
  }
 
