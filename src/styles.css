@@ -9,8 +9,8 @@
 /* Dark Mode */
     /* --pale-dark:#0e153a;
     --dark:#0e153a; */
-    --pale-dark:rgba(32,32,32);
-    --dark:rgba(24,24,24);   
+    --pale-dark:#161b22;
+    --dark:#161b22; 
     --snow:rgba(255,255,255,0.9);
     --pale-snow:rgba(255,255,255,0.75);
     /* #071e3d */
@@ -184,6 +184,7 @@ header ( width is 100% , height: 8%)
 
 #main #main-area{
     width:82%;
+    min-height:92vh;
     /* max-width:82%; */
     height:auto;
     margin-left: 18vw !important;
@@ -511,9 +512,9 @@ body{
   background-color:rgb(225, 225, 225) !important; 
   
   }
-    .scrolling-wrapper {
+    /* .scrolling-wrapper {
       -webkit-overflow-scrolling: touch;
-    }
+    } */
     
   .task-card-container{
       box-sizing: border-box;

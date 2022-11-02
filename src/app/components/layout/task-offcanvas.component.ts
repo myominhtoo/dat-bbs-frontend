@@ -13,6 +13,7 @@ import $ from 'jquery';
 import { UserStore } from "src/app/model/service/store/user.store";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { Stage } from "src/app/model/bean/stage";
+import { Attachment } from "src/app/model/bean/attachment";
 
 @Component({
     selector : 'task-offcanvas',
@@ -89,8 +90,8 @@ import { Stage } from "src/app/model/bean/stage";
                             <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
                                 <i (click)="handleShowDetailActivity( activity.id )" class="fa-solid fa-eye"></i>
                                 <!-- <i class="fa-solid fa-calendar-days"></i> -->
-                                <input type="file" id="attachment" class="d-none">
-                                <label for="attachment" class="fa-solid fa-paperclip"></label>
+                                <!-- <input type="file" id="attachment" class="d-none">
+                                <label for="attachment" class="fa-solid fa-paperclip"></label> -->
                             </div>
                         </div>
 
@@ -189,21 +190,11 @@ import { Stage } from "src/app/model/bean/stage";
                                            <a class="link"><i class="fa-solid fa-trash-can"></i></a> -->
                                         </td>
                                     </tr>
-
-                                    <tr>
-                                        <td>java file</td>
-                                        <td>John</td>
-                                        <td class="d-flex gap-1 justify-content-center" style="font-size:17px;">
-                                           <a class="link"><i class="fa-solid fa-download"></i></a>
-                                           <!-- <a class="link"><i class="fa-solid fa-pen-to-square"></i></a>
-                                           <a class="link"><i class="fa-solid fa-trash-can"></i></a> -->
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
 
                             <div class="text-end my-2">
-                                <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-plus"></i>Add</button>
+                                <button class="btn bg-thm text-light px-3 btn-sm"><i class="fa-solid fa-plus"></i>Add</button>
                             </div>
                         </div>
                     </div>
@@ -230,6 +221,7 @@ export class TaskOffCanvasComponent implements OnInit {
     description !: string;
     changeStage :Stage=new Stage();
     changeTask:TaskCard=new TaskCard();
+    
 
     @Input('task') task : TaskCard = new TaskCard();
     @Input('activities') activities : Activity [] = [];
@@ -237,9 +229,10 @@ export class TaskOffCanvasComponent implements OnInit {
     @Input('isLoading') isLoading : boolean = false;
     @Input('members') members : User [] = [];
     @Input('board') board : Board = new Board();
-    @Output('deleteComment') emitDeleteComment = new EventEmitter<Comment>();
     @Input('tasks') tasks : Map<string,TaskCard[]> = new Map();
+    @Input('attachments') attachments : Attachment [] = [];
 
+    @Output('deleteComment') emitDeleteComment = new EventEmitter<Comment>();
     @Output('updateComment') emitUpdateComment = new EventEmitter<Comment>();
     tab : string = 'activity';
     detailActivity : Activity = new Activity();
@@ -532,12 +525,7 @@ export class TaskOffCanvasComponent implements OnInit {
             this.commentService.deleteComment(cmt.id).subscribe(data=>{
             this.comments=this.comments.filter(comment=>comment.id != cmt.id);
             });
-          }else{
-            swal({
-              text : 'Fail to Deleted!',
-              icon : 'warning'
-            })
-            }
+          }
         })
    }
 
