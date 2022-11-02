@@ -80,7 +80,7 @@ export class MyBoardComponent implements OnInit {
          private activityService : ActivityService ,
          private commentService : CommentService,
          private userService :UserService  ){
-         
+          this.board.user = new User();
          }
 
     ngOnInit(): void {
@@ -131,6 +131,8 @@ export class MyBoardComponent implements OnInit {
             next : board => {
                 this.status.isLoading = false;
                 this.board = board;   
+
+                console.log(board);
                 
                 this.getTaskCards( boardId );
             },
@@ -436,6 +438,6 @@ export class MyBoardComponent implements OnInit {
         text : 'Fail to Deleted!',
         icon : 'warning'
       })
-      }
+      } 
    }
 }

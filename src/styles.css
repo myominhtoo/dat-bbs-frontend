@@ -711,6 +711,22 @@ body{
     padding:10px;
     margin:0;
  }
+
+ #comment{
+    position:  relative ;
+ }
+
+ #comment #comment-control{
+    position: absolute;
+    right:-70px;
+    top:20%;
+    padding:8px 10px;
+    background: #eee;
+    border-radius:5px;
+ }
+
+
+
  .ask-container{
     position: relative;
     top: 0;

@@ -18,4 +18,8 @@ export class CommentService{
         return this.httpClient.get<Comment[]> (`http://localhost:8080/api/tasks/${id}/comments`);
     }
 
+    deleteComment(commentId : Number) : Observable<HttpResponse<Comment>>{
+        return this.httpClient.delete<HttpResponse<Comment>>(`http://localhost:8080/api/comment/delete-comment?id=${commentId}`);
+    }
 }
+
