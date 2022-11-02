@@ -9,7 +9,7 @@
             </span>
             <span >
               <button  (click)="removeBoard($event)"  style="padding: 0; border: 0; background: none;">
-                <i  class="fa-sharp fa-solid fa-trash text-muted" > </i>
+                <i *ngIf="data.user.id==usersStore.user.id" class="fa-sharp fa-solid fa-trash text-muted" > </i>
               </button>
             </span>
         </div>
