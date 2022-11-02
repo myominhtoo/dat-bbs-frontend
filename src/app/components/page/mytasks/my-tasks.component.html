@@ -1,4 +1,4 @@
 <div class="container-fluid">
+
     <div *ngFor="let task of taskCards" [routerLink]="'/boards/'+task.board.id"  class="col-3">{{task.taskName}}</div>
 </div>
-  

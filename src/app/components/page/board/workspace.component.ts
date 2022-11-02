@@ -17,7 +17,7 @@ export class WorkspaceComponent implements OnInit {
         isLoading : false,
         hasDoneFetching : false,
     }
- 
+
     constructor(
         public toggleStore : ToggleStore ,
         // private boardService : BoardService ,
@@ -35,6 +35,7 @@ export class WorkspaceComponent implements OnInit {
     }
 
     getBoards(){
+
         this.boards=this.boardStore.boards;
 
         this.ownerBoards= this.boards.filter((val)=>{

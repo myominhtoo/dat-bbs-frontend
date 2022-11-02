@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Board } from "src/app/model/bean/board";
+import { BoardService } from "src/app/model/service/http/board.service";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { UserService } from "src/app/model/service/http/user.service";
+import { BoardStore } from "src/app/model/service/store/board.store";
 
 @Component({
     selector : 'board',
@@ -9,12 +11,19 @@ import { UserService } from "src/app/model/service/http/user.service";
 })
 export class BoardComponent implements OnInit {
 
+  boards : Board [] = [];
+  ownerBoards:Board[]=[];
+  assignBoards:Board[]=[];
+
+  storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     @Input('data') data : Board = new Board();
     @Input('target') target : number = 0;
 
     constructor(
         private userService : UserService ,
-        private taskCardService : TaskCardService
+        private taskCardService : TaskCardService,
+        public boardStore : BoardStore ,
+        private boardServie : BoardService
     ){
         this.data.members = [];
         this.data.tasks = [];
@@ -26,7 +35,41 @@ export class BoardComponent implements OnInit {
 
     ngOnInit(): void {
         this.fetchRequiredDatas();
+
     }
+
+
+
+    removeBoard( e : Event ){
+      e.stopPropagation();
+      console.log('hi')
+      this.data.deleteStatus = true;
+
+      console.log(this.data)
+
+      this.boardServie.updateBoard(this.data)
+      .subscribe({
+        next : res => {
+          console.log(res )
+        },
+        error : err => {
+          console.log(err)
+        }
+      });
+
+        // this.boards=this.boardStore.boards;
+
+        // this.ownerBoards= this.boards.filter((val)=>{
+        //         return val.user.id==this.storeUser.id;
+        // })
+        // this.assignBoards=this.boards.filter((val)=>{
+        //     return val.user.id!=this.storeUser.id;
+        // })
+
+
+    }
+
+
 
     fetchRequiredDatas(){
         this.getMembers( this.data.id  )

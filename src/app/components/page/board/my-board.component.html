@@ -3,11 +3,11 @@
     <div class="container-fluid">
         <div class="row border-board">
             <div class="px-5 col-12 d-flex justify-content-between align-items-center">
-                <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->            
+                <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->
                 <div class=" d-flex p-0 m-0">
-                    <span class="iconBoard rounded-4 m-0 d-flex justify-content-center align-items-center" >                                
-                            <i class='bx bx-md bx-list-ul'></i>                                   
-                    </span>                       
+                    <span class="iconBoard rounded-4 m-0 d-flex justify-content-center align-items-center" >
+                            <i class='bx bx-md bx-list-ul'></i>
+                    </span>
                     <input (focus)="setupEditBoard()" type="text" class="text-dark-50 h2 mx-3 board-input w-50 my-2 shadow-none board-input text-capitalize" (keydown)="handleUpdateBoardName($event)" [class.form-control]="status.isEditBoardName" placeholder="Enter board's name"  [(ngModel)]="board.boardName" >
             </div>
                 <div class="d-flex gap-2">
@@ -16,7 +16,7 @@
                         <i class="fa-solid fa-people-group"></i>
                       Members
                      </button>
-                </div> 
+                </div>
 
                    <!-- Show offcanvas bar -->
 
@@ -28,27 +28,27 @@
                   <div class="offcanvas-body " >
 
                     <!-- Showing views -->
-                   <div class="container-fluid p-0 m-0">                            
+                   <div class="container-fluid p-0 m-0">
 
                     <div *ngFor="let boardHasUser of boardsHasUsers;" class="row p-0 m-0  d-flex justify-content-center align-items-center">
 
                         <!-- start col-12 -->
                     <div class="col-12 hover-member p-2 mb-2 rounded-3 d-flex align-items-center justify-content-between p-0 m-0 member-container">
-                        
-                    <div class="m-0 p-0 ">                             
+
+                    <div class="m-0 p-0 ">
                         <div  class="d-inline-block mx-2 " id="profile-member">
                             <span *ngIf="boardHasUser.user.imageUrl == null && boardHasUser.user.username != null" class="text-dark bg-secondary d-flex justify-content-center align-items-center" id="profile-member">{{ boardHasUser.user.username[0].toUpperCase() }}</span>
                             <img  *ngIf="boardHasUser.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+boardHasUser.user.imageUrl"  alt="">
-                        </div>                             
+                        </div>
                         <div class="d-inline-block ps-1 fw-light">{{ boardHasUser.user.username | titlecase }}</div>
                         </div>
                         <br>
                         <small *ngIf="!boardHasUser.joinedStatus" class="d-flex justify-content-center align-content-center badge bg-stage-dark opacity-25">
                             <i class='bx bx-pulse bx-sm'></i>
                            <span class="pt-2 fw-light">pending</span>
-                        </small>          
-                    </div>                          
-                    <!-- end col-12 -->                           
+                        </small>
+                    </div>
+                    <!-- end col-12 -->
                 </div>
                 </div>
                       <!-- </tr> -->
