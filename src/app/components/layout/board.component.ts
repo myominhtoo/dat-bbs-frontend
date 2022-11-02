@@ -4,6 +4,8 @@ import { BoardService } from "src/app/model/service/http/board.service";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { UserService } from "src/app/model/service/http/user.service";
 import { BoardStore } from "src/app/model/service/store/board.store";
+import swal from 'sweetalert';
+
 
 @Component({
     selector : 'board',
@@ -18,6 +20,7 @@ export class BoardComponent implements OnInit {
   storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     @Input('data') data : Board = new Board();
     @Input('target') target : number = 0;
+  userStore: any;
 
     constructor(
         private userService : UserService ,
@@ -46,6 +49,12 @@ export class BoardComponent implements OnInit {
       this.data.deleteStatus = true;
 
       console.log(this.data)
+
+      swal({
+        text : 'Are you sure to invite this members?',
+        icon : 'warning',
+        buttons : [ 'No' , 'Yes' ]
+      })
 
       this.boardServie.updateBoard(this.data)
       .subscribe({
