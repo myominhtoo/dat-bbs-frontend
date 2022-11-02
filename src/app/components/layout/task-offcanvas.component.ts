@@ -462,14 +462,8 @@ export class TaskOffCanvasComponent implements OnInit {
        .subscribe({
         next : res => {
             if( res.ok ){
-                const commentsContainer = document.getElementById('comments');
                 this.comment.comment = '';
-                this.comments.push(res.data);
-                commentsContainer?.scrollTo({
-                    top : commentsContainer.scrollHeight + 500,
-                    behavior : 'smooth'
-                })
-                console.log(commentsContainer?.scrollHeight)
+                this.comments.unshift(res.data);
             }
         },
         error : err => {
