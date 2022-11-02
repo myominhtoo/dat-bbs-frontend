@@ -438,6 +438,6 @@ export class MyBoardComponent implements OnInit {
         text : 'Fail to Deleted!',
         icon : 'warning'
       })
-      }
+      } 
    }
 }

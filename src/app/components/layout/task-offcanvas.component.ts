@@ -1,4 +1,4 @@
-import { Component, Input, OnInit  } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output  } from "@angular/core";
 import { Activity } from "src/app/model/bean/activity";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { ActivityService } from "src/app/model/service/http/activity.service";
@@ -11,6 +11,7 @@ import swal from "sweetalert";
 import { ActivatedRoute } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
 import $ from 'jquery';
+import { UserStore } from "src/app/model/service/store/user.store";
 
 @Component({
     selector : 'task-offcanvas',
@@ -109,9 +110,9 @@ import $ from 'jquery';
                             </div>
                             <div id="comment">
                                 {{ comment.comment }}
-                                <div id="comment-control" class="d-flex gap-3 text-muted">
+                                <div *ngIf="comment.user.id == userStore.user.id" id="comment-control" class="d-flex gap-3 text-muted">
                                     <i class="fa-solid fa-pen"></i>
-                                    <i class="fa-solid fa-trash"></i>
+                                    <i class="fa-solid fa-trash" (click)="deleteComment(comment)"></i>
                                 </div>
                             </div>                            
                         </div>
@@ -231,7 +232,7 @@ export class TaskOffCanvasComponent implements OnInit {
     @Input('isLoading') isLoading : boolean = false;
     @Input('members') members : User [] = [];
     @Input('board') board : Board = new Board();
-
+    @Output('deleteComment') emitDeleteComment = new EventEmitter<Comment>();
     tab : string = 'activity';
     detailActivity : Activity = new Activity();
     comment : Comment = new Comment();
@@ -249,7 +250,8 @@ export class TaskOffCanvasComponent implements OnInit {
         public route : ActivatedRoute ,
         private activityService : ActivityService ,
         private taskCardService : TaskCardService ,
-        private commentService : CommentService  ){
+        private commentService : CommentService ,
+        public userStore : UserStore ){
          }
 
     ngOnInit(): void {
@@ -468,5 +470,25 @@ export class TaskOffCanvasComponent implements OnInit {
         $('#invite-members').click();
     }
 
-}
 
+    
+  deleteComment(cmt : Comment){ 
+    
+    swal({
+          text : 'Are you sure to Delete ?',
+          icon : 'warning',
+          buttons : [ 'No' , 'Yes' ]
+        }).then( isYes => {
+          if (isYes){
+            this.commentService.deleteComment(cmt.id).subscribe(data=>{
+            this.comments=this.comments.filter(comment=>comment.id != cmt.id);
+            });
+          }else{
+            swal({
+              text : 'Fail to Deleted!',
+              icon : 'warning'
+            })
+            }
+  })
+}
+}
