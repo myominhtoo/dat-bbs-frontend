@@ -27,8 +27,7 @@ export class BoardStore{
 
     private getBoardsByUserId( userId : number ){
         this.status.isLoading = true;
-        this.boaredService.getBoardsForUser( userId )
-        .subscribe({
+        this.boaredService.getBoardsForUser( userId ).subscribe({
             next : datas => {
                 this.status.isLoading = false;
                 this.boards = datas;

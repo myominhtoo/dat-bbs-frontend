@@ -4,6 +4,7 @@ import { BoardService } from "src/app/model/service/http/board.service";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { UserService } from "src/app/model/service/http/user.service";
 import { BoardStore } from "src/app/model/service/store/board.store";
+import { UserStore } from "src/app/model/service/store/user.store";
 import swal from 'sweetalert';
 
 
@@ -26,7 +27,8 @@ export class BoardComponent implements OnInit {
         private userService : UserService ,
         private taskCardService : TaskCardService,
         public boardStore : BoardStore ,
-        private boardServie : BoardService
+        private boardServie : BoardService,
+        public usersStore : UserStore 
     ){
         this.data.members = [];
         this.data.tasks = [];
