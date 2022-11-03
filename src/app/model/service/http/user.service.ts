@@ -50,7 +50,16 @@ export class UserService {
     }
 
     updateUser(user:User):Observable<HttpResponse<User>>{
-        return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/api/update-user`,user)
+        return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/api/update-user`,user);
     }
+
+    toggleBookMark(id : number , user : User) :Observable <HttpResponse<User>>{
+        return  this.httpClient.post<HttpResponse<User>> (`http://localhost:8080/api/users/${id}/board-boardmask`,user)
+    }
+
+    getBookMark(userId : number): Observable<User> {
+        return this.httpClient.get<User>(`http://localhost:8080/api/users/${userId}/board-bookmarks`);
+    }
+    
 
 }
