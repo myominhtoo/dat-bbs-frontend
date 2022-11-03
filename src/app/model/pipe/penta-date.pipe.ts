@@ -30,7 +30,7 @@ export class PentaDatePipe implements PipeTransform {
       result += hasYearDiff ? year+' ' : '';
       result += hasYearDiff || hasMonthDiff ? this.months[Number(month) -1 ] : '';
       result += ` ${day} `;
-      result += ( hasYearDiff || hasMonthDiff ) ? ' At ' : '';
+      result += ( hasYearDiff || hasMonthDiff ) ? ' AT ' : '';
 
       if( !hasDayDiff ){
 

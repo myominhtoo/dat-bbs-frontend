@@ -12,6 +12,7 @@ import { TaskCardContainerComponent } from "./task-card-container.component";
 import { TaskCardComponent } from "./task-card.component";
 import { TaskOffCanvasComponent } from "./task-offcanvas.component";
 import { PentaDatePipe } from "src/app/model/pipe/penta-date.pipe";
+import { PickerModule } from "@ctrl/ngx-emoji-mart";
 
 @NgModule({
     declarations : [
@@ -30,6 +31,7 @@ import { PentaDatePipe } from "src/app/model/pipe/penta-date.pipe";
         DragDropModule,
         FormsModule,
         HttpClientModule,
+        PickerModule
     ],
     exports : [
         NavbarComponent,

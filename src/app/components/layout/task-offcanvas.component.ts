@@ -123,11 +123,12 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                         </div>
                     </div>
 
-
                     <!-- <emoji-mart></emoji-mart> -->
+                    <emoji-mart *ngIf="showEmojis" (emojiSelect)="addEmojiToComment($event)" id="emoji-mart"></emoji-mart>
 
                     <div id="comment-send-box">
                         <form (ngSubmit)="handleComment()" class="w-100 d-flex gap-2">
+                            <i (click)="toggleEmojis()" class="fa-regular fa-face-smile" id="smile"></i>
                             <input [(ngModel)]="comment.comment" name="comment" id="cmt-input" type="text" class="form-control w-75" placeholder="Comment Here" />
                             <button type="submit" [disabled]="!comment.comment" class="btn btn-sm w-25 bg-thm text-light"><i class="fa-solid fa-paper-plane mx-1"></i>Send</button>
                         </form>
@@ -273,6 +274,7 @@ export class TaskOffCanvasComponent implements OnInit {
     curPageOfAttachments : number = 1;
     totalPagesOfAttachments : number = 0;
     newAttachment : Attachment = new Attachment();
+    showEmojis : boolean = false
     
 
     @Input('task') task : TaskCard = new TaskCard();
@@ -656,5 +658,14 @@ export class TaskOffCanvasComponent implements OnInit {
         });
        
     }
+   }
+
+   toggleEmojis(){
+    this.showEmojis = !this.showEmojis;
+   }
+
+   addEmojiToComment( e : any ){
+     this.comment.comment += e.emoji.native;
+     this.showEmojis = false; 
    }
 }

@@ -720,6 +720,37 @@ body{
     margin:0;
  }
 
+ #comment-send-box form{
+    position: relative;
+ }
+
+ #comment-send-box form #smile{
+    position: absolute;
+    right:29%;
+    color:#161b22;
+    top:30%;
+ }
+
+ #emoji-mart{
+    position:absolute;
+    left:3%;
+    top:38%;
+ }
+
+ #emoji-mart * {
+    background-color: #161b22 !important;
+ }
+
+ #emoji-mart .emoji-mart{
+    width:70%  !important;
+    background:#161b22;
+ }
+
+ #emoji-mart .emoji-mart-bar{
+    display: none;
+    background-color: #161b22 !important;
+ }
+
  #comment{
     position:  relative ;
  }
