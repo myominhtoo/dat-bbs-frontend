@@ -8,6 +8,7 @@ import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
 import { CdkDragDrop , moveItemInArray , transferArrayItem , CdkDragMove  } from '@angular/cdk/drag-drop';
 import { ChangeStageType } from 'src/app/model/types/custom-types';
 import swal from "sweetalert";
+import { Attachment } from 'src/app/model/bean/attachment';
 @Component({
   selector: 'task-card-container',
   template: `
@@ -64,6 +65,7 @@ export class TaskCardContainerComponent implements OnInit {
   @Input('task-cards') taskCards : Map<string,TaskCard[]> = new  Map();
   @Input('board') board = new Board();
   @Input('relations') relationContainers : string [] = [];
+  @Input('attachments') attachments : Attachment [] = [];
 
   @Output('add-task') addTask = new EventEmitter<TaskCard>();
   @Output('change-stage') changeStage = new EventEmitter<ChangeStageType>();

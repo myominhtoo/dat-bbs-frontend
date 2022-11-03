@@ -14,6 +14,7 @@ import { UserStore } from "src/app/model/service/store/user.store";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { Stage } from "src/app/model/bean/stage";
 import { Attachment } from "src/app/model/bean/attachment";
+import { AttachmentService } from "src/app/model/service/http/attachment.service";
 
 @Component({
     selector : 'task-offcanvas',
@@ -170,6 +171,13 @@ import { Attachment } from "src/app/model/bean/attachment";
                     </div>
 
                     <div class="text-muted d-flex align-items-center my-4">
+                        <span class="w-25"></span>
+                        <div class="w-75 text-muted d-flex justify-content-end">
+                            <button class="btn btn-sm bg-thm text-light px-3"><i class="fa-solid fa-pen mx-1" ></i>Update</button>
+                        </div>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-start my-4">
                         <span class="w-25">Attachments</span>
                         <div class="w-75">
                             <table class="table w-100 text-muted  ">
@@ -181,20 +189,21 @@ import { Attachment } from "src/app/model/bean/attachment";
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>kt source file</td>
-                                        <td>John</td>
+                                    <tr *ngFor="let attachment of attachments">
+                                        <td class="text-capitalize">{{ attachment.name.substring(0,20) }}<span *ngIf="attachment.name.length > 20">...</span></td>
+                                        <td>{{ attachment.user.username }}</td>
                                         <td class="d-flex gap-1 justify-content-center" style="font-size:17px;">
-                                           <a class="link"><i class="fa-solid fa-download"></i></a>
-                                           <!-- <a class="link"><i class="fa-solid fa-pen-to-square"></i></a>
-                                           <a class="link"><i class="fa-solid fa-trash-can"></i></a> -->
+                                           <a class="link" [href]="'http://localhost:8080/attachments/'+attachment.fileUrl" download ><i class="fa-solid fa-download"></i></a>
                                         </td>
+                                    </tr>
+                                    <tr *ngIf="!isLoading && attachments.length == 0" class="text-center">
+                                        <td colspan="3" class="text-muted" style="font-size:15px;">There is no attachment for this activity!</td>
                                     </tr>
                                 </tbody>
                             </table>
 
                             <div class="text-end my-2">
-                                <button class="btn bg-thm text-light px-3 btn-sm"><i class="fa-solid fa-plus"></i>Add</button>
+                                <button data-bs-toggle="modal" data-bs-target="#add-attachment-modal" class="btn bg-thm text-light px-3 btn-sm"><i class="fa-solid fa-plus mx-1"></i>Add</button>
                             </div>
                         </div>
                     </div>
@@ -202,7 +211,35 @@ import { Attachment } from "src/app/model/bean/attachment";
 
                 </div>
 
-                <loading [show]="isLoading" target="Activities.."></loading>
+                <loading [show]="isLoading" target="Datas..."></loading>
+            </div>
+        </div>
+        <!-- modal for add attachment  --> 
+        <div class="modal fade" data-bs-backdrop="static" data-bs-keyword="false" id="add-attachment-modal">
+            <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content p-3">
+                    <header class="modal-header d-flex justify-content-between">
+                      <h4 class="text-muted">Add Attachment</h4>
+                      <i class="btn-close" id="close-attachment-btn" data-bs-dismiss='modal' data-bs-target="#add-attachment-modal"></i>
+                    </header>
+                    <form (submit)="handleAddAttachment()" class="modal-body">
+                        <div class="form-group my-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" [(ngModel)]="newAttachment.name" name="name" class="form-control" [class.is-invalid]="newAttachment.name == '' " name="name" placeholder="Enter attachment's name" />
+                            <span class="my-1 text-danger" *ngIf="newAttachment.name == '' " >Attachment's Name is required!</span>
+                        </div>
+                        <div class="form-group my-2">
+                            <label class="form-label">File</label>
+                            <input  id="attachment" name="file" type="file" class="form-control" [class.is-invalid]="status.attachmentError" placeholder="Choose File" accept="image/jpg , image/png , image/jpeg , application/zip , application/pdf , 
+                            application/vnd.openxmlformats-officedocument.wordprocessingml.document , application/vnd.openxmlformats-officedocument.presentationml.presentation , application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"   />
+                            <span class="my-1 text-danger">{{ status.attachmentError }}</span>
+                        </div>
+                        <div class="form-group my-3 d-flex justify-content-end align-items-center gap-2">
+                            <span style="border:none;">Cancel</span>
+                            <button type="submit" class="btn btn-sm bg-thm px-4 text-light" [disabled]="status.addingAttachment" >{{ status.addingAttachment ? 'Adding' : 'Add' }}</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     `
@@ -221,6 +258,8 @@ export class TaskOffCanvasComponent implements OnInit {
     description !: string;
     changeStage :Stage=new Stage();
     changeTask:TaskCard=new TaskCard();
+    attachments : Attachment [] = [];
+    newAttachment : Attachment = new Attachment();
     
 
     @Input('task') task : TaskCard = new TaskCard();
@@ -230,7 +269,6 @@ export class TaskOffCanvasComponent implements OnInit {
     @Input('members') members : User [] = [];
     @Input('board') board : Board = new Board();
     @Input('tasks') tasks : Map<string,TaskCard[]> = new Map();
-    @Input('attachments') attachments : Attachment [] = [];
 
     @Output('deleteComment') emitDeleteComment = new EventEmitter<Comment>();
     @Output('updateComment') emitUpdateComment = new EventEmitter<Comment>();
@@ -244,6 +282,8 @@ export class TaskOffCanvasComponent implements OnInit {
         msg : '',
         errorTargetIdx : 0,
         errorTask : '',
+        attachmentError : '',
+        addingAttachment : false,
     }
     checkActivity: Activity[]=[];
 
@@ -252,7 +292,8 @@ export class TaskOffCanvasComponent implements OnInit {
         private activityService : ActivityService ,
         private taskCardService : TaskCardService ,
         private commentService : CommentService ,
-        public userStore : UserStore ){
+        public userStore : UserStore , 
+        public attachmentService :AttachmentService  ){
             this.task.stage = new Stage();
          }
 
@@ -428,9 +469,19 @@ export class TaskOffCanvasComponent implements OnInit {
 
     handleShowDetailActivity( activityId : number ){
         this.isLoading = true;
-        this.detailActivity = this.activities.filter( activity => activity.id === activityId )[0];
-        this.isLoading = false;
-        this.tab = 'activity-detail';
+        this.attachmentService.getAttachmentsForActivity( activityId  )
+        .subscribe({
+            next : resAttachments => {
+                this.attachments = resAttachments;
+                console.log(resAttachments)
+                this.detailActivity = this.activities.filter( activity => activity.id === activityId )[0];
+                this.isLoading = false;
+                this.tab = 'activity-detail';
+            },
+            error : err => {
+                console.log(err);
+            }
+        });
     }
 
     handleUpdateTaskName( e : KeyboardEvent ){
@@ -526,5 +577,36 @@ export class TaskOffCanvasComponent implements OnInit {
    updateComment ( comment:Comment ){
       this.emitUpdateComment.emit(comment);
       $("#editComment").click();
+   }
+
+   handleAddAttachment(){
+    const inputFiles = ($('#attachment')[0] as HTMLInputElement).files;
+    if( inputFiles?.length == 0 || !this.newAttachment.name ){
+        if(!this.newAttachment.name) this.newAttachment.name = '';
+        if( inputFiles?.length == 0 ) this.status.attachmentError = 'Attachment file is required!'
+    }else{
+        this.status.attachmentError = '';
+        this.newAttachment.file = inputFiles![0];
+        this.newAttachment.user = this.userStore.user;
+        this.newAttachment.activity = this.detailActivity;
+        
+        this.status.addingAttachment = true;
+        this.attachmentService.addAttachmentToActivity( this.newAttachment )
+        .subscribe({
+            next : res => {
+                this.status.addingAttachment = false;
+                if( res.ok ){
+                    $('#close-attachment-btn').click();
+                    this.attachments.push(this.newAttachment);
+                    this.newAttachment = new Attachment();
+                    ($('#attachment')[0] as HTMLInputElement)!.files = null;
+                }
+            },
+            error : err => {
+                this.status.attachmentError = err.error.message;
+            }
+        });
+       
+    }
    }
 }
