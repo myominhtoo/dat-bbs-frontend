@@ -8,6 +8,7 @@ import { User } from "src/app/model/bean/user";
 import { UserService } from "src/app/model/service/http/user.service";
 import { map ,  Subject } from "rxjs";
 import { BoardStore } from "src/app/model/service/store/board.store";
+import { UserStore } from "src/app/model/service/store/user.store";
 
 @Component({
     selector :'create-board',
@@ -19,6 +20,7 @@ export class CreateBoardComponent implements OnInit {
       private boardService :BoardService ,
       private router : Router ,
       private userService : UserService ,
+      public userStore : UserStore,
       public boardStore : BoardStore ){}
 
     emailStr :string ='';
@@ -135,6 +137,7 @@ export class CreateBoardComponent implements OnInit {
         }).then( isYes => {
           if( isYes ){
             this.status.isLoading = true;
+            this.board.invitedEmails = this.board.invitedEmails.filter( email => email != this.userStore.user.email );
             this.boardService.createBoard(this.board)
             .subscribe({
               next : data => {
@@ -165,10 +168,12 @@ export class CreateBoardComponent implements OnInit {
     const users$ = this.userService.getUsers();
     users$.pipe(
       map( resUsers => {
-        return resUsers.map( user => {
-          return user.email;
+        return resUsers.filter( user => {
+          return user.id != this.userStore.user.id;
+        }).map( filteredUser => {
+          return filteredUser.email;
         })
-      }),
+      })
     ).subscribe({
       next : resEmails => {
         this.storedEmails = resEmails;

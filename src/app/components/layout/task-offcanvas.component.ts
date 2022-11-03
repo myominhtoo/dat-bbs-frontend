@@ -183,6 +183,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                             <table class="table w-100 text-muted  ">
                                 <thead >
                                     <tr>
+                                        <td></td>
                                         <td>Name</td>
                                         <td>Uploaded By</td>
                                         <td>Action</td>
@@ -190,6 +191,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let attachment of attachments">
+                                        <td><i *ngIf="attachment.user.id == userStore.user.id" class="fa-solid fa-circle-minus text-danger"></i></td>
                                         <td class="text-capitalize">{{ attachment.name.substring(0,20) }}<span *ngIf="attachment.name.length > 20">...</span></td>
                                         <td>{{ attachment.user.username }}</td>
                                         <td class="d-flex gap-1 justify-content-center" style="font-size:17px;">

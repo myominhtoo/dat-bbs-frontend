@@ -16,11 +16,12 @@ export class UserStore{
         this.user.id = savedUser.id;
         this.user.username = savedUser.username;
         this.user.imageUrl = savedUser.imageUrl;
+        this.user.email = savedUser.email;
        }
     }
 
     saveUserData( user : User ){
-        localStorage.setItem(window.btoa(('user')),encode({id : user.id  , username : user.username , imageUrl : user.imageUrl}));
+        localStorage.setItem(window.btoa(('user')),encode({id : user.id , email : user.email  , username : user.username , imageUrl : user.imageUrl}));
         this.fetchUserData();
     }
 
