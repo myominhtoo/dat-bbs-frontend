@@ -204,8 +204,13 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                                 </tbody>
                             </table>
 
-                            <div class="text-end my-2">
-                                <button data-bs-toggle="modal" data-bs-target="#add-attachment-modal" class="btn bg-thm text-light px-3 btn-sm"><i class="fa-solid fa-plus mx-1"></i>Add</button>
+                            <div class="d-flex justify-content-between my-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-chevron-left p-2  text-primary"></i>
+                                    <span>1</span>
+                                    <i class="fa-solid fa-chevron-right p-2 text-primary"></i>
+                                </div>
+                                <button data-bs-toggle="modal" data-bs-target="#add-attachment-modal" class="btn bg-thm text-light px-3 btn-sm"><i class="fa-solid fa-plus mx-1"></i>Upload</button>
                             </div>
                         </div>
                     </div>
@@ -227,18 +232,18 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                     <form (submit)="handleAddAttachment()" class="modal-body">
                         <div class="form-group my-3">
                             <label class="form-label">Name</label>
-                            <input type="text" [(ngModel)]="newAttachment.name" name="name" class="form-control" [class.is-invalid]="newAttachment.name == '' " name="name" placeholder="Enter attachment's name" />
+                            <input type="text" [(ngModel)]="newAttachment.name" name="name" class="form-control shadow-none" [class.is-invalid]="newAttachment.name == '' " name="name" placeholder="Enter attachment's name" />
                             <span class="my-1 text-danger" *ngIf="newAttachment.name == '' " >Attachment's Name is required!</span>
                         </div>
                         <div class="form-group my-2">
                             <label class="form-label">File</label>
-                            <input  id="attachment" name="file" type="file" class="form-control" [class.is-invalid]="status.attachmentError" placeholder="Choose File" accept="image/jpg , image/png , image/jpeg , application/zip , application/pdf , 
+                            <input  id="attachment" name="file" type="file" class="form-control shadow-none" [class.is-invalid]="status.attachmentError" placeholder="Choose File" accept="image/jpg , image/png , image/jpeg , application/zip , application/pdf , 
                             application/vnd.openxmlformats-officedocument.wordprocessingml.document , application/vnd.openxmlformats-officedocument.presentationml.presentation , application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"   />
                             <span class="my-1 text-danger">{{ status.attachmentError }}</span>
                         </div>
                         <div class="form-group my-3 d-flex justify-content-end align-items-center gap-2">
                             <span style="border:none;">Cancel</span>
-                            <button type="submit" class="btn btn-sm bg-thm px-4 text-light" [disabled]="status.addingAttachment" >{{ status.addingAttachment ? 'Adding' : 'Add' }}</button>
+                            <button type="submit" class="btn btn-sm bg-thm px-4 text-light" [disabled]="status.addingAttachment" >{{ status.addingAttachment ? 'Uploading' : 'Upload' }}</button>
                         </div>
                     </form>
                 </div>
@@ -251,6 +256,8 @@ export class TaskOffCanvasComponent implements OnInit {
 
     public now:Date =new Date();
 
+    MAX_ITEM_PER_PAGE : number = 5;
+
     showtime:Comment[] =[];
     boardId !: number;
     taskCardId !: number;
@@ -261,6 +268,9 @@ export class TaskOffCanvasComponent implements OnInit {
     changeStage :Stage=new Stage();
     changeTask:TaskCard=new TaskCard();
     attachments : Attachment [] = [];
+    paginagedAttachents : Attachment [] = [];
+    curPageOfAttachments : number = 1;
+    totalPagesOfAttachments : number = 0;
     newAttachment : Attachment = new Attachment();
     
 
@@ -475,7 +485,7 @@ export class TaskOffCanvasComponent implements OnInit {
         .subscribe({
             next : resAttachments => {
                 this.attachments = resAttachments;
-                console.log(resAttachments)
+                this.totalPagesOfAttachments = Math.ceil( resAttachments.length / this.MAX_ITEM_PER_PAGE );
                 this.detailActivity = this.activities.filter( activity => activity.id === activityId )[0];
                 this.isLoading = false;
                 this.tab = 'activity-detail';
