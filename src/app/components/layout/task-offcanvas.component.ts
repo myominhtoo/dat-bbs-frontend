@@ -180,17 +180,18 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                     <div class="text-muted d-flex align-items-start my-4">
                         <span class="w-25">Attachments</span>
                         <div class="w-75">
-                            <table class="table w-100 text-muted  ">
+                            <table class="table w-100 text-muted " style="min-height:250px !important;">
                                 <thead >
                                     <tr>
-                                        <td></td>
+                                        <td>    
+                                        </td>
                                         <td>Name</td>
                                         <td>Uploaded By</td>
                                         <td>Action</td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let attachment of attachments">
+                                    <tr *ngFor="let attachment of paginatedAttachents">
                                         <td><i *ngIf="attachment.user.id == userStore.user.id" class="fa-solid fa-circle-minus text-danger"></i></td>
                                         <td class="text-capitalize">{{ attachment.name.substring(0,20) }}<span *ngIf="attachment.name.length > 20">...</span></td>
                                         <td>{{ attachment.user.username }}</td>
@@ -204,11 +205,11 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                                 </tbody>
                             </table>
 
-                            <div class="d-flex justify-content-between my-2">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="fa-solid fa-chevron-left p-2  text-primary"></i>
-                                    <span>1</span>
-                                    <i class="fa-solid fa-chevron-right p-2 text-primary"></i>
+                            <div class="d-flex my-2 {{ totalPagesOfAttachments > 1 ? 'justify-content-between' : 'justify-content-end' }}">
+                                <div *ngIf="totalPagesOfAttachments > 1" class="d-flex align-items-center gap-2">
+                                        <button [disabled]="(curPageOfAttachments == 1)" (click)="handleAssignPaginatedAttachments(curPageOfAttachments -1 )" class="fa-solid fa-chevron-left p-2 border-0 bg-transparent" [class.text-primary]="(curPageOfAttachments != 1)"></button>
+                                        <span>{{ curPageOfAttachments }}</span>  
+                                        <button [disabled]="curPageOfAttachments == totalPagesOfAttachments" (click)="handleAssignPaginatedAttachments(curPageOfAttachments + 1 )" class="fa-solid fa-chevron-right border-0 bg-transparent p-2 text-primary" [class.text-primary]="curPageOfAttachments < totalPagesOfAttachments" ></button>
                                 </div>
                                 <button data-bs-toggle="modal" data-bs-target="#add-attachment-modal" class="btn bg-thm text-light px-3 btn-sm"><i class="fa-solid fa-plus mx-1"></i>Upload</button>
                             </div>
@@ -268,7 +269,7 @@ export class TaskOffCanvasComponent implements OnInit {
     changeStage :Stage=new Stage();
     changeTask:TaskCard=new TaskCard();
     attachments : Attachment [] = [];
-    paginagedAttachents : Attachment [] = [];
+    paginatedAttachents : Attachment [] = [];
     curPageOfAttachments : number = 1;
     totalPagesOfAttachments : number = 0;
     newAttachment : Attachment = new Attachment();
@@ -330,8 +331,6 @@ export class TaskOffCanvasComponent implements OnInit {
                     this.checkActivity=this.activities.filter(res=> {
                         return res.id==checkId
                     });
-                    
-                    console.log(this.task)
 
                     this.activityService.updateActivity(this.checkActivity[0]).subscribe({
                         next:(res)=>{
@@ -386,10 +385,8 @@ export class TaskOffCanvasComponent implements OnInit {
 
                     )
                     
-                }
-                 
+                }            
               })
-
         }else{
             
             swal({
@@ -486,6 +483,7 @@ export class TaskOffCanvasComponent implements OnInit {
             next : resAttachments => {
                 this.attachments = resAttachments;
                 this.totalPagesOfAttachments = Math.ceil( resAttachments.length / this.MAX_ITEM_PER_PAGE );
+                this.handleAssignPaginatedAttachments( this.curPageOfAttachments );
                 this.detailActivity = this.activities.filter( activity => activity.id === activityId )[0];
                 this.isLoading = false;
                 this.tab = 'activity-detail';
@@ -494,6 +492,19 @@ export class TaskOffCanvasComponent implements OnInit {
                 console.log(err);
             }
         });
+    }
+
+    handleAssignPaginatedAttachments( pageNo : number ){
+        this.curPageOfAttachments = pageNo;
+        let from = ( pageNo - 1 ) * this.MAX_ITEM_PER_PAGE;
+        let results  = [];
+        let idx = from;
+        for( let i = 0 ; i < this.MAX_ITEM_PER_PAGE ; i++ ){
+            if(!this.attachments[idx]) break;
+           results.push(this.attachments[idx]);
+           idx++;
+        }
+        this.paginatedAttachents = results;
     }
 
     handleUpdateTaskName( e : KeyboardEvent ){
