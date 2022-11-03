@@ -191,7 +191,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let attachment of attachments">
-                                        <td><i *ngIf="attachment.user.id == userStore.user.id" class="fa-solid fa-circle-minus text-danger"></i></td>
+                                        <td><i *ngIf="attachment.user.id == userStore.user.id" (click)="deleteAttachment(attachment)" class="fa-solid fa-circle-minus text-danger"></i></td>
                                         <td class="text-capitalize">{{ attachment.name.substring(0,20) }}<span *ngIf="attachment.name.length > 20">...</span></td>
                                         <td>{{ attachment.user.username }}</td>
                                         <td class="d-flex gap-1 justify-content-center" style="font-size:17px;">
@@ -584,6 +584,20 @@ export class TaskOffCanvasComponent implements OnInit {
             });
           }
         })
+   }
+
+   deleteAttachment(att : Attachment){
+    swal({
+        text : 'Are you sure to Delete?',
+        icon : 'warning',
+        buttons : [ 'No' , 'Yes ']
+    }).then( isYes => {
+        if (isYes){
+            this.attachmentService.deleteAttachment(att.id).subscribe(data=>{
+            this.attachments=this.attachments.filter(attachment=> attachment.id != att.id);
+            });
+        }
+    })
    }
 
    updateComment ( comment:Comment ){

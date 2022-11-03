@@ -32,4 +32,8 @@ export class AttachmentService{
     public getAttachmentsForActivity( activityId : number ) : Observable<Attachment[]> {
         return this.httpClient.get<Attachment[]>(`http://localhost:8080/api/activities/${activityId}/attachments`);
     }
+
+    public deleteAttachment ( attachmentId : number ) : Observable<HttpResponse<Attachment>> {
+        return this.httpClient.delete<HttpResponse<Attachment>>(`http://localhost:8080/api/attachments/${attachmentId}`);
+    }
 }
