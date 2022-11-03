@@ -596,10 +596,17 @@ export class TaskOffCanvasComponent implements OnInit {
             next : res => {
                 this.status.addingAttachment = false;
                 if( res.ok ){
-                    $('#close-attachment-btn').click();
-                    this.attachments.push(this.newAttachment);
-                    this.newAttachment = new Attachment();
-                    ($('#attachment')[0] as HTMLInputElement)!.files = null;
+                    swal({
+                        text : 'Successfully Uploaded!',
+                        icon : 'success'
+                    }).then(() => {
+                        $('#close-attachment-btn').click();
+                        const resAttachment = res.data;
+                        resAttachment.user = this.newAttachment.user;
+                        this.attachments.push(resAttachment);
+                        this.newAttachment = new Attachment();
+                        ($('#attachment')[0] as HTMLInputElement)!.files = null;
+                    })
                 }
             },
             error : err => {
