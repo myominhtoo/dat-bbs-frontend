@@ -9,6 +9,10 @@
 /* Dark Mode */
     /* --pale-dark:#0e153a;
     --dark:#0e153a; */
+
+    /* login-50- rgba(255,255,255,0.75)
+    #161b22af
+    */
     --pale-dark:#161b22;
     --dark:#161b22; 
     --snow:rgba(255,255,255,0.9);
@@ -282,14 +286,15 @@ padding-bottom:3px;
     margin-bottom: 10px;
 }
 .signup-btn{
-    background:var(--thm)!important;
+    background-color: #161b22af!important;
     color:var(--snow) !important;
     height: 45px;
     transition:all 0.3s !important;
 }
 
 .signup-btn:hover{
-    background:rgba(35, 78, 122, 0.951) !important;
+    background-color: #161b22af!important;
+    /* background:rgba(35, 78, 122, 0.951) !important; */
     color:var(--snow) !important;
 }
 /* End Sign Up */
@@ -301,12 +306,12 @@ padding-bottom:3px;
 }
 
 .register-bg{
-    background-color: var(--thm)!important;
+    background-color: #161b22af!important;
     
 }
 .register-form{
     width: 60%;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px !important;
+
 }
 
 .register-rounded-icon{
@@ -795,3 +800,11 @@ body{
 .link:hover{
     cursor:pointer;
 }
+.btn-change{
+background-color: var(--pale-dark) !important;
+color: rgba(255, 255, 255, 0.863) !important;
+}
+.btn-change:hover{
+    background-color: var(--pale-dark) !important;
+    color: white !important;
+    }

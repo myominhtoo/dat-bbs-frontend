@@ -19,7 +19,11 @@ export class ProfileComponent{
        ){
         this.userStore.fetchUserData();
        }
-
+    userPass={
+      changePassword:"",
+      currentPassword:"",
+      retypePassoword:""      
+    }
     storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))); 
     user : User = new User();
     userInfo:User=new User();
@@ -35,6 +39,10 @@ export class ProfileComponent{
           willUpdate : false
         },
         isLoading : false,
+        changePassword:{
+          msg:"",
+          ok:false
+        }
       }
 
     ngOnInit(): void {      
@@ -161,4 +169,54 @@ export class ProfileComponent{
         this.status.preview.textShow=false;
       }
     }
+
+    changePassword(){
+    
+      // console.log(this.userInfo)
+console.log(this.userPass.currentPassword);
+console.log(this.userPass.currentPassword);
+console.log(this.userPass.retypePassoword);
+console.log(this.user)
+if(this.userPass.changePassword ==this.userPass.retypePassoword){
+  this.userInfo.password=this.userPass.changePassword;
+  this.userInfo.confirmpassword=this.userPass.currentPassword;
+  this.userService.updateUser(this.userInfo).subscribe(
+    {
+    next:(res)=>
+    {
+      console.log("Password is completely changed")
+      this.userPass.changePassword=""
+      this.userPass.currentPassword=""
+      this.userPass.retypePassoword=""
+      $("#change-password-close-btn").click();
+      swal({
+        text:"Successfully Changed",
+        icon:"success"
+      })
+    },
+    error:(err)=>
+    {
+      this.status.changePassword.msg="Current Passoword is worng"
+      this.status.changePassword.ok=true;
+      this.userPass.changePassword=""
+      this.userPass.currentPassword=""
+      this.userPass.retypePassoword=""
+      setTimeout(()=>this.status.changePassword.msg="",1000);
+    }
+    
+  }
+  )
 }
+else 
+{
+  this.userPass.changePassword=""
+      this.userPass.currentPassword=""
+      this.userPass.retypePassoword=""
+  this.status.changePassword.ok=true;
+  this.status.changePassword.msg="Password Not Match"  
+  setTimeout(()=>this.status.changePassword.msg="",1000);
+}
+
+}
+}
+
