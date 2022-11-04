@@ -113,43 +113,7 @@
                                 <div class="mb-5">
                                     <label for="bio" class="form-label">Bio </label>
                                     <textarea class="form-control shadow-none textarea-box text-capitalize" id="bio"  rows="3" placeholder="Write something about your bio..." name=bio [(ngModel)]="user.bio"></textarea>
-                                    <small class="float-end fw-bold mt-2" data-bs-toggle="modal" style="cursor: pointer;color: red;opacity: 80%;" data-bs-target="#staticBackdrop">Change your password</small>                                    
-
-                <!-- start modal box -->
-                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                          <div class="modal-content p-2">
-                                            <div class="modal-header border-0">
-                                              <h1 class="modal-title fs-5" id="staticBackdropLabel">Change Your Password</h1>
-                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="change-password-close-btn"></button>
-                                            </div>
-                                          <form #registerForm="ngForm">
-                                            <div class="modal-body">
-                                                <small class="text-danger m-2" *ngIf="this.status.changePassword.ok">{{this.status.changePassword.msg}}</small>
-                                                <div class="m-2 mt-0">
-                                                    <label for="currentpassword" class="form-label">Current Password</label>
-                                                  <input type="password" class="form-control shadow-none" placeholder="Enter current password" id="currentpassword" name="userPass.currentPassword" [(ngModel)]="userPass.currentPassword"  ngModel required >                  
-                                                  
-                                                </div>
-                                                <div class="m-2">
-                                                    <label for="changepassword" class="form-label">Change Password</label>
-                                                    <input type="password" class="form-control shadow-none" placeholder="Enter current change password" id="changepassword" name="userPass.changePassword" [(ngModel)]="userPass.changePassword" ngModel required >                   
-                                                    
-                                                  </div>
-                                                  <div class="m-2">
-                                                    <label for="confirmpassword" class="form-label">Confirm Password</label>
-                                                    <input type="password" class="form-control shadow-none" placeholder="Enter current confirm password" id="confirmpassword" name="userPass.retypePassoword" [(ngModel)]="userPass.retypePassoword" ngModel required>                  
-                                                    
-                                                  </div>   
-                                            </div>
-                                            <div class="modal-footer">                                              
-                                              <button type="button" class="btn btn-change" (click)="changePassword()" [disabled]="registerForm.invalid" >Change</button>
-                                            </div>   
-                                        </form>
-                                          </div>
-                                          
-                                        </div>
-                                      </div>
+                
 <!-- end modal box -->
                                 </div>                                
                             </div>

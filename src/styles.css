@@ -141,7 +141,7 @@ header ( width is 100% , height: 8%)
     width:35px;
     height:35px;
     border-radius: 100% !important;
-    transform: translateX(100%);
+    /* transform: translateX(100%); */
     
     box-shadow: 0 0 0.5px var(--snow)
 }
@@ -547,6 +547,9 @@ body{
       min-height: 28px;
       min-width: 28px;
       width: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
   }
   .stage-title{
       cursor: pointer;
@@ -842,4 +845,9 @@ color: rgba(255, 255, 255, 0.863) !important;
 .btn-change:hover{
     background-color: var(--pale-dark) !important;
     color: white !important;
+    }
+    .noti-con{
+        position: relative;
+        top: -20px;
+        right: 12px;
     }
