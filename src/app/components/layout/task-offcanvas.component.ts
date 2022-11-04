@@ -33,17 +33,26 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
             <div class=" offcanvas-body overflow-scroll py-0 px-2">
                 <div *ngIf="tab == 'activity' && !isLoading" class="container py-5">
 
-                   <ul class="list-group list-unstyled text-muted p-3 gap-4">
+                   <ul class="list-group list-unstyled text-muted gap-4">
                      <li class="list-item d-flex ">
                         <h6 class="h6 w-25 fs-6"></h6>
-                        <div class="w-75 border-1"  style="height:35px;overflow-y:scroll;">
-                          <span *ngFor="let assignMember of task.users" class="badge fs-6 fw-light bg-thm mx-1 my-1">{{ assignMember.username | titlecase }}<i (click)="handleRemoveUserFromAssign(assignMember.id)" class="fa-solid fa-xmark mx-2"></i></span>
+                        <div *ngIf="task.users.length > 0" class="w-75 d-flex align-items-center ">
+                          <span *ngFor="let idx of (task.users.length > 1 ? [0,1] : [0])" class="badge fs-6 fw-light bg-thm mx-1 my-1">{{ task.users[idx].username | titlecase }}<i (click)="handleRemoveUserFromAssign( $event, task.users[idx].id)" class="fa-solid fa-xmark mx-2"></i></span>
+                          <div class="dropdown" id="assign-users-dropdown">
+                            <p *ngIf="task.users.length > 2" class="my-auto mx-2 text-center text-light " id="assign-users-dropdown-btn" data-bs-toggle="dropdown" data-bs-target="#assign-users-dropdown" style="width:25px;height:25px;border-radius:50% !important;background:#161b22;" >
+                                <small>{{ task.users.length - 2 }}+</small>
+                            </p>
+                            <ul class="dropdown-menu" style="transform:translate(-10%,-100%) !important;">
+                                <li class="dropdown-item fw-bold">Assigned Members:</li>
+                                <li class="dropdown-item fw-light d-flex justify-content-between" *ngFor="let user of task.users">{{ user.username | titlecase }}<i (click)="handleRemoveUserFromAssign( $event, user.id)" class="fa-solid fa-xmark mx-2 text-muted"></i></li>
+                            </ul>
+                          </div>
                         </div>
                      </li>
                       <li class="list-item d-flex ">
                         <h6 class="h6 w-25 fs-6">Assign To</h6>
                         <div class="w-75" *ngIf="members.length > 0">
-                           <select class="form-select" (change)="handleAssignTask($event)" >
+                           <select class="form-select outline-none" (change)="handleAssignTask($event)" >
                              <option selected disabled>Assign Members</option>
                              <option *ngFor="let member of members" class="text-capitalize" [value]="member.id" >{{ member.username }}</option>
                            </select>
@@ -53,13 +62,19 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                         </div>
                       </li>
                       <li class="list-item d-flex">
+                        <h6 class="h6 w-25 fs-6">Task Name</h6>
+                        <div class="w-75 d-flex gap-2">
+                           <input type="text" [(ngModel)]="task.taskName" class="form-control board-input" >
+                        </div>
+                      </li>
+                      <li class="list-item d-flex">
                         <h6 class="h6 w-25 fs-6">Date</h6>
                         <div class="w-75 d-flex gap-2">
-                           <div class="w-25">
+                           <div class="w-50">
                                 <small>Start Date</small>
                                 <input type="date" class="form-control w-100 outlineBtn shadow-none "  [(ngModel)]="task.startedDate" name="startedDate"  />
                            </div>
-                            <div class="w-25">
+                            <div class="w-50">
                                 <small>Due Date</small>
                                 <input type="date" class="form-control w-100 outlineBtn shadow-none" [(ngModel)]="task.endedDate" [min]="task.startedDate" name="endedDate" />
                             </div>
@@ -90,11 +105,13 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                             </div>
                         </div>
 
+                        <small *ngIf="activities.length == 0" class="my-2">There is no activity for this card... </small>
+
                     </div>
 
                     <div class="d-flex justify-content-between align-items-end ">
                         <small class="text-success mx-2">{{ status.msg && status.msg }}</small><br/>
-                        <button (click)="setUpAddActivity()" class="btn btn-sm bg-thm text-light mx-3 px-3"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
+                        <button (click)="setUpAddActivity()" class="btn btn-sm bg-thm text-light  px-3"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
                     </div>
                 </div>
 
@@ -550,10 +567,14 @@ export class TaskOffCanvasComponent implements OnInit {
        }
     }
 
-    handleRemoveUserFromAssign( userId : number ){
+    handleRemoveUserFromAssign( e : Event , userId : number ){
+        e.stopPropagation();
         this.task.users = this.task.users.filter( user => {
             return user.id != userId;
         });
+        if(this.task.users.length == 2){
+            $('#assign-users-dropdown-btn').click();
+        }
     }
    
     updateTask(){
