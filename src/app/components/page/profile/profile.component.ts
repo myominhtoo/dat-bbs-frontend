@@ -124,13 +124,10 @@ export class ProfileComponent{
           
 
         }else{
-          swal({
-            text:"Nothing changed",        
-              icon: "info",  
-          }).then(_=>{            
+          
               this.user={...this.userInfo};
             
-          })
+          
         }
       })
     }
@@ -217,6 +214,22 @@ else
   setTimeout(()=>this.status.changePassword.msg="",1000);
 }
 
+}
+
+textImg(){
+ this.userService.delteImage(this.userInfo).subscribe({
+  next:(res)=>{
+    console.log("It's work")
+    console.log(res);
+    console.log(res.data);
+              this.user = res.data;
+              this.userInfo={...this.user}                      
+              this.userStore.saveUserData( res.data );
+  },
+  error:(err)=>{
+              console.log(err)
+  }
+ })
 }
 }
 

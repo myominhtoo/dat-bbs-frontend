@@ -53,14 +53,14 @@ import { Attachment } from 'src/app/model/bean/attachment';
       <!-- end task-card-header -->
       <!-- task-card start -->
       <!-- task-card-scroll -->
-      <div class="container-fluid p-2 pt-0 m-0">
+      <div class="container-fluid p-2 pt-0 m-0 ">
       <div class="my-2">
           <span class="text-danger fs-6">{{ status.addTaskError }}</span>
         </div>
         <div *ngIf="status.isAddTask" class="my-1">
           <input  [(ngModel)]="tempTask" name="tempTask" (keydown)="handleAddTask($event)"type="text" [class.is-invalid]="status.addTaskError" class="form-control shadow-none" placeholder="Enter Task" />
         </div>
-        <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="''+data.stageName+''" [cdkDropListConnectedTo]="relationContainers" class="w-100 py-2 d-flex flex-column">
+        <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="''+data.stageName+''" [cdkDropListConnectedTo]="relationContainers" class="w-100 py-2 d-flex flex-column" style="min-height:700px !important;">
             <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
         </div>
         <!-- <div class="my-2">
@@ -211,14 +211,14 @@ export class TaskCardContainerComponent implements OnInit {
     let realWidth = container?.clientWidth;
 
 
-    if( realWidth! - curPosition < 400 ){
+    if( realWidth! - curPosition < 300 ){
       container?.scrollTo({
-        left : container.scrollLeft + 300,
+        left : container.scrollLeft + 100,
         behavior : 'smooth'
       })
     }else{
       container?.scrollTo({
-        left : container.scrollLeft - 500,
+        left : container.scrollLeft - 200,
         behavior : 'smooth'
       })
     }
