@@ -188,7 +188,8 @@ header ( width is 100% , height: 8%)
 
 #main #main-area{
     width:82%;
-    min-height:92vh;
+    height:92vh !important;
+    min-height:92vh !important;
     /* max-width:82%; */
     height:auto;
     margin-left: 18vw !important;
