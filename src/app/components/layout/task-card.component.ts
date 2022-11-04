@@ -28,20 +28,13 @@ import { OnInit } from '@angular/core';
                 <!-- <span data-bs-toggle="dropdown">
                     <i class="fa-solid fa-ellipsis-vertical"></i>
                 </span> -->
-            <div class="w-100 d-flex justify-content-end gap-2 ">
-                <div class="fs-6">
-                <span>{{ task.startedDate }}</span>
-                <span *ngIf="task.startedDate != task.endedDate">-</span>
-                <span *ngIf="task.startedDate != task.endedDate">{{ task.endedDate }}</span>
-                </div>
-                <div>
-                
-                    
-                </div>
-            </div>
+        <div class="w-100 d-flex justify-content-end gap-2 align-items-center ">
+            
+            <span style="font-size:13px;">{{ task.startedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
+            <span *ngIf="task.startedDate != task.endedDate"><i class="fa-solid fa-right-long" style="font-size:12px;"></i></span>
+            <span *ngIf="task.startedDate != task.endedDate" style="font-size:13px;">{{ task.endedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
+        </div>
        </div> 
-      
-     </div>
     `
 })
 export class TaskCardComponent implements OnInit {
