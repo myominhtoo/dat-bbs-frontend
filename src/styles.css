@@ -547,6 +547,9 @@ body{
       min-height: 28px;
       min-width: 28px;
       width: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
   }
   .stage-title{
       cursor: pointer;
@@ -561,12 +564,12 @@ body{
       justify-content:start;
       align-items: center;
       background-color: #fbfbfbbe !important;
-      border: 2px solid rgb(206, 202, 202);
+      border: 0.5px solid rgb(206, 202, 202);
    
     }
 
   .task-cards:hover{
-    border: 1px solid rgba(15, 15, 15, 0.336);
+    border: 0.8px solid rgba(15, 15, 15, 0.336);
   }
   
   /* .task-card-scroll{

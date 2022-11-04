@@ -21,13 +21,11 @@ import { OnInit } from '@angular/core';
                             </li>
                         </ul>   
                     </div>   
-                    <i class="fas fa-solid fa-minus-circle text-danger d-none " class="task-del-btn"></i>
+                    <!-- <i class="fas fa-solid fa-minus-circle text-danger opacity-1" ></i> -->
                 </div>
             </div>
 
-                <!-- <span data-bs-toggle="dropdown">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </span> -->
+    
         <div class="w-100 d-flex justify-content-end gap-2 align-items-center ">
             
             <span style="font-size:13px;">{{ task.startedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
