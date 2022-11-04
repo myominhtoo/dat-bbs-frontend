@@ -15,4 +15,5 @@ export class TaskCard {
     activities ! : Activity[];
     stage ! : Stage;
     users ! : User[];
+    markColor !: string;
 }
