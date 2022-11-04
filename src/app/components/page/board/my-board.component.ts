@@ -1,5 +1,5 @@
 import { BoardStore } from 'src/app/model/service/store/board.store';
-import { Component , OnInit } from "@angular/core";
+import { Component , EventEmitter, OnInit, Output } from "@angular/core";
 import { ActivatedRoute , NavigationEnd, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
 import { Stage } from "src/app/model/bean/stage";
@@ -18,16 +18,17 @@ import { CommentService } from "src/app/model/service/http/comment.service";
 import { Comment } from "src/app/model/bean/comment";
 import { User } from "src/app/model/bean/user";
 import { BoardsHasUsers } from 'src/app/model/bean/BoardsHasUser';
+import { UserStore } from 'src/app/model/service/store/user.store';
 
 @Component({
     selector : 'my-board',
     templateUrl : './my-board.component.html'
 })
 export class MyBoardComponent implements OnInit {
-  
-  
+
+
     boardsHasUsers : BoardsHasUsers [] = [];
-    members : User [] = []; 
+    members : User [] = [];
     public stages : Stage [] = [];
     taskCardsMap : Map<string,TaskCard[]> = new Map();
     board : Board = new Board();
@@ -80,15 +81,16 @@ export class MyBoardComponent implements OnInit {
          private taskCardService : TaskCardService,
          private activityService : ActivityService ,
          private commentService : CommentService,
-         private userService :UserService  ){
+         private userService :UserService ,
+         public userStore : UserStore  ){
           this.board.user = new User();
-          
+
          }
 
     ngOnInit(): void {
       //listening route
       this.handleRouteChange();
-      
+
         this.doActionForCurrentBoard( this.route.snapshot.params['id'] );
         this.stage.stageName = "";
         this.stage.defaultStatus = false;
@@ -132,7 +134,7 @@ export class MyBoardComponent implements OnInit {
         .subscribe({
             next : board => {
                 this.status.isLoading = false;
-                this.board = board;     
+                this.board = board;
                 this.getTaskCards( boardId );
             },
             error : err  => {
@@ -386,7 +388,7 @@ export class MyBoardComponent implements OnInit {
             let boardId = this.route.snapshot.params['id'];
             this.doActionForCurrentBoard( boardId );
             this.stage.stageName = "";
-            this.stage.defaultStatus = false;  
+            this.stage.defaultStatus = false;
             this.getUserMembers();
           }
         }
@@ -406,7 +408,7 @@ export class MyBoardComponent implements OnInit {
            .subscribe({
                next : res => {
                    this.board = res.data;
-                  
+
                    this.status.isEditBoardName=false;
                    input.blur();
                },
@@ -416,7 +418,7 @@ export class MyBoardComponent implements OnInit {
            });
 
       }
-    
+
 
    }
 
@@ -440,7 +442,7 @@ export class MyBoardComponent implements OnInit {
         text : 'Fail to Deleted!',
         icon : 'warning'
       })
-      } 
+      }
    }
 
    setupUpdateComment( cmt : Comment ){
@@ -463,5 +465,15 @@ export class MyBoardComponent implements OnInit {
 
 
    }
+
+  // @Output('updateMemberDeleteStatus') emitMember=new EventEmitter<User>();
+
+  //  memberDelete(e : Event){
+  //   e.stopPropagation();
+  //   console.log("h1");
+
+
+
+  //  }
 
 }

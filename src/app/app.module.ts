@@ -25,6 +25,7 @@ import {  MatButtonModule } from '@angular/material/button';
 import { CreateTaskCardComponent } from './components/page/mytasks/create-taskCard.component';
 import { ProfileComponent } from './components/page/profile/profile.component';
 import { NotFoundComponent } from './components/page/404/not-found.component';
+import { MemberviewComponent } from './components/page/memberView/memberview.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { NotFoundComponent } from './components/page/404/not-found.component';
     MyBoardComponent,
     CreateTaskCardComponent,
     ProfileComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    MemberviewComponent
   ],
   imports: [
     BrowserModule,
