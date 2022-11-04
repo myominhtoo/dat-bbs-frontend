@@ -1,0 +1,58 @@
+<section class="container-fluid py-5 ">
+  <div class="container">
+          <div class="row">
+              <!-- <div class="col-6"> -->
+                  <div class="row">
+
+                      <div class="col-12 d-flex justify-content-center align-items-center">
+                          <div class="mb-3 mx-auto imgholder">
+
+                              <div *ngIf="user.imageUrl==null && this.imgValue==null" class="text-dark boardprofile d-flex justify-content-center align-items-center bg-secondary">
+                              <h1>{{ user.username &&  user.username[0].toUpperCase() }}</h1>
+                              </div>
+                              <img *ngIf="(user.imageUrl != null && this.imgValue==null)"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" loading="lazy" >
+                              <img *ngIf="this.imgValue!=null"  [src]="this.imgValue" class=" boardprofile" alt="Board-Img" loading="lazy" >
+
+
+
+                          </div>
+                      </div>
+
+
+                      <div class="col-3"></div>
+
+                      <div class="col-6">
+
+                      <div class="card my-2 ">
+                              <div class="card-body py-5 ">
+
+                                  <div class="row card-title" *ngIf="user.username">
+                                      <div class="form-label float-start col-6 ">Username :</div>
+                                      <div class="col-6">{{ user.username | titlecase }}</div>
+                                  </div>
+                                  <div class="row card-title" *ngIf="user.bio">
+                                      <div class="form-label float-start col-6">Bio :</div>
+                                      <div class="col-6">{{ user.bio | titlecase }}</div>
+                                  </div>
+                                  <div class="row card-title" *ngIf="user.email">
+                                      <div class="form-label float-start col-6">Email :</div>
+
+                                      <div class="col-6">{{ user.email }}</div>
+
+                                  </div>
+                                  <div class="row card-title" *ngIf="user.position">
+                                      <div class="form-label float-start col-6">Position :</div>
+
+                                      <div class="col-6">{{ user.position  | titlecase }}</div>
+                                  </div>
+                                </div>
+                          </div>
+                      </div>
+
+                  <div class="col-3"></div>
+
+              </div>
+              </div>
+      </div>
+  <!-- </div> -->
+</section>

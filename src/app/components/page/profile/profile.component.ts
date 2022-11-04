@@ -12,9 +12,9 @@ import { UserStore } from "src/app/model/service/store/user.store";
 })
 
 export class ProfileComponent{
-  
-    constructor( public toggleStore : ToggleStore ,  
-      private userService : UserService , 
+
+    constructor( public toggleStore : ToggleStore ,
+      private userService : UserService ,
       public userStore : UserStore
        ){
         this.userStore.fetchUserData();
@@ -22,9 +22,9 @@ export class ProfileComponent{
     userPass={
       changePassword:"",
       currentPassword:"",
-      retypePassoword:""      
+      retypePassoword:""
     }
-    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))); 
+    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     user : User = new User();
     userInfo:User=new User();
     confirmInput=document.createElement("input");
@@ -45,21 +45,21 @@ export class ProfileComponent{
         }
       }
 
-    ngOnInit(): void {      
+    ngOnInit(): void {
       this.imgValue=null;
       this.getUserData(this.storeUser.id);
       document.title = "BBMS | Profile";
 
-      
+
     }
-    
+
     getUserData( userId : number ){
       this.userService.getUser( userId )
       .subscribe({
-        next : resUser => {    
-          this.user = resUser;        
+        next : resUser => {
+          this.user = resUser;
           this.userInfo={...this.user};
-          console.log(resUser)
+
         },
         error : err => {
           console.log(err);
@@ -67,10 +67,10 @@ export class ProfileComponent{
       });
     }
 
-    
+
 
     saveProfile(profile:NgForm){
-    
+
       swal({
         text : 'Are you sure to update your profile?',
         icon : 'warning',
@@ -100,41 +100,44 @@ export class ProfileComponent{
                       icon : 'success',
                       closeOnClickOutside: false
                     }).then(() => {
-                      
+
                       this.user = res.data;
-                      this.userInfo={...this.user}                      
+                      this.userInfo={...this.user}
                       this.userStore.saveUserData( res.data );
                       this.user.password="";
                     })
                   }
                 },
-                error:(err)=>{                
+                error:(err)=>{
                   swal({
                     text:"Wrong Password",
                     icon:"error",
-                    closeOnClickOutside: false          
+                    closeOnClickOutside: false
                   }).then(_=>{
                     this.user={...this.userInfo};
                   })
-                  
+
                 }
               }
             )
           })
-          
+
 
         }else{
-          
+          swal({
+            text:"Nothing changed",
+              icon: "info",
+          }).then(_=>{
               this.user={...this.userInfo};
-            
-          
+
+          })
         }
       })
     }
 
     onFileChanged(event:any ){
        //Select File
-      this.user.image =  event.target.files[0];  
+      this.user.image =  event.target.files[0];
       if (event.target.files && event.target.files[0]) {
         const reader = new FileReader();
         reader.readAsDataURL(this.user.image);
@@ -155,12 +158,12 @@ export class ProfileComponent{
                   this.user.imageUrl = res.data.imageUrl;
                   this.userStore.saveUserData( res.data );
                 } , 500 );
-      
+
           },
           error:(err)=>{
             console.log(err)
           }
-        })    
+        })
       }else{
         this.imgValue=null
         this.status.preview.textShow=false;
@@ -168,7 +171,7 @@ export class ProfileComponent{
     }
 
     changePassword(){
-    
+
       // console.log(this.userInfo)
 console.log(this.userPass.currentPassword);
 console.log(this.userPass.currentPassword);
@@ -200,17 +203,17 @@ if(this.userPass.changePassword ==this.userPass.retypePassoword){
       this.userPass.retypePassoword=""
       setTimeout(()=>this.status.changePassword.msg="",1000);
     }
-    
+
   }
   )
 }
-else 
+else
 {
   this.userPass.changePassword=""
       this.userPass.currentPassword=""
       this.userPass.retypePassoword=""
   this.status.changePassword.ok=true;
-  this.status.changePassword.msg="Password Not Match"  
+  this.status.changePassword.msg="Password Not Match"
   setTimeout(()=>this.status.changePassword.msg="",1000);
 }
 
@@ -223,7 +226,7 @@ textImg(){
     console.log(res);
     console.log(res.data);
               this.user = res.data;
-              this.userInfo={...this.user}                      
+              this.userInfo={...this.user}
               this.userStore.saveUserData( res.data );
   },
   error:(err)=>{

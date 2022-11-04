@@ -1,6 +1,6 @@
 import {RegisterComponent } from './components/page/register/register.component';
 import { VerifyEmailComponent } from './components/page/verifyEmail/verify-email.component';
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {  LoginComponent } from './components/page/login/login.component';
 import { HomeComponent } from './components/page/home/home.component';
@@ -14,6 +14,8 @@ import { MyBoardComponent } from './components/page/board/my-board.component';
 import { CreateTaskCardComponent } from './components/page/mytasks/create-taskCard.component';
 import { ProfileComponent } from './components/page/profile/profile.component';
 import { NotFoundComponent } from './components/page/404/not-found.component';
+import { MemberviewComponent } from './components/page/memberView/memberview.component';
+
 const routes: Routes = [
   {
     path : '',
@@ -33,11 +35,11 @@ const routes: Routes = [
     component:RegisterComponent
   },
   {
-    path:'login' , 
+    path:'login' ,
     component:LoginComponent
   },
   {
-    path:'profile' , 
+    path:'profile' ,
     component:ProfileComponent
   },
   {
@@ -71,6 +73,10 @@ const routes: Routes = [
   {
     path : 'create-taskCard',
     component : CreateTaskCardComponent
+  },
+  {
+    path : 'users/:id/profile',
+    component : MemberviewComponent,
   },
   {
     path : '**',
