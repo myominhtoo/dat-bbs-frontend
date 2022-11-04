@@ -27,9 +27,9 @@
                                     <input type="file" (change)="onFileChanged($event)" name="file" id="file"  class="dropdown-item inputfile" value="Upload Image" accept="image/png, image/jpeg , image/jpg">
                                     <label for="file" class="d-block fw-light">Upload Image</label>
                                     </li>
-                                    <!-- <li><input type="button" name="textShow" id="btn"  class="dropdown-item inputfile" value="Remove Images" (click)="textShow()"/>
+                                    <li><input type="button" name="textShow" id="btn"  class="dropdown-item inputfile" value="Remove Images" (click)="textImg()"/>
                                         <label for="btn" class="d-block fw-light">Remove Image</label>
-                                    </li> -->
+                                    </li>
                                     </ul>
                                 </span>
                             </div>
@@ -91,12 +91,7 @@
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" class="form-control shadow-none" placeholder="Enter your email" name=email #email="ngModel" id="email" [(ngModel)]="user.email" [class.is-invalid]="email.touched && email.invalid" required/>
                                 <small *ngIf="!user.email && email.touched" class="text-danger">Email is required</small>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="text" class="form-control shadow-none" placeholder="Change your password" name=password #email="ngModel" id="password" [(ngModel)]="user.password"  required/>
-                                <!-- <small *ngIf="!user.email && email.touched" class="text-danger">Email is required</small> -->
-                            </div>
+                            </div>                            
                             <div class="mb-3">
                                 <label for="phone" class="form-label">Phone</label>
                                 <input type="text" class="form-control shadow-none" id="phone" placeholder="Enter your phone" name=phone  [(ngModel)]="user.phone"/>
@@ -118,7 +113,7 @@
                                 <div class="mb-5">
                                     <label for="bio" class="form-label">Bio </label>
                                     <textarea class="form-control shadow-none textarea-box text-capitalize" id="bio"  rows="3" placeholder="Write something about your bio..." name=bio [(ngModel)]="user.bio"></textarea>
-                                    <small class="float-end fw-bold mt-2" data-bs-toggle="modal" style="cursor: pointer;color: blue;" data-bs-target="#staticBackdrop">Change your password</small>                                    
+                                    <small class="float-end fw-bold mt-2" data-bs-toggle="modal" style="cursor: pointer;color: red;opacity: 80%;" data-bs-target="#staticBackdrop">Change your password</small>                                    
 
                 <!-- start modal box -->
                                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

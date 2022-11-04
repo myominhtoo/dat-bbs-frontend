@@ -61,5 +61,8 @@ export class UserService {
         return this.httpClient.get<User>(`http://localhost:8080/api/users/${userId}/board-bookmarks`);
     }
     
+    delteImage(user:User):Observable<HttpResponse<User>>{
+        return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/api/delete-img`,user);
+    }
 
 }
