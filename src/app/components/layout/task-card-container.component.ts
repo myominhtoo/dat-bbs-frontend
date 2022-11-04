@@ -15,20 +15,36 @@ import { Attachment } from 'src/app/model/bean/attachment';
     <div class="task-card-container mx-2 d-inline-block rounded-1">
       <!-- start task-card-header -->
       <div class="w-100 bg-transparent task-card-header p-2 pb-0">
-        <div class="d-flex justify-content-between align-items-center p-2 rounded-sm bg-stage-dark pb-3">
+        <div class="d-flex justify-content-between align-items-center p-2  rounded-sm bg-stage-dark">
           <!-- task-card-title -->
           <div class="text-justify">
             
-            <h1 *ngIf="!status.isEditStage" class="stage-title text-white pt-1 h5 mx-1 m-0 ">{{ data.stageName | titlecase }}</h1>
+            <h1 *ngIf="!status.isEditStage" class="stage-title text-white p-2 h5 mx-1 m-0 ">{{ data.stageName | titlecase }}</h1>
             <input *ngIf="status.isEditStage" [(ngModel)]="data.stageName" type="text" (keydown)="handleUpdateStage($event)"  class="form-control mx-2 text-capitalize" style="box-shadow:none;" >
             <span *ngIf="status.stageError"  style="font-size:14px;" class="text-danger mx-2">{{ status.stageError }}</span>
           </div>
           <!-- task-card-title -->
           <!-- task-card-icon -->
-          <div class="d-flex justify-content-between align-items-center px-3">
-            <div class="stage-icon align-items-center">
-              <i *ngIf="![1,2,3].includes(data.id) && !status.isEditStage" (click)="handleSetUpStageEdit()" class="fa-solid fa-pencil text-white"></i>
-              <i *ngIf="![1,2,3].includes(data.id)"  (click)="deleteStage(data)" class="fas fa-solid fa-trash text-white mx-2"></i>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="stage-icon  flex-row-reverse">
+            <div *ngIf="![1,2,3].includes(data.id)" class="dropdown">
+            <i *ngIf="![1,2,3].includes(data.id)" class="fas fa-solid fa-ellipsis text-white pe-1" data-bs-toggle="dropdown" aria-expanded="false"></i>
+            <ul class="dropdown-menu">
+                    <li class="dropdown-item">
+                    <span *ngIf="![1,2,3].includes(data.id) && !status.isEditStage" (click)="handleSetUpStageEdit()" class="text-dark">
+                      Edit
+                    </span>
+                    </li>
+                    <li class="dropdown-item">
+                      <span *ngIf="![1,2,3].includes(data.id)"  (click)="deleteStage(data)" class="text-dark">
+                        Delete
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+        <div class="me-2">
+          <i  class="fas fa-solid fa-plus text-white" (click)="handleSetUpAddTask()"></i>
+        </div>
             </div>
           </div>
           <!-- task-card-icon -->
@@ -38,16 +54,22 @@ import { Attachment } from 'src/app/model/bean/attachment';
       <!-- task-card start -->
       <!-- task-card-scroll -->
       <div class="container-fluid p-2 pt-0 m-0">
-        <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="''+data.stageName+''" [cdkDropListConnectedTo]="relationContainers" class="w-100 py-2 d-flex flex-column">
-            <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
-        </div>
-        <div class="my-2">
+      <div class="my-2">
           <span class="text-danger fs-6">{{ status.addTaskError }}</span>
         </div>
         <div *ngIf="status.isAddTask" class="my-1">
           <input  [(ngModel)]="tempTask" name="tempTask" (keydown)="handleAddTask($event)"type="text" [class.is-invalid]="status.addTaskError" class="form-control shadow-none" placeholder="Enter Task" />
         </div>
-        <button (click)="handleSetUpAddTask()" class="w-100 btn btn-sm h1 my-2"><i class="fa-solid fa-plus mx-1"></i>Add Task</button>
+        <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="''+data.stageName+''" [cdkDropListConnectedTo]="relationContainers" class="w-100 py-2 d-flex flex-column">
+            <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
+        </div>
+        <!-- <div class="my-2">
+          <span class="text-danger fs-6">{{ status.addTaskError }}</span>
+        </div>
+        <div *ngIf="status.isAddTask" class="my-1">
+          <input  [(ngModel)]="tempTask" name="tempTask" (keydown)="handleAddTask($event)"type="text" [class.is-invalid]="status.addTaskError" class="form-control shadow-none" placeholder="Enter Task" />
+        </div> -->
+        <!-- <button (click)="handleSetUpAddTask()" class="w-100 btn btn-sm h1 my-2"><i class="fa-solid fa-plus mx-1"></i>Add Task</button> -->
       </div>
     </div>
   `,

@@ -547,6 +547,9 @@ body{
       min-height: 28px;
       min-width: 28px;
       width: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
   }
   .stage-title{
       cursor: pointer;
