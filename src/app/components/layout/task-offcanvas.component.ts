@@ -123,7 +123,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                         </div>
                     </div>
 
-                    <!-- <emoji-mart></emoji-mart> -->
+
                     <emoji-mart *ngIf="showEmojis" (emojiSelect)="addEmojiToComment($event)" id="emoji-mart"></emoji-mart>
 
                     <div id="comment-send-box">
@@ -667,6 +667,5 @@ export class TaskOffCanvasComponent implements OnInit {
 
    addEmojiToComment( e : any ){
      this.comment.comment += e.emoji.native;
-     this.showEmojis = false; 
    }
 }

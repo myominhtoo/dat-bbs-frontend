@@ -363,8 +363,8 @@ padding-bottom:3px;
     text-align: center;
     width: 60px;
     background-color: rgb(33, 33, 33);
-    bottom: 10px;
-    right: 20px;
+    bottom: 0px;
+    right: 0px;
 }
 .textareaBox{
     resize: none;
@@ -547,9 +547,6 @@ body{
       min-height: 28px;
       min-width: 28px;
       width: 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
   }
   .stage-title{
       cursor: pointer;
@@ -564,8 +561,9 @@ body{
       justify-content:start;
       align-items: center;
       background-color: #fbfbfbbe !important;
-      border: 2px solid#ccc9c9;
-      }
+      border: 2px solid rgb(206, 202, 202);
+   
+    }
 
   .task-cards:hover{
     border: 1px solid rgba(15, 15, 15, 0.336);
@@ -613,7 +611,7 @@ body{
   }
   .cdk-drag-preview {
     box-sizing: border-box;
-    background-color: transparent !important;
+    background-color: var(--pale-snow) !important;
     border-radius: 4px;
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
                 0 8px 10px 1px rgba(0, 0, 0, 0.14),
@@ -624,7 +622,7 @@ body{
   
   .cdk-drag-placeholder {
     box-sizing: border-box;
-    opacity: 0;
+    opacity: 0.3;
     /* background-color:rgba(39, 37, 37, 0.781); */
   }
   
@@ -722,6 +720,37 @@ body{
     left: 0;
     padding:10px;
     margin:0;
+ }
+
+ #comment-send-box form{
+    position: relative;
+ }
+
+ #comment-send-box form #smile{
+    position: absolute;
+    right:29%;
+    color:#161b22;
+    top:30%;
+ }
+
+ #emoji-mart{
+    position:absolute;
+    left:3%;
+    top:35%;
+ }
+
+ #emoji-mart * {
+    background-color: #161b22 !important;
+ }
+
+ #emoji-mart .emoji-mart{
+    width:70%  !important;
+    background:#161b22;
+ }
+
+ #emoji-mart .emoji-mart-bar{
+    display: none;
+    background-color: #161b22 !important;
  }
 
  #comment{

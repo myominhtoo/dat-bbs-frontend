@@ -6,7 +6,7 @@ import { OnInit } from '@angular/core';
 @Component({
     selector : 'task-card',
     template : `
-     <div (click)="handleShowOffCanvas( task)" class="d-flex task-cards my-0 p-2 gap-2 text-muted shadow-sm bg-pale-snow" style="padding-right:10px;border-left:4px solid blue;">
+     <div (click)="handleShowOffCanvas( task)" class="d-flex task-cards my-0 p-2 gap-2 text-muted shadow-sm bg-pale-snow" style="padding-right:10px;border-left:4px solid #6D6E6F;">
        <div class="d-flex flex-column align-items-star gap-3 w-100" >
         <div class="d-flex justify-content-between w-100">
                 <h5 class="fw-light h5">{{ task.taskName | titlecase }}</h5>
