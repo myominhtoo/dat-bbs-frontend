@@ -63,7 +63,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                            </div>
                             <div class="w-25">
                                 <small>Due Date</small>
-                                <input type="date" class="form-control w-100 outlineBtn shadow-none" [(ngModel)]="task.endedDate" name="endedDate" />
+                                <input type="date" class="form-control w-100 outlineBtn shadow-none" [(ngModel)]="task.endedDate" [min]="task.startedDate" name="endedDate" />
                             </div>
                         </div>
                       </li>
@@ -74,7 +74,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                         </div>
                       </li>
                       <li class="text-end">
-                         <button (click)="updateTask()" class="btn btn-sm bg-thm px-4 text-light "><i class="fa-solid fa-file-pen mx-2"></i>Update</button>
+                         <button (click)="updateTask()" class="btn btn-sm bg-thm px-4 text-light ">Update</button>
                       </li>
                    </ul>
 
@@ -174,7 +174,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                     <div class="text-muted d-flex align-items-center my-4">
                         <span class="w-25"></span>
                         <div class="w-75 text-muted d-flex justify-content-end">
-                            <button class="btn btn-sm bg-thm text-light px-3"><i class="fa-solid fa-pen mx-1" ></i>Update</button>
+                            <button class="btn btn-sm bg-thm text-light px-3">Update</button>
                         </div>
                     </div>
 
@@ -314,6 +314,7 @@ export class TaskOffCanvasComponent implements OnInit {
 
     ngOnInit(): void {
         this.task.users = [];
+        this.comment.comment = '';
     }
 
     changeTab( tab : string ){
