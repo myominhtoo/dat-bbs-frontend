@@ -547,6 +547,9 @@ body{
       min-height: 28px;
       min-width: 28px;
       width: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
   }
   .stage-title{
       cursor: pointer;
@@ -763,8 +766,10 @@ body{
     color: var(--pale-snow) !important;
 }
 .border-board{
+    width:100%;
     padding-bottom: 4px;
     border-bottom: 1px solid rgba(39, 37, 37, 0.171);
+    
 }
 .sider-scroll{
     height: 130px;
