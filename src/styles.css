@@ -561,6 +561,7 @@ body{
       justify-content:start;
       align-items: center;
       background-color: #fbfbfbbe !important;
+      border: 2px solid#ccc9c9;
       }
 
   .task-cards:hover{
@@ -609,7 +610,7 @@ body{
   }
   .cdk-drag-preview {
     box-sizing: border-box;
-    background-color: var(--pale-snow) !important;
+    background-color: transparent !important;
     border-radius: 4px;
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
                 0 8px 10px 1px rgba(0, 0, 0, 0.14),
@@ -620,7 +621,7 @@ body{
   
   .cdk-drag-placeholder {
     box-sizing: border-box;
-    opacity: 0.3;
+    opacity: 0;
     /* background-color:rgba(39, 37, 37, 0.781); */
   }
   
