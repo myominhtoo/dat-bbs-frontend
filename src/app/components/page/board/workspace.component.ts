@@ -5,6 +5,7 @@ import { CdkDragDrop , moveItemInArray } from '@angular/cdk/drag-drop';
 import { Board } from "src/app/model/bean/board";
 import swal from 'sweetalert';
 import { BoardService } from "src/app/model/service/http/board.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector : 'workspace',
@@ -23,10 +24,12 @@ export class WorkspaceComponent implements OnInit {
         isLoading : false,
         hasDoneFetching : false,
     }
+    
 
     constructor(
         public toggleStore : ToggleStore ,
        private boardService : BoardService ,
+       private router : Router ,
         public boardStore : BoardStore  ){}
 
     ngOnInit(): void {
@@ -46,7 +49,7 @@ export class WorkspaceComponent implements OnInit {
          this.ownerBoards=this.ownerBoards.filter(boarding=> boarding.id!=board.id)
         // })
 
- }
+    }
 
 
     getBoards(){
@@ -61,6 +64,14 @@ export class WorkspaceComponent implements OnInit {
         })
         this.status.hasDoneFetching = true;
 
+    }
+
+    archiveBoards(){
+        this.router.navigateByUrl(`/archive-boards`,);
+    }
+
+    restoreBoard(board : Board){
+        this.ownerBoards=this.ownerBoards.filter(resBoard=> resBoard.id!=board.id)
     }
 
 }

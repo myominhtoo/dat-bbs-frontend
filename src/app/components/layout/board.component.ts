@@ -115,4 +115,24 @@ export class BoardComponent implements OnInit {
         e.stopPropagation();
     }
 
+    restoreBoard(e : Event){
+      this.data.deleteStatus=false;
+      swal({
+        text : 'Are You Sure to Restore ?',
+        icon : 'warning',
+        buttons : ['No' , 'Yes']
+      }).then(isYes=>
+        {
+          if(isYes){
+            this.boardServie.updateBoard(this.data).subscribe({
+              next : res => {
+                this.emitBoard.emit(this.data)
+              },
+              error : err =>{
+                console.log(err)
+              }
+            });
+          }
+        }) 
+    }
 }

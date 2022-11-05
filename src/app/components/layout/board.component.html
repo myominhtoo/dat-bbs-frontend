@@ -9,8 +9,9 @@
             </span>
             <span >
               <button  (click)="removeBoard($event)"  style="padding: 0; border: 0; background: none;">
-                <i *ngIf="data.user.id==usersStore.user.id" class="fa-sharp fa-solid fa-trash text-muted" > </i>
+                <i *ngIf="data.user.id==usersStore.user.id && !data.deleteStatus" class="fa-sharp fa-solid fa-trash text-muted" > </i>
               </button>
+              <i *ngIf="data.user.id==usersStore.user.id && data.deleteStatus" (click)="restoreBoard($event)" class="fa-solid fa-rotate-left text-muted"></i>
             </span>
         </div>
 

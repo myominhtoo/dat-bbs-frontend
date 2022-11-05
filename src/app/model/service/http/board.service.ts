@@ -33,5 +33,9 @@ export class BoardService{
       return this.httpClient.put<HttpResponse<Board>>(`http://localhost:8080/api/update-board`,board)
     }
 
+    getDeletedBoardWithBoardId ( userId : number ) : Observable<Board[]> {
+      return this.httpClient.get<Board[]> (`http://localhost:8080/api/archive-boards?userId=${userId}`);
+    }
+
 }
 
