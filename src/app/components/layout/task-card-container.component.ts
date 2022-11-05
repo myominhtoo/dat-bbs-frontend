@@ -211,7 +211,7 @@ export class TaskCardContainerComponent implements OnInit {
     let realWidth = container?.clientWidth;
 
 
-    if( realWidth! - curPosition < 300 ){
+    if( realWidth! - curPosition < 500 ){
       container?.scrollTo({
         left : container.scrollLeft + 100,
         behavior : 'smooth'

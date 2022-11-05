@@ -59,7 +59,6 @@ export class TaskCardComponent{
             .subscribe({
                 next :res => {
                     this.isRequesting = false;
-
                 },
                 error :err => {
                     console.log(err);

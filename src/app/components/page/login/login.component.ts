@@ -38,7 +38,6 @@ export class LoginComponent {
         this.userService.LoginUser(this.user).subscribe({
          next : (res) => {
             this.error = { hasError : false , msg : '' }
-
             this.userStore.saveUserData(res.data);
             this.boardStore.refetchBoardsByUserId(res.data.id);
             swal({

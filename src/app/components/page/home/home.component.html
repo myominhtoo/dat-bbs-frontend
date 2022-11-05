@@ -1,3 +1,11 @@
 <div class="w-75 mx-auto py-4 text-center">
-    <h1 class="thm">Welcome <span class="text-dark opacity-75 h3">{{ username | titlecase }}!<span *ngIf="username.length != userStore.user.username.length">|</span></span></h1>
+   <h4 class="h5 text-muted text-center">
+        <span>{{ dateObj | date : 'yyyy' }} </span>
+        <span>{{ dateObj | date : 'MMM' }}, </span>
+        <span>{{ dateObj | date : 'dd' }}</span>
+    </h4>
+    <h3 class="thm h3">{{ period }} , 
+        <span *ngFor="let char of username.split('');" [ngStyle]="{ color : colors[random()] }">{{ char }}</span>
+        <span *ngIf="username.length != userStore.user.username.length">|</span>
+    </h3>
 </div>

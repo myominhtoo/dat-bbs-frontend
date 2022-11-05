@@ -47,7 +47,6 @@ export class BoardComponent implements OnInit {
 
      removeBoard( e : Event ){
       e.stopPropagation();
-      console.log('hi')
       this.data.deleteStatus = true;
 
       // console.log(this.data)
@@ -62,7 +61,7 @@ export class BoardComponent implements OnInit {
           this.boardServie.updateBoard(this.data)
           .subscribe({
             next : res => {
-              // console.log(res )
+    
             this.emitBoard.emit(this.data)
             },
             error : err => {
