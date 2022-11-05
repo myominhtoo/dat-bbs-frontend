@@ -1,7 +1,7 @@
 <div class="container-fluid ">
     <h2 class="pb-4"> Archived Boards </h2>
     <div cdkDropList cdkDropListOrientation="vertical" (cdkDropListDropped)="drop($event)" [cdkDropListData]="boards" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap" >
-        <board cdkDrag *ngFor="let board of boards" [data]="board" class="col-3"></board>
+        <board cdkDrag *ngFor="let board of boards" (restore-board)="resBoard($event)" [data]="board" class="col-3"></board>
     </div>
 </div>
 

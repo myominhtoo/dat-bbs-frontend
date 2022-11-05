@@ -44,11 +44,12 @@ export class BoardComponent implements OnInit {
     }
 
      @Output('updateBoardDeleteStatus')  emitBoard = new EventEmitter<Board>();
+     @Output('restore-board') emitRestoreBoard =new EventEmitter<Board>();
 
      removeBoard( e : Event ){
       e.stopPropagation();
-      console.log('hi')
-      this.data.deleteStatus = true;
+      //console.log('hi')
+      
 
       // console.log(this.data)
 
@@ -59,11 +60,13 @@ export class BoardComponent implements OnInit {
       }).then(isYes=>{
 
         if( isYes ){
+          this.data.deleteStatus = true;
           this.boardServie.updateBoard(this.data)
           .subscribe({
             next : res => {
               // console.log(res )
-            this.emitBoard.emit(this.data)
+            this.emitBoard.emit(this.data);
+            
             },
             error : err => {
               console.log(err)
@@ -116,7 +119,8 @@ export class BoardComponent implements OnInit {
     }
 
     restoreBoard(e : Event){
-      this.data.deleteStatus=false;
+      e.stopPropagation();
+      // this.data.deleteStatus=false;
       swal({
         text : 'Are You Sure to Restore ?',
         icon : 'warning',
@@ -124,9 +128,10 @@ export class BoardComponent implements OnInit {
       }).then(isYes=>
         {
           if(isYes){
+            this.data.deleteStatus=false;
             this.boardServie.updateBoard(this.data).subscribe({
               next : res => {
-                this.emitBoard.emit(this.data)
+                this.emitRestoreBoard.emit(this.data);
               },
               error : err =>{
                 console.log(err)
