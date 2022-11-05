@@ -26,6 +26,8 @@ import { CreateTaskCardComponent } from './components/page/mytasks/create-taskCa
 import { ProfileComponent } from './components/page/profile/profile.component';
 import { NotFoundComponent } from './components/page/404/not-found.component';
 import { MemberviewComponent } from './components/page/memberView/memberview.component';
+import { ArchiveBoardComponent } from './components/page/board/archive-board.component';
+
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { MemberviewComponent } from './components/page/memberView/memberview.com
     CreateTaskCardComponent,
     ProfileComponent,
     NotFoundComponent,
-    MemberviewComponent
+    MemberviewComponent,
+    ArchiveBoardComponent
+    
   ],
   imports: [
     BrowserModule,
