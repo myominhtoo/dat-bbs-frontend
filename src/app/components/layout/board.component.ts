@@ -26,7 +26,7 @@ export class BoardComponent implements OnInit {
     @Input('bookMarks') bookMarks :BoardBookMark[]=[];
     boardBookMark:BoardBookMark=new BoardBookMark();
 
-    @Output('toggle-bookmark') toggleBookMarkEmit=new EventEmitter<BoardBookMark[]>();
+    @Output('toggle-bookmark') toggleBookMarkEmit=new EventEmitter<BoardBookMark>();
     @Output('updateBoardDeleteStatus')  emitBoard = new EventEmitter<Board>();
     @Output('restore-board') emitRestoreBoard =new EventEmitter<Board>();
  
@@ -130,7 +130,9 @@ export class BoardComponent implements OnInit {
         
         this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
             next:(res)=>{          
-              console.log(res);
+              if(res.ok){
+                this.toggleBookMarkEmit.emit( res.data );
+              }
             },error:(err)=>{
                 console.log(err)
             }
@@ -139,7 +141,7 @@ export class BoardComponent implements OnInit {
 
     isBookMark(){      
       return this.bookMarks.some((res)=>{      
-            return res.id==this.data.id
+            return res.board.id == this.data.id
       })          
     }
 
