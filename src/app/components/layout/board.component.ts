@@ -16,25 +16,28 @@ import swal from 'sweetalert';
 })
 export class BoardComponent implements OnInit {
 
-  boards : Board [] = [];
-  ownerBoards:Board[]=[];
-  assignBoards:Board[]=[];
+    boards : Board [] = [];
+    ownerBoards:Board[]=[];
+    assignBoards:Board[]=[];
 
-  storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
+    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     @Input('data') data : Board = new Board();
     @Input('target') target : number = 0;
-    @Input('bookMark') bookMark :BoardBookMark[]=[];
-  userStore: any;
-  boardBookMark:BoardBookMark=new BoardBookMark();
-  // BoardBookMarkList:BoardBookMark[]=[];
+    @Input('bookMarks') bookMarks :BoardBookMark[]=[];
+    boardBookMark:BoardBookMark=new BoardBookMark();
+
+    @Output('toggle-bookmark') toggleBookMarkEmit=new EventEmitter<BoardBookMark[]>();
+    @Output('updateBoardDeleteStatus')  emitBoard = new EventEmitter<Board>();
+    @Output('restore-board') emitRestoreBoard =new EventEmitter<Board>();
+ 
+
     constructor(
         private userService : UserService ,
         private taskCardService : TaskCardService,
         public boardStore : BoardStore ,
         private boardServie : BoardService,
         public usersStore : UserStore 
-    ){
-    
+    ){    
         this.data.members = [];
         this.data.tasks = [];
     }
@@ -44,24 +47,12 @@ export class BoardComponent implements OnInit {
     }
 
     ngOnInit(): void {
-      this.isBookMark();      
         this.fetchRequiredDatas();
 
     }
-      @Output('bookmarkEmit') bookmarkEmit=new EventEmitter<BoardBookMark[]>();
-     @Output('updateBoardDeleteStatus')  emitBoard = new EventEmitter<Board>();
-     @Output('restore-board') emitRestoreBoard =new EventEmitter<Board>();
 
      removeBoard( e : Event ){
       e.stopPropagation();
-<<<<<<< HEAD
-      this.data.deleteStatus = true;
-=======
-      //console.log('hi')
-      
->>>>>>> 210752975830e85f025046df8ed1061aab5bb218
-
-      // console.log(this.data)
 
       swal({
         text : 'Are you sure to delete board?',
@@ -74,14 +65,8 @@ export class BoardComponent implements OnInit {
           this.boardServie.updateBoard(this.data)
           .subscribe({
             next : res => {
-<<<<<<< HEAD
-    
-            this.emitBoard.emit(this.data)
-=======
-              // console.log(res )
             this.emitBoard.emit(this.data);
             
->>>>>>> 210752975830e85f025046df8ed1061aab5bb218
             },
             error : err => {
               console.log(err)
@@ -132,59 +117,30 @@ export class BoardComponent implements OnInit {
     handleBookMark( e : Event,data:Board ){
         e.stopPropagation();
         
-        for(let i=0;i<this.bookMark.length;i++){
-          console.log("works")
-          if(this.bookMark[i].id==data.id){
-            console.log("delete book mark is work")
-            this.boardBookMark.board=data;        
-            this.boardBookMark.id=this.bookMark[i].id;
-            this.boardBookMark.user=data.user;                  
-          this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
-            next:(res)=>{          
-              // console.log("It's work outer",res)
-              this.userService.getBookMark(data.user.id).subscribe({
-                next:(res)=>{
-                  // console.log("It's work inner",res)
-                    this.bookmarkEmit.emit(res);
-                },error:(err)=>{
-                console.log(err)
-                }
-              })
-            },error:(err)=>{
-                console.log(err)
-            }
-          })        
-          }else{
-            console.log("create book mark is work")
-            this.boardBookMark.board=data;                    
-            this.boardBookMark.user=data.user;      
-            
-          this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
-            next:(res)=>{          
-              // console.log("It's work outer",res)
-              this.userService.getBookMark(data.user.id).subscribe({
-                next:(res)=>{
-                  // console.log("It's work inner",res)
-                    this.bookmarkEmit.emit(res);
-                },error:(err)=>{
-                console.log(err)
-                }
-              })
-            },error:(err)=>{
-                console.log(err)
-            }
-          })        
-
-          }
+        this.boardBookMark.board=data;        
+        this.boardBookMark.user=data.user;      
+        
+        //getting current board form book marks
+        const curBoardFromBookMarks = this.bookMarks.filter( bookMark => bookMark.board.id == this.data.id );
+        
+        // will enter if cur board has been book mark
+        if( curBoardFromBookMarks.length > 0 ){
+          this.boardBookMark.id = curBoardFromBookMarks[0].id;
         }
         
-        
+        this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
+            next:(res)=>{          
+              console.log(res);
+            },error:(err)=>{
+                console.log(err)
+            }
+        })        
     }
+
     isBookMark(){      
-    return this.bookMark.some((res)=>{      
-          return res.id==this.data.id
-    })          
-    
+      return this.bookMarks.some((res)=>{      
+            return res.id==this.data.id
+      })          
     }
 
     restoreBoard(e : Event){

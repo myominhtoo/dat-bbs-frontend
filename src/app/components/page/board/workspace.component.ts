@@ -8,6 +8,7 @@ import { Board } from "src/app/model/bean/board";
 import swal from 'sweetalert';
 import { BoardService } from "src/app/model/service/http/board.service";
 import { Router } from "@angular/router";
+import { UserStore } from 'src/app/model/service/store/user.store';
 
 @Component({
     selector : 'workspace',
@@ -15,11 +16,10 @@ import { Router } from "@angular/router";
 })
 export class WorkspaceComponent implements OnInit {
 
-  storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
-  // @Input('data') data : Board = new Board();
-           boarding : Board=new Board();
-    getbookMark:BoardBookMark[]=[];
-   boards : Board [] = [];
+    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
+    boarding : Board=new Board();
+    bookmarks:BoardBookMark[]=[];
+    boards : Board [] = [];
     ownerBoards:Board[]=[];
     assignBoards:Board[]=[];
     status = {
@@ -33,25 +33,21 @@ export class WorkspaceComponent implements OnInit {
         private boardService : BoardService ,
         public boardStore : BoardStore,
         public userService :UserService  ,
-        private router : Router  ){}
+        private router : Router , 
+        private userStore : UserStore  ){}
 
     ngOnInit(): void {
         setTimeout(() => {
                 this.getBoards();
         } , 100  );
         document.title = "BBMS | My Workspace";
+        this.getBookMarks( this.userStore.user.id );
     }
 
-    drop( e : CdkDragDrop<Board[]> ){
-
-    }
+    drop( e : CdkDragDrop<Board[]> ){}
 
      removeBoard(board : Board){
-
-        // this.boardService.updateBoard(this.data).subscribe(datas=>{
          this.ownerBoards=this.ownerBoards.filter(boarding=> boarding.id!=board.id)
-        // })
-
     }
 
 
@@ -66,10 +62,23 @@ export class WorkspaceComponent implements OnInit {
         this.status.hasDoneFetching = true;
     }
 
-    changeBookMark(bookmark:BoardBookMark[]){
-        // console.log(bookmark)
-                this.getbookMark=bookmark;
+
+    // geting bookmarks for current logged in user
+    getBookMarks( userId : number ){
+        this.userService.getBookMarks( userId )
+        .subscribe({ 
+            next : resBookMarks => {
+                console.log(resBookMarks)
+                this.bookmarks = resBookMarks;
+            },
+            error : err =>{
+                console.log(err);
+            }
+        });
     }
+
+    //toggling bookmark from children 
+    // will run if got emit from children
 
     archiveBoards(){
         this.router.navigateByUrl(`/archive-boards`,);

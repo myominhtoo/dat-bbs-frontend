@@ -31,7 +31,6 @@ export class ArchiveBoardComponent implements OnInit {
        // console.log(userId);
         this.boardService.getDeletedBoardWithBoardId(userId).subscribe({
             next : data => {
-                console.log(data);
                 this.boards= data;
             },
             error : err => {

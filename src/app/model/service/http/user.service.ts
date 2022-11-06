@@ -58,7 +58,7 @@ export class UserService {
         return  this.httpClient.post<HttpResponse<BoardBookMark>> (`http://localhost:8080/api/users/${id}/board-bookmark`,bookmark)
     }
 
-    getBookMark(userId : number): Observable<BoardBookMark[]> {
+    getBookMarks(userId : number): Observable<BoardBookMark[]> {
         return this.httpClient.get<BoardBookMark[]>(`http://localhost:8080/api/users/${userId}/board-bookmarks`);
     }
     
