@@ -23,7 +23,16 @@ export class BoardStore{
     public randomNumberBoard(){
         let number = Math.floor(Math.random() * this.colorBoards.length);
         return this.colorBoards[number];
-    }
+    }    
+        // this.userService.getBookMark(this.storeUser.id).subscribe({
+        //     next:(res)=>{
+                    
+        //     },
+        //     error:(err)=>{
+        //         console.log(err)
+        //     }
+        // })
+        
 
     private getBoardsByUserId( userId : number ){
         this.status.isLoading = true;
@@ -34,6 +43,7 @@ export class BoardStore{
                 this.boards=this.boards.map(res=> {
                     return{...res,color:this.randomNumberBoard()}
                 });
+                
                 
                 // console.log('running')
             },

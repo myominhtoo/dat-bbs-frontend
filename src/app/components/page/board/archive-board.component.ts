@@ -39,6 +39,10 @@ export class ArchiveBoardComponent implements OnInit {
             }
         });
     }
+
+    resBoard(board : Board){
+        this.boards=this.boards.filter(resBoard=>resBoard.id!=board.id)
+    }
     
 }
 

@@ -10,8 +10,7 @@ export class Board {
     image !: File;
     deleteStatus !: boolean;
     invitedEmails !: string[];
-    user !: User;
-    bookMark! : boolean;
+    user !: User;    
 
     /*
      only to display in ui
