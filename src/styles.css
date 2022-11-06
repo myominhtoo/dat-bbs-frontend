@@ -429,7 +429,10 @@ body{
 
 .board:hover{
     border: 1px solid var(--thm) !important;
-    cursor:move;    
+    cursor:pointer;    
+}
+.bookmark-icon:hover{
+    font-weight: 900 !important;
 }
 .create-board{
     background-color: #fbfbfbbe !important;
