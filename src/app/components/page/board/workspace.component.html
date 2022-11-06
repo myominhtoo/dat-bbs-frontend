@@ -6,9 +6,12 @@
 </div>
 
 <div class="container-fluid mb-5">
-    <h2 *ngIf="ownerBoards.length!=0" class="border-board pb-3">My Boards <small  class="h6 text-muted"> (Created By Me) </small></h2>
-    <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="ownerBoards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
-        <board cdkDrag  *ngFor="let board of ownerBoards;let idx = index;" [data]="board" [bookMark]="getbookMark" (updateBoardDeleteStatus)="removeBoard(board)" (bookmarkEmit)="changeBookMark($event)" class="col-3"></board>
+    <div class="d-flex justify-content-between align-items-center border-board pe-4">
+        <h2 *ngIf="ownerBoards.length!=0" >My Boards <small  class="h6 text-muted"> (Created By Me) </small></h2>
+        <button class=" btn btn-outline-secondary btn-sm" (click)="archiveBoards()"><span>Archive</span><i class="fas fa-solid fa-box-archive mx-1"></i></button>
+    </div>
+    <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="ownerBoards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row mt-3 d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
+        <board cdkDrag  *ngFor="let board of ownerBoards;let idx = index;" [data]="board" (updateBoardDeleteStatus)="removeBoard(board)" class="col-3 my-1"></board>
     </div>
 </div>
 <div class="container-fluid">

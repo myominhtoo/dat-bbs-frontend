@@ -2,11 +2,12 @@ import { COLORS } from './../../model/constant/colors';
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { OnInit } from '@angular/core';
+import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
 
 @Component({
     selector : 'task-card',
     template : `
-     <div (click)="handleShowOffCanvas( task)" class="d-flex task-cards my-0 p-2 gap-2 text-muted shadow-sm bg-pale-snow" style="padding-right:10px;border-left:4px solid #6D6E6F;">
+     <div (click)="handleShowOffCanvas( task)" class="d-flex task-cards my-0 p-2 gap-2 text-muted shadow-sm bg-pale-snow" style="padding-right:10px;" [style.borderLeft]="task.markColor == null || task.markColor == ''  ? '0.5px solid rgb(206, 202, 202)' : '4px solid '+task.markColor +'!important'  " >
        <div class="d-flex flex-column align-items-star gap-3 w-100" >
         <div class="d-flex justify-content-between w-100">
                 <h5 class="fw-light h5">{{ task.taskName | titlecase }}</h5>
@@ -16,20 +17,14 @@ import { OnInit } from '@angular/core';
                         <ul class="dropdown-menu p-3">
                             <li style="font-size:14px;">Select Color :</li>
                             <li class="d-flex flex-wrap gap-1 my-2">
-                            <p class="p-0 m-0 rounded-0 shadow-sm text-center" style="width:20px;height:20px;" ><i class="fa-solid fa-ban text-muted"></i></p>
-                                <p *ngFor="let color of colors" class="p-0 m-0 rounded-0" style="width:20px;height:20px;" [style]="'background:'+color" ></p>
+                                <p (click)="handleSetColor( $event,  '')" class="p-0 m-0 rounded-0 shadow-sm text-center" style="width:20px;height:20px;" ><i class="fa-solid fa-ban text-muted"></i></p>
+                                <p *ngFor="let color of colors" (click)="handleSetColor($event, color)" class="p-0 m-0 rounded-0" style="width:20px;height:20px;" [style]="'background:'+color" ></p>
                             </li>
                         </ul>   
                     </div>   
-                    <i class="fas fa-solid fa-minus-circle text-danger d-none " class="task-del-btn"></i>
                 </div>
-            </div>
-
-                <!-- <span data-bs-toggle="dropdown">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </span> -->
-        <div class="w-100 d-flex justify-content-end gap-2 align-items-center ">
-            
+            </div>    
+        <div class="w-100 d-flex justify-content-end gap-2 align-items-center ">           
             <span style="font-size:13px;">{{ task.startedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
             <span *ngIf="task.startedDate != task.endedDate"><i class="fa-solid fa-right-long" style="font-size:12px;"></i></span>
             <span *ngIf="task.startedDate != task.endedDate" style="font-size:13px;">{{ task.endedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
@@ -37,17 +32,15 @@ import { OnInit } from '@angular/core';
        </div> 
     `
 })
-export class TaskCardComponent implements OnInit {
+export class TaskCardComponent{
 
     @Input('task') task : TaskCard = new TaskCard();
-    //@Input('board') board : Board= new Board();
     @Output('show-task') showTask = new EventEmitter<TaskCard>();
+    isRequesting : boolean = false;
 
     colors : string [] = COLORS;
 
-    ngOnInit() : void {
-        // console.log((this.task.startedDate as unknown as Array<number>).toString())
-    }
+    constructor( private taskCardService : TaskCardService ){}
 
     handleShowOffCanvas( task : TaskCard ){
         this.showTask.emit( task );
@@ -55,6 +48,23 @@ export class TaskCardComponent implements OnInit {
 
     handleShowColorPlatte( e  : Event ){
         e.stopPropagation();
+    }
 
+    handleSetColor( e : Event , targetColor : string ){
+        e.stopPropagation();
+        if( !this.isRequesting ){
+            this.task.markColor = targetColor;
+            this.isRequesting = true;
+            this.taskCardService.updateTaskCard(this.task)
+            .subscribe({
+                next :res => {
+                    this.isRequesting = false;
+
+                },
+                error :err => {
+                    console.log(err);
+                }
+            });
+        }
     }
 }

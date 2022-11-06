@@ -1,5 +1,5 @@
 import { BoardStore } from 'src/app/model/service/store/board.store';
-import { Component , EventEmitter, OnInit, Output } from "@angular/core";
+import { Component ,  OnInit } from "@angular/core";
 import { ActivatedRoute , NavigationEnd, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
 import { Stage } from "src/app/model/bean/stage";
@@ -25,7 +25,6 @@ import { UserStore } from 'src/app/model/service/store/user.store';
     templateUrl : './my-board.component.html'
 })
 export class MyBoardComponent implements OnInit {
-
 
     boardsHasUsers : BoardsHasUsers [] = [];
     members : User [] = [];
@@ -70,7 +69,6 @@ export class MyBoardComponent implements OnInit {
         isEditBoardName : false,
         tempBoardName : ''
     }
-    // @Input('data') data : Stage = new Stage();
 
     constructor( public toggleStore : ToggleStore ,
          public route : ActivatedRoute ,
@@ -462,18 +460,6 @@ export class MyBoardComponent implements OnInit {
    handleCancel(){
     $("#cmt-modal .btn-close").click();
     this.comment.comment=this.tempComment;
-
-
    }
-
-  // @Output('updateMemberDeleteStatus') emitMember=new EventEmitter<User>();
-
-  //  memberDelete(e : Event){
-  //   e.stopPropagation();
-  //   console.log("h1");
-
-
-
-  //  }
 
 }

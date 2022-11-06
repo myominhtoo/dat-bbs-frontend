@@ -5,11 +5,9 @@ import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { Comment } from "src/app/model/bean/comment";
 import { CommentService } from "src/app/model/service/http/comment.service";
 import { User } from "src/app/model/bean/user";
-import 'emojionearea';
 import swal from "sweetalert";
 import { ActivatedRoute } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
-import $ from 'jquery';
 import { UserStore } from "src/app/model/service/store/user.store";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { Stage } from "src/app/model/bean/stage";
@@ -38,7 +36,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                    <ul class="list-group list-unstyled text-muted p-3 gap-4">
                      <li class="list-item d-flex ">
                         <h6 class="h6 w-25 fs-6"></h6>
-                        <div class="w-75"  style="height:35px;overflow-y:scroll;">
+                        <div class="w-75 border-1"  style="height:35px;overflow-y:scroll;">
                           <span *ngFor="let assignMember of task.users" class="badge fs-6 fw-light bg-thm mx-1 my-1">{{ assignMember.username | titlecase }}<i (click)="handleRemoveUserFromAssign(assignMember.id)" class="fa-solid fa-xmark mx-2"></i></span>
                         </div>
                      </li>
@@ -83,16 +81,12 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
 
                         <div *ngFor="let activity of activities;let idx = index;" class="w-100 position-relative ">
                             <div class="p-0 w-100  d-flex gap-2 align-items-center ">
-                                <input type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,activity.id)" />
+                                <input *ngIf="activity.id" type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,activity.id)" />
                                 <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted text-capitalize" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" />
-
                             </div>
                             <small class="mx-2 text-danger" *ngIf="status.errorTargetIdx === idx && status.activityError">{{ status.activityError }}</small>
                             <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
-                                <i (click)="handleShowDetailActivity( activity.id )" class="fa-solid fa-eye"></i>
-                                <!-- <i class="fa-solid fa-calendar-days"></i> -->
-                                <!-- <input type="file" id="attachment" class="d-none">
-                                <label for="attachment" class="fa-solid fa-paperclip"></label> -->
+                                <i *ngIf="activity.id" (click)="handleShowDetailActivity( activity.id )" class="fa-solid fa-eye"></i>
                             </div>
                         </div>
 
@@ -181,7 +175,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                     <div class="text-muted d-flex align-items-start my-4">
                         <span class="w-25">Attachments</span>
                         <div class="w-75">
-                            <table class="table w-100 text-muted " style="min-height:250px !important;">
+                            <table class="table w-100 text-muted " style="min-height:280px !important;">
                                 <thead >
                                     <tr>
                                         <td>    

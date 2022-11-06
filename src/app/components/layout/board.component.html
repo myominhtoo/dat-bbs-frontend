@@ -1,4 +1,4 @@
-<div  class=" card my-2 board p-2  shadow-sm"  [routerLink]="'/boards/'+data.id">
+<div  class=" card m-0 board p-2 shadow-none "  [routerLink]="'/boards/'+data.id">
     <!-- <img src="assets\img\board-profile-img\profilepic.png" alt=""> -->
     <div class="card-body d-flex justify-content-between flex-column py-2 px-2 fw-bold">
         <div class="d-flex justify-content-between">
@@ -9,8 +9,9 @@
             </span>
             <span >
               <button  (click)="removeBoard($event)"  style="padding: 0; border: 0; background: none;">
-                <i *ngIf="data.user.id==usersStore.user.id" class="fa-sharp fa-solid fa-trash text-muted" > </i>
+                <i *ngIf="data.user.id==usersStore.user.id && !data.deleteStatus" class="fa-sharp fa-solid fa-trash text-muted" > </i>
               </button>
+              <i *ngIf="data.user.id==usersStore.user.id && data.deleteStatus" (click)="restoreBoard($event)" class="fa-solid fa-rotate-left text-muted"></i>
             </span>
         </div>
 
