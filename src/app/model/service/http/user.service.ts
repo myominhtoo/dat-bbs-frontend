@@ -1,3 +1,4 @@
+import { BoardBookMark } from './../../bean/BoardBookMark';
 import { User } from 'src/app/model/bean/user';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -53,12 +54,12 @@ export class UserService {
         return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/api/update-user`,user);
     }
 
-    toggleBookMark(id : number , user : User) :Observable <HttpResponse<User>>{
-        return  this.httpClient.post<HttpResponse<User>> (`http://localhost:8080/api/users/${id}/board-boardmask`,user)
+    toggleBookMark(id : number , bookmark : BoardBookMark) :Observable <HttpResponse<BoardBookMark>>{
+        return  this.httpClient.post<HttpResponse<BoardBookMark>> (`http://localhost:8080/api/users/${id}/board-bookmark`,bookmark)
     }
 
-    getBookMark(userId : number): Observable<User> {
-        return this.httpClient.get<User>(`http://localhost:8080/api/users/${userId}/board-bookmarks`);
+    getBookMark(userId : number): Observable<BoardBookMark[]> {
+        return this.httpClient.get<BoardBookMark[]>(`http://localhost:8080/api/users/${userId}/board-bookmarks`);
     }
     
     delteImage(user:User):Observable<HttpResponse<User>>{

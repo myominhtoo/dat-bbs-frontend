@@ -8,15 +8,18 @@
 <div class="container-fluid mb-5">
     <h2 *ngIf="ownerBoards.length!=0" class="border-board pb-3">My Boards <small  class="h6 text-muted"> (Created By Me) </small></h2>
     <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="ownerBoards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
-        <board cdkDrag  *ngFor="let board of ownerBoards;let idx = index;" [data]="board" (updateBoardDeleteStatus)="removeBoard(board)" class="col-3"></board>
+        <board cdkDrag  *ngFor="let board of ownerBoards;let idx = index;" [data]="board" [bookMark]="getbookMark" (updateBoardDeleteStatus)="removeBoard(board)" (bookmarkEmit)="changeBookMark($event)" class="col-3"></board>
     </div>
 </div>
 <div class="container-fluid">
     <h2 *ngIf="assignBoards.length!=0" class="border-board pb-3">Joined Boards <small class="h6 text-muted">(Created By Others)</small></h2>
     <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="assignBoards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap" >
-        <board cdkDrag  *ngFor="let board of assignBoards;let idx = index;" [data]="board"    [routerLink]="'/boards/'+board.id"  class="col-3"></board>
+        <board cdkDrag  *ngFor="let board of assignBoards;let idx = index;" [data]="board"   [bookMark]="getbookMark" [routerLink]="'/boards/'+board.id"  (bookmarkEmit)="changeBookMark($event)" class="col-3"></board>
     </div>
 </div>
+
+
+
 
  <loading target="Boards" [show]="boardStore.status.isLoading"></loading>
 

@@ -4,8 +4,8 @@
         <div class="d-flex justify-content-between">
             <span style="z-index:1000" >
                 <!-- <i class="fa-solid fa-star mx-1"></i> -->
-                <i class="fa-regular fa-star text-muted" (click)="handleBookMark($event)" [class.fw-bold]="data.bookMark"></i>
-               {{ data.boardName | titlecase }}
+                <i class="bookmark-icon fa-regular fa-star tw-color" (click)="handleBookMark($event,data)" [class.fw-bold]="isBookMark()"></i>
+               {{ data.boardName | titlecase }} {{isBookMark()}}
             </span>
             <span >
               <button  (click)="removeBoard($event)"  style="padding: 0; border: 0; background: none;">

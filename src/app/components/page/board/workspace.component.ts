@@ -1,3 +1,5 @@
+import { BoardBookMark } from './../../../model/bean/BoardBookMark';
+import { UserService } from 'src/app/model/service/http/user.service';
 import { Component, Input, OnInit } from "@angular/core";
 import { BoardStore } from "src/app/model/service/store/board.store";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
@@ -15,7 +17,7 @@ export class WorkspaceComponent implements OnInit {
   storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
   // @Input('data') data : Board = new Board();
            boarding : Board=new Board();
-
+    getbookMark:BoardBookMark[]=[];
    boards : Board [] = [];
     ownerBoards:Board[]=[];
     assignBoards:Board[]=[];
@@ -27,7 +29,9 @@ export class WorkspaceComponent implements OnInit {
     constructor(
         public toggleStore : ToggleStore ,
        private boardService : BoardService ,
-        public boardStore : BoardStore  ){}
+        public boardStore : BoardStore,
+        public userService :UserService  
+        ){}
 
     ngOnInit(): void {
         setTimeout(() => {
@@ -50,9 +54,7 @@ export class WorkspaceComponent implements OnInit {
 
 
     getBoards(){
-
-        this.boards=this.boardStore.boards;
-
+        this.boards=this.boardStore.boards;                      
         this.ownerBoards= this.boards.filter((val)=>{
                 return val.user.id==this.storeUser.id;
         })
@@ -60,7 +62,11 @@ export class WorkspaceComponent implements OnInit {
             return val.user.id!=this.storeUser.id;
         })
         this.status.hasDoneFetching = true;
+    }
 
+    changeBookMark(bookmark:BoardBookMark[]){
+        // console.log(bookmark)
+                this.getbookMark=bookmark;
     }
 
 }

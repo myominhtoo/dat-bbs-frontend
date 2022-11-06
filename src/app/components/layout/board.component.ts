@@ -1,5 +1,7 @@
+
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Board } from "src/app/model/bean/board";
+import { BoardBookMark } from "src/app/model/bean/BoardBookMark";
 import { BoardService } from "src/app/model/service/http/board.service";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { UserService } from "src/app/model/service/http/user.service";
@@ -21,8 +23,10 @@ export class BoardComponent implements OnInit {
   storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     @Input('data') data : Board = new Board();
     @Input('target') target : number = 0;
+    @Input('bookMark') bookMark :BoardBookMark[]=[];
   userStore: any;
-
+  boardBookMark:BoardBookMark=new BoardBookMark();
+  // BoardBookMarkList:BoardBookMark[]=[];
     constructor(
         private userService : UserService ,
         private taskCardService : TaskCardService,
@@ -30,6 +34,7 @@ export class BoardComponent implements OnInit {
         private boardServie : BoardService,
         public usersStore : UserStore 
     ){
+    
         this.data.members = [];
         this.data.tasks = [];
     }
@@ -39,10 +44,11 @@ export class BoardComponent implements OnInit {
     }
 
     ngOnInit(): void {
+      this.isBookMark();      
         this.fetchRequiredDatas();
 
     }
-
+      @Output('bookmarkEmit') bookmarkEmit=new EventEmitter<BoardBookMark[]>();
      @Output('updateBoardDeleteStatus')  emitBoard = new EventEmitter<Board>();
 
      removeBoard( e : Event ){
@@ -111,8 +117,62 @@ export class BoardComponent implements OnInit {
     }
 
 
-    handleBookMark( e : Event ){
+    handleBookMark( e : Event,data:Board ){
         e.stopPropagation();
+        
+        for(let i=0;i<this.bookMark.length;i++){
+          console.log("works")
+          if(this.bookMark[i].id==data.id){
+            console.log("delete book mark is work")
+            this.boardBookMark.board=data;        
+            this.boardBookMark.id=this.bookMark[i].id;
+            this.boardBookMark.user=data.user;                  
+          this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
+            next:(res)=>{          
+              // console.log("It's work outer",res)
+              this.userService.getBookMark(data.user.id).subscribe({
+                next:(res)=>{
+                  // console.log("It's work inner",res)
+                    this.bookmarkEmit.emit(res);
+                },error:(err)=>{
+                console.log(err)
+                }
+              })
+            },error:(err)=>{
+                console.log(err)
+            }
+          })        
+          }else{
+            console.log("create book mark is work")
+            this.boardBookMark.board=data;                    
+            this.boardBookMark.user=data.user;      
+            
+          this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
+            next:(res)=>{          
+              // console.log("It's work outer",res)
+              this.userService.getBookMark(data.user.id).subscribe({
+                next:(res)=>{
+                  // console.log("It's work inner",res)
+                    this.bookmarkEmit.emit(res);
+                },error:(err)=>{
+                console.log(err)
+                }
+              })
+            },error:(err)=>{
+                console.log(err)
+            }
+          })        
+
+          }
+        }
+        
+        
+    }
+    isBookMark(){      
+    return this.bookMark.some((res)=>{      
+          return res.id==this.data.id
+    })          
+    
     }
 
 }
