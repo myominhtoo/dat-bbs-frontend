@@ -65,5 +65,12 @@ export class UserService {
     delteImage(user:User):Observable<HttpResponse<User>>{
         return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/api/delete-img`,user);
     }
-
+    
+    forgetPassword(userEmail : string) : Observable<User>{
+        return this.httpClient.get<User>(`http://localhost:8080/api/forget-password?email=${userEmail}`);
+    }
+  
+    changePassword(user : User) : Observable<HttpResponse<User>>{
+        return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/api/change-password`,user)
+    }
 }

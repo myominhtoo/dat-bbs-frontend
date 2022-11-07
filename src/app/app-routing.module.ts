@@ -16,6 +16,7 @@ import { ProfileComponent } from './components/page/profile/profile.component';
 import { NotFoundComponent } from './components/page/404/not-found.component';
 import { MemberviewComponent } from './components/page/memberView/memberview.component';
 import { ArchiveBoardComponent } from './components/page/board/archive-board.component';
+import { ForgetPasswordComponent } from './components/page/forgetPassword/forget-password.component';
 
 
 const routes: Routes = [
@@ -83,6 +84,11 @@ const routes: Routes = [
   {
     path : 'archive-boards',
     component : ArchiveBoardComponent,
+    pathMatch : 'full'
+  },
+  {
+    path : 'forget-password',
+    component : ForgetPasswordComponent,
     pathMatch : 'full'
   },
   
