@@ -18,7 +18,7 @@ export class AppComponent {
     this.router.events.subscribe( ( event ) => {
       if( event instanceof NavigationEnd ){
          this.currentUrl = event.url;
-         this.isExceptionPage =  ['/','/login','/register','/verify-email'].includes(this.currentUrl) || this.currentUrl.includes('/this.register');
+         this.isExceptionPage =  ['/','/login','/register','/verify-email','/forget-password'].includes(this.currentUrl) || this.currentUrl.includes('/this.register');
       }
     })
   }
