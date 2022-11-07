@@ -79,6 +79,11 @@ export class WorkspaceComponent implements OnInit {
 
     //toggling bookmark from children 
     // will run if got emit from children
+    toggleBookMark( bookMark : BoardBookMark ){        
+        !this.bookmarks.some( bookmark => bookmark.board.id == bookMark.board.id )
+        ? this.bookmarks.push(bookMark)
+        : this.bookmarks = this.bookmarks.filter( bookmark => bookmark.id != bookMark.id );
+    }
 
     archiveBoards(){
         this.router.navigateByUrl(`/archive-boards`,);
@@ -90,22 +95,4 @@ export class WorkspaceComponent implements OnInit {
 
 }
 
-
-    // func to get boards
-    // getMyBoards(){
-    //     this.status.isLoading = true;
-    //     /*
-    //       param is to input user Id
-    //     */
-    //     this.boardService.getBoardsForUser( 1 )
-    //     .subscribe({
-    //         next : datas => {
-    //             this.status.isLoading = false;
-    //             this.boards = datas;
-    //         },
-    //         error : err => {
-    //             console.log(err.error.message);
-    //         }
-    //     });
-    // }
 
