@@ -12,7 +12,6 @@ export class HomeComponent implements OnInit {
 
     username : string = '';
     period : string = 'Good Morning';
-    colors : string [] = [ '#1f4287', '#17b978', '#086972' , '#086972' , '#6e3b3b'];
     dateObj = new Date();
 
     constructor( public toggleStore : ToggleStore , public userStore : UserStore ){
@@ -61,10 +60,6 @@ export class HomeComponent implements OnInit {
                 this.period = "Good Night";
                 break;
         }
-    }
-
-    random(){
-        return getRandom(this.colors.length - 1);
     }
 }
 

@@ -4,8 +4,8 @@
         <span>{{ dateObj | date : 'MMM' }}, </span>
         <span>{{ dateObj | date : 'dd' }}</span>
     </h4>
-    <h3 class="thm h3">{{ period }} , 
-        <span *ngFor="let char of username.split('');" [ngStyle]="{ color : colors[random()] }">{{ char }}</span>
+    <h3 class="thm h4">{{ period }} , 
+        <span *ngFor="let char of username.split('');">{{ char }}</span>
         <span *ngIf="username.length != userStore.user.username.length">|</span>
     </h3>
 </div>

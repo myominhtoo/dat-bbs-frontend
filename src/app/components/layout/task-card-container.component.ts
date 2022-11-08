@@ -9,6 +9,8 @@ import { CdkDragDrop , moveItemInArray , transferArrayItem , CdkDragMove  } from
 import { ChangeStageType } from 'src/app/model/types/custom-types';
 import swal from "sweetalert";
 import { Attachment } from 'src/app/model/bean/attachment';
+import $ from 'jquery';
+
 @Component({
   selector: 'task-card-container',
   template: `
@@ -20,30 +22,26 @@ import { Attachment } from 'src/app/model/bean/attachment';
           <div class="text-justify">
             
             <h1 *ngIf="!status.isEditStage" class="stage-title text-white p-2 h5 mx-1 m-0 ">{{ data.stageName | titlecase }}</h1>
-            <input *ngIf="status.isEditStage" [(ngModel)]="data.stageName" type="text" (keydown)="handleUpdateStage($event)"  class="form-control mx-2 text-capitalize" style="box-shadow:none;" >
-            <span *ngIf="status.stageError"  style="font-size:14px;" class="text-danger mx-2">{{ status.stageError }}</span>
+            <input *ngIf="status.isEditStage" [(ngModel)]="data.stageName" type="text" (keydown)="handleUpdateStage($event)"  class="form-control mx-2 text-capitalize rounded-0" style="box-shadow:none;" >
+            <span *ngIf="status.stageError"  style="font-size:14px;" class="text-danger fw-bold mx-2">{{ status.stageError }}</span>
           </div>
           <!-- task-card-title -->
           <!-- task-card-icon -->
           <div class="d-flex justify-content-between align-items-center">
             <div class="stage-icon  flex-row-reverse">
             <div *ngIf="![1,2,3].includes(data.id)" class="dropdown">
-            <i *ngIf="![1,2,3].includes(data.id)" class="fas fa-solid fa-ellipsis text-white pe-1" data-bs-toggle="dropdown" aria-expanded="false"></i>
-            <ul class="dropdown-menu">
-                    <li class="dropdown-item">
-                    <span *ngIf="![1,2,3].includes(data.id) && !status.isEditStage" (click)="handleSetUpStageEdit()" class="text-dark">
-                      Edit
-                    </span>
-                    </li>
-                    <li class="dropdown-item">
-                      <span *ngIf="![1,2,3].includes(data.id)"  (click)="deleteStage(data)" class="text-dark">
-                        Delete
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-        <div class="me-2">
-          <i  class="fas fa-solid fa-plus text-white" (click)="handleSetUpAddTask()"></i>
+              <i *ngIf="![1,2,3].includes(data.id) && !status.isEditStage" id="dropdown-btn" class="fas fa-solid fa-ellipsis text-white pe-1" data-bs-toggle="dropdown" aria-expanded="false"></i>
+              <ul class="dropdown-menu">
+                      <li (click)="handleSetUpStageEdit()" class="dropdown-item text-dark w-100">
+                        Edit
+                      </li>
+                      <li (click)="deleteStage(data)" class="dropdown-item text-dark w-100">
+                      Delete
+                      </li>
+                    </ul>
+                  </div>
+            <div class="me-2">
+            <i *ngIf="!status.isEditStage" class="fas fa-solid fa-plus text-white" (click)="handleSetUpAddTask()"></i>
         </div>
             </div>
           </div>
@@ -63,23 +61,15 @@ import { Attachment } from 'src/app/model/bean/attachment';
         <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="''+data.stageName+''" [cdkDropListConnectedTo]="relationContainers" class="w-100 py-2 d-flex flex-column" style="min-height:700px !important;">
             <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
         </div>
-        <!-- <div class="my-2">
-          <span class="text-danger fs-6">{{ status.addTaskError }}</span>
-        </div>
-        <div *ngIf="status.isAddTask" class="my-1">
-          <input  [(ngModel)]="tempTask" name="tempTask" (keydown)="handleAddTask($event)"type="text" [class.is-invalid]="status.addTaskError" class="form-control shadow-none" placeholder="Enter Task" />
-        </div> -->
-        <!-- <button (click)="handleSetUpAddTask()" class="w-100 btn btn-sm h1 my-2"><i class="fa-solid fa-plus mx-1"></i>Add Task</button> -->
       </div>
     </div>
   `,
 })
-export class TaskCardContainerComponent implements OnInit {
+export class TaskCardContainerComponent {
 
   constructor( 
     private stageService : StageService ,
-    private taskService : TaskCardService,
-    private activityService:ActivityService
+    private taskService : TaskCardService
     ){}
 
   @Input('stages') stages : Stage [] = [];
@@ -98,8 +88,6 @@ export class TaskCardContainerComponent implements OnInit {
   tempStage : string  = '';
   tempTask : string = '';
 
-  // containers : string [] = [];
-
 
   status = {
     isEditStage : false,
@@ -110,22 +98,10 @@ export class TaskCardContainerComponent implements OnInit {
     addTaskError : '',
   }
 
-  ngOnInit(): void {
-    // this.handleJoinContainers();
-  }
-
-
-  // handleJoinContainers(){
-  //   this.containers = this.stages.filter( stage => {
-  //     return stage.id != this.data.id;
-  //   }).map( filterStage => {
-  //     return `${filterStage.id}`;
-  //   })
-  // }
-
   handleSetUpStageEdit(){
      this.status.isEditStage = true;
      this.tempStage = this.data.stageName;
+     $('#dropdown-btn').click();
   }
 
   handleUpdateStage( e : KeyboardEvent ){
@@ -143,6 +119,7 @@ export class TaskCardContainerComponent implements OnInit {
         this.stageService.editStageName( this.data )
         .subscribe({
           next : res => {
+            $('#dropdown-btn').click();
             if( res.ok ){
               this.status.isEditStage = false;
             }else{

@@ -9,10 +9,10 @@
         <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
         <input type="search" id="search" placeholder="Search" />
     </div>
-    <div id="header-right" class="gap-2 px-0 w-25 d-flex justify-content-end align-items-center gap-1">
+    <div id="header-right" class="gap-2 px-5 w-25 d-flex justify-content-end align-items-center gap-1">
         <span routerLink="/notifications" class="text-white-50 pt-2 " >
             <i class='bx bx-bell bx-sm bx-tada-hover color-hover-white'></i>
-            <span class="badge text-white bg-danger noti-con fw-light">10+</span>
+            <span class="badge text-white bg-danger noti-con fw-light p-1">10+</span>
         </span>
         
         <div class="dropdown">             
@@ -23,9 +23,7 @@
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
               <li><button class="dropdown-item" type="button" routerLink="/profile">My Profile</button></li>
               <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Change Password</button></li>              
-              <li><button class="dropdown-item" type="button" routerLink="/login">LogOut</button></li>
-              
-
+              <li><button class="dropdown-item text-danger" type="button" routerLink="/login">LogOut</button></li>
             </ul>
             
           </div>
@@ -42,31 +40,30 @@
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Change Your Password</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="change-password-close-btn"></button>
       </div>
-    <form #registerForm="ngForm">
-      <div class="modal-body">
-          <small class="text-danger m-2" *ngIf="this.status.changePassword.ok">{{this.status.changePassword.msg}}</small>
-          <div class="m-2 mt-0">
-              <label for="currentpassword" class="form-label">Current Password</label>
-            <input type="password" class="form-control shadow-none" placeholder="Enter current password" id="currentpassword" name="userPass.currentPassword" [(ngModel)]="userPass.currentPassword"  ngModel required >                  
-            
+      <form #registerForm="ngForm">
+          <div class="modal-body">
+              <small class="text-danger m-2" *ngIf="this.status.changePassword.ok">{{this.status.changePassword.msg}}</small>
+              <div class="m-2 mt-0">
+                  <label for="currentpassword" class="form-label">Current Password</label>
+                <input type="password" class="form-control shadow-none" placeholder="Enter current password" id="currentpassword" name="userPass.currentPassword" [(ngModel)]="userPass.currentPassword"  ngModel required >                  
+                
+              </div>
+              <div class="m-2">
+                  <label for="changepassword" class="form-label">Change Password</label>
+                  <input type="password" class="form-control shadow-none" placeholder="Enter current change password" id="changepassword" name="userPass.changePassword" [(ngModel)]="userPass.changePassword" ngModel required >                   
+                  
+                </div>
+                <div class="m-2">
+                  <label for="confirmpassword" class="form-label">Confirm Password</label>
+                  <input type="password" class="form-control shadow-none" placeholder="Enter current confirm password" id="confirmpassword" name="userPass.retypePassoword" [(ngModel)]="userPass.retypePassoword" ngModel required>                  
+                  
+                </div>   
           </div>
-          <div class="m-2">
-              <label for="changepassword" class="form-label">Change Password</label>
-              <input type="password" class="form-control shadow-none" placeholder="Enter current change password" id="changepassword" name="userPass.changePassword" [(ngModel)]="userPass.changePassword" ngModel required >                   
-              
-            </div>
-            <div class="m-2">
-              <label for="confirmpassword" class="form-label">Confirm Password</label>
-              <input type="password" class="form-control shadow-none" placeholder="Enter current confirm password" id="confirmpassword" name="userPass.retypePassoword" [(ngModel)]="userPass.retypePassoword" ngModel required>                  
-              
-            </div>   
-      </div>
-      <div class="modal-footer">                                              
-        <button type="button" class="btn btn-change" (click)="changePassword()" [disabled]="registerForm.invalid" >Change</button>
-      </div>   
-  </form>
-    </div>
-    
+          <div class="modal-footer">                                              
+            <button type="button" class="btn btn-change" (click)="changePassword()" [disabled]="registerForm.invalid" >Change</button>
+          </div>   
+      </form>
+    </div>    
   </div>
 </div> 
 <!-- end model box -->
