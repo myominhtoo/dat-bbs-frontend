@@ -1,18 +1,6 @@
-<!-- <div  class=" card my-2 board p-2  shadow-sm"  [routerLink]="'/boards/'+data.id">
-    <img src="assets\img\board-profile-img\profilepic.png" alt="">
-    <div class="card-body d-flex justify-content-between flex-column py-2 px-2 fw-bold">
-        <div class="d-flex justify-content-between">
-            <span style="z-index:1000" >
-                 <i class="fa-solid fa-star mx-1"></i> 
-                <i class="bookmark-icon fa-regular fa-star tw-color" (click)="handleBookMark($event,data)" [class.fw-bold]="data.bookMark"></i>
-               {{ data.boardName | titlecase }}
-            </span>
-            <span >
-              <button  (click)="removeBoard($event)"  style="padding: 0; border: 0; background: none;">
-                <i *ngIf="data.user.id==usersStore.user.id" class="fa-sharp fa-solid fa-trash text-muted" > </i>
-              </button>
-            </span>
-        </div>
-    </div>
-</div> 
--->
+<div class="container-fluid ">
+  <h2 class="pb-4">BookMark</h2>
+  <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="bookMarks"  (cdkDropListDropped)="drop($event)" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap" >
+      <board cdkDrag *ngFor="let bookMark of bookMarks" class="col-4 my-2" [data]="bookMark.board" [bookMarks]="bookMarks" [routerLink]="'/boards/'+ bookMark.board.id"  ></board>     
+  </div>
+</div>
