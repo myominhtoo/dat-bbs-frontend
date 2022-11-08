@@ -68,7 +68,6 @@ export class WorkspaceComponent implements OnInit {
         this.userService.getBookMarks( userId )
         .subscribe({ 
             next : resBookMarks => {
-                console.log(resBookMarks)
                 this.bookmarks = resBookMarks;
             },
             error : err =>{

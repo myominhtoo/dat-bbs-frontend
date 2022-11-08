@@ -5,7 +5,7 @@
             <span style="z-index:1000" >
                 <!-- <i class="fa-solid fa-star mx-1"></i> -->
                 <i class="bookmark-icon fa-regular fa-star tw-color" (click)="handleBookMark($event,data)" [class.fw-bold]="isBookMark()"></i>
-               {{ data.boardName | titlecase }} {{isBookMark()}}
+               {{ data.boardName | titlecase }}
             </span>
             <span >
               <button  (click)="removeBoard($event)"  style="padding: 0; border: 0; background: none;">

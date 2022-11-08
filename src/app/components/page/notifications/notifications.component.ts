@@ -1,10 +1,46 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
+import * as SockJS from 'sockjs-client';
+import { Client, over } from 'stompjs';
+import { BoardStore } from 'src/app/model/service/store/board.store';
+import { Notification } from "src/app/model/bean/notification";
+import { Board } from "src/app/model/bean/board";
+
 
 @Component({
     selector : 'notifications',
     templateUrl  : './notifications.component.html'
 })
-export class NotificationsComponent{
+export class NotificationsComponent implements OnInit{
+
+    stompClient : Client | undefined;
+
     constructor( public toggleStore : ToggleStore ){document.title = "BBMS | Notification";}
+
+    ngOnInit(): void {
+        this.connectSocket();
+      }
+  
+      connectSocket(){
+        const socket = new SockJS( 'http://localhost:8080/socket' );
+        this.stompClient = over( socket );
+        this.stompClient.connect( {} , 
+        () => {
+          
+        },
+        () => {
+          console.log('erro')
+        });
+      }
+
+      sendNoti(){
+        const notification = new Notification();
+        notification.content = "Hello World";
+        const board = new Board();
+        board.id = 163;
+        notification.board = board;
+        this.stompClient?.send( `/app/boards/163/send-notification` , {} , JSON.stringify(notification) ); 
+      }
+
+
 }
