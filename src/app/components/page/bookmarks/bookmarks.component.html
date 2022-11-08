@@ -21,7 +21,7 @@
 <div class="container-fluid ">
   <h2 class="pb-4">BookMark</h2>
   <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="bookMarks"  (cdkDropListDropped)="drop($event)" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap" >
-      <board cdkDrag *ngFor="let bookMark of bookMarks"  [data]="bookMark.board" [routerLink]="'/boards/'+ bookMark.board.id"  class="col-4" ></board>
+      <board cdkDrag *ngFor="let bookMark of bookMarks"  [data]="bookMark.board" [bookMarks]="bookMarks" [routerLink]="'/boards/'+ bookMark.board.id"  class="col-4" ></board>
       
   </div>
 </div>
