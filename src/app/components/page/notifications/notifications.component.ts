@@ -2,10 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import * as SockJS from 'sockjs-client';
 import { Client, over } from 'stompjs';
-import { BoardStore } from 'src/app/model/service/store/board.store';
-import { Notification } from "src/app/model/bean/notification";
-import { Board } from "src/app/model/bean/board";
-
+import * as Toastify from 'toastify-js'
 
 @Component({
     selector : 'notifications',
@@ -34,12 +31,20 @@ export class NotificationsComponent implements OnInit{
       }
 
       sendNoti(){
-        const notification = new Notification();
-        notification.content = "Hello World";
-        const board = new Board();
-        board.id = 163;
-        notification.board = board;
-        this.stompClient?.send( `/app/boards/163/send-notification` , {} , JSON.stringify(notification) ); 
+        // const notification = new Notification();
+        // notification.content = "Hello World";
+        // const board = new Board();
+        // board.id = 163;
+        // notification.board = board;
+        // this.stompClient?.send( `/app/boards/163/send-notification` , {} , JSON.stringify(notification) );
+    
+        Toastify({
+          text : 'Hello',
+          close : true,
+          duration : 3000,
+          gravity : 'bottom',
+          position : 'right'
+        }).showToast();
       }
 
 

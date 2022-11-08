@@ -19,9 +19,6 @@ export class WorkspaceComponent implements OnInit {
     storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     boarding : Board=new Board();
     bookmarks:BoardBookMark[]=[];
-    boards : Board [] = [];
-    ownerBoards:Board[]=[];
-    assignBoards:Board[]=[];
     status = {
         isLoading : false,
         hasDoneFetching : false,
@@ -30,16 +27,12 @@ export class WorkspaceComponent implements OnInit {
 
     constructor(
         public toggleStore : ToggleStore ,
-        private boardService : BoardService ,
         public boardStore : BoardStore,
         public userService :UserService  ,
         private router : Router , 
         private userStore : UserStore  ){}
 
     ngOnInit(): void {
-        setTimeout(() => {
-                this.getBoards();
-        } , 100  );
         document.title = "BBMS | My Workspace";
         this.getBookMarks( this.userStore.user.id );
     }
@@ -47,19 +40,7 @@ export class WorkspaceComponent implements OnInit {
     drop( e : CdkDragDrop<Board[]> ){}
 
      removeBoard(board : Board){
-         this.ownerBoards=this.ownerBoards.filter(boarding=> boarding.id!=board.id)
-    }
-
-
-    getBoards(){
-        this.boards=this.boardStore.boards;                      
-        this.ownerBoards= this.boards.filter((val)=>{
-                return val.user.id==this.storeUser.id;
-        })
-        this.assignBoards=this.boards.filter((val)=>{
-            return val.user.id!=this.storeUser.id;
-        })
-        this.status.hasDoneFetching = true;
+         this.boardStore.ownBoards = this.boardStore.ownBoards.filter( boarding=> boarding.id!=board.id );
     }
 
 
@@ -89,7 +70,7 @@ export class WorkspaceComponent implements OnInit {
     }
 
     restoreBoard(board : Board){
-        this.ownerBoards=this.ownerBoards.filter(resBoard=> resBoard.id!=board.id)
+        this.boardStore.ownBoards = this.boardStore.ownBoards.filter(resBoard=> resBoard.id!=board.id)
     }
 
 }
