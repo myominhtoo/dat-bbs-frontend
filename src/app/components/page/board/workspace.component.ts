@@ -5,8 +5,6 @@ import { BoardStore } from "src/app/model/service/store/board.store";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { CdkDragDrop , moveItemInArray } from '@angular/cdk/drag-drop';
 import { Board } from "src/app/model/bean/board";
-import swal from 'sweetalert';
-import { BoardService } from "src/app/model/service/http/board.service";
 import { Router } from "@angular/router";
 import { UserStore } from 'src/app/model/service/store/user.store';
 
@@ -41,6 +39,7 @@ export class WorkspaceComponent implements OnInit {
 
      removeBoard(board : Board){
          this.boardStore.ownBoards = this.boardStore.ownBoards.filter( boarding=> boarding.id!=board.id );
+        ($('#delete-track')[0] as any).play();
     }
 
 

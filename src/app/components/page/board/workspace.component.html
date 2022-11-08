@@ -14,15 +14,13 @@
         <board cdkDrag  *ngFor="let board of boardStore.ownBoards;let idx = index;" [data]="board" [bookMarks]="bookmarks" (toggle-bookmark)="toggleBookMark($event)" (updateBoardDeleteStatus)="removeBoard(board)" class="col-3 my-1"></board>
     </div>
 </div>
+<audio src="/assets/mp3/delete-track.mp3" id="delete-track" class="d-none" controls></audio>
 <div class="container-fluid">
     <h2 *ngIf="boardStore.joinedBoards.length!=0" class="border-board pb-3">Joined Boards <small class="h6 text-muted">(Created By Others)</small></h2>
     <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="boardStore.joinedBoards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap" >
         <board cdkDrag  *ngFor="let board of boardStore.joinedBoards;let idx = index;" [data]="board"   [bookMarks]="bookmarks" (toggle-bookmark)="toggleBookMark($event)" [routerLink]="'/boards/'+board.id"  class="col-3"></board>
     </div>
 </div>
-
-
-
 
  <loading target="Boards" [show]="boardStore.status.isLoading"></loading>
 

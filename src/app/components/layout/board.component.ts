@@ -170,7 +170,7 @@ export class BoardComponent implements OnInit {
             this.boardServie.updateBoard(this.data).subscribe({
               next : res => {
                 this.emitRestoreBoard.emit(this.data);
-                this.data.deleteStatus=true;
+                this.data.deleteStatus=false;
               },
               error : err =>{
                 console.log(err)
