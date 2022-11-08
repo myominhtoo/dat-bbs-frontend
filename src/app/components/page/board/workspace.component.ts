@@ -89,7 +89,9 @@ export class WorkspaceComponent implements OnInit {
     }
 
     restoreBoard(board : Board){
-        this.ownerBoards=this.ownerBoards.filter(resBoard=> resBoard.id!=board.id)
+    
+        this.ownerBoards=this.ownerBoards.filter(resBoard=> resBoard.id!=board.id);
+        
     }
 
 }

@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Board } from "src/app/model/bean/board";
 import { BoardBookMark } from "src/app/model/bean/BoardBookMark";
 import { BoardService } from "src/app/model/service/http/board.service";
+import { BoardBookMarkService } from "src/app/model/service/http/boardBookmark.service";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { UserService } from "src/app/model/service/http/user.service";
 import { BoardStore } from "src/app/model/service/store/board.store";
@@ -36,6 +37,7 @@ export class BoardComponent implements OnInit {
         private taskCardService : TaskCardService,
         public boardStore : BoardStore ,
         private boardServie : BoardService,
+        private boardBookmarkService : BoardBookMarkService,
         public usersStore : UserStore 
     ){    
         this.data.members = [];
@@ -66,7 +68,6 @@ export class BoardComponent implements OnInit {
           .subscribe({
             next : res => {
             this.emitBoard.emit(this.data);
-            
             },
             error : err => {
               console.log(err)
@@ -169,12 +170,14 @@ export class BoardComponent implements OnInit {
             this.boardServie.updateBoard(this.data).subscribe({
               next : res => {
                 this.emitRestoreBoard.emit(this.data);
+                this.data.deleteStatus=true;
               },
               error : err =>{
                 console.log(err)
               }
             });
           }
+          // this.data.deleteStatus=true;
         }) 
     }
 }

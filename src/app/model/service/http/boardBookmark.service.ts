@@ -15,4 +15,8 @@ export class BoardBookMarkService{
         return this.httpClient.post<HttpResponse<BoardBookMark>>(`http://localhost:8080/api/users/${boardBookMark.user.id}/board-bookmark` , boardBookMark );
     }
 
+    showBookmarks ( userId : number ) : Observable <BoardBookMark[]> {
+        return this.httpClient.get<BoardBookMark[]>(`http://localhost:8080/api/users/${userId}/bookmarks`)
+    }
+
 }
