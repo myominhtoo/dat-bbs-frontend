@@ -847,9 +847,19 @@ color: rgba(255, 255, 255, 0.863) !important;
 .btn-change:hover{
     background-color: var(--pale-dark) !important;
     color: white !important;
-    }
-    .noti-con{
-        position: relative;
-        top: -20px;
-        right: 12px;
-    }
+}
+
+.noti-con{
+    position: relative;
+    top: -20px;
+    right: 12px;
+}
+
+.noti__toast{
+ background:var(--snow) !important;
+ color: #161b22 !important;  
+}
+
+.noti__toast button{
+color: black;
+}

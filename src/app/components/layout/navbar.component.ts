@@ -4,15 +4,14 @@ import { User } from "src/app/model/bean/user";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { UserStore } from 'src/app/model/service/store/user.store';
 import swal from "sweetalert";
-import * as SockJS from 'sockjs-client';
-import { Client, over } from 'stompjs';
+import { Client  } from 'stompjs';
 import { BoardStore } from 'src/app/model/service/store/board.store';
 
 @Component({
     selector : 'navbar',
     templateUrl:"./navbar.components.html",
 })
-export class NavbarComponent  implements OnInit {
+export class NavbarComponent{
 
     user : User = new User();
     userInfo:User=new User();
@@ -48,34 +47,7 @@ export class NavbarComponent  implements OnInit {
             userStore.fetchUserData();
     }
 
-    ngOnInit(): void {
-      this.connectSocket();
-    }
-
-    b = true;
-
-    connectSocket(){
-      const socket = new SockJS( 'http://localhost:8080/socket' );
-      this.stompClient = over( socket );
-      this.stompClient.connect( {} , 
-      () => {
-        this.whenConnected();
-      },
-      () => {
-        console.log('erro')
-      });
-    }
-
-    whenConnected(){
-      this.boardStore.boards.forEach( board => {
-        this.stompClient?.subscribe( `/boards/${board.id}/notifications` , ( payload )  => {
-          const data = JSON.parse(payload.body);
-          console.log(data);  
-        });  
-      });
-    }
-
-
+  
     toggleSidebar(){
         this.toggleStore.isShow=!this.toggleStore.isShow;
         let show=this.toggleStore.isShowSubject.value;

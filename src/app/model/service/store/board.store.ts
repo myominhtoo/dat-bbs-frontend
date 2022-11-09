@@ -28,15 +28,6 @@ export class BoardStore{
         let number = Math.floor(Math.random() * this.colorBoards.length);
         return this.colorBoards[number];
     }    
-        // this.userService.getBookMark(this.storeUser.id).subscribe({
-        //     next:(res)=>{
-                    
-        //     },
-        //     error:(err)=>{
-        //         console.log(err)
-        //     }
-        // })
-        
 
     private getBoardsByUserId( userId : number ){
         console.log('running')
