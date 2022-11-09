@@ -7,6 +7,8 @@ import { CdkDragDrop , moveItemInArray } from '@angular/cdk/drag-drop';
 import { Board } from "src/app/model/bean/board";
 import { Router } from "@angular/router";
 import { UserStore } from 'src/app/model/service/store/user.store';
+import { BoardService } from 'src/app/model/service/http/board.service';
+// import * as XLSX from 'xlsx';
 
 @Component({
     selector : 'workspace',
@@ -17,16 +19,21 @@ export class WorkspaceComponent implements OnInit {
     storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     boarding : Board=new Board();
     bookmarks:BoardBookMark[]=[];
+    boards : Board[]=[];
     status = {
         isLoading : false,
         hasDoneFetching : false,
     }
+    // fileName='board.xlsx';
+    pdf='pdf';
+    excel='excel';
     
 
     constructor(
         public toggleStore : ToggleStore ,
         public boardStore : BoardStore,
         public userService :UserService  ,
+        public boardService : BoardService,
         private router : Router , 
         private userStore : UserStore  ){}
 
@@ -71,6 +78,13 @@ export class WorkspaceComponent implements OnInit {
     restoreBoard(board : Board){
         this.boardStore.ownBoards = this.boardStore.ownBoards.filter(resBoard=> resBoard.id!=board.id)
     }
+
+    exportReport(path:string) {
+        this.boardService.exportReport(path).subscribe((report)=>{
+          alert("exported successfully")
+        })
+      
+      }
 
 }
 
