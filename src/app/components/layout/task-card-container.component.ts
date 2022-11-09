@@ -1,4 +1,3 @@
-import { ActivityService } from 'src/app/model/service/http/activity.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Board } from 'src/app/model/bean/board';
 import { Stage } from 'src/app/model/bean/stage';
@@ -126,6 +125,13 @@ export class TaskCardContainerComponent {
           next : res => {
             $('#dropdown-btn').click();
             if( res.ok ){
+
+              const noti = new Notification();
+              noti.content =  `${this.userStore.user.username.toLocaleUpperCase()}  Updated Stage in ${this.board.boardName} Board!`;
+              noti.sentUser = this.userStore.user;
+              noti.board = this.board;
+              this.socketService.sentNotiToBoard( this.board.id , noti );
+
               this.status.isEditStage = false;
             }else{
               this.status.stageError = "Duplicate Stagename!"

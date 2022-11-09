@@ -13,6 +13,8 @@ import { TaskCard } from "src/app/model/bean/taskCard";
 import { Stage } from "src/app/model/bean/stage";
 import { Attachment } from "src/app/model/bean/attachment";
 import { AttachmentService } from "src/app/model/service/http/attachment.service";
+import { Notification } from "../../model/bean/notification";
+import {SocketService} from "../../model/service/http/socket.service";
 
 @Component({
     selector : 'task-offcanvas',
@@ -26,7 +28,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                 <!-- <button class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#task-offcanvas" ></button> -->
                 <div id="comment-btn" class="d-flex justify-content-center gap-3 text-muted align-items-center">
                     <!-- <p class="fa-regular fa-comment text-center text-muted p-0 m-0"></p> -->
-                    <span id="tab" (click)="changeTab('activity')" [class.fw-bold]="tab == 'activity'" >Activities</span>
+                    <span id="tab" (click)= "changeTab('activity')" [class.fw-bold]="tab == 'activity'" >Activities</span>
                     <span id="tab" (click)="changeTab('comment')" [class.fw-bold]="tab == 'comment'" class="d-flex align-items-center">Comments</span>
                 </div>
             </div>
@@ -97,7 +99,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                         <div *ngFor="let activity of activities;let idx = index;" class="w-100 position-relative ">
                             <div class="p-0 w-100  d-flex gap-2 align-items-center ">
                                 <input *ngIf="activity.id" type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,activity.id)" />
-                                <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted text-capitalize" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" />
+                                <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted text-capitalize" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" placeholder="type enter to create"/>
                             </div>
                             <small class="mx-2 text-danger" *ngIf="status.errorTargetIdx === idx && status.activityError">{{ status.activityError }}</small>
                             <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
@@ -319,8 +321,10 @@ export class TaskOffCanvasComponent implements OnInit {
         private taskCardService : TaskCardService ,
         private commentService : CommentService ,
         public userStore : UserStore , 
-        public attachmentService :AttachmentService  ){
+        public attachmentService :AttachmentService ,
+        private socketService : SocketService ){
             this.task.stage = new Stage();
+            this.activities = [];
          }
 
     ngOnInit(): void {
@@ -457,6 +461,14 @@ export class TaskOffCanvasComponent implements OnInit {
                next : res => {
                    this.status.msg = res.message;
                    this.activities[ targetIdx ] = res.data;
+
+                   const noti = new Notification();
+                   noti.content = `${this.userStore.user.username} created activity in ${this.board.boardName} Board `;
+                   noti.sentUser = this.userStore.user;
+                   noti.board = this.board;
+
+                   this.socketService.sentNotiToBoard( this.board.id , noti);
+
                    setTimeout(() => {
                        this.status.msg  = "";
                    } , 1000 );
@@ -473,6 +485,14 @@ export class TaskOffCanvasComponent implements OnInit {
             .subscribe({
                next : res => {                   
                 this.status.msg = res.message;
+
+                const noti = new Notification();
+                noti.content = `${this.userStore.user.username} updated activity in ${this.board.boardName} Board `;
+                noti.sentUser = this.userStore.user;
+                noti.board = this.board;
+
+                this.socketService.sentNotiToBoard( this.board.id , noti);
+
                 setTimeout(() => {
                     this.status.msg  = "";
                 } , 1000 );
@@ -528,6 +548,13 @@ export class TaskOffCanvasComponent implements OnInit {
             .subscribe({
                 next : res => {
                     this.task = res.data;
+
+                    const noti = new Notification();
+                    noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
+                    noti.sentUser = this.userStore.user;
+                    noti.board = this.board;
+
+                    this.socketService.sentNotiToBoard( this.board.id , noti);
                     // console.log(res);
                 },
                 error : err => {
@@ -585,6 +612,15 @@ export class TaskOffCanvasComponent implements OnInit {
                      swal({
                        text : "successfully!",
                        icon : 'success'
+                     }).then(() => {
+
+                       const noti = new Notification();
+                       noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
+                       noti.sentUser = this.userStore.user;
+                       noti.board = this.board;
+
+                       this.socketService.sentNotiToBoard( this.board.id , noti);
+
                      })
                   }
                  },
@@ -622,10 +658,18 @@ export class TaskOffCanvasComponent implements OnInit {
         buttons : [ 'No' , 'Yes ']
     }).then( isYes => {
         if (isYes){
-            this.attachmentService.deleteAttachment(att.id).subscribe(data=>{
-            this.attachments=this.attachments.filter(attachment=> attachment.id != att.id);
-            this.totalPagesOfAttachments = Math.ceil(this.attachments.length / this.MAX_ITEM_PER_PAGE );
-            this.handleAssignPaginatedAttachments( this.totalPagesOfAttachments > 1 ? this.curPageOfAttachments : 1 );
+            this.attachmentService.deleteAttachment(att.id).subscribe( data=>{
+              this.attachments=this.attachments.filter(attachment=> attachment.id != att.id);
+              this.totalPagesOfAttachments = Math.ceil(this.attachments.length / this.MAX_ITEM_PER_PAGE );
+              this.handleAssignPaginatedAttachments( this.totalPagesOfAttachments > 1 ? this.curPageOfAttachments : 1 );
+
+              const noti = new Notification();
+              noti.content = `${this.userStore.user.username} deleted attachment in \n ${this.detailActivity.activityName} activity of ${this.detailActivity.activityName} Task Card in ${this.board.boardName} Board `;
+              noti.sentUser = this.userStore.user;
+              noti.board = this.board;
+
+              this.socketService.sentNotiToBoard( this.board.id , noti);
+
             });
         }
     })
@@ -664,11 +708,20 @@ export class TaskOffCanvasComponent implements OnInit {
                         this.totalPagesOfAttachments = Math.ceil(this.attachments.length / this.MAX_ITEM_PER_PAGE );
                         this.handleAssignPaginatedAttachments( this.totalPagesOfAttachments > 1 ? this.curPageOfAttachments + 1 : 1 );
                         this.newAttachment = new Attachment();
+
+                        const noti = new Notification();
+                        noti.content = `${this.userStore.user.username} uploaded attachment in \n ${this.detailActivity.activityName}  Activity of ${this.detailActivity.taskCard.taskName} Task in ${this.board.boardName} Board `;
+                        noti.sentUser = this.userStore.user;
+                        noti.board = this.board;
+
+                        this.socketService.sentNotiToBoard( this.board.id , noti);
+
                         $('#attachment').val('');
                     })
                 }
             },
             error : err => {
+                this.status.addingAttachment = false;
                 this.status.attachmentError = err.error.message;
             }
         });

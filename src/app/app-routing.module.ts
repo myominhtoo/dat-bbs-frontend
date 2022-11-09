@@ -1,3 +1,4 @@
+import { BoardChatComponent } from './components/page/chatbox/board-chat.component';
 import {RegisterComponent } from './components/page/register/register.component';
 import { VerifyEmailComponent } from './components/page/verifyEmail/verify-email.component';
 import { Component, NgModule } from '@angular/core';
@@ -82,6 +83,7 @@ const routes: Routes = [
     path : 'users/:id/profile',
     component : MemberviewComponent,
   },
+  
   {
     path : 'archive-boards',
     component : ArchiveBoardComponent,
@@ -97,7 +99,10 @@ const routes: Routes = [
     component : BoardBookmarkComponent,
     pathMatch : 'full'
   },
-  
+  {
+    path:"boards/:id/chat",
+    component : BoardChatComponent,
+  },  
   {
     path : '**',
     component : NotFoundComponent,

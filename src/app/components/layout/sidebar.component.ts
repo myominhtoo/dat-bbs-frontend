@@ -22,6 +22,9 @@ export class SidebarComponent  {
            this.sideBoards = this.boardStore.ownBoards;
         } , 500 );
     }
+    archiveBoards(){
+        this.router.navigateByUrl(`/archive-boards`,);
+    }
 
     handleGoBoard( boardId : number ){
         this.router.navigateByUrl(`/boards/${boardId}`,);
