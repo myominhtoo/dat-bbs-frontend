@@ -13,6 +13,8 @@ import { TaskCard } from "src/app/model/bean/taskCard";
 import { Stage } from "src/app/model/bean/stage";
 import { Attachment } from "src/app/model/bean/attachment";
 import { AttachmentService } from "src/app/model/service/http/attachment.service";
+import { Notification } from "../../model/bean/notification";
+import {SocketService} from "../../model/service/http/socket.service";
 
 @Component({
     selector : 'task-offcanvas',
@@ -250,7 +252,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                         </div>
                         <div class="form-group my-2">
                             <label class="form-label">File</label>
-                            <input  id="attachment" name="file" type="file" class="form-control shadow-none" [class.is-invalid]="status.attachmentError" placeholder="Choose File" accept="image/jpg , image/png , image/jpeg , application/zip , application/pdf , 
+                            <input  id="attachment" name="file" type="file" class="form-control shadow-none" [class.is-invalid]="status.attachmentError" placeholder="Choose File" accept="image/jpg , image/png , image/jpeg , application/zip, .rar , application/pdf , 
                             application/vnd.openxmlformats-officedocument.wordprocessingml.document , application/vnd.openxmlformats-officedocument.presentationml.presentation , application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"   />
                             <span class="my-1 text-danger">{{ status.attachmentError }}</span>
                         </div>
@@ -319,7 +321,8 @@ export class TaskOffCanvasComponent implements OnInit {
         private taskCardService : TaskCardService ,
         private commentService : CommentService ,
         public userStore : UserStore , 
-        public attachmentService :AttachmentService  ){
+        public attachmentService :AttachmentService ,
+        private socketService : SocketService ){
             this.task.stage = new Stage();
             this.activities = [];
          }
@@ -458,6 +461,14 @@ export class TaskOffCanvasComponent implements OnInit {
                next : res => {
                    this.status.msg = res.message;
                    this.activities[ targetIdx ] = res.data;
+
+                   const noti = new Notification();
+                   noti.content = `${this.userStore.user.username} created activity in ${this.board.boardName} Board `;
+                   noti.sentUser = this.userStore.user;
+                   noti.board = this.board;
+
+                   this.socketService.sentNotiToBoard( this.board.id , noti);
+
                    setTimeout(() => {
                        this.status.msg  = "";
                    } , 1000 );
@@ -474,6 +485,14 @@ export class TaskOffCanvasComponent implements OnInit {
             .subscribe({
                next : res => {                   
                 this.status.msg = res.message;
+
+                const noti = new Notification();
+                noti.content = `${this.userStore.user.username} updated activity in ${this.board.boardName} Board `;
+                noti.sentUser = this.userStore.user;
+                noti.board = this.board;
+
+                this.socketService.sentNotiToBoard( this.board.id , noti);
+
                 setTimeout(() => {
                     this.status.msg  = "";
                 } , 1000 );
@@ -529,6 +548,13 @@ export class TaskOffCanvasComponent implements OnInit {
             .subscribe({
                 next : res => {
                     this.task = res.data;
+
+                    const noti = new Notification();
+                    noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
+                    noti.sentUser = this.userStore.user;
+                    noti.board = this.board;
+
+                    this.socketService.sentNotiToBoard( this.board.id , noti);
                     // console.log(res);
                 },
                 error : err => {
@@ -586,6 +612,15 @@ export class TaskOffCanvasComponent implements OnInit {
                      swal({
                        text : "successfully!",
                        icon : 'success'
+                     }).then(() => {
+
+                       const noti = new Notification();
+                       noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
+                       noti.sentUser = this.userStore.user;
+                       noti.board = this.board;
+
+                       this.socketService.sentNotiToBoard( this.board.id , noti);
+
                      })
                   }
                  },
@@ -623,10 +658,18 @@ export class TaskOffCanvasComponent implements OnInit {
         buttons : [ 'No' , 'Yes ']
     }).then( isYes => {
         if (isYes){
-            this.attachmentService.deleteAttachment(att.id).subscribe(data=>{
-            this.attachments=this.attachments.filter(attachment=> attachment.id != att.id);
-            this.totalPagesOfAttachments = Math.ceil(this.attachments.length / this.MAX_ITEM_PER_PAGE );
-            this.handleAssignPaginatedAttachments( this.totalPagesOfAttachments > 1 ? this.curPageOfAttachments : 1 );
+            this.attachmentService.deleteAttachment(att.id).subscribe( data=>{
+              this.attachments=this.attachments.filter(attachment=> attachment.id != att.id);
+              this.totalPagesOfAttachments = Math.ceil(this.attachments.length / this.MAX_ITEM_PER_PAGE );
+              this.handleAssignPaginatedAttachments( this.totalPagesOfAttachments > 1 ? this.curPageOfAttachments : 1 );
+
+              const noti = new Notification();
+              noti.content = `${this.userStore.user.username} deleted attachment in \n ${this.detailActivity.activityName} activity of ${this.detailActivity.activityName} Task Card in ${this.board.boardName} Board `;
+              noti.sentUser = this.userStore.user;
+              noti.board = this.board;
+
+              this.socketService.sentNotiToBoard( this.board.id , noti);
+
             });
         }
     })
@@ -665,11 +708,20 @@ export class TaskOffCanvasComponent implements OnInit {
                         this.totalPagesOfAttachments = Math.ceil(this.attachments.length / this.MAX_ITEM_PER_PAGE );
                         this.handleAssignPaginatedAttachments( this.totalPagesOfAttachments > 1 ? this.curPageOfAttachments + 1 : 1 );
                         this.newAttachment = new Attachment();
+
+                        const noti = new Notification();
+                        noti.content = `${this.userStore.user.username} uploaded attachment in \n ${this.detailActivity.activityName}  Activity of ${this.detailActivity.taskCard.taskName} Task in ${this.board.boardName} Board `;
+                        noti.sentUser = this.userStore.user;
+                        noti.board = this.board;
+
+                        this.socketService.sentNotiToBoard( this.board.id , noti);
+
                         $('#attachment').val('');
                     })
                 }
             },
             error : err => {
+                this.status.addingAttachment = false;
                 this.status.attachmentError = err.error.message;
             }
         });
