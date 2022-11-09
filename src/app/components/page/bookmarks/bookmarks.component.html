@@ -1,5 +1,7 @@
 <div class="container-fluid ">
-  <h2 class="pb-4">BookMark</h2>
+  <div class="d-flex justify-content-between align-items-center border-board mb-3">
+  <h2 class="pb-1">BookMark</h2>
+</div>
   <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="bookMarks"  (cdkDropListDropped)="drop($event)" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap" >
       <boardBookmark cdkDrag *ngFor="let bookMark of bookMarks" [dataBookmark]="bookMark" [bookMarks]="bookMarks" (toggle-bookmark)="toggleBookMark($event)" class="col-4 my-2" ></boardBookmark>     
   </div>

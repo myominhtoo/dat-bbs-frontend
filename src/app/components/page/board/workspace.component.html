@@ -1,22 +1,25 @@
+
 <div class="boards-not-have" *ngIf="boardStore.joinedBoards.length==0 && boardStore.ownBoards.length==0 && boardStore.status.hasDoneFetching" >
     <!-- <span style='font-size:100px;'>🙁</span> -->
-    <img class="mb-4 opacity-75" src="assets/img/emoji/sadface.png" alt="">
+    <img class="mb-4 opacity-75" src="assets/img/emoji/undraw_no_data_re_kwbl (1).svg" alt="" >
     <h3 class="fw-bold opacity-75">No Boards Yet</h3>
     <button  routerLink="/create-board" class="btn btn-outline-dark btn-sm opacity-50">Create Board Now</button>
 </div>
-
-<div class="container-fluid mb-5">
+<button class=" btn btn-outline-secondary btn-sm float-end" (click)="archiveBoards()"><span>Archive</span><i class="fas fa-solid fa-box-archive mx-1"></i></button>
+<div *ngIf="boardStore.ownBoards.length!=0" class="container-fluid mb-5">
     <div class="d-flex justify-content-between align-items-center border-board pe-4">
-        <h2 *ngIf="boardStore.ownBoards.length!=0" >My Boards <small  class="h6 text-muted"> (Created By Me) </small></h2>
-        <button class=" btn btn-outline-secondary btn-sm" (click)="archiveBoards()"><span>Archive</span><i class="fas fa-solid fa-box-archive mx-1"></i></button>
+        <h2>My Boards <small  class="h6 text-muted"> (Created By Me) </small></h2>
+        
     </div>
     <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="boardStore.ownBoards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row mt-3 d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
         <board cdkDrag  *ngFor="let board of boardStore.ownBoards;let idx = index;" [data]="board" [bookMarks]="bookmarks" (toggle-bookmark)="toggleBookMark($event)" (updateBoardDeleteStatus)="removeBoard(board)" class="col-3 my-1"></board>
     </div>
 </div>
 <audio src="/assets/mp3/delete-track.mp3" id="delete-track" class="d-none" controls></audio>
-<div class="container-fluid">
-    <h2 *ngIf="boardStore.joinedBoards.length!=0" class="border-board pb-3">Joined Boards <small class="h6 text-muted">(Created By Others)</small></h2>
+<div *ngIf="boardStore.joinedBoards.length!=0" class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center border-board pe-4 mb-3">
+    <h2>Joined Boards <small class="h6 text-muted">(Created By Others)</small></h2>    
+</div>
     <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="boardStore.joinedBoards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap" >
         <board cdkDrag  *ngFor="let board of boardStore.joinedBoards;let idx = index;" [data]="board"   [bookMarks]="bookmarks" (toggle-bookmark)="toggleBookMark($event)" [routerLink]="'/boards/'+board.id"  class="col-3"></board>
     </div>

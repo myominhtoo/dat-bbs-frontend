@@ -1,3 +1,4 @@
+import { BoardChatComponent } from './components/page/chatbox/board-chat.component';
 import {  RegisterComponent } from './components/page/register/register.component';
 import {  VerifyEmailComponent } from './components/page/verifyEmail/verify-email.component';
 import { NgModule } from '@angular/core';
@@ -52,7 +53,8 @@ import { BoardBookmarkComponent } from './components/layout/boardBookmark.compon
     MemberviewComponent,
     ArchiveBoardComponent,
     ForgetPasswordComponent,
-    BoardBookmarkComponent
+    BoardBookmarkComponent,
+    BoardChatComponent
     
   ],
   imports: [
