@@ -43,7 +43,7 @@ export class BoardStore{
                 });
                 this.joinedBoards = this.boards.filter( board => {
                     board.color = this.randomNumberBoard();
-                    return board.user.id != this.userStore.user.id
+                    return board.user.id != this.userStore.user.id;
                 });
 
                 this.status.isLoading = false;
