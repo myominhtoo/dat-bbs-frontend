@@ -250,7 +250,7 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
                         </div>
                         <div class="form-group my-2">
                             <label class="form-label">File</label>
-                            <input  id="attachment" name="file" type="file" class="form-control shadow-none" [class.is-invalid]="status.attachmentError" placeholder="Choose File" accept="image/jpg , image/png , image/jpeg , application/zip , application/pdf , 
+                            <input  id="attachment" name="file" type="file" class="form-control shadow-none" [class.is-invalid]="status.attachmentError" placeholder="Choose File" accept="image/jpg , image/png , image/jpeg , application/zip, .rar , application/pdf , 
                             application/vnd.openxmlformats-officedocument.wordprocessingml.document , application/vnd.openxmlformats-officedocument.presentationml.presentation , application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"   />
                             <span class="my-1 text-danger">{{ status.attachmentError }}</span>
                         </div>
