@@ -38,7 +38,7 @@ export class BoardService{
     }
 
     exportReport(format : string){
-      return this.httpClient.get<any>(`http://locahost:8080/api/boards/report/${format}`);
+      return this.httpClient.get<any>(`http://locahost:8080/api/boards/report?format=${format}`);
     }
 
 }
