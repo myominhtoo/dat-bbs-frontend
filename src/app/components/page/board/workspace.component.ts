@@ -46,7 +46,7 @@ export class WorkspaceComponent implements OnInit {
 
      removeBoard(board : Board){
          this.boardStore.ownBoards = this.boardStore.ownBoards.filter( boarding=> boarding.id!=board.id );
-        ($('#delete-track')[0] as any).play();
+        ($('#delete-track')[0] as any).play();  
     }
 
 
@@ -62,6 +62,8 @@ export class WorkspaceComponent implements OnInit {
             }
         });
     }
+
+    
 
     //toggling bookmark from children 
     // will run if got emit from children
