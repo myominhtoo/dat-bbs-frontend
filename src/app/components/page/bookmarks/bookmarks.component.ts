@@ -13,6 +13,8 @@ import { UserStore } from 'src/app/model/service/store/user.store';
 export class BoardMarkComponent{
     bookmark: BoardBookMark = new BoardBookMark;
     bookMarks : BoardBookMark[] = [];
+    // bookmarks : BoardBookMark[]=[];
+    
 
     constructor( public toggleStore : ToggleStore ,
                  public boardStore : BoardStore,
@@ -28,14 +30,19 @@ export class BoardMarkComponent{
      showBookMarks( userId : number ){
         console.log(userId);
         this.boardBoardmarkService.showBookmarks(userId).subscribe({
-            next : data =>{
-                console.log(data);
-                this.bookMarks=data;
+            next : dataBookmark =>{
+                console.log(dataBookmark);
+                this.bookMarks=dataBookmark;
             },
             error : err =>{
                 console.log(err);
             }
         });
      }
+
+     toggleBookMark( boardBookMark : BoardBookMark ){ 
+        // console.log("hi");       
+       this.bookMarks = this.bookMarks.filter( bookmark => bookmark.id != boardBookMark.id );
+    }
 
 }
