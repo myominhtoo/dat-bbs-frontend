@@ -10,6 +10,9 @@ import { ChangeStageType } from 'src/app/model/types/custom-types';
 import swal from "sweetalert";
 import { Attachment } from 'src/app/model/bean/attachment';
 import $ from 'jquery';
+import { SocketService } from 'src/app/model/service/http/socket.service';
+import { Notification } from 'src/app/model/bean/notification';
+import { UserStore } from 'src/app/model/service/store/user.store';
 
 @Component({
   selector: 'task-card-container',
@@ -69,7 +72,9 @@ export class TaskCardContainerComponent {
 
   constructor( 
     private stageService : StageService ,
-    private taskService : TaskCardService
+    private taskService : TaskCardService,
+    private socketService : SocketService,
+    private userStore : UserStore
     ){}
 
   @Input('stages') stages : Stage [] = [];
@@ -154,22 +159,26 @@ export class TaskCardContainerComponent {
         this.status.addTaskError = "TaskCard Name cannot be null";
       }else{
         this.taskService.createTaskCard( taskCard )
-      .subscribe({
-        next : res => {
-          this.tempTask = '';
-          this.status.isAddTask = false;
-          this.addTask.emit( res.data );
-        },
-        error : err => {
-          this.status.addTaskError = err.error.message;
-        }
-      })
-      }
-
-      
+        .subscribe({
+          next : res => {
+            this.tempTask = '';
+            this.status.isAddTask = false;
+            this.addTask.emit( res.data );
+            const noti = new Notification();
+            noti.sentUser = this.userStore.user;
+            noti.content = `${this.userStore.user.username } Created Task Card \n In ${this.board.boardName} Board!`;
+            noti.board = this.board;
+            this.socketService.sentNotiToBoard( this.board.id , noti );
+          },
+          error : err => {
+            this.status.addTaskError = err.error.message;
+          }
+        })
+      }  
     }
 
   }
+
   drop( e : CdkDragDrop<TaskCard[]> ){
     if( e.previousContainer === e.container ){
       moveItemInArray( this.taskCards.get(this.data.stageName )! , e.previousIndex , e.currentIndex );

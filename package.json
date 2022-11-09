@@ -35,6 +35,7 @@
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
     "sweetalert": "^2.1.2",
+    "tata-js": "^0.1.5",
     "toastify-js": "^1.12.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

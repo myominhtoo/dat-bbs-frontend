@@ -19,7 +19,9 @@ export class BoardStore{
         hasDoneFetching : false,
     }
 
-    constructor( private boaredService : BoardService , private userStore : UserStore ){
+    constructor( 
+        private boaredService : BoardService , 
+        public userStore : UserStore ){
         this.userStore.fetchUserData();
         if( this.userStore.user.id )  this.getBoardsByUserId( userStore.user.id );
     }
@@ -30,21 +32,20 @@ export class BoardStore{
     }    
 
     private getBoardsByUserId( userId : number ){
-        console.log('running')
         this.status.isLoading = true;
         this.boaredService.getBoardsForUser( userId ).subscribe({
             next : datas => {
-                this.boards = datas;
-                this.boards=this.boards.map(res=> {
-                    const colorfulBoard = {...res,color:this.randomNumberBoard() };
-                    if( res.user.id === this.userStore.user.id ){
-                        this.ownBoards.push( colorfulBoard );
-                    }else{
-                        this.joinedBoards.push( colorfulBoard );
-                    }
-                    return colorfulBoard;
+                this.boards= datas;
+
+                this.ownBoards = this.boards.filter( board => {
+                    board.color = this.randomNumberBoard();
+                    return board.user.id == this.userStore.user.id
                 });
-               
+                this.joinedBoards = this.boards.filter( board => {
+                    board.color = this.randomNumberBoard();
+                    return board.user.id != this.userStore.user.id
+                });
+
                 this.status.isLoading = false;
                 this.status.hasDoneFetching = true;
             },
@@ -56,6 +57,7 @@ export class BoardStore{
    
     
     public refetchBoardsByUserId( userId : number ){
+        this.boards = [];
         this.getBoardsByUserId( userId );
     }
 

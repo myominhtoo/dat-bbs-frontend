@@ -857,8 +857,21 @@ color: rgba(255, 255, 255, 0.863) !important;
 
 .noti__toast{
  background:var(--snow) !important;
- color: #161b22 !important;  
+ color: #161b22 !important;
+ font-size: 14px !important;
+ display: flex !important;
+ justify-content: space-between !important;
+ align-items: center !important;
+ 
+    max-width: 300px !important;
+   
+ /* padding: 5px 20px !important; */
 }
+.noti__toast:first-of-type{
+    line-break: anywhere !important;
+    
+}
+
 
 .noti__toast button{
 color: black;

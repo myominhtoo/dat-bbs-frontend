@@ -27,7 +27,7 @@ export class LoginComponent {
     constructor(private userService : UserService ,
          private router : Router , 
          private userStore : UserStore , 
-         private boardStore : BoardStore  ){}
+         public boardStore : BoardStore  ){}
      
     ngOnInit(): void {
         let storeUser = localStorage.getItem(window.btoa(('user')));

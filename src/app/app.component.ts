@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {  NavigationEnd, Router } from '@angular/router';
 import { Client  } from 'stompjs';
 import { SocketService } from './model/service/http/socket.service';
-import { BoardStore } from './model/service/store/board.store';
 import { ToggleStore } from './model/service/store/toggle.service';
+import * as Toastify from 'toastify-js';
 
 @Component({
   selector: 'app-root',

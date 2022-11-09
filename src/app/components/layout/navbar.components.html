@@ -21,7 +21,7 @@
                 <img  *ngIf="userStore.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+userStore.user.imageUrl"  alt="">
             </div>     
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-              <li><button class="dropdown-item" type="button" routerLink="/profile">My Profile</button></li>
+              <li><button class="dropdown-item" type="button" routerLink="/profile">Profile</button></li>
               <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Change Password</button></li>              
               <li><button class="dropdown-item text-danger" type="button" routerLink="/login">LogOut</button></li>
             </ul>
