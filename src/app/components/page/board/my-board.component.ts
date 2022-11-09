@@ -19,6 +19,8 @@ import { Comment } from "src/app/model/bean/comment";
 import { User } from "src/app/model/bean/user";
 import { BoardsHasUsers } from 'src/app/model/bean/BoardsHasUser';
 import { UserStore } from 'src/app/model/service/store/user.store';
+import { SocketService } from 'src/app/model/service/http/socket.service';
+import { Notification } from 'src/app/model/bean/notification';
 
 @Component({
     selector : 'my-board',
@@ -80,7 +82,8 @@ export class MyBoardComponent implements OnInit {
          private activityService : ActivityService ,
          private commentService : CommentService,
          private userService :UserService ,
-         public userStore : UserStore  ){
+         public userStore : UserStore ,
+         public socketService : SocketService  ){
           this.board.user = new User();
 
          }
@@ -182,6 +185,12 @@ export class MyBoardComponent implements OnInit {
                     this.stages.push( res.data );
                     this.taskCardsMap.set( res.data.stageName , [] );
 
+                    const noti = new Notification();
+                    noti.content =  `${this.userStore.user.username.toLocaleUpperCase()} created New Stage in ${this.board.boardName} Board!`;
+                    noti.sentUser = this.userStore.user;
+                    noti.board = this.board;
+                    this.socketService.sentNotiToBoard( this.board.id , noti );
+
                     this.status.isAddStage = false;
                     this.stage.stageName = "";
                    }else{
@@ -218,6 +227,14 @@ export class MyBoardComponent implements OnInit {
                     this.email = "";
                     this.getUserMembers();
                     $("#invite-modal .btn-close").click();
+
+                    const noti = new Notification();
+                    noti.content = `${this.userStore.user.username} invited new members in ${this.board.boardName} Board `;
+                    noti.sentUser = this.userStore.user;
+                    noti.board = this.board;
+
+                    this.socketService.sentNotiToBoard( this.board.id , noti);
+
                   })
                 },
                 error : err => {
@@ -317,6 +334,7 @@ export class MyBoardComponent implements OnInit {
     }
 
     handleChangeStage( payload : ChangeStageType ){
+       let prevStage = payload.task.stage.stageName;
        let targetStage = this.stages.filter( stage => {
         return payload.stageTo === stage.stageName;
        })[0];
@@ -337,6 +355,12 @@ export class MyBoardComponent implements OnInit {
           //   }
           //   return task;
           // })! );
+          const noti = new Notification();
+          noti.content = `${this.userStore.user.username} changed ${payload.task.taskName} Task's stage \n  from '${prevStage}' to '${targetStage.stageName}' in ${this.board.boardName} Board `;
+          noti.sentUser = this.userStore.user;
+          noti.board = this.board;
+
+          this.socketService.sentNotiToBoard( this.board.id , noti);
         },
         error : err => {
           console.log(err);

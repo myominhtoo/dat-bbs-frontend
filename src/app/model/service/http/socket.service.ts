@@ -28,11 +28,11 @@ export class SocketService{
                         this.stompClient?.subscribe( `/boards/${board.id}/notifications` , ( payload ) => {
                             const newNoti = JSON.parse(payload.body) as Notification;
                             if( newNoti.sentUser.id != this.boardStore.userStore.user.id ){
-                                ($('#noti-ring')[0] as HTMLAudioElement).play();
+                               ($('#noti-ring')[0] as HTMLAudioElement).play();
                                 Toastify({
                                     text : newNoti.content,
                                     close : true,
-                                    duration : 2000,
+                                    duration : 5000,
                                     gravity : 'bottom',
                                     className : 'noti__toast',
                                     position : 'right',
