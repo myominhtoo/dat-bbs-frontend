@@ -37,5 +37,9 @@ export class BoardService{
       return this.httpClient.get<Board[]> (`http://localhost:8080/api/archive-boards?userId=${userId}`);
     }
 
+    exportReport(format : string){
+      return this.httpClient.get<any>(`http://locahost:8080/api/boards/report/${format}`);
+    }
+
 }
 

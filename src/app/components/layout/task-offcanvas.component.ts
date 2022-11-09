@@ -28,7 +28,7 @@ import {SocketService} from "../../model/service/http/socket.service";
                 <!-- <button class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#task-offcanvas" ></button> -->
                 <div id="comment-btn" class="d-flex justify-content-center gap-3 text-muted align-items-center">
                     <!-- <p class="fa-regular fa-comment text-center text-muted p-0 m-0"></p> -->
-                    <span id="tab" (click)="changeTab('activity')" [class.fw-bold]="tab == 'activity'" >Activities</span>
+                    <span id="tab" (click)= "changeTab('activity')" [class.fw-bold]="tab == 'activity'" >Activities</span>
                     <span id="tab" (click)="changeTab('comment')" [class.fw-bold]="tab == 'comment'" class="d-flex align-items-center">Comments</span>
                 </div>
             </div>
@@ -99,7 +99,7 @@ import {SocketService} from "../../model/service/http/socket.service";
                         <div *ngFor="let activity of activities;let idx = index;" class="w-100 position-relative ">
                             <div class="p-0 w-100  d-flex gap-2 align-items-center ">
                                 <input *ngIf="activity.id" type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,activity.id)" />
-                                <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted text-capitalize" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" />
+                                <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted text-capitalize" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" placeholder="type enter to create"/>
                             </div>
                             <small class="mx-2 text-danger" *ngIf="status.errorTargetIdx === idx && status.activityError">{{ status.activityError }}</small>
                             <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
@@ -252,7 +252,7 @@ import {SocketService} from "../../model/service/http/socket.service";
                         </div>
                         <div class="form-group my-2">
                             <label class="form-label">File</label>
-                            <input  id="attachment" name="file" type="file" class="form-control shadow-none" [class.is-invalid]="status.attachmentError" placeholder="Choose File" accept="image/jpg , image/png , image/jpeg , application/zip , application/pdf , 
+                            <input  id="attachment" name="file" type="file" class="form-control shadow-none" [class.is-invalid]="status.attachmentError" placeholder="Choose File" accept="image/jpg , image/png , image/jpeg , application/zip, .rar , application/pdf , 
                             application/vnd.openxmlformats-officedocument.wordprocessingml.document , application/vnd.openxmlformats-officedocument.presentationml.presentation , application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"   />
                             <span class="my-1 text-danger">{{ status.attachmentError }}</span>
                         </div>
