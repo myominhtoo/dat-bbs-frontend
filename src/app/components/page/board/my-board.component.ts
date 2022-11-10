@@ -39,6 +39,7 @@ export class MyBoardComponent implements OnInit {
     filterEmails : string [] = [];
     storedEmails : string [] = [];
     tempComment : string ='';
+    showEmojis : boolean = false;
 
     stage  : Stage = new Stage();
 
@@ -473,6 +474,7 @@ export class MyBoardComponent implements OnInit {
      this.commentService.updateComment(this.comment).subscribe({
        next : res =>{
           cmt=res.data;
+          this.showEmojis = false;
           $("#cmt-modal .btn-close").click();
        },
        error : err =>{
@@ -484,6 +486,14 @@ export class MyBoardComponent implements OnInit {
    handleCancel(){
     $("#cmt-modal .btn-close").click();
     this.comment.comment=this.tempComment;
+   }
+
+   toggleEmojis(){
+    this.showEmojis = !this.showEmojis;
+   }
+   
+   addEmojiToComment( event : any ){
+    this.comment.comment += event.emoji.native;
    }
 
 }

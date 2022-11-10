@@ -19,7 +19,7 @@ export class VerifyEmailComponent implements OnInit{
     constructor(private userService : UserService ){}
 
     ngOnInit(): void {
-        this.status.hasGotVerification = true;
+        this.status.hasGotVerification = localStorage.getItem('hasGotVerification') != null;
         document.title = "BBMS | Verify Email";
     }
 

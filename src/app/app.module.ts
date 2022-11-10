@@ -30,6 +30,7 @@ import { MemberviewComponent } from './components/page/memberView/memberview.com
 import { ArchiveBoardComponent } from './components/page/board/archive-board.component';
 import { ForgetPasswordComponent } from './components/page/forgetPassword/forget-password.component';
 import { BoardBookmarkComponent } from './components/layout/boardBookmark.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { BoardBookmarkComponent } from './components/layout/boardBookmark.compon
     MatButtonModule,
     BrowserAnimationsModule,
     DragDropModule,
+    PickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
