@@ -1,3 +1,4 @@
+import { BoardMessage } from './../../bean/BoardMessage';
 import { Injectable } from "@angular/core";
 import * as SockJS from "sockjs-client";
 import { Client, over } from "stompjs";
@@ -66,4 +67,41 @@ export class SocketService{
         }
     }
 
+    
+
+    sentMeesageToGroupChat( boardId : number , message : BoardMessage  ){
+        if( this.stompClient ){
+            this.stompClient.send( `/app/boards/${boardId}/send-message` , {} , JSON.stringify(message) );
+        }else{
+            swal({
+                text : 'Invalid Socket Client!',
+                icon : 'warning'
+            });
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
 }

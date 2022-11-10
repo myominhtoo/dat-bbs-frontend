@@ -13,7 +13,7 @@ export class BoardStore{
     public boards : Board [] = [];
     public ownBoards : Board [] = [];
     public joinedBoards : Board [] = [];
-
+    
     public status = {
         isLoading : true,
         hasDoneFetching : false,
@@ -23,7 +23,7 @@ export class BoardStore{
         private boaredService : BoardService , 
         public userStore : UserStore ){
         this.userStore.fetchUserData();
-        if( this.userStore.user.id )  this.getBoardsByUserId( userStore.user.id );
+        if( this.userStore.user.id )  this.getBoardsByUserId( userStore.user.id ); 
     }
     
     public randomNumberBoard(){
@@ -55,6 +55,8 @@ export class BoardStore{
         });
     }
    
+     
+
     
     public refetchBoardsByUserId( userId : number ){
         this.boards = [];
