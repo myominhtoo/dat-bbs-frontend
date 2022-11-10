@@ -13,6 +13,7 @@
     /* login-50- rgba(255,255,255,0.75)
     #161b22af
     */
+    
     --body-color:rgba(225, 225, 225, 0.75);
     --pale-dark:#161b22;
     --dark:#161b22; 
@@ -1036,16 +1037,14 @@ color: black;
         color: var(--input-text);
         background-color: transparent;
     }
-    .chat__textbox span i{
-    
-        color: var(--dark);
-    
+    .chat__textbox span i{    
+        color: var(--dark);            
     }
     .chat__textbox input{
         border: none;
         color: var(--dark);
             /* background-color: var(--outter); */
-            background-color: rgba(255, 253, 253, 0.288);
+        background-color: rgba(255, 253, 253, 0.288);
         }    
         .chat__textbox input:focus{
             border-color: var(--side-chat);
@@ -1145,6 +1144,7 @@ color: black;
 .bg-text-input{
     background-color:var(--input-text);
 }
+<<<<<<< Updated upstream
 
 #form-page{
   width:100% !important;
@@ -1152,6 +1152,13 @@ color: black;
   display:flex;
   justify-content:center;
   align-items:center;
+=======
+.username-chat{
+ position: absolute;
+ top: -20px;
+ font-size: 13px;
+    color: #161b22a6;
+
 }
 
 /*#task-offcanvas{*/
@@ -1183,3 +1190,11 @@ color: black;
 /*#task-offcanvas .offcanvas-header input{*/
 /*  background:none !important;*/
 /*}*/
+.username-time{
+    font-size: 13px;
+    color: #161b22a6;
+}
+.sent-icon{
+    
+>>>>>>> Stashed changes
+}
