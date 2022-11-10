@@ -1144,7 +1144,6 @@ color: black;
 .bg-text-input{
     background-color:var(--input-text);
 }
-<<<<<<< Updated upstream
 
 #form-page{
   width:100% !important;
@@ -1152,7 +1151,8 @@ color: black;
   display:flex;
   justify-content:center;
   align-items:center;
-=======
+}
+
 .username-chat{
  position: absolute;
  top: -20px;
@@ -1179,22 +1179,11 @@ color: black;
 /*  background:#161b22 !important;*/
 }
 
-/*#task-offcanvas label{*/
-/*  color:rgba(255,255,255,0.75) !important;*/
-/*}*/
-
-/*#task-offcanvas input ::-webkit-calendar-picker-indicator {*/
-/*  color:white !important;*/
-/*}*/
-
-/*#task-offcanvas .offcanvas-header input{*/
-/*  background:none !important;*/
-/*}*/
 .username-time{
     font-size: 13px;
     color: #161b22a6;
 }
+
 .sent-icon{
     
->>>>>>> Stashed changes
 }

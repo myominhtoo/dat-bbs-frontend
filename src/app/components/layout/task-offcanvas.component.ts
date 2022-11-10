@@ -185,9 +185,9 @@ import {SocketService} from "../../model/service/http/socket.service";
                     </div>
 
                     <div class="text-muted">
-                        <span class="w-25 my-3">Attachments</span>
+                        <p class="w-25 my-3">Attachments</p>
                         <div class="w-100">
-                            <table class="table w-100 text-muted " style="min-height:280px !important;">
+                            <table class="table w-100 text-muted " style="{{ paginatedAttachments.length > 0 && 'min-height:280px !important;' }}">
                                 <thead >
                                     <tr>
                                         <td></td>
@@ -197,7 +197,7 @@ import {SocketService} from "../../model/service/http/socket.service";
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let attachment of paginatedAttachents">
+                                    <tr *ngFor="let attachment of paginatedAttachments">
                                         <td><i *ngIf="attachment.user.id == userStore.user.id" (click)="deleteAttachment(attachment)" class="fa-solid fa-circle-minus text-danger"></i></td>
                                         <td class="text-capitalize">{{ attachment.name.substring(0,20) }}<span *ngIf="attachment.name.length > 20">...</span></td>
                                         <td>{{ attachment.user.username }}</td>
@@ -275,7 +275,7 @@ export class TaskOffCanvasComponent implements OnInit {
     changeStage :Stage=new Stage();
     changeTask:TaskCard=new TaskCard();
     attachments : Attachment [] = [];
-    paginatedAttachents : Attachment [] = [];
+    paginatedAttachments : Attachment [] = [];
     curPageOfAttachments : number = 1;
     totalPagesOfAttachments : number = 0;
     newAttachment : Attachment = new Attachment();
@@ -501,7 +501,6 @@ export class TaskOffCanvasComponent implements OnInit {
        }
     }
 
-
     handleShowDetailActivity( activityId : number ){
         this.isLoading = true;
         this.attachmentService.getAttachmentsForActivity( activityId  )
@@ -531,7 +530,7 @@ export class TaskOffCanvasComponent implements OnInit {
            results.push(this.attachments[idx]);
            idx++;
         }
-        this.paginatedAttachents = results;
+        this.paginatedAttachments = results;
     }
 
     handleUpdateTaskName( e : KeyboardEvent ){
