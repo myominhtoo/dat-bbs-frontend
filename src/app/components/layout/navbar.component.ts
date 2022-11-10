@@ -12,7 +12,7 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
     templateUrl:"./navbar.components.html",
 })
 export class NavbarComponent{
-
+  storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     user : User = new User();
     userInfo:User=new User();
     userPass={
@@ -20,7 +20,7 @@ export class NavbarComponent{
         currentPassword:"",
         retypePassoword:""
       }
-      storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
+      
 
       status = {
         preview:{

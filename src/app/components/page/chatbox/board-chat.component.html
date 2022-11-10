@@ -8,26 +8,31 @@
                         <div class="col-12 chat__box__personName ps-0 p-3">
                             <div class="chat__toName">
                                 <span class="opacity-50">To :</span>
-                                <span> Boards Name</span>
+                                <span> {{this.saveBoard.boardName}}</span>
                             </div>
                         </div>
                         <div class="col-12 chat__box__textContainer p-0 m-0">
                             <div class="chat__text ">                                                            
                                 <div class=" chat__message" key="other_users">
                                     <!-- message -->
-                                    <div class="d-flex p-3">
+                                    <div class="d-flex p-3 pt-4">
                                         
                                         <div class="message__profile ">
                                             <img src="assets/img/board-profile-img/gru.jpg" alt="" class="" style="object-fit:cover;">
                                         </div>
-                                    
+                                        
+                                        <div class="position-relative">                                        
+                                            <small class="ps-3 username-chat">Zayar</small>       
                                         <div class=" text-message p-2">
                                             <p class="p-0 m-0" id="message" style="color: #050505;">
                                           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima modi, cumque libero inventore labore molestias facilis, mollitia explicabo, recusandae sint repudiandae dolores cum eius aperiam vitae fugiat beatae unde possimus?
-                                            </p>
+                                            </p>                                            
+                                        </div>
+                                        <small class="username-time float-end">11:30 pm</small>   
                                         </div>
                                     </div>
                                     <!-- message -->
+                                    
                                     
                                 </div>
                                 <div class="chat__message" key="me">
@@ -47,23 +52,26 @@
                                 </div>                                                                                                                                                                                                                                                   
                             </div>
                             <div class="chat__box__input">
+                                <form action="" (ngSubmit)="sentMessage(this.BoardMessage.content)">
                                 <div class="chat__box__input--padding">
                                     <div class="input-group input-group-md chat__textbox me-2">                                        
                                         <span class="input-group-text" id="emoji">
-                                            <i class='bx bxs-file'></i>
+                                            <i class='bx bx-sm bxs-file'></i>
                                         </span>
                                         <span class="input-group-text" id="emoji">
-                                            <i class='bx bxs-image'></i>
+                                            <i class='bx bx-sm bxs-image'></i>
                                         </span>
-                                        <input type="text" class="form-control shadow-none rounded-3" placeholder="Chat Something...">
+                                        <input type="text" class="form-control shadow-none rounded-3" placeholder="Chat Something..."  name="message" [(ngModel)]="this.BoardMessage.content"  >
                                         <span class="input-group-text border-0" id="emoji">
-                                            <i class='bx bxs-smile'></i>
+                                            <i class='bx bx-sm bxs-smile'></i>
                                         </span>
-                                        <span class="input-group-text border-0" id="emoji">
-                                            <i class='bx bxs-send '></i>
-                                        </span>
+                                        <button type="submit" class="input-group-text   border-0 " id="emoji" >
+                                            <i class="bx bx-sm bxs-send" [class.text-muted]="!this.BoardMessage.content" ></i>
+                                            
+                                        </button>
                                     </div>
                                 </div>
+                            </form>
                             </div>
                         </div>
                     </div>
