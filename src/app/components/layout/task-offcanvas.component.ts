@@ -34,7 +34,7 @@ import {SocketService} from "../../model/service/http/socket.service";
             </div>
             <div class=" offcanvas-body overflow-scroll py-1 px-2">
                 <div *ngIf="tab == 'activity' && !isLoading" class="container py-3">
-
+                   <h6 class="text-center">Task's Info</h6>
                    <ul class="list-group list-unstyled text-muted gap-3">
                       <li class="list-item mt-3 ">
                         <h6 *ngIf="members.length > 0" class="h6 w-25 fs-6">Assign To</h6>
@@ -87,11 +87,11 @@ import {SocketService} from "../../model/service/http/socket.service";
 
                     <!-- activites -->
                     <div class="list-group d-flex flex-column list-unstyled text-muted p-2 gap-3 my-2">
-
+                        <h6 class="text-center" *ngIf="activities.length > 0">Activities</h6>
                         <div *ngFor="let activity of activities;let idx = index;" class="w-100 position-relative ">
                             <div class="p-0 w-100  d-flex gap-2 align-items-center ">
                                 <input *ngIf="activity.id" type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,activity.id)" />
-                                <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted text-capitalize" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" placeholder="type enter to create"/>
+                                <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted text-capitalize" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" placeholder="Click enter to create"/>
                             </div>
                             <small class="mx-2 text-danger" *ngIf="status.errorTargetIdx === idx && status.activityError">{{ status.activityError }}</small>
                             <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
@@ -99,8 +99,9 @@ import {SocketService} from "../../model/service/http/socket.service";
                             </div>
                         </div>
 
-                        <small *ngIf="activities.length == 0" class="my-2">There is no activity for this card... </small>
-
+                        <div class="text-center p-0 m-0">
+                            <h6 *ngIf="activities.length == 0" class="my-2">There is no activity for this card... </h6>
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-end">
@@ -110,7 +111,6 @@ import {SocketService} from "../../model/service/http/socket.service";
                 </div>
 
                 <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" >
-
                     <div id="comments">
                         <div *ngFor="let comment of comments" id="comment-container" class="w-100 my-3 px-3 ">
                             <div id="comment-icon">
@@ -144,7 +144,7 @@ import {SocketService} from "../../model/service/http/socket.service";
                 </div>
 
                 <div *ngIf="tab == 'activity-detail' && !isLoading " id="comments-container" style="max-height:800px !important;" class="container px-3">
-
+                    <h6 class="text-center">Activity's Info</h6>
                     <div class="text-muted  my-4">
                         <span class="w-25 my-2">Activity Name</span>
                         <input type="text" class="form-control w-100 text-capitalize text-muted" [(ngModel)]="detailActivity.activityName" >
@@ -180,14 +180,14 @@ import {SocketService} from "../../model/service/http/socket.service";
                     <div class="text-muted  my-4">
                         <span class="w-25"></span>
                         <div class="w-100 text-muted d-flex justify-content-end">
-                            <button class="btn btn-sm bg-thm text-light px-3">Update</button>
+                            <button (click)="handleUpdateActivity()" class="btn btn-sm bg-thm text-light px-3">Update</button>
                         </div>
                     </div>
 
                     <div class="text-muted">
                         <p class="w-25 my-3">Attachments</p>
                         <div class="w-100">
-                            <table class="table w-100 text-muted " style="{{ paginatedAttachments.length > 0 && 'min-height:280px !important;' }}">
+                            <table class="table w-100 text-muted " style="{{ paginatedAttachments.length > 0 ? 'min-height:280px !important;' : '' }}">
                                 <thead >
                                     <tr>
                                         <td></td>
@@ -506,7 +506,6 @@ export class TaskOffCanvasComponent implements OnInit {
         this.attachmentService.getAttachmentsForActivity( activityId  )
         .subscribe({
             next : resAttachments => {
-                console.log(resAttachments);
                 this.attachments = resAttachments;
                 this.totalPagesOfAttachments = Math.ceil( resAttachments.length / this.MAX_ITEM_PER_PAGE );
                 this.handleAssignPaginatedAttachments( this.curPageOfAttachments );
@@ -669,7 +668,6 @@ export class TaskOffCanvasComponent implements OnInit {
    }
 
    updateComment ( comment:Comment ){
-        console.log('hi')
       this.emitUpdateComment.emit(comment);
       $("#editComment").click();
    }
@@ -730,4 +728,21 @@ export class TaskOffCanvasComponent implements OnInit {
    addEmojiToComment( e : any ){
      this.comment.comment += e.emoji.native;
    }
+
+   //updating activity in detaiil activity
+   handleUpdateActivity(){
+    this.activityService.updateActivity( this.detailActivity )
+    .subscribe({
+        next : resStatus => {
+          // ok
+        },
+        error : err => {
+            swal({
+                text : 'Failed to update activity!',
+                icon : 'warning'
+            });
+        }
+    });
+   }
+
 }
