@@ -1,11 +1,6 @@
-<div class="container-fluid px-5">
-    <header class="container-fluid bbmsnav-color mb-2 ">
-        <a class="navbar-brand" href="#">
-        <img src="assets/img/download-removebg-preview.png" alt="Logo" width="60px" class="d-inline-block align-text-top">
-        </a>
-    </header>
+<div class="container-fluid  px-5" id="form-page">
 
-    <section class="container r-test d-flex justify-content-center align-items-center ">
+    <section class="w-100 r-test d-flex justify-content-center align-items-center ">
         <div class="register-form">
         <div class="row d-flex justify-content-sm-center h-auto">
         <div class="col-6 d-none d-md-block register-bg register-rounded-icon d-md-flex justify-content-center">
@@ -13,7 +8,14 @@
         </div>
         <div class=" col-md-6 register-rounded-form bg-light col-12 ">
             <form  #registerForm="ngForm" (ngSubmit)="onSubmit()">
-                <h2 class="text-center fw-bold mt-4">Register</h2>
+                <div class="text-center m-0 p-0 mt-3">
+                  <a class="navbar-brand" routerLink="/login">
+                    <img src="/assets/img/download-removebg-preview.png" alt="Logo" width="70px" class="d-inline-block align-text-top">
+                  </a>
+                </div>
+                <div class="text-center">
+                  <small class="text-center">Create your account :</small>
+                </div>
                 <div class="mx-4 my-3">
                     <label for="username" class="form-label">Username</label>
 
@@ -39,7 +41,7 @@
                 <div class="d-grid">
                     <input type="submit" [disabled]="registerForm.invalid" class="btn signup-btn" value="Create Account">
                 </div>
-                <p class="text-center mt-2">Already have an account? <a routerLink="/login" class="fw-bold d-inline-block nav-link">Login here</a></p>
+                <p class="text-center mt-2">Already have an account? <a routerLink="/login" class="fw-bold d-inline-block nav-link text-decoration-underline">Login here</a></p>
             </div>
             </form>
         </div>

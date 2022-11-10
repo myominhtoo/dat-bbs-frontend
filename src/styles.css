@@ -282,9 +282,7 @@ padding-bottom:3px;
     padding-right:20px ;
     padding-left:20px ;
 }
-.register-header{
-    font-size: 48px;
-}
+
 .signup-text{
     height: 50px;
     margin-bottom: 10px;
@@ -1125,4 +1123,12 @@ color: black;
     
 .bg-text-input{
     background-color:var(--input-text);
+}
+
+#form-page{
+  width:100% !important;
+  height:100vh !important;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }

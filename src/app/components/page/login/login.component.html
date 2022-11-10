@@ -1,20 +1,21 @@
-<div class="container-fluid px-5">
-    <header class="container-fluid bbmsnav-color mb-5">
-        <a class="navbar-brand" routerLink="/login">
-        <img src="../../../../assets/img/download-removebg-preview.png" alt="Logo" width="60px" class="d-inline-block align-text-top">
-        </a>
-    </header>
-
+<div class="container-fluid px-5" id="form-page">
     <section class="d-flex justify-content-center align-items-center container-fluid">
         <div class="register-form ">
         <div class="row h-test">
         <div class="col-6 d-none d-md-block card-body register-bg register-rounded-icon d-md-flex justify-content-center align-bottom">
             <img src="assets/img/3D/undraw_hello_re_3evm.svg" alt="" class="register-icon">
-            
         </div>
         <div class="col-6 card-body register-rounded-form bg-light">
             <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)"  novalidate>
-                <h2 class="text-center fw-bold mt-5">Login</h2>
+                <div class="text-center m-0 p-0 mt-3">
+                  <a class="navbar-brand" routerLink="/login">
+                  <img src="/assets/img/download-removebg-preview.png" alt="Logo" width="70px" class="d-inline-block align-text-top">
+                  </a>
+                </div>
+                <div class="text-center">
+                  <small class="text-center mx-auto">Log in to continue to :</small>
+                </div>
+                <!--<h6 class="text-center">Bulleting Boards Management System</h6>-->
                 <div class="mx-4 my-4">
                     <label for="email" class="form-label">Email</label>
                     <input type="text" placeholder="Enter user email..." class="form-control shadow-none" id="email" name="email" [(ngModel)]="user.email" [class.is-invalid]="error.hasError" required>
@@ -29,7 +30,10 @@
                 <div class="d-grid">
                     <input type="submit" class="btn signup-btn" value="Login" [disabled]="userForm.invalid">
                 </div>
-                <p class="text-center mt-4 fw-light">Don't have an account? <a routerLink="/verify-email" class="nav-link d-inline-block fw-bold">Sign up</a></p>
+                <p class="text-center mt-4 mb-0 fw-light">Don't have an account? <a routerLink="/verify-email" class="nav-link d-inline-block fw-bold">Sign up</a></p>
+                <div class="text-center m-0 p-0">
+                  <small routerLink="/forget-password"  class="text-danger text-decoration-underline " style="cursor:pointer;" >Forget Password?</small>
+                </div>
             </div>
             </form>
         </div>

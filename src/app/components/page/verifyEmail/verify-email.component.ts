@@ -19,10 +19,8 @@ export class VerifyEmailComponent implements OnInit{
     constructor(private userService : UserService ){}
 
     ngOnInit(): void {
-        let storedData = localStorage.getItem(window.btoa(('user')));
-        this.status.hasGotVerification = storedData ==  null ? false : JSON.parse(decodeURIComponent(escape(window.atob(`${storedData}`)))).hasGotVerification;
+        this.status.hasGotVerification = true;
         document.title = "BBMS | Verify Email";
-
     }
 
     onSubmit(verifyemail:NgForm){
@@ -33,12 +31,12 @@ export class VerifyEmailComponent implements OnInit{
             if( res.ok ) {
                 this.status.hasGotVerification = true;
                 localStorage.setItem(encode('email'),encode(verifyemail.value.email));
+                localStorage.setItem( 'hasGotVerification' , 'true' );
             }
             this.status.isLoading = false;
         },
         error : err => {
             this.status.hasError=true;
-            console.log('error')
             this.status.isLoading = false;
         }
        })
@@ -47,7 +45,7 @@ export class VerifyEmailComponent implements OnInit{
 
     backToSendVerification(){
         this.status.hasGotVerification = false;
-        localStorage.removeItem(btoa('data'));
+        localStorage.removeItem('hasGotVerification');
     }
     
 }

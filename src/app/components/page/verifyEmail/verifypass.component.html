@@ -1,28 +1,25 @@
 
-    <div style="transform: translateY(40%);" class="d-flex justify-content-center align-items-center w-100 my-5">
-        <div class="row">
+    <div class="mx-auto mt-5" style="width:1000px;margin-top:100px !important;">
+        <div class="row mt-5">
             <div class="col-12 mb-3">
-                
-                <p class="text-center register-header fw-bold text-success">                                       
+                <h2 class="text-center register-header text-success">
                     <!-- Successfully Verified!<i class="fas fa-circle-check"></i> -->
                     Please Check Your Email!
-                </p>
+                </h2>
             </div>
             <div class="col-12">
                 <form action="">
-            <div class="d-grid">
-               <a routerLink="/register" class="btn signup-btn text-center">Go to reigster
-                &nbsp;
-                <i class="fas fa-arrow-right-long"></i>
-               </a> 
-            </div>
-            <h6 class="text-center text-decoration-underline text-danger my-2" (click)="handleBack.emit()" id="verification-btn">Send Verification</h6>
-            <p class="text-center text-secondary my-2">By signing up, I agree to  
-                <a href="#" class="nav-link d-inline-block text-decoration-underline">Dir Ace Technology</a>
-                and 
-                <a href="#" class="nav-link d-inline-block text-decoration-underline">Terms of Service.</a>
-             </p>
-        </form>
+                  <div class="" style="min-width:100%;">
+                     <a routerLink="/register" class="btn signup-btn text-center w-100">Go to reigster
+                      &nbsp;
+                      <i class="fas fa-arrow-right-long"></i>
+                     </a>
+                  </div>
+                  <h6 class="text-center text-decoration-underline mt-3 text-primary" (click)="handleBack.emit()" id="verification-btn">Didn't receive email?</h6>
+                  <p class="text-center text-secondary my-2 w-100">
+
+                  </p>
+              </form>
             </div>
         </div>
     </div>

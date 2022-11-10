@@ -1,26 +1,25 @@
 <div class="container-fluid px-5">
-    <header class="container-fluid bbmsnav-color mb-5">
-            <a class="navbar-brand" href="#">
-            <img src="../../../../assets/img/download-removebg-preview.png" alt="Logo" width="60px" class="d-inline-block align-text-top">
+    <header class="container-fluid bbmsnav-color mb-5 px-5 my-2">
+            <a routerLink="/login" class="navbar-brand">
+              <img src="/assets/img/download-removebg-preview.png" alt="Logo" width="60px" class="d-inline-block align-text-top">
             </a>
     </header>
-    <section class="d-flex justify-content-center align-items-center w-100">
+    <section class="d-flex justify-content-center align-items-center w-100 mt-5">
         <verify-pass *ngIf="status.hasGotVerification" (handle-back)="backToSendVerification()"></verify-pass>
         <div style="transform: translateY(40%);" *ngIf="!status.hasGotVerification" class="col-10 mx-auto mw-100 ">
             <div class="col-12 mb-3 text-center">
-                <p [class.d-none]="status.hasError" class=" register-header fw-bold thm">
-                    Enter Your Email                    
-                </p> 
-                <p *ngIf="status.hasError" class="register-header text-danger   ">
-                    
-                    Sorry,Your email has already been used
-                </p>                       
+                <h2 [class.d-none]="status.hasError">
+                    Enter email to send verification 
+                </h2>
+                <h2 *ngIf="status.hasError" class="text-danger ">
+                    This email has already been used!
+                </h2>
             </div>
         <div class="col-10 mx-auto">
-            <form  #emailverify="ngForm" (ngSubmit)="onSubmit(emailverify)"> 
+            <form  #emailverify="ngForm" (ngSubmit)="onSubmit(emailverify)">
                 <div class="d-grid">
                     <input type="email" class="form-control shadow-none signup-text" name="email" placeholder="name@company.com" #email="ngModel" ngModel [class.is-invalid]="email.touched && email.invalid" required>
-                    <input [disabled]="status.isLoading || emailverify.invalid"  mat-button  type="submit" class="btn  signup-btn" [value]="status.isLoading ? 'Verifying' : 'Verify'">
+                    <input [disabled]="status.isLoading || emailverify.invalid"  mat-button  type="submit" class="btn  signup-btn" [value]="status.isLoading ? 'Sending...' : 'Send'">
                 </div>
             </form>
             <p class="text-center text-secondary my-2">By signing up, I agree to  
