@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
 import { UserStore } from 'src/app/model/service/store/user.store';
 import { BoardService } from 'src/app/model/service/http/board.service';
 // import * as XLSX from 'xlsx';
+import swal from "sweetalert";
 
 @Component({
     selector : 'workspace',
@@ -27,6 +28,7 @@ export class WorkspaceComponent implements OnInit {
     // fileName='board.xlsx';
     pdf='pdf';
     excel='excel';
+    path='';
     
 
     constructor(
@@ -82,8 +84,11 @@ export class WorkspaceComponent implements OnInit {
     }
 
     exportReport(path:string) {
-        this.boardService.exportReport(path).subscribe((report)=>{
-          alert("exported successfully")
+        this.boardService.exportReport(path).subscribe((data)=>{
+            swal({
+                text : 'Successfully Exported!',
+                icon : 'success'
+            });
         })
       
       }
