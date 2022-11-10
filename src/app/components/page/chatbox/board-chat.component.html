@@ -15,39 +15,45 @@
                             <div class="chat__text ">                                                            
                                 <div class=" chat__message" key="other_users">
                                     <!-- message -->
-                                    <div class="d-flex p-3 pt-4">
-                                        
+                                    <div class="p-0 m-0" *ngFor="let message of messages " >
+                                    <div class="d-flex p-3 pt-4" *ngIf="this.userStore.user.id != message.user.id">
                                         <div class="message__profile ">
-                                            <img src="assets/img/board-profile-img/gru.jpg" alt="" class="" style="object-fit:cover;">
+                                            <img [src]="'http://localhost:8080/img/'+message.user.imageUrl" alt="" class="" style="object-fit:cover;">
                                         </div>
                                         
                                         <div class="position-relative">                                        
-                                            <small class="ps-3 username-chat">Zayar</small>       
+                                            <small class="ps-3 username-chat">{{message.user.username}}</small>       
                                         <div class=" text-message p-2">
                                             <p class="p-0 m-0" id="message" style="color: #050505;">
-                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima modi, cumque libero inventore labore molestias facilis, mollitia explicabo, recusandae sint repudiandae dolores cum eius aperiam vitae fugiat beatae unde possimus?
+                                          {{message.content}}
                                             </p>                                            
                                         </div>
-                                        <small class="username-time float-end">11:30 pm</small>   
+                                        <small class="username-time float-end">
+                                    {{message.createdDate | pentaDate}}
+                                        </small>   
                                         </div>
                                     </div>
+                                </div>
                                     <!-- message -->
                                     
                                     
                                 </div>
                                 <div class="chat__message" key="me">
-                                    <div class="d-flex p-3 justify-content-start flex-row-reverse">                                       
-                                        <div class="text_user_meesage  p-2">
+                                    <div class="p-0"  *ngFor="let message of messages" >                                       
+                                        <div class=" d-flex p-3 justify-content-start flex-row-reverse" *ngIf="this.userStore.user.id == message.user.id">
+                                        <div  class="text_user_meesage bg-white p-2">
                                             <!-- ပုံဆိုရင် text-user-message မှာ bg-white ဖြုတ် -->
-                                            <!-- <p class="p-0 m-0" id="message">
-                                            GoodNight        
-                                            </p> -->
-                                            <p class="p-0 m-0" id="img">
-                                                <img src="assets/img/board-profile-img/gru.jpg" alt="">
+                                            <p class="p-0 m-0" id="message">
+                                            {{message.content}}
                                             </p>
+                                            <!-- <p class="p-0 m-0" id="img">
+                                                <img src="assets/img/board-profile-img/gru.jpg" alt="">
+                                            </p> -->
                                         </div>
+                                    </div>
                                         
                                     </div>                                
+                                    
                                     
                                 </div>                                                                                                                                                                                                                                                   
                             </div>
@@ -65,7 +71,7 @@
                                         <span class="input-group-text border-0" id="emoji">
                                             <i class='bx bx-sm bxs-smile'></i>
                                         </span>
-                                        <button type="submit" class="input-group-text   border-0 " id="emoji" >
+                                        <button type="submit" class="input-group-text bg-transparent  border-0 " id="emoji" >
                                             <i class="bx bx-sm bxs-send" [class.text-muted]="!this.BoardMessage.content" ></i>
                                             
                                         </button>

@@ -1123,15 +1123,13 @@ color: black;
 .bg-text-input{
     background-color:var(--input-text);
 }
-<<<<<<< Updated upstream
-
 #form-page{
   width:100% !important;
   height:100vh !important;
   display:flex;
   justify-content:center;
   align-items:center;
-=======
+}
 .username-chat{
  position: absolute;
  top: -20px;
@@ -1142,8 +1140,4 @@ color: black;
 .username-time{
     font-size: 13px;
     color: #161b22a6;
-}
-.sent-icon{
-    
->>>>>>> Stashed changes
 }
