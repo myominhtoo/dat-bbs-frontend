@@ -34,7 +34,7 @@ import {SocketService} from "../../model/service/http/socket.service";
             </div>
             <div class=" offcanvas-body overflow-scroll py-1 px-2">
                 <div *ngIf="tab == 'activity' && !isLoading" class="container py-3">
-                   <h6 class="text-center">Task's Info</h6>
+                   <h6 class="text-center tex">Task's Info</h6>
                    <ul class="list-group list-unstyled text-muted gap-3">
                       <li class="list-item mt-3 ">
                         <h6 *ngIf="members.length > 0" class="h6 w-25 fs-6">Assign To</h6>
@@ -623,6 +623,7 @@ export class TaskOffCanvasComponent implements OnInit {
     }
 
     handleInviteMembers(){
+        console.log('hi')
         $('#invite-members').click();
     }
 
