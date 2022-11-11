@@ -28,6 +28,12 @@ import { Notification } from 'src/app/model/bean/notification';
 })
 export class MyBoardComponent implements OnInit {
 
+  pdf='pdf';
+  excel='excel';
+  html='html';
+
+  path:string="";
+
     boardsHasUsers : BoardsHasUsers [] = [];
     members : User [] = [];
     public stages : Stage [] = [];
@@ -42,6 +48,9 @@ export class MyBoardComponent implements OnInit {
     showEmojis : boolean = false;
 
     stage  : Stage = new Stage();
+
+    msg:String="";
+    click:boolean=false;
 
     offCanvasTask : TaskCard = new TaskCard();
     activities : Activity [] = [];
@@ -490,9 +499,57 @@ export class MyBoardComponent implements OnInit {
    toggleEmojis(){
     this.showEmojis = !this.showEmojis;
    }
-   
+
    addEmojiToComment( event : any ){
     this.comment.comment += event.emoji.native;
    }
+
+//    isClick(con:boolean,filetype:string)
+// {
+
+//   let boardId = this.route.snapshot.params['id'];
+
+//   this.userService.reportUser(boardId,filetype).subscribe(data=>
+//     {
+//       console.log(Object.values(data)[0]);
+//       this.msg=Object.values(data)[0];
+//       alert("asss");
+
+//     });
+
+//  this.click=con;
+// }
+
+
+// exportHtml() {
+
+//   let boardId = this.route.snapshot.params['id'];
+
+//   this.userService.exportHTML(boardId,'html').subscribe((data) => {
+//     alert("exported successfully")
+//   })
+// }
+
+// exportExcel() {
+
+//   let boardId = this.route.snapshot.params['id'];
+
+//   this.userService.exportHTML(boardId,'excel').subscribe((data) => {
+//     alert("exported successfully")
+//   })
+// }
+
+exportMemberReport(path:string) {
+
+  let boardId = this.route.snapshot.params['id'];
+
+  this.userService.exportMember(boardId,path).subscribe((data) => {
+    swal({
+      text : 'Successfully Exported!',
+      icon : 'success'
+  });
+  })
+}
+
 
 }
