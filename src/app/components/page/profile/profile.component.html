@@ -2,11 +2,11 @@
     <div class="container">
             <div class="row">
                 <div class="col-6">
-                    <div class="row">
+                    <div class="row bg-light p-2 py-5">
                         <!-- <div class="row card-title">
                             <h1 class="text-center">Public profile</h1>
                         </div>   -->
-                        <div class="col-12 d-flex justify-content-center align-items-center">
+                        <div class="col-12 d-flex  justify-content-center align-items-center">
                             <div class="mb-3 mx-auto imgholder">
 
                                 <div *ngIf="user.imageUrl==null && this.imgValue==null" class="text-dark boardprofile d-flex justify-content-center align-items-center bg-secondary">
@@ -35,44 +35,50 @@
                             </div>
                         </div>
 
-                            <div class="text-end" *ngIf="this.imgValue!=null">
+                        <div class="text-end" *ngIf="this.imgValue!=null">
                             <div class="ask-container">
                                 <small class="text-start">Are you sure?</small>
                                 <br>
                                 <button class="btn btn-primary btn-sm me-1 my-2  m-0" (click)="previewImg(true)">Yes</button>
                                 <button class="btn btn-primary btn-sm  my-2  m-0" (click)="previewImg(false)">No</button>
                             </div>
-                            </div>
+                        </div>
 
 
-                        <div class="col-12">
+                        <div class="col-12 text-center my-2">
+                          <h3>{{ userInfo.username | titlecase }}</h3>
+                        
+                          <h6>{{ userInfo.email }}</h6>
 
-                        <div class="card my-2">
-                                <div class="card-body py-5 ">
-                                    <div class="col-12">
-                                            <!-- <h1>Info</h1> -->
-                                    </div>
-                                    <div class="row card-title" *ngIf="userInfo.username">
-                                        <div class="form-label float-start col-4">Username :</div>
-                                        <div class="col-8">{{ userInfo.username | titlecase }}</div>
-                                    </div>
-                                    <div class="row card-title" *ngIf="userInfo.bio">
-                                        <div class="form-label float-start col-4">Bio :</div>
-                                        <div class="col-8">{{ userInfo.bio | titlecase }}</div>
-                                    </div>
-                                    <div class="row card-title" *ngIf="userInfo.email">
-                                        <div class="form-label float-start col-4">Email :</div>
+                          <h6></h6>
 
-                                        <div class="col-8">{{ userInfo.email }}</div>
+                          <h6></h6>
 
-                                    </div>
-                                    <div class="row card-title" *ngIf="userInfo.position">
-                                        <div class="form-label float-start col-4">Position :</div>
+                        <!-- <div class="card my-2">
+                                <div class="card-body py-5 d-flex justify-content-center align-items-center ">
+                                   <div class="w-75">
+                                        <div class="row card-title" *ngIf="userInfo.username">
+                                            <div class="form-label float-start col-3">Username :</div>
+                                            <div class="col-9">{{ userInfo.username | titlecase }}</div>
+                                        </div>
+                                        <div class="row card-title" *ngIf="userInfo.bio">
+                                            <div class="form-label float-start col-xl-3">Bio :</div>
+                                            <div class="col-9">{{ userInfo.bio | titlecase }}</div>
+                                        </div>
+                                        <div class="row card-title" *ngIf="userInfo.email">
+                                            <div class="form-label float-start col-3">Email :</div>
 
-                                        <div class="col-8">{{ userInfo.position  | titlecase }}</div>
-                                    </div>
-                                    </div>
-                            </div>
+                                            <div class="col-9">{{ userInfo.email }}</div>
+
+                                        </div>
+                                        <div class="row card-title" *ngIf="userInfo.position">
+                                            <div class="form-label float-start col-3">Position :</div>
+
+                                            <div class="col-9">{{ userInfo.position  | titlecase }}</div>
+                                        </div>
+                                   </div>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
