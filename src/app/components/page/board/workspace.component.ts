@@ -21,6 +21,7 @@ export class WorkspaceComponent implements OnInit {
     boarding : Board=new Board();
     bookmarks:BoardBookMark[]=[];
     boards : Board[]=[];
+
     status = {
         isLoading : false,
         hasDoneFetching : false,
@@ -29,6 +30,8 @@ export class WorkspaceComponent implements OnInit {
     pdf='pdf';
     excel='excel';
     path='';
+    msg='';
+    click!: boolean;
     
 
     constructor(
@@ -37,7 +40,9 @@ export class WorkspaceComponent implements OnInit {
         public userService :UserService  ,
         public boardService : BoardService,
         private router : Router , 
-        private userStore : UserStore  ){}
+        private userStore : UserStore  ){
+           
+        }
 
     ngOnInit(): void {
         document.title = "BBMS | My Workspace";
@@ -83,8 +88,8 @@ export class WorkspaceComponent implements OnInit {
         this.boardStore.ownBoards = this.boardStore.ownBoards.filter(resBoard=> resBoard.id!=board.id)
     }
 
-    exportReport(path:string) {
-        this.boardService.exportReport(path).subscribe((data)=>{
+    exportBoardReport(path:string) {
+        this.boardService.exportBoardReport(path).subscribe((data)=>{
             swal({
                 text : 'Successfully Exported!',
                 icon : 'success'
@@ -92,6 +97,16 @@ export class WorkspaceComponent implements OnInit {
         })
       
       }
+      
+
+    //   isClick(con:boolean,filetype:string){
+    //     this.boardService.exportReport(filetype).subscribe(data=>
+    //         {
+    //         this.msg = Object.values(data)[0]; 
+    //      });
+    //      alert("fail");
+    //     this.click=con;
+    //     }
 
 }
 

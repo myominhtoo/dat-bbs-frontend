@@ -31,7 +31,11 @@ export class TaskCardService {
     }
     
     showMyTasks( userId : number ) : Observable<TaskCard[]> {
-        return this.httpClient.get<TaskCard[]> (`http://localhost:8080/api/users/${userId}/task-cards`)
+        return this.httpClient.get<TaskCard[]> (`http://localhost:8080/api/users/${userId}/task-cards`);
     }
+
+    exportTaskReport(boardId : number , taskFormat : string ){
+        return this.httpClient.get<TaskCard[]>(`http://localhost:8080/api/boards/${boardId}/reportBoard?taskFormat=${taskFormat}`);
+      }
 
 }
