@@ -47,6 +47,11 @@ export class MyBoardComponent implements OnInit {
     activities : Activity [] = [];
     comments : Comment [] = [];
 
+    pdf='pdf';
+    excel='excel';
+    path='';
+    
+
     status = {
         isLoading : false,
         isAddStage : false,
@@ -494,5 +499,16 @@ export class MyBoardComponent implements OnInit {
    addEmojiToComment( event : any ){
     this.comment.comment += event.emoji.native;
    }
+
+   exportTaskReport(path:string ) {
+    let boardId = this.route.snapshot.params['id'];
+    this.taskCardService.exportTaskReport(boardId,path).subscribe((data)=>{
+        swal({
+            text : 'Successfully Exported!',
+            icon : 'success'
+        });
+    })
+  
+  }
 
 }
