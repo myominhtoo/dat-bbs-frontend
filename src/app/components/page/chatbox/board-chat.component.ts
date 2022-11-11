@@ -19,12 +19,13 @@ import swal from "sweetalert";
   
 
 export class BoardChatComponent{
+  
   public saveBoard=new Board();   
    public BoardMessage=new BoardMessage();  
-  
-  
+   public messages:BoardMessage[]=[];
+  //  public othermessages:BoardMessage[]=[]
     constructor(
-      private userStore:UserStore,
+      public userStore:UserStore,
         private UserService : UserService,
         private Router: Router,
         private socket:SocketService,
@@ -34,7 +35,9 @@ export class BoardChatComponent{
       ){
         document.title="BBMS | Chat"        
        let profileId=this.route.snapshot.params['id'];
+       this.subscribeBoardsMessageSocket();
        if(profileId) this.getBoardWithBoardId(profileId);
+       
        
       }
 
@@ -44,7 +47,7 @@ public getBoardWithBoardId(boardId:number){
   this.boaredService.getBoardWithBoardId(boardId).subscribe({
     next:(res)=>{        
         this.saveBoard=res;
-        console.log(this.saveBoard)
+        
     },
     error:(err)=>{
         console.log(err);
@@ -73,17 +76,9 @@ subscribeBoardsMessageSocket(){
               this.boardStore.boards.forEach( board => {
                   this.socket.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
                       const boardNoti = JSON.parse(payload.body) as BoardMessage;
-                      console.log("this is ",boardNoti)
+                      this.messages.push(boardNoti);                                         
                       if( boardNoti.id != this.boardStore.userStore.user.id ){  
-                         ($('#noti-ring')[0] as HTMLAudioElement).play();
-                          Toastify({
-                              text : boardNoti.content,
-                              close : true,
-                              duration : 5000,
-                              gravity : 'bottom',
-                              className : 'noti__toast',
-                              position : 'right',
-                          }).showToast();          
+                         ($('#chat-noti')[0] as HTMLAudioElement).play();                          
                       }        
                   });       
               });
@@ -101,6 +96,7 @@ subscribeBoardsMessageSocket(){
       });
   }
 }
+
 
 
 
