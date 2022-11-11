@@ -1080,16 +1080,16 @@ color: black;
     }
     
     .text_user_meesage{
+        background-color: #fff;
         border-radius: 10px;
         border-bottom-right-radius: 0px;
         margin-right: 10px;
     }
-    .text_user_meesage-img{
-        
-    }
-    .text-message-img{
-
-    }
+    
+.from-user{
+    justify-content: start !important;
+    flex-direction: row-reverse !important;
+}
     
     .text_user_meesage #message{
         max-width:300px;
@@ -1155,7 +1155,7 @@ color: black;
 
 .username-chat{
  position: absolute;
- top: -20px;
+ top: -15px;
  font-size: 13px;
     color: #161b22a6;
 
@@ -1184,6 +1184,8 @@ color: black;
     color: #161b22a6;
 }
 
+
 .sent-icon{
     
 }
+
