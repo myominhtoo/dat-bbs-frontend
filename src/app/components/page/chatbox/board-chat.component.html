@@ -11,11 +11,12 @@
                                 <span> {{this.saveBoard.boardName}}</span>
                             </div>
                         </div>
-                        <div class="col-12 chat__box__textContainer p-0 m-0">
-                            <div class="chat__text ">                                                            
-                                <div class=" chat__message">
+                        <div class="col-12 chat__box__textContainer p-0 m-0"  >
+                            <div class="chat__text" id="chat-container"   >                                                            
+                                <loading target="Messages" [show]="this.status.messageLoad"></loading>
+                                <div class=" chat__message" *ngIf="!this.status.messageLoad">
                                     <!-- message -->
-                                    <div class="p-0 m-0" *ngFor="let message of messages">
+                                    <div class="p-0 m-0" *ngFor="let message of messages" >
                                         <!-- [class.from-user]="this.userStore.user.id == message.user.id" -->
                                     <div class="d-flex p-3 pt-4 " [ngClass]="this.userStore.user.id == message.user.id ? 'justify-content-start flex-row-reverse':''">
                                         
@@ -28,12 +29,12 @@
                                             <small class="ps-3 username-chat p-0" *ngIf="this.userStore.user.id == message.user.id" style="font-size: 10px;">Me
                                             </small>    
                                                <!--for message  -->
-                                        <div class=" text-message p-2" *ngIf="this.userStore.user.id != message.user.id">
+                                        <div class=" text-message p-2" *ngIf="this.userStore.user.id != message.user.id" id="scroll-text">
                                             <p class="p-0 m-0" id="message" style="color: #050505;">
                                                 {{message.content}}
                                             </p>                                            
                                         </div>
-                                        <div  class="text_user_meesage p-2" *ngIf="this.userStore.user.id == message.user.id">                                    
+                                        <div  class="text_user_meesage p-2" *ngIf="this.userStore.user.id == message.user.id" id="scroll-text">                                    
                                             <p class="p-0 m-0" id="message">
                                                 {{message.content}}
                                             </p>
@@ -61,7 +62,7 @@
                                         <span class="input-group-text" id="emoji">
                                             <i class='bx bx-sm bxs-image'></i>
                                         </span>
-                                        <input type="text" class="form-control shadow-none rounded-3" placeholder="Chat Something..."  name="message" [(ngModel)]="this.BoardMessage.content"  >
+                                        <input type="text" class="form-control shadow-none rounded-3" placeholder="Chat Something..."  name="message" [(ngModel)]="this.BoardMessage.content"  autofocus autocomplete="off">
                                         <span class="input-group-text border-0" id="emoji">
                                             <i class='bx bx-sm bxs-smile'></i>
                                         </span>
