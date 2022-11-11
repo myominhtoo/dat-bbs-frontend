@@ -160,6 +160,7 @@ export class TaskCardContainerComponent {
       taskCard.taskName = this.tempTask.trim();// setting taskName from tempTask
       taskCard.stage = this.data;
       taskCard.board = this.board;
+      taskCard.users = [];
 
       if(taskCard.taskName==''){
         this.status.addTaskError = "TaskCard Name cannot be null";

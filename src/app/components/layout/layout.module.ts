@@ -13,6 +13,7 @@ import { TaskCardComponent } from "./task-card.component";
 import { TaskOffCanvasComponent } from "./task-offcanvas.component";
 import { PentaDatePipe } from "src/app/model/pipe/penta-date.pipe";
 import { PickerModule } from "@ctrl/ngx-emoji-mart";
+import { Notifications } from "./notifications.component";
 
 @NgModule({
     declarations : [
@@ -23,6 +24,7 @@ import { PickerModule } from "@ctrl/ngx-emoji-mart";
         TaskCardContainerComponent,
         TaskCardComponent,
         TaskOffCanvasComponent,
+        Notifications,
         PentaDatePipe
     ],
     imports : [

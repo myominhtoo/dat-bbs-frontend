@@ -390,8 +390,8 @@ export class MyBoardComponent implements OnInit {
       this.commentService.getComments( taskCardId )
       .subscribe({
         next : resComments => {
-          this.status.isLoadingOffcanvas = false;
           this.comments = resComments;
+          this.status.isLoadingOffcanvas = false;
         },
         error : err => {
           console.log(err);
@@ -404,7 +404,6 @@ export class MyBoardComponent implements OnInit {
 
       this.offCanvasTask = task;
       this.status.isLoadingOffcanvas = true;
-
       this.getActivitiesForTaskCard( task.id );
       this.getCommentsForTaskCard( task.id );
     }
