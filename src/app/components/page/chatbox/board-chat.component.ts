@@ -76,13 +76,7 @@ subscribeBoardsMessageSocket(){
               this.boardStore.boards.forEach( board => {
                   this.socket.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
                       const boardNoti = JSON.parse(payload.body) as BoardMessage;
-                      this.messages.push(boardNoti);                      
-                    //   this.messages=this.messages.filter((res)=>{
-                    //       return this.userStore.user.id==res.user.id;
-                    //   })
-                    //   this.othermessages=this.messages.filter((res)=>{
-                    //     return this.userStore.user.id!=res.user.id;
-                    // })
+                      this.messages.push(boardNoti);                                         
                       if( boardNoti.id != this.boardStore.userStore.user.id ){  
                          ($('#chat-noti')[0] as HTMLAudioElement).play();                          
                       }        
@@ -102,6 +96,7 @@ subscribeBoardsMessageSocket(){
       });
   }
 }
+
 
 
 

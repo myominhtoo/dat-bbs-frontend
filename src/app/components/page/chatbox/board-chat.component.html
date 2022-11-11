@@ -13,49 +13,43 @@
                         </div>
                         <div class="col-12 chat__box__textContainer p-0 m-0">
                             <div class="chat__text ">                                                            
-                                <div class=" chat__message" key="other_users">
+                                <div class=" chat__message">
                                     <!-- message -->
-                                    <div class="p-0 m-0" *ngFor="let message of messages " >
-                                    <div class="d-flex p-3 pt-4" *ngIf="this.userStore.user.id != message.user.id">
-                                        <div class="message__profile ">
-                                            <img [src]="'http://localhost:8080/img/'+message.user.imageUrl" alt="" class="" style="object-fit:cover;">
-                                        </div>
+                                    <div class="p-0 m-0" *ngFor="let message of messages">
+                                        <!-- [class.from-user]="this.userStore.user.id == message.user.id" -->
+                                    <div class="d-flex p-3 pt-4 " [ngClass]="this.userStore.user.id == message.user.id ? 'justify-content-start flex-row-reverse':''">
                                         
-                                        <div class="position-relative">                                        
-                                            <small class="ps-3 username-chat">{{message.user.username}}</small>       
-                                        <div class=" text-message p-2">
+                                        <div class="message__profile" *ngIf="this.userStore.user.id != message.user.id">
+                                            <img [src]="'http://localhost:8080/img/'+message.user.imageUrl" alt="" class="" style="object-fit:cover;">
+                                        </div>                                                                                
+                                        <div class="position-relative" >                                        
+                                            <small class="ps-3 username-chat p-0" *ngIf="this.userStore.user.id != message.user.id" style="font-size: 10px;">{{message.user.username}}
+                                            </small>    
+                                            <small class="ps-3 username-chat p-0" *ngIf="this.userStore.user.id == message.user.id" style="font-size: 10px;">Me
+                                            </small>    
+                                               <!--for message  -->
+                                        <div class=" text-message p-2" *ngIf="this.userStore.user.id != message.user.id">
                                             <p class="p-0 m-0" id="message" style="color: #050505;">
-                                          {{message.content}}
+                                                {{message.content}}
                                             </p>                                            
                                         </div>
-                                        <small class="username-time float-end">
-                                    {{message.createdDate | pentaDate}}
+                                        <div  class="text_user_meesage p-2" *ngIf="this.userStore.user.id == message.user.id">                                    
+                                            <p class="p-0 m-0" id="message">
+                                                {{message.content}}
+                                            </p>
+                                            
+                                        </div>
+                                        <!--for message  -->
+                                        <small class="username-time float-end pe-2" style="font-size: 10px;">
+                                            {{message.createdDate | pentaDate}} 
                                         </small>   
                                         </div>
                                     </div>
                                 </div>
-                                    <!-- message -->
-                                    
+                                    <!-- message -->                                    
                                     
                                 </div>
-                                <div class="chat__message" key="me">
-                                    <div class="p-0"  *ngFor="let message of messages" >                                       
-                                        <div class=" d-flex p-3 justify-content-start flex-row-reverse" *ngIf="this.userStore.user.id == message.user.id">
-                                        <div  class="text_user_meesage bg-white p-2">
-                                            <!-- ပုံဆိုရင် text-user-message မှာ bg-white ဖြုတ် -->
-                                            <p class="p-0 m-0" id="message">
-                                            {{message.content}}
-                                            </p>
-                                            <!-- <p class="p-0 m-0" id="img">
-                                                <img src="assets/img/board-profile-img/gru.jpg" alt="">
-                                            </p> -->
-                                        </div>
-                                    </div>
-                                        
-                                    </div>                                
-                                    
-                                    
-                                </div>                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                     
                             </div>
                             <div class="chat__box__input">
                                 <form action="" (ngSubmit)="sentMessage(this.BoardMessage.content)">
