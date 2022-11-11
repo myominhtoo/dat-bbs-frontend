@@ -1144,15 +1144,6 @@ color: black;
 .bg-text-input{
     background-color:var(--input-text);
 }
-
-#form-page{
-  width:100% !important;
-  height:100vh !important;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
 .username-chat{
  position: absolute;
  top: -15px;

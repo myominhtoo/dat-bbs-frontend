@@ -37,9 +37,13 @@ export class BoardService{
       return this.httpClient.get<Board[]> (`http://localhost:8080/api/archive-boards?userId=${userId}`);
     }
 
-    exportReport(format : string){
-      return this.httpClient.get<any>(`http://locahost:8080/api/report?format=${format}`);
+    exportBoardReport(boardFormat : string){
+      return this.httpClient.get<Board[]>(`http://localhost:8080/api/reportBoard/${boardFormat}`);
     }
+
+    // exportReport(filetype: string): Observable<Map<string,string>>{
+    //   return this.httpClient.get<Map<string,string>>(`http://locahost:8080/api/reportBoard/${filetype}`);
+    // }
 
 }
 

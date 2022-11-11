@@ -56,6 +56,11 @@ export class MyBoardComponent implements OnInit {
     activities : Activity [] = [];
     comments : Comment [] = [];
 
+    pdf='pdf';
+    excel='excel';
+    path='';
+    
+
     status = {
         isLoading : false,
         isAddStage : false,
@@ -504,40 +509,7 @@ export class MyBoardComponent implements OnInit {
     this.comment.comment += event.emoji.native;
    }
 
-//    isClick(con:boolean,filetype:string)
-// {
 
-//   let boardId = this.route.snapshot.params['id'];
-
-//   this.userService.reportUser(boardId,filetype).subscribe(data=>
-//     {
-//       console.log(Object.values(data)[0]);
-//       this.msg=Object.values(data)[0];
-//       alert("asss");
-
-//     });
-
-//  this.click=con;
-// }
-
-
-// exportHtml() {
-
-//   let boardId = this.route.snapshot.params['id'];
-
-//   this.userService.exportHTML(boardId,'html').subscribe((data) => {
-//     alert("exported successfully")
-//   })
-// }
-
-// exportExcel() {
-
-//   let boardId = this.route.snapshot.params['id'];
-
-//   this.userService.exportHTML(boardId,'excel').subscribe((data) => {
-//     alert("exported successfully")
-//   })
-// }
 
 exportMemberReport(path:string) {
 
@@ -550,6 +522,17 @@ exportMemberReport(path:string) {
   });
   })
 }
+
+   exportTaskReport(path:string ) {
+    let boardId = this.route.snapshot.params['id'];
+    this.taskCardService.exportTaskReport(boardId,path).subscribe((data)=>{
+        swal({
+            text : 'Successfully Exported!',
+            icon : 'success'
+        });
+    })
+  
+  }
 
 
 }
