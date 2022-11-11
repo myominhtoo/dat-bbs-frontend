@@ -20,26 +20,26 @@ import {SocketService} from "../../model/service/http/socket.service";
     selector : 'task-offcanvas',
     template : `
         <div class='offcanvas offcanvas-end' id='task-offcanvas' >
-            <div class="offcanvas-header shadow-sm py-3 px-3">
+            <div class="offcanvas-header shadow-sm py-3 px-3" [style.borderLeft]="task.markColor == null || task.markColor == ''  ? '0.5px solid rgb(206, 202, 202)' : '4px solid '+task.markColor +'!important'  ">
                 <div class="d-flex flex-column w-50">
                     <input (keydown)="handleUpdateTaskName($event)" [(ngModel)]="task.taskName" type="text" [class.is-invalid]="status.errorTask && task.taskName" class="form-control fs-4 fw-bold w-100 outline-none text-capitalize text-muted py-0 shadow-none"  placeholder="Enter task name"  [value]="task.taskName"/>
                     <small class="text-danger" style="font-size:15px;">{{ status.errorTask }}</small>
                 </div>
                 <!-- <button class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#task-offcanvas" ></button> -->
-                <div id="comment-btn" class="d-flex justify-content-center gap-3 text-muted align-items-center">
+                <div id="comment-btn" class="d-flex justify-content-center gap-5 text-muted align-items-center">
                     <!-- <p class="fa-regular fa-comment text-center text-muted p-0 m-0"></p> -->
-                    <span id="tab" (click)= "changeTab('activity')" [class.fw-bold]="tab == 'activity'" >Activities</span>
-                    <span id="tab" (click)="changeTab('comment')" [class.fw-bold]="tab == 'comment'" class="d-flex align-items-center">Comments</span>
+                    <span id="tab" (click)= "changeTab('activity')" [class.thm]="tab == 'activity'" class="fw-bold" ><i class="fa-solid fa-list-check mx-1 fs-5"></i>Activities</span>
+                    <span id="tab" (click)="changeTab('comment')" [class.thm]="tab == 'comment'" class="fw-bold"><i class="fa-solid fa-comment-dots mx-1 fs-5"></i>Comments</span>
                 </div>
             </div>
-            <div class=" offcanvas-body overflow-scroll py-0 px-2">
-                <div *ngIf="tab == 'activity' && !isLoading" class="container py-5">
+            <div class=" offcanvas-body overflow-scroll py-1 px-2">
+                <div *ngIf="tab == 'activity' && !isLoading" class="container py-3">
 
-                   <ul class="list-group list-unstyled text-muted gap-4">
-                     <li class="list-item d-flex ">
-                        <h6 class="h6 w-25 fs-6"></h6>
-                        <div *ngIf="task.users.length > 0" class="w-75 d-flex align-items-center ">
-                          <span *ngFor="let idx of (task.users.length > 1 ? [0,1] : [0])" class="badge fs-6 fw-light bg-thm mx-1 my-1">{{ task.users[idx].username | titlecase }}<i (click)="handleRemoveUserFromAssign( $event, task.users[idx].id)" class="fa-solid fa-xmark mx-2"></i></span>
+                   <ul class="list-group list-unstyled text-muted gap-3">
+                      <li class="list-item mt-3 ">
+                        <h6 *ngIf="members.length > 0" class="h6 w-25 fs-6">Assign To</h6>
+                        <div *ngIf="task.users.length > 0" class="w-100 d-flex align-items-center my-3 ">
+                          <span *ngFor="let idx of (task.users.length > 1 ? [0,1] : [0])" class="badge fs-6 fw-light bg-dark  mx-1">{{ task.users[idx].username | titlecase }}<i (click)="handleRemoveUserFromAssign( $event, task.users[idx].id)" class="fa-solid fa-xmark mx-2"></i></span>
                           <div class="dropdown" id="assign-users-dropdown">
                             <p *ngIf="task.users.length > 2" class="my-auto mx-2 text-center text-light " id="assign-users-dropdown-btn" data-bs-toggle="dropdown" data-bs-target="#assign-users-dropdown" style="width:25px;height:25px;border-radius:50% !important;background:#161b22;" >
                                 <small>{{ task.users.length - 2 }}+</small>
@@ -50,10 +50,7 @@ import {SocketService} from "../../model/service/http/socket.service";
                             </ul>
                           </div>
                         </div>
-                     </li>
-                      <li class="list-item d-flex ">
-                        <h6 class="h6 w-25 fs-6">Assign To</h6>
-                        <div class="w-75" *ngIf="members.length > 0">
+                        <div class="w-100" *ngIf="members.length > 0">
                            <select class="form-select outline-none" (change)="handleAssignTask($event)" >
                              <option selected disabled>Assign Members</option>
                              <option *ngFor="let member of members" class="text-capitalize" [value]="member.id" >{{ member.username }}</option>
@@ -63,28 +60,23 @@ import {SocketService} from "../../model/service/http/socket.service";
                             <h5 class="fs-6">There is no member to assign! <span class="link text-primary" (click)="handleInviteMembers()" >Click Here</span> to invite!</h5>
                         </div>
                       </li>
-                      <li class="list-item d-flex">
-                        <h6 class="h6 w-25 fs-6">Task Name</h6>
-                        <div class="w-75 d-flex gap-2">
-                           <input type="text" [(ngModel)]="task.taskName" class="form-control board-input" >
-                        </div>
-                      </li>
-                      <li class="list-item d-flex">
-                        <h6 class="h6 w-25 fs-6">Date</h6>
-                        <div class="w-75 d-flex gap-2">
+                
+                      <li class="list-item">
+                        <h6 class="h6 w-25 fs-6"></h6>
+                        <div class="w-100 d-flex gap-2">
                            <div class="w-50">
-                                <small>Start Date</small>
+                                <small class="my-2">Start Date</small>
                                 <input type="date" class="form-control w-100 outlineBtn shadow-none "  [(ngModel)]="task.startedDate" name="startedDate"  />
                            </div>
                             <div class="w-50">
-                                <small>Due Date</small>
+                                <small class="my-2">Due Date</small>
                                 <input type="date" class="form-control w-100 outlineBtn shadow-none" [(ngModel)]="task.endedDate" [min]="task.startedDate" name="endedDate" />
                             </div>
                         </div>
                       </li>
-                      <li class="list-item d-flex">
+                      <li class="list-item">
                         <h6 class="h6 w-25 fs-6">Description</h6>
-                        <div class="w-75">
+                        <div class="w-100">
                             <textarea id="input" class="form-control outlineBtn shadow-none" cols="30" rows="5" placeholder="Enter description about task card "[(ngModel)]="task.description" name="description" ></textarea>
                         </div>
                       </li>
@@ -111,26 +103,28 @@ import {SocketService} from "../../model/service/http/socket.service";
 
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-end ">
+                    <div class="d-flex justify-content-between align-items-end">
                         <small class="text-success mx-2">{{ status.msg && status.msg }}</small><br/>
-                        <button (click)="setUpAddActivity()" class="btn btn-sm bg-thm text-light  px-3"><i class="fa-solid fa-plus mx-1"></i>Add Activity</button>
+                        <p (click)="setUpAddActivity()" class="text-primary " style="cursor:pointer;"><i class="fa-solid fa-plus mx-1"></i>Add Activity</p>
                     </div>
                 </div>
 
                 <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" >
 
                     <div id="comments">
-                        <div *ngFor="let comment of comments" id="comment-container" class="w-100 my-2 px-3 ">
+                        <div *ngFor="let comment of comments" id="comment-container" class="w-100 my-3 px-3 ">
                             <div id="comment-icon">
                                 <h6 class="h6 mx-2" style="font-size:17px !important;">{{ comment.user.username && comment.user.username | titlecase }}<small class="text-muted mx-2" style="font-size:13px;">{{ comment.createdDate | pentaDate }}</small></h6>
                             </div>
                             <div id="comment">
                                 {{ comment.comment }}
                                 <div *ngIf="comment.user.id == userStore.user.id" id="comment-control" class="d-flex gap-3 text-muted">
-                                   
-                                    <span class="d-none" data-bs-toggle="modal" id="editComment" data-bs-target="#cmt-modal"></span>
-                                    <i class="fa-solid fa-pen" (click)="updateComment(comment)"></i>
-                                    <i class="fa-solid fa-trash" (click)="deleteComment(comment)"></i>
+                                    <i class="fa-solid fa-ellipsis-vertical p-2" data-bs-toggle="dropdown" data-bs-target="#cmt-control-dropdown" ></i>
+                                    <ul class="dropdown-menu" id="cmt-control-dropdown" style="cursor:pointer;" >
+                                        <span class="d-none" data-bs-toggle="modal" id="editComment" data-bs-target="#cmt-modal"></span>
+                                        <li (click)="updateComment(comment)" class="dropdown-item">Edit</li>
+                                        <li (click)="deleteComment(comment)" class="dropdown-item">Delete</li>
+                                    </ul>
                                 </div>
                             </div>                            
                         </div>
@@ -151,28 +145,27 @@ import {SocketService} from "../../model/service/http/socket.service";
 
                 <div *ngIf="tab == 'activity-detail' && !isLoading " id="comments-container" style="max-height:800px !important;" class="container px-3">
 
-                    <div class="text-muted d-flex align-items-center my-4">
-                        <span class="w-25">Activity Name</span>
-                        <input type="text" class="form-control w-75 text-capitalize text-muted" [(ngModel)]="detailActivity.activityName" >
+                    <div class="text-muted  my-4">
+                        <span class="w-25 my-2">Activity Name</span>
+                        <input type="text" class="form-control w-100 text-capitalize text-muted" [(ngModel)]="detailActivity.activityName" >
                     </div>
 
-                    <div class="text-muted d-flex align-items-center my-4">
-                        <span class="w-25">Date</span>
-                        <div class="w-75 text-muted d-flex gap-2">
-                            <div class="w-25">
-                                <small>Start Date</small>
-                                <input type="datetime-local" [(ngModel)]="detailActivity.startedDate" class="form-control w-100" />
+                    <div class="text-muted  my-4">
+                        <div class="w-100 text-muted d-flex gap-2">
+                            <div class="w-50">
+                                <small class="my-2">Start Date</small>
+                                <input type="datetime-local" [(ngModel)]="detailActivity.startedDate" class="form-control text-muted w-100" />
                            </div>
-                            <div class="w-25">
-                                <small>Due Date</small>
-                                <input type="datetime-local" [(ngModel)]="detailActivity.endedDate" class="form-control w-100">
+                            <div class="w-50">
+                                <small class="my-2">Due Date</small>
+                                <input type="datetime-local" [(ngModel)]="detailActivity.endedDate" class="form-control text-muted w-100">
                             </div>
                         </div>
                     </div>
 
-                    <div class="text-muted d-flex align-items-center my-4">
+                    <div class="text-muted my-4">
                         <span class="w-25">Status</span>
-                        <div class="w-75 text-muted d-flex justify-content-start  align-items-center ">
+                        <div class="w-100 text-muted d-flex justify-content-start  align-items-center ">
                             <div class="w-25 d-flex gap-2 m-0">
                                 <label for="undone">Undone</label>
                                 <input type="radio" name="status" id="undone" [(ngModel)]="detailActivity.status"   [value]="false" class="form-check">
@@ -184,33 +177,32 @@ import {SocketService} from "../../model/service/http/socket.service";
                         </div>
                     </div>
 
-                    <div class="text-muted d-flex align-items-center my-4">
+                    <div class="text-muted  my-4">
                         <span class="w-25"></span>
-                        <div class="w-75 text-muted d-flex justify-content-end">
+                        <div class="w-100 text-muted d-flex justify-content-end">
                             <button class="btn btn-sm bg-thm text-light px-3">Update</button>
                         </div>
                     </div>
 
-                    <div class="text-muted d-flex align-items-start my-4">
-                        <span class="w-25">Attachments</span>
-                        <div class="w-75">
-                            <table class="table w-100 text-muted " style="min-height:280px !important;">
+                    <div class="text-muted">
+                        <p class="w-25 my-3">Attachments</p>
+                        <div class="w-100">
+                            <table class="table w-100 text-muted " style="{{ paginatedAttachments.length > 0 && 'min-height:280px !important;' }}">
                                 <thead >
                                     <tr>
-                                        <td>    
-                                        </td>
+                                        <td></td>
                                         <td>Name</td>
                                         <td>Uploaded By</td>
                                         <td>Action</td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let attachment of paginatedAttachents">
+                                    <tr *ngFor="let attachment of paginatedAttachments">
                                         <td><i *ngIf="attachment.user.id == userStore.user.id" (click)="deleteAttachment(attachment)" class="fa-solid fa-circle-minus text-danger"></i></td>
                                         <td class="text-capitalize">{{ attachment.name.substring(0,20) }}<span *ngIf="attachment.name.length > 20">...</span></td>
                                         <td>{{ attachment.user.username }}</td>
-                                        <td class="d-flex gap-1 justify-content-center" style="font-size:17px;">
-                                           <a class="link" [href]="'http://localhost:8080/attachments/'+attachment.fileUrl" download ><i class="fa-solid fa-download"></i></a>
+                                        <td class="" style="font-size:17px;">
+                                           <a class="link " [href]="'http://localhost:8080/attachments/'+attachment.fileUrl" download ><i class="fa-solid fa-download"></i></a>
                                         </td>
                                     </tr>
                                     <tr *ngIf="!isLoading && attachments.length == 0" class="text-center">
@@ -283,7 +275,7 @@ export class TaskOffCanvasComponent implements OnInit {
     changeStage :Stage=new Stage();
     changeTask:TaskCard=new TaskCard();
     attachments : Attachment [] = [];
-    paginatedAttachents : Attachment [] = [];
+    paginatedAttachments : Attachment [] = [];
     curPageOfAttachments : number = 1;
     totalPagesOfAttachments : number = 0;
     newAttachment : Attachment = new Attachment();
@@ -509,12 +501,12 @@ export class TaskOffCanvasComponent implements OnInit {
        }
     }
 
-
     handleShowDetailActivity( activityId : number ){
         this.isLoading = true;
         this.attachmentService.getAttachmentsForActivity( activityId  )
         .subscribe({
             next : resAttachments => {
+                console.log(resAttachments);
                 this.attachments = resAttachments;
                 this.totalPagesOfAttachments = Math.ceil( resAttachments.length / this.MAX_ITEM_PER_PAGE );
                 this.handleAssignPaginatedAttachments( this.curPageOfAttachments );
@@ -538,7 +530,7 @@ export class TaskOffCanvasComponent implements OnInit {
            results.push(this.attachments[idx]);
            idx++;
         }
-        this.paginatedAttachents = results;
+        this.paginatedAttachments = results;
     }
 
     handleUpdateTaskName( e : KeyboardEvent ){
@@ -579,6 +571,7 @@ export class TaskOffCanvasComponent implements OnInit {
             if( res.ok ){
                 this.comment.comment = '';
                 this.comments.unshift(res.data);
+                this.showEmojis = false;
             }
         },
         error : err => {
@@ -676,6 +669,7 @@ export class TaskOffCanvasComponent implements OnInit {
    }
 
    updateComment ( comment:Comment ){
+        console.log('hi')
       this.emitUpdateComment.emit(comment);
       $("#editComment").click();
    }
