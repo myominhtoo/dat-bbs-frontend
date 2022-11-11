@@ -28,6 +28,12 @@ import { Notification } from 'src/app/model/bean/notification';
 })
 export class MyBoardComponent implements OnInit {
 
+  pdf='pdf';
+  excel='excel';
+  html='html';
+
+  path:string="";
+
     boardsHasUsers : BoardsHasUsers [] = [];
     members : User [] = [];
     public stages : Stage [] = [];
@@ -42,6 +48,9 @@ export class MyBoardComponent implements OnInit {
     showEmojis : boolean = false;
 
     stage  : Stage = new Stage();
+
+    msg:String="";
+    click:boolean=false;
 
     offCanvasTask : TaskCard = new TaskCard();
     activities : Activity [] = [];
@@ -495,10 +504,24 @@ export class MyBoardComponent implements OnInit {
    toggleEmojis(){
     this.showEmojis = !this.showEmojis;
    }
-   
+
    addEmojiToComment( event : any ){
     this.comment.comment += event.emoji.native;
    }
+
+
+
+exportMemberReport(path:string) {
+
+  let boardId = this.route.snapshot.params['id'];
+
+  this.userService.exportMember(boardId,path).subscribe((data) => {
+    swal({
+      text : 'Successfully Exported!',
+      icon : 'success'
+  });
+  })
+}
 
    exportTaskReport(path:string ) {
     let boardId = this.route.snapshot.params['id'];
@@ -510,5 +533,6 @@ export class MyBoardComponent implements OnInit {
     })
   
   }
+
 
 }
