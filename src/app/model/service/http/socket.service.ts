@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { BoardMessage } from './../../bean/BoardMessage';
 import { Injectable } from "@angular/core";
 import * as SockJS from "sockjs-client";
@@ -15,7 +17,7 @@ export class SocketService{
 
     stompClient : Client | undefined = undefined;
 
-    constructor( public boardStore : BoardStore   ){
+    constructor( public boardStore : BoardStore ,private httpClient : HttpClient  ){
         const socket = new SockJS( 'http://localhost:8080/socket' );
         this.stompClient = over( socket );
     }
@@ -81,7 +83,9 @@ export class SocketService{
     }
 
 
-
+    public getBoardMessageList(id:number):Observable<BoardMessage[]>{
+        return this.httpClient.get<BoardMessage[]>(`http://localhost:8080/api/boards/${id}/messages`);
+    }
 
 
 

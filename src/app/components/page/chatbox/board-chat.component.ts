@@ -8,7 +8,7 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { UserService } from './../../../model/service/http/user.service';
-import { Component } from "@angular/core";
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import * as Toastify from 'toastify-js';
 import swal from "sweetalert";
 @Component({
@@ -18,11 +18,15 @@ import swal from "sweetalert";
 
   
 
-export class BoardChatComponent{
+export class BoardChatComponent implements AfterViewChecked{
+  
   
   public saveBoard=new Board();   
    public BoardMessage=new BoardMessage();  
    public messages:BoardMessage[]=[];
+   public status={
+    messageLoad:false
+   }
   //  public othermessages:BoardMessage[]=[]
     constructor(
       public userStore:UserStore,
@@ -33,14 +37,34 @@ export class BoardChatComponent{
         public boardStore:BoardStore,
         public boaredService:BoardService
       ){
-        document.title="BBMS | Chat"        
+        this.status.messageLoad = true;
+        document.title="BBMS | Chat"      
+        setTimeout(()=>{
+          this.getBoardMessage(this.saveBoard.id)   
+         }
+         ,400);
        let profileId=this.route.snapshot.params['id'];
+            
        this.subscribeBoardsMessageSocket();
        if(profileId) this.getBoardWithBoardId(profileId);
        
        
       }
+  ngAfterViewChecked(): void {
+    
+     this.scrollBottom();
+    this.status.messageLoad=false;
+  }
+  
+    // this.scrollBottom();
+    // this.status.messageLoad=false;
+  
+  // ngAfterContentChecked(): void {   
 
+  //   this.scrollBottom();
+  //   this.status.messageLoad=false;
+  
+  // }
 
       
 public getBoardWithBoardId(boardId:number){
@@ -78,7 +102,8 @@ subscribeBoardsMessageSocket(){
                       const boardNoti = JSON.parse(payload.body) as BoardMessage;
                       this.messages.push(boardNoti);                                         
                       if( boardNoti.id != this.boardStore.userStore.user.id ){  
-                         ($('#chat-noti')[0] as HTMLAudioElement).play();                          
+                         ($('#chat-noti')[0] as HTMLAudioElement).play();  
+                         this.scrollBottom()
                       }        
                   });       
               });
@@ -98,8 +123,27 @@ subscribeBoardsMessageSocket(){
 }
 
 
+scrollBottom(){
+  let container=document.getElementById("chat-container");
+  container?.scrollTo({
+    top: container.scrollHeight,
+    behavior:"smooth"
+  })
+   
+}
+getBoardMessage(id:number){
+  this.socket.getBoardMessageList(id).subscribe({
+    next:(res)=>{
+      this.messages=res;
+      // console.log(this.messages)
+    },error:(err)=>{
+      console.log(err)
+    }
+  })
+}
 
 
 }
   
+
 
