@@ -13,9 +13,10 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
     templateUrl:'./login.component.html'
 })
 export class LoginComponent {
-
+    togglepass!:boolean;
     status = {
-        pwdNotMatch : ''
+        pwdNotMatch : '',
+        
     }
 
     error = {
@@ -26,7 +27,7 @@ export class LoginComponent {
     user : User = new User ();
     constructor(private userService : UserService ,
          private router : Router , 
-         private userStore : UserStore , 
+         public userStore : UserStore , 
          public boardStore : BoardStore  ){}
      
     ngOnInit(): void {
@@ -54,4 +55,5 @@ export class LoginComponent {
         }
         )
      }
+   
 }
