@@ -8,6 +8,7 @@ import swal from "sweetalert";
 import { Notification } from "../../bean/notification";
 import { BoardStore } from "../store/board.store";
 import * as Toastify from 'toastify-js';
+import { NotificationStore } from '../store/notification.store';
 
 
 @Injectable({
@@ -17,7 +18,7 @@ export class SocketService{
 
     stompClient : Client | undefined = undefined;
 
-    constructor( public boardStore : BoardStore ,private httpClient : HttpClient  ){
+    constructor( public boardStore : BoardStore ,private httpClient : HttpClient , private notiStore : NotificationStore  ){
         const socket = new SockJS( 'http://localhost:8080/socket' );
         this.stompClient = over( socket );
     }
@@ -39,7 +40,8 @@ export class SocketService{
                                     gravity : 'bottom',
                                     className : 'noti__toast',
                                     position : 'right',
-                                }).showToast();          
+                                }).showToast();     
+                                this.notiStore.notifications.unshift( newNoti );
                             }        
                         });       
                     });

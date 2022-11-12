@@ -1,16 +1,43 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Notification } from "src/app/model/bean/notification";
+import { BoardStore } from "src/app/model/service/store/board.store";
 
 @Component({
     selector : 'noti',
     template : `
-        <div id="noti">
-            
+        <div (click)="handleGoBoardFromNoti(noti.board.id)" id="noti" class="row py-2 m-0 d-flex justify-content-center align-items-center  px-3 " style="cursor:pointer">
+           <div id="noti-icon-container" class="col-2 p-0" >
+             <p id="icon" class="rounded-5 d-flex justify-content-center align-items-center " [style]="'width:40px;height:40px;'+'background:'+noti.board.color+';'">
+                <span class="text-dark  fs-5">{{ noti.board.boardName[0] }}</span>
+             </p>
+           </div>
+           <div id="noti-body" class="col-10">
+              <h6 class="fw-light p-0 m-0" style="font-size:14px !important;letter-spacing:0.5px;">{{ noti.content.length > 60 ? noti.content.substring(0,60) : noti.content }}...</h6>
+              <small style="font-size:10px;">{{ noti.createdDate | pentaDate}}</small>
+           </div>
         </div>
     `
 })
-export class NotiComponent {
+export class NotiComponent implements OnInit {
 
     @Input('noti') noti : Notification = new Notification();
+
+    constructor( private boardStore : BoardStore , private router : Router ){
+    }
+
+    ngOnInit() : void {
+        this.noti.board.color = '';
+        this.noti.board.color = this.boardStore.boards.filter( board => board.id == this.noti.board.id )[0].color;
+    }
+
+    handleGoBoardFromNoti( boardId : number ){
+       if( window.location.href.includes(`/boards/${boardId}`)){
+        window.location.href = `/boards/${boardId}`;
+        return;
+       }
+       this.router.navigateByUrl(`/boards/${boardId}`);
+       $('#noti-dropdown').click();
+    }
 
 }

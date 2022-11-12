@@ -6,6 +6,7 @@ import swal from 'sweetalert';
 import { Router } from '@angular/router';
 import { UserStore } from 'src/app/model/service/store/user.store';
 import { BoardStore } from 'src/app/model/service/store/board.store';
+import { NotificationStore } from 'src/app/model/service/store/notification.store';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class LoginComponent {
     constructor(private userService : UserService ,
          private router : Router , 
          private userStore : UserStore , 
-         public boardStore : BoardStore  ){}
+         public boardStore : BoardStore , 
+         private notiStore : NotificationStore  ){}
      
     ngOnInit(): void {
         let storeUser = localStorage.getItem(window.btoa(('user')));
@@ -40,6 +42,7 @@ export class LoginComponent {
             this.error = { hasError : false , msg : '' }
             this.userStore.saveUserData(res.data);
             this.boardStore.refetchBoardsByUserId(res.data.id);
+            this.notiStore.reFetchNotis( res.data.id );
             swal({
                 text : res.message,
                 icon : 'success',

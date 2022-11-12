@@ -352,7 +352,7 @@ export class MyBoardComponent implements OnInit {
       //  console.log(payload.task.stage)
       //  console.log(targetStage);
        payload.task.stage = targetStage; //setting updated stage to task
-
+       console.log(payload.task)
        this.taskCardService.updateTaskCard( payload.task )
        .subscribe({
         next : res => {

@@ -35,7 +35,9 @@ export class BoardStore{
         this.status.isLoading = true;
         this.boaredService.getBoardsForUser( userId ).subscribe({
             next : datas => {
-                this.boards= datas;
+                this.boards= datas.map( data => {
+                    return { ...data , color : this.randomNumberBoard() };
+                })
 
                 this.ownBoards = this.boards.filter( board => {
                     board.color = this.randomNumberBoard();

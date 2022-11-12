@@ -12,7 +12,7 @@ import { NotificationStore } from 'src/app/model/service/store/notification.stor
     selector : 'navbar',
     templateUrl:"./navbar.components.html",
 })
-export class NavbarComponent{
+export class NavbarComponent implements OnInit {
 
 
     storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
@@ -22,10 +22,10 @@ export class NavbarComponent{
         changePassword:"",
         currentPassword:"",
         retypePassoword:""
-      }
-    notifications : Notification [] = [];
-      
+    }
 
+    notiCount : number = 0;
+      
       status = {
         preview:{
           ok:false,
@@ -46,10 +46,13 @@ export class NavbarComponent{
     constructor( private toggleStore : ToggleStore , 
         public userStore : UserStore,
         public userService:UserService , 
-        private boardStore : BoardStore ,
         public notificationStore : NotificationStore  ){
             this.getUserData(this.storeUser.id);
             userStore.fetchUserData();
+    }
+
+    ngOnInit(): void {
+      
     }
 
   

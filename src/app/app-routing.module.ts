@@ -8,7 +8,6 @@ import { HomeComponent } from './components/page/home/home.component';
 import { CreateBoardComponent } from './components/page/board/create-board.component';
 import { MyTaskComponent } from './components/page/mytasks/my-tasks.component';
 import { BoardMarkComponent } from './components/page/bookmarks/bookmarks.component';
-import { NotificationsComponent } from './components/page/notifications/notifications.component';
 import { ReportingComponent } from './components/page/reporting/reporting.component';
 import { WorkspaceComponent } from './components/page/board/workspace.component';
 import { MyBoardComponent } from './components/page/board/my-board.component';
@@ -58,10 +57,6 @@ const routes: Routes = [
   {
     path : 'bookmarks',
     component : BoardMarkComponent
-  },
-  {
-    path : 'notifications',
-    component : NotificationsComponent
   },
   {
     path :'reporting',

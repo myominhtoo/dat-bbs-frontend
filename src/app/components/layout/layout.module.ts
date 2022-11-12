@@ -14,6 +14,7 @@ import { TaskOffCanvasComponent } from "./task-offcanvas.component";
 import { PentaDatePipe } from "src/app/model/pipe/penta-date.pipe";
 import { PickerModule } from "@ctrl/ngx-emoji-mart";
 import { Notifications } from "./notifications.component";
+import { NotiComponent } from "./noti.component";
 
 @NgModule({
     declarations : [
@@ -25,7 +26,8 @@ import { Notifications } from "./notifications.component";
         TaskCardComponent,
         TaskOffCanvasComponent,
         Notifications,
-        PentaDatePipe
+        PentaDatePipe,
+        NotiComponent
     ],
     imports : [
         BrowserModule,

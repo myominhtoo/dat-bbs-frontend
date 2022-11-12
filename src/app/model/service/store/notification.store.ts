@@ -20,7 +20,6 @@ export class NotificationStore{
     this.userService.getNotificationsForUser( userId )
     .subscribe({
       next : resNotis => {
-        console.log(resNotis)
         this.notifications = resNotis;
       },
       error : err => {
@@ -30,6 +29,10 @@ export class NotificationStore{
         });
       }
     });
+  }
+
+  public reFetchNotis( userId : number ){
+    this.getNotifications( userId );
   }
 
 }

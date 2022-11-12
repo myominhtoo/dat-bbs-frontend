@@ -1,5 +1,9 @@
-<div id="notifications">
-    <ul class="list-group">
-        <li *ngFor="let noti of notifications">{{ noti.content }}</li>
-    </ul>
+<div id="notifications-container">
+    <h5 class="mb-4  shadow-sm py-3 px-3 d-flex align-items-center"> <i class='bx bx-bell bx-sm bx-tada-hover  mx-1'></i>Notifications</h5>
+    <div id="notifications" class="p-0 {{ notifications.length == 0 ? ' d-flex justify-content-center align-items-center' : ''}}" >
+        <noti *ngFor="let noti of notifications" [noti]="noti"></noti>
+        <div *ngIf="notifications.length == 0">
+            There is no notification yet!
+        </div>
+    </div>
 </div>

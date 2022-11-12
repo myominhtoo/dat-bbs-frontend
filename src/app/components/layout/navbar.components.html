@@ -9,11 +9,11 @@
         <i class="fa-solid fa-magnifying-glass" id="search-icon" style="cursor: pointer;"></i>
         <input type="search" id="search" placeholder="Search" />
     </div>
-    <div id="header-right" class="gap-2 px-5 w-25 d-flex justify-content-end align-items-center gap-1">
+    <div id="header-right" class="gap-2 px-5 w-25 d-flex justify-content-end align-items-center gap-4">
         <div class="dropdown" id="notification-dropdown">
-          <span data-bs-toggle="dropdown" data-bs-target="#notification-dropdown"  class="text-white-50 pt-2 " style="cursor: pointer;">
+          <span id="noti-dropdown" data-bs-toggle="dropdown" data-bs-target="#notification-dropdown" data-bs-auto-close="outside"  class="text-white-50 pt-2 " style="cursor: pointer;">
             <i class='bx bx-bell bx-sm bx-tada-hover color-hover-white'></i>
-            <span class="badge text-white bg-danger noti-con fw-light p-1">10+</span>
+            <span *ngIf="notiCount > 0" class="badge text-white bg-danger noti-con fw-light p-1">{{ notiCount }}</span>
           </span>
 
           <div class="dropdown-menu p-0">
