@@ -14,9 +14,10 @@ import { NotificationStore } from 'src/app/model/service/store/notification.stor
     templateUrl:'./login.component.html'
 })
 export class LoginComponent {
-
+    togglepass!:boolean;
     status = {
-        pwdNotMatch : ''
+        pwdNotMatch : '',
+        
     }
 
     error = {
@@ -27,7 +28,7 @@ export class LoginComponent {
     user : User = new User ();
     constructor(private userService : UserService ,
          private router : Router , 
-         private userStore : UserStore , 
+         public userStore : UserStore , 
          public boardStore : BoardStore , 
          private notiStore : NotificationStore  ){}
      
@@ -57,4 +58,5 @@ export class LoginComponent {
         }
         )
      }
+   
 }

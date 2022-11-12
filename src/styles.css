@@ -1195,3 +1195,13 @@ color: black;
     background:rgba(0,0,0,0.09);
 }
 
+
+  .pw-show-hide{
+    background-color: transparent !important;
+    border-left:none !important;
+  }
+  #password:focus{
+    outline: none;
+    border-color:#CED4DA;
+    
+  }

@@ -29,8 +29,13 @@
                   </div>
                 <div class="mx-4 my-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" placeholder="Enter password" #password="ngModel" class="form-control shadow-none" id="password" [(ngModel)]="user.password" name="password"  required>
-                    <!-- [class.is-invalid]="password.touched && password.invalid" required -->
+                    <div class="input-group">
+                    <input [type]="this.userStore.togglepass?'text':'password'"  style="border-right: none;" placeholder="Enter password" #password="ngModel" class="form-control shadow-none" id="password" [(ngModel)]="user.password" name="password"  required>
+                    <div class="input-group-text pw-show-hide text-muted">
+                      <i [ngClass]="this.userStore.togglepass?'fa-solid fa-eye-slash':' fa-solid fa-eye'"  (click)="this.userStore.togglePassword()"></i>
+                          
+                  </div>
+                  </div>
                   </div>
                 <div class="mx-4 my-3">
                     <label for="code" class="form-label">Verification Code</label>
