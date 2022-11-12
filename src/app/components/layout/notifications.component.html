@@ -1,3 +1,5 @@
 <div id="notifications">
-    
+    <ul class="list-group">
+        <li *ngFor="let noti of notifications">{{ noti.content }}</li>
+    </ul>
 </div>

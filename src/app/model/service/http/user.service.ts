@@ -5,6 +5,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpResponse } from "../../bean/httpResponse";
 import { BoardsHasUsers } from '../../bean/BoardsHasUser';
+import { Notification } from '../../bean/notification';
 
 
 @Injectable({
@@ -72,5 +73,9 @@ export class UserService {
   
     changePassword(user : User) : Observable<HttpResponse<User>>{
         return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/api/change-password`,user)
+    }
+
+    getNotificationsForUser( userId : number ) : Observable<Notification[]> {
+        return this.httpClient.get<Notification[]>(`http://localhost:8080/api/users/${userId}/notifications`);
     }
 }

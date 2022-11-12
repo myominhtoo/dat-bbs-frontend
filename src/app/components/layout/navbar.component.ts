@@ -6,13 +6,16 @@ import { UserStore } from 'src/app/model/service/store/user.store';
 import swal from "sweetalert";
 import { Client  } from 'stompjs';
 import { BoardStore } from 'src/app/model/service/store/board.store';
+import { NotificationStore } from 'src/app/model/service/store/notification.store';
 
 @Component({
     selector : 'navbar',
     templateUrl:"./navbar.components.html",
 })
 export class NavbarComponent{
-  storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
+
+
+    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     user : User = new User();
     userInfo:User=new User();
     userPass={
@@ -20,6 +23,7 @@ export class NavbarComponent{
         currentPassword:"",
         retypePassoword:""
       }
+    notifications : Notification [] = [];
       
 
       status = {
@@ -42,7 +46,8 @@ export class NavbarComponent{
     constructor( private toggleStore : ToggleStore , 
         public userStore : UserStore,
         public userService:UserService , 
-        private boardStore : BoardStore  ){
+        private boardStore : BoardStore ,
+        public notificationStore : NotificationStore  ){
             this.getUserData(this.storeUser.id);
             userStore.fetchUserData();
     }

@@ -1,11 +1,35 @@
 import { Injectable } from "@angular/core";
 import { Notification } from '../../bean/notification';
+import { UserService } from "../http/user.service";
+import { UserStore } from "./user.store";
+import swal from "sweetalert";
 
 @Injectable({
   providedIn : 'root'
 })
 export class NotificationStore{
 
-  public notifications : Notification = [];
+  constructor( private userStore : UserStore , 
+    private userService : UserService  ){
+      this.getNotifications(this.userStore.user.id);
+  }
+
+  public notifications : Notification [] = [];
+
+  private getNotifications( userId : number ){
+    this.userService.getNotificationsForUser( userId )
+    .subscribe({
+      next : resNotis => {
+        console.log(resNotis)
+        this.notifications = resNotis;
+      },
+      error : err => {
+        swal({
+          text : 'Failed to fetch notificaions!',
+          icon : 'warning'
+        });
+      }
+    });
+  }
 
 }
