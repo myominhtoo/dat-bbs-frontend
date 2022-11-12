@@ -7,6 +7,7 @@ import { User } from "../../bean/user";
 })
 export class UserStore{
     user : User = new User();
+    togglepass!:boolean;
     
     constructor(){}
 
@@ -24,5 +25,7 @@ export class UserStore{
         localStorage.setItem(window.btoa(('user')),encode({id : user.id , email : user.email  , username : user.username , imageUrl : user.imageUrl}));
         this.fetchUserData();
     }
-
+    togglePassword(){       
+        this.togglepass=!this.togglepass;
+     }
 }

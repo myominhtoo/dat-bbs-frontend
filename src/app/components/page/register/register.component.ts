@@ -1,3 +1,4 @@
+import { UserStore } from 'src/app/model/service/store/user.store';
 import { Component, OnInit } from  "@angular/core";
 import { User } from "src/app/model/bean/user";
 import { UserService } from "src/app/model/service/http/user.service";
@@ -11,7 +12,7 @@ import { decode, encode } from 'src/app/util/encoder';
 })
 export class RegisterComponent implements OnInit{
 
-
+  
   emptyErrorMessage:String;
 
     user : User;
@@ -20,7 +21,9 @@ export class RegisterComponent implements OnInit{
     password:string;
     code:string;
 
-    constructor(private userService : UserService ,private router:Router){
+    constructor(private userService : UserService,
+      public userStore : UserStore,
+      private router:Router){
 
      this.user=new User();
      this.emptyErrorMessage="";
@@ -63,4 +66,5 @@ export class RegisterComponent implements OnInit{
       })
 
     }
+  
 }

@@ -23,8 +23,15 @@
                 </div>
                 <div class="mx-4 my-4">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" placeholder="Enter user password..." class="form-control shadow-none" id="password" name="password" [(ngModel)]="user.password" [class.is-invalid]="error.hasError" required>
+                    <div class="input-group">
+                    <input [type]="this.userStore.togglepass?'text':'password'" placeholder="Enter user password..." style="border-right: none;" class="form-control shadow-none" id="password" name="password" [(ngModel)]="user.password" [class.is-invalid]="error.hasError" required>
+                        <div class="input-group-text pw-show-hide text-muted">
+                    <i [ngClass]="this.userStore.togglepass?'fa-solid fa-eye-slash':' fa-solid fa-eye'"  (click)="this.userStore.togglePassword()"></i>
+                        
+                </div>
+                    </div>
                     <small *ngIf="error.hasError" class="text-danger">{{error.msg}}</small>
+                    
                 </div>
                 <div class="mx-4 my-4">
                 <div class="d-grid">
