@@ -56,11 +56,6 @@ export class MyBoardComponent implements OnInit {
     activities : Activity [] = [];
     comments : Comment [] = [];
 
-    pdf='pdf';
-    excel='excel';
-    path='';
-    
-
     status = {
         isLoading : false,
         isAddStage : false,

@@ -8,9 +8,9 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { UserService } from './../../../model/service/http/user.service';
-import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import * as Toastify from 'toastify-js';
+import {  AfterViewChecked, Component, OnInit, } from "@angular/core";
 import swal from "sweetalert";
+
 @Component({
     selector:"board-chat",
     templateUrl:"./board-chat.component.html"
@@ -18,10 +18,10 @@ import swal from "sweetalert";
 
   
 
-export class BoardChatComponent implements AfterViewChecked{
+export class BoardChatComponent implements OnInit{
   
   
-  public saveBoard=new Board();   
+   public saveBoard=new Board();   
    public BoardMessage=new BoardMessage();  
    public messages:BoardMessage[]=[];
    public status={
@@ -39,110 +39,94 @@ export class BoardChatComponent implements AfterViewChecked{
       ){
         this.status.messageLoad = true;
         document.title="BBMS | Chat"      
-        setTimeout(()=>{
-          this.getBoardMessage(this.saveBoard.id)   
-         }
-         ,400);
-       let profileId=this.route.snapshot.params['id'];
-            
-       this.subscribeBoardsMessageSocket();
-       if(profileId) this.getBoardWithBoardId(profileId);
-       
-       
       }
-  ngAfterViewChecked(): void {
+
+    ngOnInit(): void {
+     let profileId=this.route.snapshot.params['id'];     
+     this.getBoardMessage(profileId)         
+     this.subscribeBoardsMessageSocket();
+     if(profileId) this.getBoardWithBoardId(profileId);  
+     console.log(document.getElementById("chat-container")?.scrollHeight)
+    }
+
+    ngAfterViewChecked(): void {   
+      this.scrollBottom();
+   }
     
-     this.scrollBottom();
-    this.status.messageLoad=false;
-  }
-  
-    // this.scrollBottom();
-    // this.status.messageLoad=false;
-  
-  // ngAfterContentChecked(): void {   
-
-  //   this.scrollBottom();
-  //   this.status.messageLoad=false;
-  
-  // }
-
       
-public getBoardWithBoardId(boardId:number){
-  this.boaredService.getBoardWithBoardId(boardId).subscribe({
-    next:(res)=>{        
-        this.saveBoard=res;
-        
-    },
-    error:(err)=>{
-        console.log(err);
+    public getBoardWithBoardId(boardId:number){
+      this.boaredService.getBoardWithBoardId(boardId).subscribe({
+        next:(res)=>{        
+            this.saveBoard=res;           
+        },
+        error:(err)=>{
+            console.log(err);
+        }
+    })
     }
-})
-}
 
-sentMessage(message:string){
-  if(this.BoardMessage.content!=""){
-    this.BoardMessage.content=message
-    this.BoardMessage.board=this.saveBoard;
-    this.BoardMessage.user=this.userStore.user;
-    this.socket.sentMeesageToGroupChat(this.saveBoard.id,this.BoardMessage)   
-    this.BoardMessage.content=""
-  }else{   
-    console.log("not works")
-  }
-  
-}
+    sentMessage(message:string){
+      if(this.BoardMessage.content!=""){
+        this.BoardMessage.content=message
+        this.BoardMessage.board=this.saveBoard;
+        this.BoardMessage.user=this.userStore.user;
+        this.socket.sentMeesageToGroupChat(this.saveBoard.id,this.BoardMessage)   
+        this.BoardMessage.content=""
+      }else{   
+        console.log("not works")
+      }
+      
+    }
 
-subscribeBoardsMessageSocket(){
-  if(this.socket.stompClient){
-    this.socket.stompClient.connect( {} ,
-          () => {
-              //subscribing boards channel
-              this.boardStore.boards.forEach( board => {
-                  this.socket.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
-                      const boardNoti = JSON.parse(payload.body) as BoardMessage;
-                      this.messages.push(boardNoti);                                         
-                      if( boardNoti.id != this.boardStore.userStore.user.id ){  
-                         ($('#chat-noti')[0] as HTMLAudioElement).play();  
-                         this.scrollBottom()
-                      }        
-                  });       
+    subscribeBoardsMessageSocket(){
+      if(this.socket.stompClient){
+        this.socket.stompClient.connect( {} ,
+              () => {
+                  //subscribing boards channel
+                  this.boardStore.boards.forEach( board => {
+                      this.socket.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
+                          const boardNoti = JSON.parse(payload.body) as BoardMessage;
+                          this.messages.push(boardNoti);                                         
+                          if( boardNoti.id != this.boardStore.userStore.user.id ){  
+                            ($('#chat-noti')[0] as HTMLAudioElement).play();  
+                            this.scrollBottom()
+                          }        
+                      });       
+                  });
+              }, 
+              () => {
+                  swal({
+                      text : 'Failed to connect to socket!',
+                      icon : 'warning'
+                  });
               });
-          }, 
-          () => {
-              swal({
-                  text : 'Failed to connect to socket!',
-                  icon : 'warning'
-              });
+      }else{
+          swal({
+              text : 'Invalid Socket Connection!',
+              icon : 'warning'
           });
-  }else{
-      swal({
-          text : 'Invalid Socket Connection!',
-          icon : 'warning'
-      });
-  }
-}
-
-
-scrollBottom(){
-  let container=document.getElementById("chat-container");
-  container?.scrollTo({
-    top: container.scrollHeight,
-    behavior:"smooth"
-  })
-   
-}
-getBoardMessage(id:number){
-  this.socket.getBoardMessageList(id).subscribe({
-    next:(res)=>{
-      this.messages=res;
-      // console.log(this.messages)
-    },error:(err)=>{
-      console.log(err)
+      }
     }
-  })
-}
 
 
+    scrollBottom(){
+      let container=document.getElementById("chat-container");
+      container?.scrollTo({
+        top: container.scrollHeight,
+        behavior:"smooth"
+      })
+    }
+
+    getBoardMessage(id:number){
+      this.socket.getBoardMessageList(id).subscribe({
+        next:(res)=>{
+          this.messages=res;
+          this.status.messageLoad = false;
+        },error:(err)=>{
+          console.log(err)
+        }
+      })
+    }
 }
   
 

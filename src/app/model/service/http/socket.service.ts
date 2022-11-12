@@ -85,27 +85,5 @@ export class SocketService{
 
     public getBoardMessageList(id:number):Observable<BoardMessage[]>{
         return this.httpClient.get<BoardMessage[]>(`http://localhost:8080/api/boards/${id}/messages`);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
+    }       
 }
