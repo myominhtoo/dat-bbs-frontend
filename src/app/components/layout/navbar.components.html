@@ -29,7 +29,7 @@
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
               <li><button class="dropdown-item" type="button" routerLink="/profile">Profile</button></li>
               <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Change Password</button></li>              
-              <li><button class="dropdown-item text-danger" type="button" routerLink="/login">Log Out</button></li>
+              <li><button (click)="handleLogout()" class="dropdown-item text-danger" type="button">Log Out</button></li>
             </ul>
             
           </div>

@@ -7,6 +7,7 @@ import swal from "sweetalert";
 import { Client  } from 'stompjs';
 import { BoardStore } from 'src/app/model/service/store/board.store';
 import { NotificationStore } from 'src/app/model/service/store/notification.store';
+import { Router } from '@angular/router';
 
 @Component({
     selector : 'navbar',
@@ -46,7 +47,8 @@ export class NavbarComponent implements OnInit {
     constructor( private toggleStore : ToggleStore , 
         public userStore : UserStore,
         public userService:UserService , 
-        public notificationStore : NotificationStore  ){
+        public notificationStore : NotificationStore ,
+        private router : Router ){
             this.getUserData(this.storeUser.id);
             userStore.fetchUserData();
     }
@@ -117,8 +119,21 @@ export class NavbarComponent implements OnInit {
         setTimeout(()=>this.status.changePassword.msg="",1000);
       }
   
-  }
+    }
   
+    handleLogout(){
+      swal({
+        text : 'Are you sure to logout?',
+        icon : 'warning',
+        buttons : [ 'No' , 'Yes' ]
+      }).then( isYes => {
+        if(isYes){
+          localStorage.removeItem(window.btoa('user'));
+          
+          this.router.navigateByUrl('/login');
+        }
+      });
+    }
     
 
 }
