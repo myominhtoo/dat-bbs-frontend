@@ -12,7 +12,7 @@ import { User } from "../../bean/user";
 export class TaskCardService {
 
     constructor ( private httpClient : HttpClient ){}
-     
+
     createTaskCard( taskCard : TaskCard ) : Observable <HttpResponse<TaskCard>>{
         return this.httpClient.post<HttpResponse<TaskCard>> (`http://localhost:8080/api/create-task` , taskCard);
     }
@@ -29,13 +29,15 @@ export class TaskCardService {
         console.log(activity)
         return this.httpClient.put<HttpResponse<TaskCard>>(`http://localhost:8080/api/check-task`,activity);
     }
-    
+
     showMyTasks( userId : number ) : Observable<TaskCard[]> {
         return this.httpClient.get<TaskCard[]> (`http://localhost:8080/api/users/${userId}/task-cards`);
     }
 
+
     exportTaskReport(boardId : number , taskFormat : string ){
         return this.httpClient.get<TaskCard[]>(`http://localhost:8080/api/boards/${boardId}/reportTask?format=${taskFormat}`);
       }
+
 
 }
