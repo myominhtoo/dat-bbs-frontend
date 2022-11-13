@@ -1,11 +1,163 @@
+<div class="container-fluid mb-4">
 <div class="w-75 mx-auto py-4 text-center">
-   <h4 class="h5 text-muted text-center">
+   <h4 class="h5 text-muted text-center ">
         <span>{{ dateObj | date : 'yyyy' }} </span>
         <span>{{ dateObj | date : 'MMM' }}, </span>
         <span>{{ dateObj | date : 'dd' }}</span>
     </h4>
-    <h3 class="thm h4">{{ period }} , 
+    <h3 class="text-dark h2 py-3 pt-0">{{ period }} , 
         <span *ngFor="let char of username.split('');">{{ char }}</span>
         <span *ngIf="username.length != userStore.user.username.length">|</span>
     </h3>
+    <div class="d-flex  user-tasks justify-content-center text-muted">
+        <div>
+            <span>
+                <i class="fa-solid fa-list-check bx-tada-hover mx-2 fw-bold  " style="font-size: 19px;"></i>
+            </span>
+            <span class="mx-1 fw-bold fs-3">
+1
+            </span>
+            <span class="user-infos">
+            Tasks
+        </span>
+        </div>
+        <div>
+            <span>
+                <i class="bx bx-briefcase bx-sm bx-tada-hover mx-2"></i>
+            </span>
+            <span class="mx-1 fw-bold fs-3">
+3
+            </span>
+            <span class="user-infos">
+            Project
+        </span>
+        </div>
+        <div>
+            
+            <span>
+                <i class="fa-solid fa-user-group bx-tada-hover mx-2"></i>
+            </span>
+            <span class="mx-1 fw-bold fs-3">
+ 2               
+            </span>
+            <span class="user-infos">
+             Collaborator
+            </span>
+        </div>
+    </div>
 </div>
+    <div class="w-100 pt-2">
+        <div class="container">
+            <div class="container-fluid d-flex justify-content-center w-100 mb-3">
+            <div class="w-50 user-info-cards mx-1">
+                <div class="">
+                    <div class="w-100 row p-2 d-flex justify-content-center align-items-center pb-1 m-0" style="border-bottom: 1px solid #6d6e6f65;">
+                        <!-- img holder -->
+                        <div class="col-2 bg-red pe-0" id="user-profile-img " >                                                
+                            <div class="w-75 mx-auto">
+                            <img  class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" src="assets\img\board-profile-img\gru.jpg"  alt="">                                                        
+                        </div>
+                        </div>
+                        <!-- img holder -->
+                        <!-- My Priorities  -->
+                        <div class="col-10 ps-2 m-0">
+                            <h4 class="m-0 ps-1">My Priorities</h4>
+                            <div class="my-prior p-0 m-0">
+                                <span class="pt-0">
+                                    Upcoming
+                                </span>
+                                <span class="pt-0">Overdue</span>
+                                <span class="pt-0">Completed</span>
+                            </div>
+                        </div>
+                        <!-- My Priorities  -->
+                    </div>
+                    <div class="w-100">
+                            <ul class="list-unstyled my-prior-list"  style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
+                                <li class="d-flex justify-content-between mx-auto p-2 " style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
+                                        <div>
+                                            <span>
+                                                <input type="checkbox" name="" id="" class="form-check-input shadow-none">
+                                            </span>
+                                            <span>
+                                                To Sleep
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span class="badge  p-2" style="background-color: #3e3636;">
+                                                Project...
+                                            </span>
+                                            <span>
+                                                Nov 12 -15
+                                            </span>
+                                        </div>
+                                </li>
+                                
+          
+                            </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="w-50 user-info-cards mx-1 pt-3">
+                <div class="p-2">
+                    <h4 class="m-0">Project</h4>
+                </div>
+                <div class="">
+                    <div class="row my-prior-list" style="overflow-y: scroll;height: 210px;">
+                        <!-- start -->
+                        <div class="col-12 mb-1">
+                            <div class="row px-3 py-1">
+                            <div class="col-2 user-show-projects  d-flex justify-content-center align-items-center rounded-3" >
+                                <i class="fas fa-list-squares text-white " style="font-size: 20px;"></i>
+                            </div>
+                            <div class="col-10  ">
+                                <h5 class="m-0 p-0">Create Project</h5>
+                                <h6 class="m-0 p-0 text-muted">3 tasks due soon</h6>
+                                
+                            </div>
+                        </div>
+                        </div>
+
+<!-- end  -->
+                 
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="w-100 mx-1 user-info-people" style="height: auto">   
+                <div class="p-2">
+                    <h4 class="m-0">People</h4>
+                </div>
+                <div class="p-2 px-4">
+                    <!-- <div class="row" [options]="customOptions"> -->
+                        <div class="row">
+                        <div class="col-4 rounded-3 user-people">
+                            <div class="flex-column d-flex justify-content-between align-items-center p-3" style="height:100%">
+                                <div class="d-flex flex-column  justify-content-center align-items-center" >
+                                <div class="w-100 m-0 p-0 ">
+                                    <div class="m-0 p-0 mx-auto" style="width: 50%;">
+                                    <img  class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" src="assets\img\board-profile-img\gru.jpg"  alt="">                                                        
+                                </div>
+                                </div>
+                                
+                                <div class="pt-4">
+                                <h5>ZayarMyoOo</h5>                                    
+                                </div>
+                            </div>
+                                <div class="">
+                                   <button class="btn btn-outline-dark">View Profile</button>
+                                </div>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+</div>
+
