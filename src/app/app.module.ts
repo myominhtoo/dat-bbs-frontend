@@ -30,7 +30,7 @@ import { ArchiveBoardComponent } from './components/page/board/archive-board.com
 import { ForgetPasswordComponent } from './components/page/forgetPassword/forget-password.component';
 import { BoardBookmarkComponent } from './components/layout/boardBookmark.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
-
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 @NgModule({
   declarations: [
@@ -67,7 +67,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     MatButtonModule,
     BrowserAnimationsModule,
     DragDropModule,
-    PickerModule
+    PickerModule,
+    CarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

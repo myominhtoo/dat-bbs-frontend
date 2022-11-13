@@ -1,4 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
 :root{
     /* --pale-dark:rgba(0,0,0,0.95);
     --dark:rgba(0,0,0,0.99); */
@@ -1204,4 +1204,97 @@ color: black;
     outline: none;
     border-color:#CED4DA;
     
+  }
+  .user-tasks div{
+    width: 180px;
+    height: 50px;
+    border: 2px solid #CED4DA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  .user-tasks div:first-of-type{
+    border-top-left-radius:20px ;
+    border-bottom-left-radius:20px ;    
+    border-right: none;
+  }
+  .user-tasks div:last-of-type{
+    border-top-right-radius:20px ;
+    border-bottom-right-radius:20px ;
+    border-left: none;
+  }
+  .user-tasks div:nth-of-type(2){
+    border-left:none ;
+    border-right: none;
+  }
+  .user-infos{
+    font-size: 14px;
+  }
+  .user-info-cards{
+    height: 300px;
+    border: 1px solid #6d6e6f65;
+    border-radius: 10px;
+    padding: 10px;
+  }
+  .user-info-cards:hover{
+    border: 1px solid #5a5c5ee5;
+  }
+
+  .user-info-people{
+    height: 300px;
+    border: 1px solid #6d6e6f65;
+    border-radius: 10px;
+    padding: 10px;
+  }
+  .user-info-people:hover{
+    border: 1px solid #5a5c5ee5;
+  }
+  .my-prior{
+    height: 20px;
+    font-size: 14px;
+  }
+  .my-prior span{
+    text-align: center;
+    display: inline-block;
+    width: 75px;   
+    padding: 10px 5px;
+  }
+  .my-prior span:hover{
+    border-bottom: 3px solid #6D6E6F;
+  }
+  .my-prior span:nth-of-type(2){
+    padding: 8px 0px;
+  }
+  .my-prior span:nth-of-type(1){
+    padding: 8px 0px;
+  }
+  .my-prior span:nth-of-type(3){
+    padding: 8px 0px;
+  }
+  .my-prior-list::-webkit-scrollbar{
+    width: 4px;
+
+  }
+
+  .user-show-projects{
+    width: 55px !important;
+    height: 50px !important;
+    background-color: #3e3636;        
+  }
+
+  /* 
+   */
+
+
+   
+   .user-people{
+    border: 1px solid black;
+    border: 1px solid #6d6e6f65;
+    height: 200px !important;  
+    width: 200px !important;
+   
+  }
+  .user-people:hover{
+    border: 1px solid #5a5c5ee5;
   }
