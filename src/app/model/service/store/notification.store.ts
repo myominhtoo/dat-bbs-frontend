@@ -11,7 +11,7 @@ export class NotificationStore{
 
   constructor( private userStore : UserStore , 
     private userService : UserService  ){
-      this.getNotifications(this.userStore.user.id);
+      if( this.userStore.user.id ) this.getNotifications(this.userStore.user.id);
   }
 
   public notifications : Notification [] = [];

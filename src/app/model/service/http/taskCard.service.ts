@@ -34,8 +34,9 @@ export class TaskCardService {
         return this.httpClient.get<TaskCard[]> (`http://localhost:8080/api/users/${userId}/task-cards`);
     }
 
-    exportTaskReport(boardId : number , filetype : string ){
-        return this.httpClient.get<TaskCard[]>(`http://localhost:8080/api/boards/${boardId}/reportTask?format=${filetype}`);
+
+    exportTaskReport(boardId : number , taskFormat : string ){
+        return this.httpClient.get<TaskCard[]>(`http://localhost:8080/api/boards/${boardId}/reportTask?format=${taskFormat}`);
       }
 
 

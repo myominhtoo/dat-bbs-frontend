@@ -11,14 +11,16 @@
 <div *ngIf="boardStore.ownBoards.length!=0" class="container-fluid mb-5">
     <div class="d-flex justify-content-between align-items-center border-board pe-4">
         <h2 *ngIf="boardStore.ownBoards.length!=0" >My Boards <small  class="h6 text-muted"> (Created By Me) </small></h2>
-        <span class="">
-        <button class=" btn btn-outline-secondary btn-sm"  data-bs-toggle="dropdown" ><span>Export</span><i class="fa-solid fa-file-export"></i></button>
-        <ul class="dropdown-menu">
-            <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="PDF" (click)="exportBoardReport(pdf)"/>
-            <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="EXCEL" (click)="exportBoardReport(excel)"/>
-        </ul>
-        </span>
-        <button class=" btn btn-outline-secondary btn-sm" (click)="archiveBoards()"><span>Archive</span><i class="fas fa-solid fa-box-archive mx-1"></i></button>
+        <div class="d-flex gap-2">
+            <div class="dropdown">
+                <button class=" btn btn-outline-secondary btn-sm"  data-bs-toggle="dropdown" ><span>Export</span><i class="fa-solid fa-file-export"></i></button>
+                <ul class="dropdown-menu">
+                    <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="PDF" (click)="exportBoardReport(pdf)"/>
+                    <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="EXCEL" (click)="exportBoardReport(excel)"/>
+                </ul>
+            </div>
+            <button class=" btn btn-outline-secondary btn-sm" (click)="archiveBoards()"><span>Archive</span><i class="fas fa-solid fa-box-archive mx-1"></i></button>
+        </div>
     </div>
     <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="boardStore.ownBoards" (cdkDropListDropped)="drop($event)" *ngIf="!boardStore.status.isLoading" class="row mt-3 d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
         <board cdkDrag  *ngFor="let board of boardStore.ownBoards;let idx = index;" [data]="board" [bookMarks]="bookmarks" (toggle-bookmark)="toggleBookMark($event)" (updateBoardDeleteStatus)="removeBoard(board)" class="col-3 my-1"></board>
