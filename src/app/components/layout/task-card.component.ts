@@ -7,6 +7,7 @@ import { Activity } from 'src/app/model/bean/activity';
 import { ActivityService } from 'src/app/model/service/http/activity.service';
 import { CommentService } from 'src/app/model/service/http/comment.service';
 import { Comment } from 'src/app/model/bean/comment';
+import { Subject } from 'rxjs';
 
 @Component({
     selector : 'task-card',
@@ -28,11 +29,15 @@ import { Comment } from 'src/app/model/bean/comment';
                     </div>   
                 </div>
             </div>    
-        <div class="w-100 d-flex justify-content-between gap-2 align-items-center ">     
-            <div style="width:35%;">
-                <mat-progress-bar value="50" mode="determinate" ></mat-progress-bar>
+        <div class="w-100 d-flex  gap-2 align-items-center {{ !showDonePercent ? 'justify-content-end' : 'justify-content-between' }} " >    
+            <div *ngIf="showDonePercent" style="width:35%;" >
+                <small style="font-size:13px;">Done Activity</small>
+                <div class="w-100 d-flex align-items-center gap-1">
+                    <mat-progress-bar [value]="donePercent"  mode="determinate" ></mat-progress-bar>
+                    <small style="font-size:10px;">{{ donePercent }}%</small>
+                </div>
             </div>      
-            <div class="d-flex gap-2 align-items-center">
+            <div class="d-flex gap-2 ">
                 <span style="font-size:13px;">{{ task.startedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
                 <span *ngIf="task.startedDate != task.endedDate"><i class="fa-solid fa-right-long" style="font-size:12px;"></i></span>
                 <span *ngIf="task.startedDate != task.endedDate" style="font-size:13px;">{{ task.endedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
@@ -48,6 +53,8 @@ export class TaskCardComponent implements OnInit {
     isRequesting : boolean = false;
 
     colors : string [] = COLORS;
+    donePercent : number = 0;
+    showDonePercent : boolean = true;
 
     constructor( 
         private taskCardService : TaskCardService , 
@@ -63,6 +70,9 @@ export class TaskCardComponent implements OnInit {
 
         this.getActivities();
         this.getComments();
+        setTimeout(() => {
+            this.getActivityDonePercent();
+        } , 100 );
     }
 
     handleShowOffCanvas( task : TaskCard ){
@@ -114,5 +124,19 @@ export class TaskCardComponent implements OnInit {
                 console.log(err);
             }
         })
+    }
+
+    getActivityDonePercent(){
+        if( this.task.activities.length == 0 ){
+            this.showDonePercent = false;
+            return;
+        }
+        this.showDonePercent = true;
+        const doneActivityCount = this.task.activities.filter( activity => activity.status ).length;
+        this.donePercent = Math.ceil(100 * ( doneActivityCount /  this.task.activities.length ));
+    }
+
+    ngOnChanges(){
+        console.log('changed')
     }
 }

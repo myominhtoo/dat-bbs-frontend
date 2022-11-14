@@ -90,7 +90,7 @@ import {SocketService} from "../../model/service/http/socket.service";
                         <h6 class="text-center" *ngIf="task.activities.length > 0">Activities</h6>
                         <div *ngFor="let activity of task.activities;let idx = index;" class="w-100 position-relative ">
                             <div class="p-0 w-100  d-flex gap-2 align-items-center ">
-                                <input *ngIf="activity.id" type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,activity.id)" />
+                                <input *ngIf="activity.id" type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,idx)" />
                                 <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted text-capitalize" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" placeholder="Click enter to create"/>
                             </div>
                             <small class="mx-2 text-danger" *ngIf="status.errorTargetIdx === idx && status.activityError">{{ status.activityError }}</small>
@@ -261,8 +261,6 @@ import {SocketService} from "../../model/service/http/socket.service";
 export class TaskOffCanvasComponent implements OnInit {
 
 
-    public now:Date =new Date();
-
     MAX_ITEM_PER_PAGE : number = 5;
 
     showtime:Comment[] =[];
@@ -292,7 +290,7 @@ export class TaskOffCanvasComponent implements OnInit {
 
     @Output('deleteComment') emitDeleteComment = new EventEmitter<Comment>();
     @Output('updateComment') emitUpdateComment = new EventEmitter<Comment>();
-    
+
     tab : string = 'activity';
     detailActivity : Activity = new Activity();
     comment : Comment = new Comment();
@@ -306,7 +304,6 @@ export class TaskOffCanvasComponent implements OnInit {
         attachmentError : '',
         addingAttachment : false,
     }
-    checkActivity: Activity[]=[];
 
     constructor(
         public route : ActivatedRoute ,
@@ -326,109 +323,38 @@ export class TaskOffCanvasComponent implements OnInit {
         this.tab = tab;
     }
 
-    changeChecked(check:boolean,checkId:number){
-        if( !checkId ) return ;
-        if(check==true){
-            swal({
-                text : 'Are you sure ?',
-                icon : 'warning',
-                buttons : [ 'No' , 'Yes' ]
-              }).then( isYes => {
-                
-                if( isYes ){
-                    this.checkActivity=this.task.activities.filter(res=> {
-                        return res.id==checkId
-                    });
-
-                    this.activityService.updateActivity(this.checkActivity[0]).subscribe({
-                        next:(res)=>{
-                                this.status.msg = res.message;
-                                setTimeout(() => {
-                                    this.status.msg = '';
-                                } , 500 );                                                
-                                this.activityService.getActivities(this.checkActivity[0].taskCard.id).subscribe({
-                                    next:(res)=>{
-                                    const  prevTaskCardsOfTask = this.tasks.get(this.task.stage.stageName);
-                                    this.tasks.set( this.task.stage.stageName , prevTaskCardsOfTask?.filter( task => task.id != this.task.id )!);
-
-                                    if(res.every((res)=> res.status==true)){ 
-                                        
-                                        this.changeStage.id=3
-                                        this.changeTask={...this.task}
-                                        this.changeTask.stage = this.changeStage;
-                                        // this.changeTask.activities = [];
-                                        // this.changeTask.comments = [];
-                                        this.taskCardService.updateTaskCard( this.changeTask ).subscribe({
-                                            next : res => {
-                                                this.task = res.data;  
-                                                this.task.activities = this.changeTask.activities;
-                                                this.task.comments = this.changeTask.comments; 
-
-                                                const resultTasks = this.tasks.get(this.task.stage.stageName);
-                                                resultTasks?.push(this.task);
-                                                this.tasks.set( this.task.stage.stageName , resultTasks! );              
-                                                },
-                                                error : err => {
-                                                    console.log(err);
-                                                }});
-                                    }else if(res.some((res)=> res.status==true)){
-                                        this.changeStage.id=2
-                                        this.changeTask={...this.task}
-                                        this.changeTask.stage=this.changeStage;
-                                        // this.changeTask.activities = [];
-                                        // this.changeTask.comments = [];
-
-                                        this.taskCardService.updateTaskCard( this.changeTask ).subscribe({
-                                            next : res => {
-                                                this.task = res.data;   
-                                                this.task.comments = this.changeTask.comments;
-                                                this.task.activities = this.changeTask.activities;
-                                                
-                                                const resultTasks = this.tasks.get(this.task.stage.stageName);
-                                                resultTasks?.push(this.task);
-                                                this.tasks.set( this.task.stage.stageName , resultTasks! );
-                                                },
-                                            error : err => {
-                                                console.log(err);
-                                            }});
-                                        } 
-                                    },error:(res)=>{
-                                        console.log(res);
-                                    }
-                                })
-                                                            
-                        },error:(err)=>{
-                                console.log(err)
-                            }
-                        }
-                    )                   
-                }            
-              })
-        }else{
+    changeChecked(check:boolean,checkIdx:number){
+        if( !this.task.activities[checkIdx] ) return ;
+        const checkActivity = this.task.activities[checkIdx]
+        
+        swal({
+            text : 'Are you sure ?',
+            icon : 'warning',
+            buttons : [ 'No' , 'Yes' ]
+          }).then( isYes => {
             
-            swal({
-                text : 'Are you sure ?',
-                icon : 'warning',
-                buttons : [ 'No' , 'Yes' ]
-              }).then( isYes => {
-                
-                if( isYes ){
-                    this.checkActivity=this.task.activities.filter(res=> {
-                        return res.id==checkId
-                    });
-                    this.activityService.updateActivity(this.checkActivity[0]).subscribe(
-                        {
-                            next:(res)=>{
-                                    // console.log(res);
-                            },error:(err)=>{
-                                console.log(err)
-                            }
+            if( isYes ){
+                this.activityService.updateActivity( checkActivity ).subscribe({
+                    next:(res)=>{
+                            this.status.msg = res.message;
+                            setTimeout(() => {
+                                this.status.msg = '';
+                            } , 500 );  
+
+                            this.handleChangeResultStage();
+                            /*
+                             refactored code is in the last
+                            */
+                                                        
+                    },error:(err)=>{
+                            console.log(err)
                         }
-                    )
-                }
-                 
-              })
-        }
+                    }
+                )                   
+            }else{
+                this.task.activities[ checkIdx ].status = !check;
+            }   
+        })
     }
 
     setUpAddActivity(){
@@ -456,18 +382,18 @@ export class TaskOffCanvasComponent implements OnInit {
          newActivity.taskCard.comments = [];  
 
          if(newActivity.id==undefined){
-            console.log(this.task.activities[ targetIdx ])
             this.activityService
             .createActivity( this.task.activities[ targetIdx ])
             .subscribe({
                next : res => {
-                console.log(res)
                    this.status.msg = res.message;
                    this.task.activities[ targetIdx ] = res.data;
                    const noti = new Notification();
                    noti.content = `${this.userStore.user.username} created activity in ${this.board.boardName} Board `;
                    noti.sentUser = this.userStore.user;
                    noti.board = this.board;
+
+                   this.handleChangeResultStage();
 
                    this.socketService.sentNotiToBoard( this.board.id , noti);
 
@@ -754,4 +680,51 @@ export class TaskOffCanvasComponent implements OnInit {
     });
    }
 
+   /*
+    this method is just refactoring code to be DRY
+   */
+   handleChangeResultStage(){
+
+        let NEXT_STAGE_ID : number = 0;// for next stage id of task 
+
+        if( this.task.activities.every((res)=> res.status==true)){         
+            NEXT_STAGE_ID = 3;
+        }
+        else if( this.task.activities.some((res)=> res.status==true)){
+            NEXT_STAGE_ID = 2;
+        }
+        else{
+            NEXT_STAGE_ID = 1;
+        } 
+
+        const  prevTaskCardsOfTask = this.tasks.get(this.task.stage.stageName);
+        this.tasks.set( this.task.stage.stageName, [ ... prevTaskCardsOfTask?.filter( task => task.id != this.task.id )!] );
+
+
+        this.changeStage.id = NEXT_STAGE_ID;
+        this.changeTask={...this.task}
+        this.changeTask.stage = this.changeStage;
+
+        //won't let request to backend if not change stage
+        // if( this.task.stage.id == NEXT_STAGE_ID ){
+        //     const resultTasks = this.tasks.get(this.task.stage.stageName);
+        //     resultTasks?.push(this.task);
+        //     this.tasks.set( this.task.stage.stageName , resultTasks! );    
+        //     return ;
+        // }
+
+        this.taskCardService.updateTaskCard( this.changeTask ).subscribe({
+            next : res => {
+                this.task = res.data;  
+                this.task.activities = this.changeTask.activities;
+                this.task.comments = this.changeTask.comments; 
+
+                const resultTasks = this.tasks.get(this.task.stage.stageName);
+                resultTasks?.push(this.task);
+                this.tasks.set( this.task.stage.stageName , resultTasks! );              
+            },
+            error : err => {
+                console.log(err);
+        }});
+   }
 }

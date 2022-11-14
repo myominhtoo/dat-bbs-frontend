@@ -9,11 +9,8 @@ import { StageService } from "src/app/model/service/http/stage.service";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { UserService } from "src/app/model/service/http/user.service";
 import swal from 'sweetalert';
-import $ from 'jquery'
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { ChangeStageType } from "src/app/model/types/custom-types";
-import { ActivityService } from "src/app/model/service/http/activity.service";
-import { Activity } from "src/app/model/bean/activity";
 import { CommentService } from "src/app/model/service/http/comment.service";
 import { Comment } from "src/app/model/bean/comment";
 import { User } from "src/app/model/bean/user";
@@ -89,7 +86,6 @@ export class MyBoardComponent implements OnInit {
          private stageService : StageService ,
          private boardService : BoardService ,
          private taskCardService : TaskCardService,
-         private activityService : ActivityService ,
          private commentService : CommentService,
          private userService :UserService ,
          public userStore : UserStore ,
