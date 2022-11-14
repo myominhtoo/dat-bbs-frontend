@@ -15,7 +15,6 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-
     user : User = new User();
     userInfo:User=new User();
     userPass={
@@ -49,7 +48,7 @@ export class NavbarComponent implements OnInit {
         public notificationStore : NotificationStore ,
         private router : Router ){
             userStore.fetchUserData();
-           if( userStore.user.id ) this.getUserData(this.userStore.user.id);
+            if( this.userStore.user.id ) this.getUserData(this.userStore.user.id )
     }
 
     ngOnInit(): void {

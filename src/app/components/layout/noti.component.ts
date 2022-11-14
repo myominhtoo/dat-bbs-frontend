@@ -13,7 +13,7 @@ import { BoardStore } from "src/app/model/service/store/board.store";
              </p>
            </div>
            <div id="noti-body" class="col-10">
-              <h6 class="fw-light p-0 m-0" style="font-size:14px !important;letter-spacing:0.5px;">{{ noti.content.length > 60 ? noti.content.substring(0,60) : noti.content }}...</h6>
+              <h6 class="p-0 m-0" style="font-size:14px !important;letter-spacing:0.4px;">{{ noti.content.length > 60 ? noti.content.substring(0,60) : noti.content }}...</h6>
               <small style="font-size:10px;">{{ noti.createdDate | pentaDate}}</small>
            </div>
         </div>
