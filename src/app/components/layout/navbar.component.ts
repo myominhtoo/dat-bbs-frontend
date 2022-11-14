@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
 
 
-    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     user : User = new User();
     userInfo:User=new User();
     userPass={
@@ -49,8 +48,8 @@ export class NavbarComponent implements OnInit {
         public userService:UserService , 
         public notificationStore : NotificationStore ,
         private router : Router ){
-            this.getUserData(this.storeUser.id);
             userStore.fetchUserData();
+           if( userStore.user.id ) this.getUserData(this.userStore.user.id);
     }
 
     ngOnInit(): void {
