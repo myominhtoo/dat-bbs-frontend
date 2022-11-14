@@ -40,6 +40,10 @@
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/emojionearea/dist/emojionearea.min.js",
               "node_modules/boxicons/dist/boxicons.js"
+<<<<<<< Updated upstream
+=======
+             
+>>>>>>> Stashed changes
             ]
           },
           "configurations": {

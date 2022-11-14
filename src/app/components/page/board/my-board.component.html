@@ -15,6 +15,7 @@
                     <span class="">
                         <button class=" btn btn-sm myboard-btn btn-outline-secondary"  data-bs-toggle="dropdown" ><span>Export</span><i class="fa-solid fa-file-export"></i></button>
                         <ul class="dropdown-menu">
+                            <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="HTML" (click)="exportTaskReport(html)"/>
                             <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="PDF" (click)="exportTaskReport(pdf)"/>
                             <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="EXCEL" (click)="exportTaskReport(excel)"/>
                         </ul>
@@ -42,7 +43,7 @@
                       <ul class="dropdown-menu">
                           <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="HTML" (click)="exportMemberReport(html)"/>
                           <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="EXCEL" (click)="exportMemberReport(excel)"/>
-                            <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="PDF" (click)="exportMemberReport(pdf)"/>
+                          <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="PDF" (click)="exportMemberReport(pdf)"/>
                       </ul>
                       </span>
 
