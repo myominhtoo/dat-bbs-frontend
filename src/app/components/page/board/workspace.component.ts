@@ -29,6 +29,7 @@ export class WorkspaceComponent implements OnInit {
     // fileName='board.xlsx';
     pdf='pdf';
     excel='excel';
+    html='html';
     path='';
     msg='';
     click!: boolean;
