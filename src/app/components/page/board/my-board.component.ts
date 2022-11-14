@@ -519,14 +519,16 @@ exportMemberReport(path:string) {
 }
 
    exportTaskReport(path:string ) {
+
     let boardId = this.route.snapshot.params['id'];
+
     this.taskCardService.exportTaskReport(boardId,path).subscribe((data)=>{
         swal({
             text : 'Successfully Exported!',
             icon : 'success'
         });
     })
-  
+
   }
 
 
