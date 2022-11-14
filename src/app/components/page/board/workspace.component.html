@@ -15,6 +15,7 @@
             <div class="dropdown">
                 <button class=" btn btn-outline-secondary btn-sm"  data-bs-toggle="dropdown" ><span>Export</span><i class="fa-solid fa-file-export"></i></button>
                 <ul class="dropdown-menu">
+                    <input type="button" name="textShow" id="btn"  class="dropdown-item" value="HTML" (click)="exportBoardReport(html)"/>
                     <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="PDF" (click)="exportBoardReport(pdf)"/>
                     <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="EXCEL" (click)="exportBoardReport(excel)"/>
                 </ul>
