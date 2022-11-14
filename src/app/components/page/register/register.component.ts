@@ -49,6 +49,7 @@ export class RegisterComponent implements OnInit{
         next : res => {
           if( res.ok ){
             localStorage.removeItem(btoa('data'));
+            localStorage.removeItem('hasGotVerification');
             swal({
               text : res.message,
               icon : 'success'
