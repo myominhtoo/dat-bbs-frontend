@@ -50,6 +50,7 @@ export class MyBoardComponent implements OnInit {
     click:boolean=false;
 
     offCanvasTask : TaskCard = new TaskCard();
+    offCanvasTab : string = "";
     // activities : Activity [] = [];
     // comments : Comment [] = [];
 
@@ -364,38 +365,16 @@ export class MyBoardComponent implements OnInit {
        });
     }
 
-    // getActivitiesForTaskCard( taskCardId : number ){
-    //   this.activityService.getActivities( taskCardId )
-    //   .subscribe({
-    //     next : resActivities => {
-    //       this.activities = resActivities;
-    //     },
-    //     error : err => {
-    //       console.log(err);
-    //     }
-    //   });
-    // }
-
-    // getCommentsForTaskCard( taskCardId : number ){
-    //   this.commentService.getComments( taskCardId )
-    //   .subscribe({
-    //     next : resComments => {
-    //       this.comments = resComments;
-    //       this.status.isLoadingOffcanvas = false;
-    //     },
-    //     error : err => {
-    //       console.log(err);
-    //     }
-    //   })
-    // }
 
     handleShowOffCanvas( task  : TaskCard ){
       $('#task-offcanvas-btn').click();
-
       this.offCanvasTask = task;
-      // this.status.isLoadingOffcanvas = true;
-      // this.getActivitiesForTaskCard( task.id );
-      // this.getCommentsForTaskCard( task.id );
+      this.offCanvasTab = 'activity';
+    }
+
+    handleShowCommentSectionInOffCanvas( task : TaskCard ){
+      this.handleShowOffCanvas(task);
+      this.offCanvasTab = 'comment';
     }
 
     handleRouteChange(){

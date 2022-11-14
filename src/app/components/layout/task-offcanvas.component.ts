@@ -287,11 +287,11 @@ export class TaskOffCanvasComponent implements OnInit {
     @Input('members') members : User [] = [];
     @Input('board') board : Board = new Board();
     @Input('tasks') tasks : Map<string,TaskCard[]> = new Map();
+    @Input('tab')  tab : string = 'activity';
 
     @Output('deleteComment') emitDeleteComment = new EventEmitter<Comment>();
     @Output('updateComment') emitUpdateComment = new EventEmitter<Comment>();
 
-    tab : string = 'activity';
     detailActivity : Activity = new Activity();
     comment : Comment = new Comment();
 

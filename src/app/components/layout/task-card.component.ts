@@ -3,11 +3,8 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { TaskCard } from "src/app/model/bean/taskCard";
 import { OnInit } from '@angular/core';
 import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
-import { Activity } from 'src/app/model/bean/activity';
 import { ActivityService } from 'src/app/model/service/http/activity.service';
 import { CommentService } from 'src/app/model/service/http/comment.service';
-import { Comment } from 'src/app/model/bean/comment';
-import { Subject } from 'rxjs';
 
 @Component({
     selector : 'task-card',
@@ -16,7 +13,11 @@ import { Subject } from 'rxjs';
        <div class="d-flex flex-column align-items-star gap-3 w-100" >
         <div class="d-flex justify-content-between w-100">
                 <h5 class="fw-light h5">{{ task.taskName | titlecase }} {{ task.comments.length }}</h5>
-                <div class="d-flex gap-1 align-items-center">
+                <div class="d-flex gap-2 align-items-center">
+                    <div (click)="handleGoCommentSection($event)">
+                        <i class="fa-regular fa-message"></i>
+                        <span *ngIf="task.comments.length > 0" class="badge text-white p-1 bg-danger noti-con fw-light " style="transform:translate(40%,40%);">{{ task.comments.length }}</span>
+                    </div>
                     <div class="dropdown" id="color-dropdown">
                         <i (click)="handleShowColorPlatte($event)" class="fa-solid fa-palette" data-bs-toggle="dropdown" data-bs-target="#color-dropdown"></i>                           
                         <ul class="dropdown-menu p-3">
@@ -29,19 +30,19 @@ import { Subject } from 'rxjs';
                     </div>   
                 </div>
             </div>    
-        <div class="w-100 d-flex  gap-2 align-items-center {{ !showDonePercent ? 'justify-content-end' : 'justify-content-between' }} " >    
-            <div *ngIf="showDonePercent" style="width:35%;" >
-                <small style="font-size:13px;">Done Activity</small>
-                <div class="w-100 d-flex align-items-center gap-1">
-                    <mat-progress-bar [value]="donePercent"  mode="determinate" ></mat-progress-bar>
-                    <small style="font-size:10px;">{{ donePercent }}%</small>
-                </div>
-            </div>      
-            <div class="d-flex gap-2 ">
+        <div class="w-100 d-flex  gap-2 align-items-end {{ !showDonePercent ? 'justify-content-end' : 'justify-content-between' }} " >      
+            <div class="d-flex gap-2 align-items-end">
                 <span style="font-size:13px;">{{ task.startedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
                 <span *ngIf="task.startedDate != task.endedDate"><i class="fa-solid fa-right-long" style="font-size:12px;"></i></span>
                 <span *ngIf="task.startedDate != task.endedDate" style="font-size:13px;">{{ task.endedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
             </div>
+            <div *ngIf="showDonePercent" style="width:35%;" >
+                <small style="font-size:12px;">Done Activity</small>
+                <div class="w-100 d-flex align-items-center gap-1">
+                    <mat-progress-bar [value]="donePercent"  mode="determinate" ></mat-progress-bar>
+                    <small style="font-size:10px;" class="fw-bold thm">{{ donePercent }}%</small>
+                </div>
+            </div>    
         </div>
        </div> 
     `
@@ -50,6 +51,8 @@ export class TaskCardComponent implements OnInit {
 
     @Input('task') task : TaskCard = new TaskCard();
     @Output('show-task') showTask = new EventEmitter<TaskCard>();
+    @Output('show-comment') showCommentEmitter = new EventEmitter<TaskCard>();
+
     isRequesting : boolean = false;
 
     colors : string [] = COLORS;
@@ -72,7 +75,7 @@ export class TaskCardComponent implements OnInit {
         this.getComments();
         setTimeout(() => {
             this.getActivityDonePercent();
-        } , 100 );
+        } , 50 );
     }
 
     handleShowOffCanvas( task : TaskCard ){
@@ -99,8 +102,6 @@ export class TaskCardComponent implements OnInit {
             });
         }
     }
-
-
 
     getActivities(){
         this.activityService.getActivities( this.task.id )
@@ -136,7 +137,9 @@ export class TaskCardComponent implements OnInit {
         this.donePercent = Math.ceil(100 * ( doneActivityCount /  this.task.activities.length ));
     }
 
-    ngOnChanges(){
-        console.log('changed')
+    handleGoCommentSection( e : Event ){
+        e.stopPropagation();
+        this.showCommentEmitter.emit(this.task)
     }
+
 }

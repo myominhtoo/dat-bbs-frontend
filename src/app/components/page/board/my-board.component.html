@@ -141,7 +141,7 @@
         </div>
         <div class="row">
                 <div id="task-container" *ngIf="!status.isLoading" class="scrolling-wrapper d-flex  px-5 bg-transparent">
-                    <task-card-container *ngFor="let stage of stages" [stage]="stage" [task-cards]="taskCardsMap" [stages]="stages" (deleteStage)="handleDeleteStage($event)" [relations]="getRelationContainers(stage)" (change-stage)="handleChangeStage($event)" (add-task)="handleAddTask($event)" [board]="board" (show-offcanvas)="handleShowOffCanvas($event)" ></task-card-container>
+                    <task-card-container *ngFor="let stage of stages" [stage]="stage" (show-comment)="handleShowCommentSectionInOffCanvas($event)" [task-cards]="taskCardsMap" [stages]="stages" (deleteStage)="handleDeleteStage($event)" [relations]="getRelationContainers(stage)" (change-stage)="handleChangeStage($event)" (add-task)="handleAddTask($event)" [board]="board" (show-offcanvas)="handleShowOffCanvas($event)" ></task-card-container>
                     <div>
                         <button (click)="toggleIsAddStage()" *ngIf="!status.isAddStage" class="btn btn-sm px-5 mt-2 h1">
                             <i class="fa-solid fa-plus mx-1"></i> Add Stage
@@ -156,7 +156,7 @@
                         </div>
                     </div>
                 </div>
-                <task-offcanvas (updateComment)="setupUpdateComment($event)" [task]="offCanvasTask" [tasks]="taskCardsMap"  [board]="board" [members]="members" [isLoading]="status.isLoadingOffcanvas" ></task-offcanvas>
+                <task-offcanvas (updateComment)="setupUpdateComment($event)" [task]="offCanvasTask" [tab]="offCanvasTab" [tasks]="taskCardsMap"  [board]="board" [members]="members" [isLoading]="status.isLoadingOffcanvas" ></task-offcanvas>
                 <span data-bs-toggle="offcanvas" data-bs-target="#task-offcanvas" id="task-offcanvas-btn" class="d-none">clone</span>
 
                 <loading [show]="status.isLoading" target="Tasks"></loading>

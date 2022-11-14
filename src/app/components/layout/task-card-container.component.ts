@@ -61,7 +61,7 @@ import { UserStore } from 'src/app/model/service/store/user.store';
           <input  [(ngModel)]="tempTask" name="tempTask" (keydown)="handleAddTask($event)"type="text" [class.is-invalid]="status.addTaskError" class="form-control shadow-none" placeholder="Enter Task" />
         </div>
         <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="''+data.stageName+''" [cdkDropListConnectedTo]="relationContainers" class="w-100 py-2 d-flex flex-column" style="min-height:700px !important;">
-            <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
+            <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)" (show-comment)="showCommentEmitter.emit($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
         </div>
       </div>
     </div>
@@ -87,6 +87,7 @@ export class TaskCardContainerComponent {
   @Output('change-stage') changeStage = new EventEmitter<ChangeStageType>();
   @Output('show-offcanvas') showTaskOffcanvas = new EventEmitter<TaskCard>();
   @Output('deleteStage') emitDeleteStage = new EventEmitter<Stage>();
+  @Output('show-comment') showCommentEmitter = new EventEmitter<TaskCard>();
 
 
   tempStage : string  = '';
