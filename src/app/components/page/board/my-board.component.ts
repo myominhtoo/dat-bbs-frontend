@@ -53,8 +53,8 @@ export class MyBoardComponent implements OnInit {
     click:boolean=false;
 
     offCanvasTask : TaskCard = new TaskCard();
-    activities : Activity [] = [];
-    comments : Comment [] = [];
+    // activities : Activity [] = [];
+    // comments : Comment [] = [];
 
     status = {
         isLoading : false,
@@ -94,8 +94,9 @@ export class MyBoardComponent implements OnInit {
          private userService :UserService ,
          public userStore : UserStore ,
          public socketService : SocketService  ){
+          this.offCanvasTask.activities = [];
+          this.offCanvasTask.comments = [];
           this.board.user = new User();
-
          }
 
     ngOnInit(): void {
@@ -348,23 +349,12 @@ export class MyBoardComponent implements OnInit {
        let targetStage = this.stages.filter( stage => {
         return payload.stageTo === stage.stageName;
        })[0];
-      //  console.log(payload.task)
-      //  console.log(payload.task.stage)
-      //  console.log(targetStage);
+     
        payload.task.stage = targetStage; //setting updated stage to task
-       console.log(payload.task)
+
        this.taskCardService.updateTaskCard( payload.task )
        .subscribe({
         next : res => {
-          // let prevTasks = this.taskCardsMap.get( payload.stageTo );
-
-          // it is also ok without following cuz of line 271
-          // this.taskCardsMap.set( payload.stageTo , prevTasks?.map( task => {
-          //   if( task.id ===  res.data.id ){
-          //      return res.data;
-          //   }
-          //   return task;
-          // })! );
           const noti = new Notification();
           noti.content = `${this.userStore.user.username} changed ${payload.task.taskName} Task's stage \n  from '${prevStage}' to '${targetStage.stageName}' in ${this.board.boardName} Board `;
           noti.sentUser = this.userStore.user;
@@ -378,38 +368,38 @@ export class MyBoardComponent implements OnInit {
        });
     }
 
-    getActivitiesForTaskCard( taskCardId : number ){
-      this.activityService.getActivities( taskCardId )
-      .subscribe({
-        next : resActivities => {
-          this.activities = resActivities;
-        },
-        error : err => {
-          console.log(err);
-        }
-      });
-    }
+    // getActivitiesForTaskCard( taskCardId : number ){
+    //   this.activityService.getActivities( taskCardId )
+    //   .subscribe({
+    //     next : resActivities => {
+    //       this.activities = resActivities;
+    //     },
+    //     error : err => {
+    //       console.log(err);
+    //     }
+    //   });
+    // }
 
-    getCommentsForTaskCard( taskCardId : number ){
-      this.commentService.getComments( taskCardId )
-      .subscribe({
-        next : resComments => {
-          this.comments = resComments;
-          this.status.isLoadingOffcanvas = false;
-        },
-        error : err => {
-          console.log(err);
-        }
-      })
-    }
+    // getCommentsForTaskCard( taskCardId : number ){
+    //   this.commentService.getComments( taskCardId )
+    //   .subscribe({
+    //     next : resComments => {
+    //       this.comments = resComments;
+    //       this.status.isLoadingOffcanvas = false;
+    //     },
+    //     error : err => {
+    //       console.log(err);
+    //     }
+    //   })
+    // }
 
     handleShowOffCanvas( task  : TaskCard ){
       $('#task-offcanvas-btn').click();
 
       this.offCanvasTask = task;
-      this.status.isLoadingOffcanvas = true;
-      this.getActivitiesForTaskCard( task.id );
-      this.getCommentsForTaskCard( task.id );
+      // this.status.isLoadingOffcanvas = true;
+      // this.getActivitiesForTaskCard( task.id );
+      // this.getCommentsForTaskCard( task.id );
     }
 
     handleRouteChange(){
@@ -449,8 +439,6 @@ export class MyBoardComponent implements OnInit {
            });
 
       }
-
-
    }
 
    setupEditBoard(){

@@ -87,8 +87,8 @@ import {SocketService} from "../../model/service/http/socket.service";
 
                     <!-- activites -->
                     <div class="list-group d-flex flex-column list-unstyled text-muted p-2 gap-3 my-2">
-                        <h6 class="text-center" *ngIf="activities.length > 0">Activities</h6>
-                        <div *ngFor="let activity of activities;let idx = index;" class="w-100 position-relative ">
+                        <h6 class="text-center" *ngIf="task.activities.length > 0">Activities</h6>
+                        <div *ngFor="let activity of task.activities;let idx = index;" class="w-100 position-relative ">
                             <div class="p-0 w-100  d-flex gap-2 align-items-center ">
                                 <input *ngIf="activity.id" type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,activity.id)" />
                                 <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted text-capitalize" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" placeholder="Click enter to create"/>
@@ -100,7 +100,7 @@ import {SocketService} from "../../model/service/http/socket.service";
                         </div>
 
                         <div class="text-center p-0 m-0">
-                            <h6 *ngIf="activities.length == 0" class="my-2">There is no activity for this card... </h6>
+                            <h6 *ngIf="task.activities.length == 0" class="my-2">There is no activity for this card... </h6>
                         </div>
                     </div>
 
@@ -112,7 +112,7 @@ import {SocketService} from "../../model/service/http/socket.service";
 
                 <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" >
                     <div id="comments">
-                        <div *ngFor="let comment of comments" id="comment-container" class="w-100 my-3 px-3 ">
+                        <div *ngFor="let comment of task.comments" id="comment-container" class="w-100 my-3 px-3 ">
                             <div id="comment-icon">
                                 <h6 class="h6 mx-2" style="font-size:17px !important;">{{ comment.user.username && comment.user.username | titlecase }}<small class="text-muted mx-2" style="font-size:13px;">{{ comment.createdDate | pentaDate }}</small></h6>
                             </div>
@@ -283,8 +283,8 @@ export class TaskOffCanvasComponent implements OnInit {
     
 
     @Input('task') task : TaskCard = new TaskCard();
-    @Input('activities') activities : Activity [] = [];
-    @Input('comments') comments : Comment [] = [];
+    // @Input('activities') activities : Activity [] = [];
+    // @Input('comments') comments : Comment [] = [];
     @Input('isLoading') isLoading : boolean = false;
     @Input('members') members : User [] = [];
     @Input('board') board : Board = new Board();
@@ -292,6 +292,7 @@ export class TaskOffCanvasComponent implements OnInit {
 
     @Output('deleteComment') emitDeleteComment = new EventEmitter<Comment>();
     @Output('updateComment') emitUpdateComment = new EventEmitter<Comment>();
+    
     tab : string = 'activity';
     detailActivity : Activity = new Activity();
     comment : Comment = new Comment();
@@ -314,10 +315,7 @@ export class TaskOffCanvasComponent implements OnInit {
         private commentService : CommentService ,
         public userStore : UserStore , 
         public attachmentService :AttachmentService ,
-        private socketService : SocketService ){
-            this.task.stage = new Stage();
-            this.activities = [];
-         }
+        private socketService : SocketService ){}
 
     ngOnInit(): void {
         this.task.users = [];
@@ -338,7 +336,7 @@ export class TaskOffCanvasComponent implements OnInit {
               }).then( isYes => {
                 
                 if( isYes ){
-                    this.checkActivity=this.activities.filter(res=> {
+                    this.checkActivity=this.task.activities.filter(res=> {
                         return res.id==checkId
                     });
 
@@ -357,10 +355,15 @@ export class TaskOffCanvasComponent implements OnInit {
                                         
                                         this.changeStage.id=3
                                         this.changeTask={...this.task}
-                                        this.changeTask.stage=this.changeStage;
+                                        this.changeTask.stage = this.changeStage;
+                                        // this.changeTask.activities = [];
+                                        // this.changeTask.comments = [];
                                         this.taskCardService.updateTaskCard( this.changeTask ).subscribe({
                                             next : res => {
                                                 this.task = res.data;  
+                                                this.task.activities = this.changeTask.activities;
+                                                this.task.comments = this.changeTask.comments; 
+
                                                 const resultTasks = this.tasks.get(this.task.stage.stageName);
                                                 resultTasks?.push(this.task);
                                                 this.tasks.set( this.task.stage.stageName , resultTasks! );              
@@ -372,16 +375,22 @@ export class TaskOffCanvasComponent implements OnInit {
                                         this.changeStage.id=2
                                         this.changeTask={...this.task}
                                         this.changeTask.stage=this.changeStage;
+                                        // this.changeTask.activities = [];
+                                        // this.changeTask.comments = [];
+
                                         this.taskCardService.updateTaskCard( this.changeTask ).subscribe({
                                             next : res => {
-                                                this.task = res.data;                                                  
+                                                this.task = res.data;   
+                                                this.task.comments = this.changeTask.comments;
+                                                this.task.activities = this.changeTask.activities;
+                                                
                                                 const resultTasks = this.tasks.get(this.task.stage.stageName);
                                                 resultTasks?.push(this.task);
                                                 this.tasks.set( this.task.stage.stageName , resultTasks! );
                                                 },
-                                                error : err => {
-                                                    console.log(err);
-                                                }});
+                                            error : err => {
+                                                console.log(err);
+                                            }});
                                         } 
                                     },error:(res)=>{
                                         console.log(res);
@@ -392,9 +401,7 @@ export class TaskOffCanvasComponent implements OnInit {
                                 console.log(err)
                             }
                         }
-
-                    )
-                    
+                    )                   
                 }            
               })
         }else{
@@ -406,7 +413,7 @@ export class TaskOffCanvasComponent implements OnInit {
               }).then( isYes => {
                 
                 if( isYes ){
-                    this.checkActivity=this.activities.filter(res=> {
+                    this.checkActivity=this.task.activities.filter(res=> {
                         return res.id==checkId
                     });
                     this.activityService.updateActivity(this.checkActivity[0]).subscribe(
@@ -430,30 +437,33 @@ export class TaskOffCanvasComponent implements OnInit {
     //     this.status.isAddActivity = true;
 
         const newActivity = new Activity();
-        this.activities.push( newActivity );
+        this.task.activities.push( newActivity );
     //    }
     }
 
     handleAddActivity( e : KeyboardEvent , targetIdx : number ){
        this.status.activityError = '';
-       let curActivityName =  this.activities[ targetIdx ].activityName;
+       let curActivityName =  this.task.activities[ targetIdx ].activityName;
        if( e.code === 'Enter' ){
           if( curActivityName  == '' || curActivityName == null ){
             this.status.activityError = 'Acitiviy is required!';
             return;
           }
 
-         const newActivity = this.activities[ targetIdx ];
-         newActivity.taskCard = this.task;         
+         const newActivity = this.task.activities[ targetIdx ];
+         newActivity.taskCard = { ...this.task };    
+         newActivity.taskCard.activities = [];
+         newActivity.taskCard.comments = [];  
 
          if(newActivity.id==undefined){
+            console.log(this.task.activities[ targetIdx ])
             this.activityService
-            .createActivity( this.activities[ targetIdx ])
+            .createActivity( this.task.activities[ targetIdx ])
             .subscribe({
                next : res => {
+                console.log(res)
                    this.status.msg = res.message;
-                   this.activities[ targetIdx ] = res.data;
-
+                   this.task.activities[ targetIdx ] = res.data;
                    const noti = new Notification();
                    noti.content = `${this.userStore.user.username} created activity in ${this.board.boardName} Board `;
                    noti.sentUser = this.userStore.user;
@@ -473,7 +483,7 @@ export class TaskOffCanvasComponent implements OnInit {
             this.status.isAddActivity = false;
          }else{
             this.activityService
-            .updateActivity( this.activities[ targetIdx ])
+            .updateActivity( this.task.activities[ targetIdx ])
             .subscribe({
                next : res => {                   
                 this.status.msg = res.message;
@@ -509,7 +519,7 @@ export class TaskOffCanvasComponent implements OnInit {
                 this.attachments = resAttachments;
                 this.totalPagesOfAttachments = Math.ceil( resAttachments.length / this.MAX_ITEM_PER_PAGE );
                 this.handleAssignPaginatedAttachments( this.curPageOfAttachments );
-                this.detailActivity = this.activities.filter( activity => activity.id === activityId )[0];
+                this.detailActivity = this.task.activities.filter( activity => activity.id === activityId )[0];
                 this.isLoading = false;
                 this.tab = 'activity-detail';
             },
@@ -569,7 +579,7 @@ export class TaskOffCanvasComponent implements OnInit {
         next : res => {
             if( res.ok ){
                 this.comment.comment = '';
-                this.comments.unshift(res.data);
+                this.task.comments.unshift(res.data);
                 this.showEmojis = false;
             }
         },
@@ -627,22 +637,20 @@ export class TaskOffCanvasComponent implements OnInit {
         $('#invite-members').click();
     }
 
-
-    
-  deleteComment(cmt : Comment){ 
-    
-    swal({
-          text : 'Are you sure to Delete ?',
-          icon : 'warning',
-          buttons : [ 'No' , 'Yes' ]
-        }).then( isYes => {
-          if (isYes){
-            this.commentService.deleteComment(cmt.id).subscribe(data=>{
-            this.comments=this.comments.filter(comment=>comment.id != cmt.id);
-            });
-          }
-        })
-   }
+    deleteComment(cmt : Comment){ 
+        
+        swal({
+            text : 'Are you sure to Delete ?',
+            icon : 'warning',
+            buttons : [ 'No' , 'Yes' ]
+            }).then( isYes => {
+            if (isYes){
+                this.commentService.deleteComment(cmt.id).subscribe(data=>{
+                this.task.comments=this.task.comments.filter(comment=>comment.id != cmt.id);
+                });
+            }
+            })
+    }
 
    deleteAttachment(att : Attachment){
     swal({

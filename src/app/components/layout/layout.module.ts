@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { FormsModule  } from "@angular/forms";
 import { HttpClientModule  } from "@angular/common/http";
@@ -35,7 +36,8 @@ import { NotiComponent } from "./noti.component";
         DragDropModule,
         FormsModule,
         HttpClientModule,
-        PickerModule
+        PickerModule,
+        MatProgressBarModule
     ],
     exports : [
         NavbarComponent,

@@ -1,5 +1,6 @@
 import { Activity } from "./activity";
 import { Board } from "./board";
+import { Comment } from "./comment";
 import { Stage } from "./stage";
 import { User } from "./user";
 
@@ -16,4 +17,5 @@ export class TaskCard {
     stage ! : Stage;
     users ! : User[];
     markColor !: string;
+    comments ! : Comment [] ;
 }

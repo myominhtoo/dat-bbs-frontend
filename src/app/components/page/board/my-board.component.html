@@ -155,7 +155,7 @@
                         </div>
                     </div>
                 </div>
-                <task-offcanvas (updateComment)="setupUpdateComment($event)" [task]="offCanvasTask" [tasks]="taskCardsMap" [activities]="activities" [board]="board" [members]="members" [isLoading]="status.isLoadingOffcanvas" [comments]="comments"></task-offcanvas>
+                <task-offcanvas (updateComment)="setupUpdateComment($event)" [task]="offCanvasTask" [tasks]="taskCardsMap"  [board]="board" [members]="members" [isLoading]="status.isLoadingOffcanvas" ></task-offcanvas>
                 <span data-bs-toggle="offcanvas" data-bs-target="#task-offcanvas" id="task-offcanvas-btn" class="d-none">clone</span>
 
                 <loading [show]="status.isLoading" target="Tasks"></loading>
