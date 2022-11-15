@@ -1209,6 +1209,7 @@ color: black;
     width: 180px;
     height: 50px;
     border: 2px solid #CED4DA;
+    background-color: #CED4DA;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1245,13 +1246,14 @@ color: black;
     height: 300px;
     border: 1px solid #6d6e6f65;
     border-radius: 10px;
-    padding: 10px;
+    padding: 10px;    
+    position: relative;
   }
   .user-info-people:hover{
     border: 1px solid #5a5c5ee5;
   }
   .my-prior{
-    height: 20px;
+    height: 28px;
     font-size: 14px;
   }
   .my-prior span{
@@ -1286,15 +1288,87 @@ color: black;
   /* 
    */
 
+.wrapper{
+  display: flex;
+  max-width: 1200px !important;
+  position: relative;
+}
+.wrapper i{
+  cursor: pointer;
 
+    height: 44px;
+    width: 44px;
+
+    font-size: 1.15rem;
+    text-align: center;
+    line-height: 44px;
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    color: #343F4F;
+    background: #fff;    
+
+    border-radius: 50%;
+    transition: transform 0.1s linear;
+}
+.wrapper i:active{
+  transform: translateY(-50%) scale(0.9);
+}
+.wrapper i:hover{
+  background: #f2f2f2;
+}
+.wrapper i:first-child{
+  left: -22px;
+}
+.wrapper i:last-child{
+  right: -22px;
+}
+.wrapper .carousel{
+  font-size: 0px;
+  width: 100%;
+  cursor: pointer;
+  overflow: hidden;  
+  white-space: nowrap;
+  scroll-behavior: smooth;
+}
+.wrapper .carousel .user-people{
+    display: inline-block !important;
+}
+.dragging{
+  cursor: grab !important;
+  scroll-behavior: auto !important;
+}
    
    .user-people{
     border: 1px solid black;
     border: 1px solid #6d6e6f65;
-    height: 200px !important;  
+    height: 250px !important;  
     width: 200px !important;
+    
    
   }
   .user-people:hover{
     border: 1px solid #5a5c5ee5;
   }
+  .carousel.dragging .user-people img{
+    pointer-events: none;
+  }
+  .carousel .user-people{
+    margin-left: 0px !important;
+  }
+
+  @media screen and (max-width: 900px) {
+    .user-people{
+      width: calc(100% / 2);
+    }
+  }
+  
+  @media screen and (max-width: 550px) {
+    .user-people{
+      width: 100%;
+    }
+  }
+
+  
