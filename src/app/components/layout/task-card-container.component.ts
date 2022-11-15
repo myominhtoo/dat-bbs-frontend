@@ -12,6 +12,7 @@ import $ from 'jquery';
 import { SocketService } from 'src/app/model/service/http/socket.service';
 import { Notification } from 'src/app/model/bean/notification';
 import { UserStore } from 'src/app/model/service/store/user.store';
+import { BoardStore } from 'src/app/model/service/store/board.store';
 
 @Component({
   selector: 'task-card-container',
@@ -61,7 +62,7 @@ import { UserStore } from 'src/app/model/service/store/user.store';
           <input  [(ngModel)]="tempTask" name="tempTask" (keydown)="handleAddTask($event)"type="text" [class.is-invalid]="status.addTaskError" class="form-control shadow-none" placeholder="Enter Task" />
         </div>
         <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="''+data.stageName+''" [cdkDropListConnectedTo]="relationContainers" class="w-100 py-2 d-flex flex-column" style="min-height:700px !important;">
-            <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)" (show-comment)="showCommentEmitter.emit($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
+            <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)" (delete-task)="removeTask($event)" (show-comment)="showCommentEmitter.emit($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
         </div>
       </div>
     </div>
@@ -73,13 +74,17 @@ export class TaskCardContainerComponent {
     private stageService : StageService ,
     private taskService : TaskCardService,
     private socketService : SocketService,
-    private userStore : UserStore
+    private userStore : UserStore,
+    private boardStore : BoardStore
     ){}
 
   @Input('stages') stages : Stage [] = [];
   @Input('stage') data : Stage = new Stage();
+
   @Input('task-cards') taskCards : Map<string,TaskCard[]> = new  Map();
+  
   @Input('board') board = new Board();
+
   @Input('relations') relationContainers : string [] = [];
   @Input('attachments') attachments : Attachment [] = [];
 
@@ -92,6 +97,7 @@ export class TaskCardContainerComponent {
 
   tempStage : string  = '';
   tempTask : string = '';
+  tasks : Task[] =[];
 
 
   status = {
@@ -236,4 +242,9 @@ export class TaskCardContainerComponent {
             }
     })
   }
+  removeTask(task : TaskCard){
+    let tasksMap= this.taskCards.get(this.data.stageName);
+    this.taskCards.set( this.data.stageName , tasksMap?.filter( taskMap => taskMap.id != task.id )!);
+   }
+
 }
