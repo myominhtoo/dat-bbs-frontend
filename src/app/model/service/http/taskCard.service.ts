@@ -38,6 +38,10 @@ export class TaskCardService {
     exportTaskReport(boardId : number , taskFormat : string ){
         return this.httpClient.get<TaskCard[]>(`http://localhost:8080/api/boards/${boardId}/reportTask?format=${taskFormat}`);
       }
+    
+    updateDeleteStatusTask( boardId : number , id : number ,taskCard : TaskCard): Observable <TaskCard>{
+        return this.httpClient.put<TaskCard>(`http://localhost:8080/api/boards/${boardId}/task-cards?id=${id}`,taskCard);
+    }
 
 
 }

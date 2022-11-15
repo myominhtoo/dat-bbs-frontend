@@ -78,8 +78,6 @@ export class BoardComponent implements OnInit {
     })
     }
 
-
-
     fetchRequiredDatas(){
         this.getMembers( this.data.id  )
         .then( () => {
