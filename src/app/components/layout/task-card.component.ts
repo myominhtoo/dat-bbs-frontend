@@ -5,6 +5,9 @@ import { OnInit } from '@angular/core';
 import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
 import { ActivityService } from 'src/app/model/service/http/activity.service';
 import { CommentService } from 'src/app/model/service/http/comment.service';
+import swal from 'sweetalert';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
     selector : 'task-card',
@@ -18,6 +21,12 @@ import { CommentService } from 'src/app/model/service/http/comment.service';
                         <i class="fa-regular fa-message"></i>
                         <span *ngIf="task.comments.length > 0" class="badge text-white p-1 bg-danger noti-con fw-light " style="transform:translate(40%,40%);">{{ task.comments.length }}</span>
                     </div>
+                     <!-- for achieve taskcard -->
+                    <div>
+                        <i *ngIf="task.stage.id==3  && !task.deleteStatus" (click)="removeTask($event,task.id)" class="fa-solid fa-xmark" > </i>
+                        
+                        <i *ngIf="task.stage.id==3 && task.deleteStatus" (click)="restoreTask($event)" class="fa-solid fa-rotate-left text-muted"></i>
+                    </div>  
                     <div class="dropdown" id="color-dropdown">
                         <i (click)="handleShowColorPlatte($event)" class="fa-solid fa-palette" data-bs-toggle="dropdown" data-bs-target="#color-dropdown"></i>                           
                         <ul class="dropdown-menu p-3">
@@ -42,7 +51,9 @@ import { CommentService } from 'src/app/model/service/http/comment.service';
                     <mat-progress-bar [value]="donePercent"  mode="determinate" ></mat-progress-bar>
                     <small style="font-size:10px;" class="fw-bold thm">{{ donePercent }}%</small>
                 </div>
-            </div>    
+            </div>  
+              
+
         </div>
        </div> 
     `
@@ -52,6 +63,8 @@ export class TaskCardComponent implements OnInit {
     @Input('task') task : TaskCard = new TaskCard();
     @Output('show-task') showTask = new EventEmitter<TaskCard>();
     @Output('show-comment') showCommentEmitter = new EventEmitter<TaskCard>();
+    @Output('delete-task')  emitDeleteTask = new EventEmitter<TaskCard>();
+    @Output('restoreDeletedTask')  emitRestoreTask = new EventEmitter<TaskCard>();
 
     isRequesting : boolean = false;
 
@@ -61,6 +74,7 @@ export class TaskCardComponent implements OnInit {
 
     constructor( 
         private taskCardService : TaskCardService , 
+        public route : ActivatedRoute ,
         private activityService : ActivityService ,
         private commentService : CommentService ){}
 
@@ -140,6 +154,49 @@ export class TaskCardComponent implements OnInit {
     handleGoCommentSection( e : Event ){
         e.stopPropagation();
         this.showCommentEmitter.emit(this.task)
+    }
+
+    removeTask(e : Event , id : number){
+        e.stopPropagation();
+       let boardId = this.route.snapshot.params['boardId'];
+
+        swal({
+            text : 'Are you sure to delete TaskCard?',
+            icon : 'warning',
+            buttons : [ 'No' , 'Yes' ]
+          }).then(isYes=>{
+             this.task.deleteStatus=true;
+            this.taskCardService.updateDeleteStatusTask(boardId,id,this.task).subscribe({
+                // this.taskCardService.updateTaskCard(this.task).subscribe({
+                next: res=>{
+                    this.emitDeleteTask.emit(this.task);
+                },
+                error : err => {
+                    console.log(err);
+                  }
+             })
+          });
+    
+    }
+
+    restoreTask(e : Event){
+        e.stopPropagation();
+        swal({
+            text: 'Are you sure to restore TaskCard?',
+            icon: 'warning',
+            buttons: ['No','Yes']
+        }).then(isYes=>{
+            this.task.deleteStatus=false;
+            this.taskCardService.updateTaskCard(this.task).subscribe({
+                next:res=>{
+                    this.emitRestoreTask.emit(this.task);
+                    this.task.deleteStatus=false;
+                },
+                error : err =>{
+                    console.log(err);
+                }
+            })
+        })
     }
 
 }

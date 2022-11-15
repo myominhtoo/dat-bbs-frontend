@@ -29,7 +29,7 @@
 3
             </span>
             <span class="user-infos">
-            Project
+            Board
         </span>
         </div>
         <div>
@@ -41,14 +41,14 @@
  2               
             </span>
             <span class="user-infos">
-             Collaborator
+             Collaborators
             </span>
         </div>
     </div>
 </div>
     <div class="w-100 pt-2">
         <div class="container">
-            <div class="container-fluid d-flex justify-content-center w-100 mb-3">
+            <div class="container-fluid d-flex justify-content-center w-100 mb-3" >
             <div class="w-50 user-info-cards mx-1">
                 <div class="">
                     <div class="w-100 row p-2 d-flex justify-content-center align-items-center pb-1 m-0" style="border-bottom: 1px solid #6d6e6f65;">
@@ -85,7 +85,7 @@
                                         </div>
                                         <div>
                                             <span class="badge  p-2" style="background-color: #3e3636;">
-                                                Project...
+                                                Board...
                                             </span>
                                             <span>
                                                 Nov 12 -15
@@ -100,23 +100,38 @@
             </div>
             <div class="w-50 user-info-cards mx-1 pt-3">
                 <div class="p-2">
-                    <h4 class="m-0">Project</h4>
+                    <h4 class="m-0">Board</h4>
                 </div>
                 <div class="">
                     <div class="row my-prior-list" style="overflow-y: scroll;height: 210px;">
-                        <!-- start -->
-                        <div class="col-12 mb-1">
+                        <!-- start -->                        
+                        <div class="col-6 mb-1">
+                            <div class="row px-3 py-1">
+                            <div class="col-2 user-show-projects  d-flex justify-content-center align-items-center rounded-3" >
+                                <i class="fas fa-plus text-white " style="font-size: 20px;"></i>
+                            </div>
+                            <div class="col-8 d-flex justify-content-start align-items-center">
+                                <h5 class="m-0 p-0">Create Board</h5>
+                                <!-- <h6 class="m-0 p-0 text-muted">3 tasks due soon</h6> -->
+                                
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="col-6 mb-1">
                             <div class="row px-3 py-1">
                             <div class="col-2 user-show-projects  d-flex justify-content-center align-items-center rounded-3" >
                                 <i class="fas fa-list-squares text-white " style="font-size: 20px;"></i>
                             </div>
-                            <div class="col-10  ">
-                                <h5 class="m-0 p-0">Create Project</h5>
+                            <div class="col-9">
+                                <h5 class="m-0 p-0">To Sleep</h5>
                                 <h6 class="m-0 p-0 text-muted">3 tasks due soon</h6>
                                 
                             </div>
                         </div>
                         </div>
+                        
+                        
 
 <!-- end  -->
                  
@@ -126,24 +141,28 @@
             </div>
         </div>
         <div class="container">
-            <div class="w-100 mx-1 user-info-people" style="height: auto">   
+            <div class="mx-1 user-info-people w-100" style="height: auto;">   
                 <div class="p-2">
-                    <h4 class="m-0">People</h4>
+                    <h4 class="m-0">Collaborators</h4>
                 </div>
-                <div class="p-2 px-4">
-                    <!-- <div class="row" [options]="customOptions"> -->
-                        <div class="row">
-                        <div class="col-4 rounded-3 user-people">
-                            <div class="flex-column d-flex justify-content-between align-items-center p-3" style="height:100%">
+                <div class="p-2 px-4 wrapper " >
+                    
+                        <i id="left" class="fa-solid fa-angle-left" *ngIf="showHideIcons() >80" (click)="iconClick('left')" ></i>
+                        
+                        <div class="carousel" #carousel (touchstart)="dragStart($event)" (mousedown)="dragStart($event)"
+                        (touchmove)="dragging($event)" (touchend)="dragStop()">                            
+                            <!-- start  -->                            
+                        <div class="rounded-3 mx-2 user-people" #firstDiv>
+                            <div class="flex-column d-flex justify-content-around align-items-center p-3" style="height:100%">
                                 <div class="d-flex flex-column  justify-content-center align-items-center" >
                                 <div class="w-100 m-0 p-0 ">
                                     <div class="m-0 p-0 mx-auto" style="width: 50%;">
                                     <img  class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" src="assets\img\board-profile-img\gru.jpg"  alt="">                                                        
                                 </div>
-                                </div>
-                                
-                                <div class="pt-4">
+                                </div>                                
+                                <div class="pt-2 text-center" >
                                 <h5>ZayarMyoOo</h5>                                    
+                                <h6><p class="text-muted">Joined at : <span>Nov 10</span> </p></h6>                                
                                 </div>
                             </div>
                                 <div class="">
@@ -151,8 +170,17 @@
                                 </div>
                             </div>
                         
-                        </div>
+                        </div>                            
+                        
+                                              
+                        
+
+
+                                                
+                    <!-- end  -->                                                                                                                     
+                        
                     </div>
+                    <i id="right" class="fa-solid fa-angle-right" *ngIf="showHideIcons() != scrollWidthDiv" (click)="iconClick('right')" ></i> 
                 </div>
             </div>
         </div>
@@ -160,4 +188,6 @@
     </div>
 
 </div>
+
+
 
