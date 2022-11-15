@@ -12,7 +12,7 @@ import { CommentService } from 'src/app/model/service/http/comment.service';
      <div (click)="handleShowOffCanvas( task)" class="d-flex task-cards my-0 p-2 gap-2 text-muted shadow-sm bg-pale-snow" style="padding-right:10px;" [style.borderLeft]="task.markColor == null || task.markColor == ''  ? '0.5px solid rgb(206, 202, 202)' : '4px solid '+task.markColor +'!important'  " >
        <div class="d-flex flex-column align-items-star gap-3 w-100" >
         <div class="d-flex justify-content-between w-100">
-                <h5 class="fw-light h5">{{ task.taskName | titlecase }} {{ task.comments.length }}</h5>
+                <h5 class="fw-light h5">{{ task.taskName | titlecase }}</h5>
                 <div class="d-flex gap-2 align-items-center">
                     <div (click)="handleGoCommentSection($event)">
                         <i class="fa-regular fa-message"></i>
@@ -36,7 +36,7 @@ import { CommentService } from 'src/app/model/service/http/comment.service';
                 <span *ngIf="task.startedDate != task.endedDate"><i class="fa-solid fa-right-long" style="font-size:12px;"></i></span>
                 <span *ngIf="task.startedDate != task.endedDate" style="font-size:13px;">{{ task.endedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
             </div>
-            <div *ngIf="showDonePercent" style="width:35%;" >
+            <div *ngIf="showDonePercent" class="text-end" style="width:35%;" >
                 <small style="font-size:12px;">Done Activity</small>
                 <div class="w-100 d-flex align-items-center gap-1">
                     <mat-progress-bar [value]="donePercent"  mode="determinate" ></mat-progress-bar>
@@ -75,7 +75,7 @@ export class TaskCardComponent implements OnInit {
         this.getComments();
         setTimeout(() => {
             this.getActivityDonePercent();
-        } , 50 );
+        } , 300 );
     }
 
     handleShowOffCanvas( task : TaskCard ){

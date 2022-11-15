@@ -190,6 +190,12 @@ export class MyBoardComponent implements OnInit {
                 next : res => {
                     this.status.isAddingStage = false;
                    if( res.ok ){
+
+                    const container = ($('#main-area')[0] as HTMLDivElement);
+                    container.scrollTo ({
+                      left : container.scrollLeft + 200   
+                    })
+
                     this.stages.push( res.data );
                     this.taskCardsMap.set( res.data.stageName , [] );
 
