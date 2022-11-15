@@ -1,5 +1,5 @@
-import { OwlOptions } from 'ngx-owl-carousel-o';
-import { Component, OnInit } from "@angular/core";
+
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from "@angular/core";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { UserStore } from "src/app/model/service/store/user.store";
 import { COLORS } from "src/app/model/constant/colors";
@@ -10,34 +10,23 @@ import { getRandom  } from "src/app/util/random";
     templateUrl : './home.component.html',
 })
 export class HomeComponent implements OnInit {
-
+    @ViewChild("carousel",{static:true}) carousel!: ElementRef;
+    @ViewChild("firstDiv",{static:true}) firstDiv!: ElementRef;
+    scrollWidthDiv!:number;        
+        dragStatus={
+            isDragStart : false,
+            isDragging : false,            
+        }        
+        prevPageX!:number;
+        prevScrollLeft!:number;
+        positionDiff!:number;
+        
+            
+    
     username : string = '';
     period : string = 'Good Morning';
     dateObj = new Date();
-    customOptions: OwlOptions = {
-        loop: true,
-        mouseDrag: false,
-        touchDrag: false,
-        pullDrag: false,
-        dots: false,
-        navSpeed: 700,
-        navText: ['', ''],
-        responsive: {
-          0: {
-            items: 1
-          },
-          400: {
-            items: 2
-          },
-          740: {
-            items: 3
-          },
-          940: {
-            items: 4
-          }
-        },
-        nav: true
-      }
+    
 
     constructor( public toggleStore : ToggleStore , public userStore : UserStore ){
         document.title = "BBMS | Home";
@@ -47,8 +36,16 @@ export class HomeComponent implements OnInit {
 
     ngOnInit(): void {
         this.calculatePeriod();
-        
+        setTimeout(()=>{
+            this.scrollWidthDiv = this.carousel.nativeElement.scrollWidth - this.carousel.nativeElement.clientWidth;
+            console.log("Scroll width",this.carousel.nativeElement.scrollWidth)
+            console.log(this.carousel.nativeElement.clientWidth);
+        },1000)        
+     console.log("Hellooo",this.carousel);
+     console.log("Hellooo",this.firstDiv);
+     
     }
+    
 
     typeAnimate(){
         let lastIdx = 0;
@@ -89,10 +86,61 @@ export class HomeComponent implements OnInit {
         
     }
 
+    showHideIcons(){            
+        // console.log("Show Hide Icons",this.carousel.nativeElement.scrollLeft)
+        // console.log( this.firstDiv.nativeElement.clientWidth + 14)
+        console.log("scrollLeft",this.carousel.nativeElement.scrollLeft);
+    return this.carousel.nativeElement.scrollLeft;
+    }
+    dragStart(e:any){
+        console.log("dragStart is working")
+        this.dragStatus.isDragStart = true;
+        this.prevPageX = e.pageX || e.touches[0].pageX;
+        this.prevScrollLeft = this.carousel.nativeElement.scrollLeft;
+    }
+
+    dragging(e:any){
+        console.log("dragging is working");
+        if(!this.dragStatus.isDragStart) return;
+    e.preventDefault();
+    this.dragStatus.isDragging = true;
+    this.carousel.nativeElement.classList.add("dragging");
+    this.positionDiff = (e.pageX || e.touches[0].pageX) - this.prevPageX;
+    this.carousel.nativeElement.scrollLeft = this.prevScrollLeft - this.positionDiff;
+    this.showHideIcons();
+    }
+    dragStop(){
+        console.log("dragStop is working");
+        this.dragStatus.isDragStart = false;
+        this.carousel.nativeElement.classList.remove("dragging");
+        if(!this.dragStatus.isDragging) return;
+        this.dragStatus.isDragging = false;
+        this.autoSlide();
+    }
+    
+    iconClick(id:string){
+        console.log(id)
+        let firstImgWidth = this.firstDiv.nativeElement.clientWidth + 14;
+        this.carousel.nativeElement.scrollLeft += id == "left" ? -firstImgWidth : firstImgWidth;
+        setTimeout(() => this.showHideIcons(), 60);
+    }
     
     
-    
-    
+    autoSlide(){
+         // if there is no image left to scroll then return from here
+    if(this.carousel.nativeElement.atscrollLeft - (this.carousel.nativeElement.scrollWidth - this.carousel.nativeElement.clientWidth) > -1 || this.carousel.nativeElement.scrollLeft <= 0) return;
+
+    this.positionDiff = Math.abs(this.positionDiff); // making positionDiff value to positive
+    let firstImgWidth = this.firstDiv.nativeElement.clientWidth + 14;
+    // getting difference value that needs to add or reduce from this.carousel left to take middle img center
+    let valDifference = firstImgWidth - this.positionDiff;
+
+    if(this.carousel.nativeElement.scrollLeft > this.prevScrollLeft) { // if user is scrolling to the right
+        return this.carousel.nativeElement.scrollLeft += this.positionDiff > firstImgWidth / 3 ? valDifference : -this.positionDiff;
+    }
+    // if user is scrolling to the left
+    this.carousel.nativeElement.scrollLeft -= this.positionDiff > firstImgWidth / 3 ? valDifference : -this.positionDiff;
+    }
     
 }
 

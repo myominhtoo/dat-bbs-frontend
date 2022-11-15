@@ -39,11 +39,7 @@
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/emojionearea/dist/emojionearea.min.js",
-              "node_modules/boxicons/dist/boxicons.js"
-<<<<<<< Updated upstream
-=======
-             
->>>>>>> Stashed changes
+              "node_modules/boxicons/dist/boxicons.js"             
             ]
           },
           "configurations": {
