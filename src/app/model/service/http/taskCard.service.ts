@@ -54,6 +54,10 @@ export class TaskCardService {
 
     restoreTask(id : number ,boardId : number, taskCard : TaskCard) : Observable<HttpResponse<TaskCard>>{
       return this.httpClient.put<HttpResponse<TaskCard>>(`http://localhost:8080/api/boards/${boardId}/restore-tasks?id=${id}` , taskCard  );
+   }
+
+   exportArchiveTaskReport(boardId : number , taskFormat : string ){
+    return this.httpClient.get<TaskCard[]>(`http://localhost:8080/api/boards/${boardId}/reportArchiveTask?format=${taskFormat}`);
   }
 
 }
