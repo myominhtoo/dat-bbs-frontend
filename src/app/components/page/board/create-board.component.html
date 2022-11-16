@@ -1,6 +1,9 @@
-<section class="container-fluid d-flex justify-content-center align-items-center mt-5 w-100">
-    <div class="container p-5 d-flex justify-content-center align-item w-auto rounded-1 text-black card  py-5 h-auto shadow-sm" style="width:650px !important;max-width:650px;">
-        <form (ngSubmit)="createBoard()" class="w-100" novalidate>
+<section class="container-fluid d-flex justify-content-center align-items-center w-100" style="height:92vh;">
+    <div class="container d-flex justify-content-center align-item-center w-auto rounded-1 text-black card h-auto shadow-sm my-auto" style="width:650px !important;max-width:650px;">
+        <div class="w-50 bg-primary">
+            <img class="w-100 h-100" src="/assets/img/create-board.png"/>
+        </div>
+        <form (ngSubmit)="createBoard()" class="w-50" >
             <div class="row d-flex justify-content-center align-items-center">
                 <h1 class="text-center mb-3 opacity-75">Create Board</h1>
                 <div class="col-8">
@@ -48,9 +51,9 @@
                             </mat-autocomplete>
                     </div>
                     <small class="text-danger">{{ status.error.email.msg }}</small>
-                    <div class="mb-3 mt-3 float-end">
-                        <button class="btn me-4">Cancel</button>
-                        <button class="btn bg-thm text-light" [disabled]="status.isLoading">{{ status.isLoading ? 'Creating Board' : 'Create Board'}}</button>
+                    <div class="my-3 d-flex justify-content-end gap-3">
+                        <button type="reset" class="btn btn-sm px-3 ">Cancel</button>
+                        <button class="btn bg-thm text-light btn-sm px-3" [disabled]="status.isLoading">{{ status.isLoading ? 'Creating...' : 'Create'}}</button>
                     </div>
 
                 </div>

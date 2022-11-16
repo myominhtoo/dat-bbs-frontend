@@ -12,7 +12,10 @@ export class AuthInterceptor implements HttpInterceptor{
     constructor( private authService : AuthService ){}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-       const requestUrl = req.url.replace("http://localhost:8080","");
+       let requestUrl = req.url.replace("http://localhost:8080","");
+       if( requestUrl.includes('?')){
+        requestUrl = requestUrl.split('?')[0];
+       }
        if( PUBLIC_URL.includes(requestUrl.trim()) ){
          return next.handle(req);
        }  
