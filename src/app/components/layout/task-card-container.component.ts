@@ -19,10 +19,10 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
   template: `
     <div class="task-card-container mx-2 d-inline-block rounded-1">
       <!-- start task-card-header -->
-      <div class="w-100 bg-transparent task-card-header p-2 pb-0">
-        <div class="d-flex justify-content-between align-items-center p-2  rounded-sm bg-stage-dark">
+      <div class="w-100 bg-transparent task-card-header p-2 pb-0" style="width:315px !important">
+        <div class="d-flex justify-content-between align-items-center p-2 rounded-sm bg-stage-dark">
           <!-- task-card-title -->
-          <div class="text-justify">
+          <div class="text-justify" >
             
             <h1 *ngIf="!status.isEditStage" class="stage-title text-white p-2 h5 mx-1 m-0 ">{{ data.stageName | titlecase }}</h1>
             <input *ngIf="status.isEditStage" [(ngModel)]="data.stageName" type="text" (keydown)="handleUpdateStage($event)"  class="form-control mx-2 text-capitalize rounded-0" style="box-shadow:none;" >
@@ -55,7 +55,7 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
       <!-- task-card start -->
       <!-- task-card-scroll -->
       <div class="container-fluid p-2 pt-0 m-0 ">
-      <div class="my-2">
+      <div class="my-2 ">
           <span class="text-danger fs-6">{{ status.addTaskError }}</span>
         </div>
         <div *ngIf="status.isAddTask" class="my-1">
@@ -70,7 +70,7 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
 })
 export class TaskCardContainerComponent {
 
-  constructor( 
+  constructor(
     private stageService : StageService ,
     private taskService : TaskCardService,
     private socketService : SocketService,
@@ -82,7 +82,7 @@ export class TaskCardContainerComponent {
   @Input('stage') data : Stage = new Stage();
 
   @Input('task-cards') taskCards : Map<string,TaskCard[]> = new  Map();
-  
+
   @Input('board') board = new Board();
 
   @Input('relations') relationContainers : string [] = [];
@@ -188,7 +188,7 @@ export class TaskCardContainerComponent {
             this.status.addTaskError = err.error.message;
           }
         })
-      }  
+      }
     }
 
   }
@@ -228,8 +228,8 @@ export class TaskCardContainerComponent {
     this.showTaskOffcanvas.emit(task);
   }
 
-  deleteStage(stage : Stage){ 
-    
+  deleteStage(stage : Stage){
+
       swal({
             text : 'Are you sure ?',
             icon : 'warning',
@@ -238,13 +238,22 @@ export class TaskCardContainerComponent {
             if (isYes){
               // this.stageService.deleteStage(stage.id).subscribe(data=>{
               this.emitDeleteStage.emit(stage);
-              // }) 
+              // })
             }
     })
   }
+
   removeTask(task : TaskCard){
     let tasksMap= this.taskCards.get(this.data.stageName);
     this.taskCards.set( this.data.stageName , tasksMap?.filter( taskMap => taskMap.id != task.id )!);
    }
+
+
+   restoreTask(task : TaskCard){
+    let tasksMap= this.taskCards.get(this.data.stageName);
+    this.taskCards.set( this.data.stageName , tasksMap?.filter( taskMap => taskMap.id != task.id )!);
+   }
+
+
 
 }

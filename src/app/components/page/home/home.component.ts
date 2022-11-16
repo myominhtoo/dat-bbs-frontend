@@ -107,8 +107,10 @@ export class HomeComponent implements OnInit {
         // console.log("Show Hide Icons",this.carousel.nativeElement.scrollLeft)
         // console.log( this.firstDiv.nativeElement.clientWidth + 14)
         // console.log("scrollLeft",this.carousel.nativeElement.scrollLeft);
-    return this.carousel.nativeElement.scrollLeft;
+
+        return this.carousel.nativeElement.scrollLeft;
     }
+
     dragStart(e:any){
         // console.log("dragStart is working")
         this.dragStatus.isDragStart = true;

@@ -4,6 +4,9 @@ import { Client  } from 'stompjs';
 import { SocketService } from './model/service/http/socket.service';
 import { ToggleStore } from './model/service/store/toggle.service';
 import * as Toastify from 'toastify-js';
+import { AuthService } from './model/service/http/auth.service';
+import { UserStore } from './model/service/store/user.store';
+import { NotificationStore } from './model/service/store/notification.store';
 
 @Component({
   selector: 'app-root',
@@ -18,17 +21,29 @@ export class AppComponent implements OnInit {
 
   constructor( public router : Router ,
      public toggleStore : ToggleStore , 
-     private socketService : SocketService ){
+     private socketService : SocketService ,
+     private authService : AuthService ,
+     private userStore : UserStore ,
+     private notiStore : NotificationStore ){
     this.router.events.subscribe( ( event ) => {
       if( event instanceof NavigationEnd ){
          this.currentUrl = event.url;
+         if(this.currentUrl.includes('?')){
+           this.currentUrl = this.currentUrl.split('?')[0];
+         }
          this.isExceptionPage =  ['/','/login','/register','/verify-email','/forget-password'].includes(this.currentUrl) || this.currentUrl.includes('/register');
       }
     })
   }
 
   ngOnInit(): void {
-    this.socketService.subscribeBoardsSocket();
+    if(this.authService.isAuth()){
+       this.userStore.fetchUserData();
+       setTimeout(() => {
+        this.socketService.subscribeBoardsSocket();
+        this.notiStore.reFetchNotis( this.userStore.user.id )
+       }, 1000 );
+    }
   }
 
 }

@@ -63,16 +63,16 @@ export class NavbarComponent implements OnInit {
     }
 
     getUserData( userId : number ){
-        this.userService.getUser( userId )
-        .subscribe({
-          next : resUser => {
-            this.userInfo={...resUser};
+        // this.userService.getUser( userId )
+        // .subscribe({
+        //   next : resUser => {
+        //     this.userInfo={...resUser};
   
-          },
-          error : err => {
-            console.log(err);
-          }
-        });
+        //   },
+        //   error : err => {
+        //     console.log(err);
+        //   }
+        // });
       }
   
 
@@ -126,8 +126,8 @@ export class NavbarComponent implements OnInit {
         buttons : [ 'No' , 'Yes' ]
       }).then( isYes => {
         if(isYes){
-          localStorage.removeItem(window.btoa('user'));
-          
+          localStorage.removeItem(window.btoa('user'));   
+          localStorage.removeItem(window.btoa('token'));   
           this.router.navigateByUrl('/login');
         }
       });

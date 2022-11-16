@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
      <div (click)="handleShowOffCanvas( task)" class="d-flex task-cards my-0 p-2 gap-2 text-muted shadow-sm bg-pale-snow" style="padding-right:10px;" [style.borderLeft]="task.markColor == null || task.markColor == ''  ? '0.5px solid rgb(206, 202, 202)' : '4px solid '+task.markColor +'!important'  " >
        <div class="d-flex flex-column align-items-star gap-3 w-100" >
         <div class="d-flex justify-content-between w-100">
-                <h5 class="fw-light h5">{{ task.taskName | titlecase }} {{ task.comments.length }}</h5>
+                <h5 class="fw-light h5">{{ task.taskName | titlecase }}</h5>
                 <div class="d-flex gap-2 align-items-center">
                     <div (click)="handleGoCommentSection($event)">
                         <i class="fa-regular fa-message"></i>
@@ -24,38 +24,38 @@ import { ActivatedRoute } from '@angular/router';
                      <!-- for achieve taskcard -->
                     <div>
                         <i *ngIf="task.stage.id==3  && !task.deleteStatus" (click)="removeTask($event,task.id)" class="fa-solid fa-xmark" > </i>
-                        
-                        <i *ngIf="task.stage.id==3 && task.deleteStatus" (click)="restoreTask($event)" class="fa-solid fa-rotate-left text-muted"></i>
-                    </div>  
+
+                        <i *ngIf="task.stage.id==3 && task.deleteStatus" (click)="restoreTaskCard($event,task.id)" class="fa-solid fa-rotate-left text-muted"></i>
+                    </div>
                     <div class="dropdown" id="color-dropdown">
-                        <i (click)="handleShowColorPlatte($event)" class="fa-solid fa-palette" data-bs-toggle="dropdown" data-bs-target="#color-dropdown"></i>                           
+                        <i (click)="handleShowColorPlatte($event)" class="fa-solid fa-palette" data-bs-toggle="dropdown" data-bs-target="#color-dropdown"></i>
                         <ul class="dropdown-menu p-3">
                             <li style="font-size:14px;">Select Color :</li>
                             <li class="d-flex flex-wrap gap-1 my-2">
                                 <p (click)="handleSetColor( $event,  '')" class="p-0 m-0 rounded-0 shadow-sm text-center" style="width:20px;height:20px;" ><i class="fa-solid fa-ban text-muted"></i></p>
                                 <p *ngFor="let color of colors" (click)="handleSetColor($event, color)" class="p-0 m-0 rounded-0" style="width:20px;height:20px;" [style]="'background:'+color" ></p>
                             </li>
-                        </ul>   
-                    </div>   
+                        </ul>
+                    </div>
                 </div>
-            </div>    
-        <div class="w-100 d-flex  gap-2 align-items-end {{ !showDonePercent ? 'justify-content-end' : 'justify-content-between' }} " >      
+            </div>
+        <div class="w-100 d-flex  gap-2 align-items-end {{ !showDonePercent ? 'justify-content-end' : 'justify-content-between' }} " >
             <div class="d-flex gap-2 align-items-end">
                 <span style="font-size:13px;">{{ task.startedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
                 <span *ngIf="task.startedDate != task.endedDate"><i class="fa-solid fa-right-long" style="font-size:12px;"></i></span>
                 <span *ngIf="task.startedDate != task.endedDate" style="font-size:13px;">{{ task.endedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
             </div>
-            <div *ngIf="showDonePercent" style="width:35%;" >
+            <div *ngIf="showDonePercent" class="text-end" style="width:35%;" >
                 <small style="font-size:12px;">Done Activity</small>
                 <div class="w-100 d-flex align-items-center gap-1">
                     <mat-progress-bar [value]="donePercent"  mode="determinate" ></mat-progress-bar>
                     <small style="font-size:10px;" class="fw-bold thm">{{ donePercent }}%</small>
                 </div>
-            </div>  
-              
+            </div>
+
 
         </div>
-       </div> 
+       </div>
     `
 })
 export class TaskCardComponent implements OnInit {
@@ -72,8 +72,8 @@ export class TaskCardComponent implements OnInit {
     donePercent : number = 0;
     showDonePercent : boolean = true;
 
-    constructor( 
-        private taskCardService : TaskCardService , 
+    constructor(
+        private taskCardService : TaskCardService ,
         public route : ActivatedRoute ,
         private activityService : ActivityService ,
         private commentService : CommentService ){}
@@ -89,7 +89,7 @@ export class TaskCardComponent implements OnInit {
         this.getComments();
         setTimeout(() => {
             this.getActivityDonePercent();
-        } , 50 );
+        } , 500 );
     }
 
     handleShowOffCanvas( task : TaskCard ){
@@ -176,10 +176,11 @@ export class TaskCardComponent implements OnInit {
                   }
              })
           });
-    
+
     }
 
-    restoreTask(e : Event){
+    restoreTaskCard(e : Event , id : number){
+      let boardId = this.route.snapshot.params['boardId'];
         e.stopPropagation();
         swal({
             text: 'Are you sure to restore TaskCard?',
@@ -187,7 +188,7 @@ export class TaskCardComponent implements OnInit {
             buttons: ['No','Yes']
         }).then(isYes=>{
             this.task.deleteStatus=false;
-            this.taskCardService.updateTaskCard(this.task).subscribe({
+            this.taskCardService.restoreTask(id,boardId,this.task).subscribe({
                 next:res=>{
                     this.emitRestoreTask.emit(this.task);
                     this.task.deleteStatus=false;
@@ -198,5 +199,6 @@ export class TaskCardComponent implements OnInit {
             })
         })
     }
+
 
 }

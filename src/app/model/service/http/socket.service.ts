@@ -9,6 +9,8 @@ import { Notification } from "../../bean/notification";
 import { BoardStore } from "../store/board.store";
 import * as Toastify from 'toastify-js';
 import { NotificationStore } from '../store/notification.store';
+import { AuthService } from './auth.service';
+import { UserStore } from '../store/user.store';
 
 
 @Injectable({
@@ -18,16 +20,24 @@ export class SocketService{
 
     stompClient : Client | undefined = undefined;
 
-    constructor( public boardStore : BoardStore ,private httpClient : HttpClient , private notiStore : NotificationStore  ){
-        const socket = new SockJS( 'http://localhost:8080/socket' );
-        this.stompClient = over( socket );
+    constructor( 
+        public boardStore : BoardStore , 
+        private httpClient : HttpClient ,
+        private notiStore : NotificationStore,
+        private authService : AuthService
+    ){  
+        if( authService.isAuth() ) {
+            const socket = new SockJS( 'http://localhost:8080/socket' );
+            this.stompClient = over( socket );
+        }
     }
 
     subscribeBoardsSocket(){
+        const socket = new SockJS( 'http://localhost:8080/socket' );
+        this.stompClient = over( socket );
         if(this.stompClient){
             this.stompClient.connect( {} ,
                 () => {
-                    //subscribing boards channel
                     this.boardStore.boards.forEach( board => {
                         this.stompClient?.subscribe( `/boards/${board.id}/notifications` , ( payload ) => {
                             const newNoti = JSON.parse(payload.body) as Notification;
@@ -70,8 +80,6 @@ export class SocketService{
             });
         }
     }
-
-    
 
     sentMeesageToGroupChat( boardId : number , message : BoardMessage  ){
         if( this.stompClient ){

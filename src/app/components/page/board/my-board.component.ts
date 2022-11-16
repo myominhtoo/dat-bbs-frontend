@@ -190,6 +190,12 @@ export class MyBoardComponent implements OnInit {
                 next : res => {
                     this.status.isAddingStage = false;
                    if( res.ok ){
+
+                    const container = ($('#main-area')[0] as HTMLDivElement);
+                    container.scrollTo ({
+                      left : container.scrollLeft + 200   
+                    })
+
                     this.stages.push( res.data );
                     this.taskCardsMap.set( res.data.stageName , [] );
 
@@ -467,19 +473,15 @@ export class MyBoardComponent implements OnInit {
     this.comment.comment += event.emoji.native;
    }
 
-
-
-exportMemberReport(path:string) {
-
-  let boardId = this.route.snapshot.params['id'];
-
-  this.userService.exportMember(boardId,path).subscribe((data) => {
-    swal({
-      text : 'Successfully Exported!',
-      icon : 'success'
-  });
-  })
-}
+  exportMemberReport(path:string) {
+    let boardId = this.route.snapshot.params['id'];
+    this.userService.exportMember(boardId,path).subscribe((data) => {
+      swal({
+        text : 'Successfully Exported!',
+        icon : 'success'
+    });
+    })
+  }
 
    exportTaskReport(path:string ) {
 
@@ -494,5 +496,4 @@ exportMemberReport(path:string) {
 
   }
   
-
 }

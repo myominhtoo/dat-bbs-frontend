@@ -1,6 +1,6 @@
 import { BoardBookMark } from './../../bean/BoardBookMark';
 import { User } from 'src/app/model/bean/user';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders , HttpResponse as NgHttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpResponse } from "../../bean/httpResponse";
@@ -13,8 +13,8 @@ import { Notification } from '../../bean/notification';
 })
 
 export class UserService {
-    constructor ( private httpClient : HttpClient ){
-    }
+
+    constructor ( private httpClient : HttpClient ){}
 
     sendVerification(email : string) : Observable <HttpResponse<any>> {
         return this.httpClient.get<HttpResponse<any>>(`http://localhost:8080/api/send-verification?email=${email}`);
@@ -24,8 +24,8 @@ export class UserService {
         return this.httpClient.post <HttpResponse<any>> (`http://localhost:8080/api/register` ,  user);
     }
 
-    LoginUser( user : User ) : Observable <HttpResponse<User>> {
-        return this.httpClient.post <HttpResponse<User>> (`http://localhost:8080/api/login` ,  user);
+    LoginUser( user : User ) : Observable <NgHttpResponse<any>> {
+        return this.httpClient.post <NgHttpResponse<any>> (`http://localhost:8080/api/login` ,  user , { observe : 'response' });
     }
 
     getUsers() : Observable<User[]> {

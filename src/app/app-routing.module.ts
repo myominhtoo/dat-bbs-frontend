@@ -1,7 +1,7 @@
 import { BoardChatComponent } from './components/page/chatbox/board-chat.component';
 import {RegisterComponent } from './components/page/register/register.component';
 import { VerifyEmailComponent } from './components/page/verifyEmail/verify-email.component';
-import { Component, NgModule } from '@angular/core';
+import {  NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {  LoginComponent } from './components/page/login/login.component';
 import { HomeComponent } from './components/page/home/home.component';
@@ -11,13 +11,15 @@ import { BoardMarkComponent } from './components/page/bookmarks/bookmarks.compon
 import { ReportingComponent } from './components/page/reporting/reporting.component';
 import { WorkspaceComponent } from './components/page/board/workspace.component';
 import { MyBoardComponent } from './components/page/board/my-board.component';
-import { CreateTaskCardComponent } from './components/page/mytasks/create-taskCard.component';
 import { ProfileComponent } from './components/page/profile/profile.component';
 import { NotFoundComponent } from './components/page/404/not-found.component';
 import { MemberviewComponent } from './components/page/memberView/memberview.component';
 import { ArchiveBoardComponent } from './components/page/board/archive-board.component';
 import { ForgetPasswordComponent } from './components/page/forgetPassword/forget-password.component';
 import { BoardBookmarkComponent } from './components/layout/boardBookmark.component';
+import { ShowDeleteTaskComponent } from './components/page/mytasks/showDeleteTask';
+import { AuthGuard } from './model/service/guard/auth.guard';
+
 
 
 const routes: Routes = [
@@ -28,7 +30,8 @@ const routes: Routes = [
   },
   {
     path :'home',
-    component : HomeComponent
+    component : HomeComponent,
+    canActivate : [ AuthGuard ]
   },
   {
     path : 'verify-email',
@@ -44,45 +47,55 @@ const routes: Routes = [
   },
   {
     path:'profile' ,
-    component:ProfileComponent
+    component:ProfileComponent,
+    canActivate : [ AuthGuard ]
   },
   {
     path : 'create-board',
-    component : CreateBoardComponent
+    component : CreateBoardComponent,
+    canActivate : [ AuthGuard ]
   },
   {
     path : 'my-tasks',
-    component : MyTaskComponent
+    component : MyTaskComponent,
+    canActivate :[ AuthGuard ]
   },
   {
     path : 'bookmarks',
-    component : BoardMarkComponent
+    component : BoardMarkComponent,
+    canActivate : [ AuthGuard ]
   },
   {
     path :'reporting',
-    component : ReportingComponent
+    component : ReportingComponent,
+    canActivate : [ AuthGuard ]
   },
   {
     path : 'boards',
-    component : WorkspaceComponent
+    component : WorkspaceComponent,
+    canActivate : [ AuthGuard ]
   },
   {
     path : 'boards/:id',
     component : MyBoardComponent,
+    canActivate : [ AuthGuard ]
   },
   {
-    path : 'create-taskCard',
-    component : CreateTaskCardComponent
+    path : 'boards/:id/showDeleteTask',
+    component : ShowDeleteTaskComponent,
+    canActivate : [ AuthGuard ]
   },
   {
     path : 'users/:id/profile',
     component : MemberviewComponent,
+    canActivate : [ AuthGuard ]
   },
-  
+
   {
     path : 'archive-boards',
     component : ArchiveBoardComponent,
-    pathMatch : 'full'
+    pathMatch : 'full',
+    canActivate : [ AuthGuard ]
   },
   {
     path : 'forget-password',
@@ -92,16 +105,19 @@ const routes: Routes = [
   {
     path : 'boardBookmark',
     component : BoardBookmarkComponent,
-    pathMatch : 'full'
+    pathMatch : 'full',
+    canActivate : [ AuthGuard ]
   },
   {
     path:"boards/:id/chat",
     component : BoardChatComponent,
-  },  
+    canActivate : [ AuthGuard ]
+  },
   {
     path : '**',
     component : NotFoundComponent,
-    pathMatch : 'full'
+    pathMatch : 'full',
+    canActivate : [ AuthGuard ]
   }
 ];
 

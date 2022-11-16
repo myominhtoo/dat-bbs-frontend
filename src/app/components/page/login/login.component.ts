@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { UserStore } from 'src/app/model/service/store/user.store';
 import { BoardStore } from 'src/app/model/service/store/board.store';
 import { NotificationStore } from 'src/app/model/service/store/notification.store';
+import { AuthService } from 'src/app/model/service/http/auth.service';
+import { SocketService } from 'src/app/model/service/http/socket.service';
 
 
 @Component({
@@ -29,8 +31,11 @@ export class LoginComponent {
     constructor(private userService : UserService ,
          private router : Router , 
          public userStore : UserStore , 
+         private authService : AuthService,
          public boardStore : BoardStore , 
-         private notiStore : NotificationStore  ){}
+         private notiStore : NotificationStore,
+         private socketService : SocketService,
+        ){}
      
     ngOnInit(): void {
         let storeUser = localStorage.getItem(window.btoa(('user')));
@@ -40,22 +45,28 @@ export class LoginComponent {
     onSubmit(userForm:NgForm){
         this.userService.LoginUser(this.user).subscribe({
          next : (res) => {
-            this.error = { hasError : false , msg : '' }
-            this.userStore.saveUserData(res.data);
-            this.boardStore.refetchBoardsByUserId(res.data.id);
-            this.notiStore.reFetchNotis( res.data.id );
-            swal({
-                text : res.message,
-                icon : 'success',
-            }).then(() => {
-                this.router.navigateByUrl('/home');
-            })
-         }, error : err => {
-            this.user.password = '';
-           this.error = { hasError : true , msg :err.error.message};
-         }
+                if(res.body.ok){
+                        this.error = { hasError : false , msg : '' }
+                        this.authService.saveToken(res.headers.get('Authorization')!)
+                        this.userStore.saveUserData(res.body.data);
+                        this.boardStore.refetchBoardsByUserId(res.body.data.id);
+                        this.notiStore.reFetchNotis( res.body.data.id );
+                        setTimeout(() => {
+                            this.socketService.subscribeBoardsSocket();
+                        } , 1000 );
+                        swal({
+                            text : res.body.message,
+                            icon : 'success',
+                        }).then(() => {
+                            this.router.navigateByUrl('/home');
+                        })
+                    }
+                }, error : err => {
+                    this.user.password = '';
+                this.error = { hasError : true , msg :err.error.message};
+                }
             
-        }
+            }
         )
      }
    
