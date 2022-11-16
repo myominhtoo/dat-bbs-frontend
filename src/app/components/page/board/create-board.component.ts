@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import swal from 'sweetalert';
 import { User } from "src/app/model/bean/user";
 import { UserService } from "src/app/model/service/http/user.service";
-import { map ,  Subject } from "rxjs";
+import { map } from "rxjs";
 import { BoardStore } from "src/app/model/service/store/board.store";
 import { UserStore } from "src/app/model/service/store/user.store";
 
@@ -164,33 +164,33 @@ export class CreateBoardComponent implements OnInit {
       }
   }
 
-  getAllUsers(){
-    const users$ = this.userService.getUsers();
-    users$.pipe(
-      map( resUsers => {
-        return resUsers.filter( user => {
-          return user.id != this.userStore.user.id;
-        }).map( filteredUser => {
-          return filteredUser.email;
+    getAllUsers(){
+      const users$ = this.userService.getUsers();
+      users$.pipe(
+        map( resUsers => {
+          return resUsers.filter( user => {
+            return user.id != this.userStore.user.id;
+          }).map( filteredUser => {
+            return filteredUser.email;
+          })
         })
-      })
-    ).subscribe({
-      next : resEmails => {
-        this.storedEmails = resEmails;
-      },
-      error : err => {
-        console.log(err);
-      }
-    });
-  }
+      ).subscribe({
+        next : resEmails => {
+          this.storedEmails = resEmails;
+        },
+        error : err => {
+          console.log(err);
+        }
+      });
+    }
 
-  filterAutoCompleteEmails(   filterEmail : string ){
-    this.filterEmails =  this.storedEmails.filter(
-      ( email )=>{
-        return email.toLocaleLowerCase().includes( filterEmail.toLocaleLowerCase());
-      }
-    )
-  }
+    filterAutoCompleteEmails(   filterEmail : string ){
+      this.filterEmails =  this.storedEmails.filter(
+        ( email )=>{
+          return email.toLocaleLowerCase().includes( filterEmail.toLocaleLowerCase());
+        }
+      )
+    }
 
 }
 
