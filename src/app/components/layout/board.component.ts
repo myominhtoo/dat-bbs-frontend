@@ -70,7 +70,7 @@ export class BoardComponent implements OnInit {
             this.emitBoard.emit(this.data);
             },
             error : err => {
-              console.log(err)
+              console.log(err) 
             }
           });
         }

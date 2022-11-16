@@ -165,6 +165,7 @@ export class TaskCardComponent implements OnInit {
             icon : 'warning',
             buttons : [ 'No' , 'Yes' ]
           }).then(isYes=>{
+            if(isYes){
              this.task.deleteStatus=true;
             this.taskCardService.updateDeleteStatusTask(boardId,id,this.task).subscribe({
                 // this.taskCardService.updateTaskCard(this.task).subscribe({
@@ -174,7 +175,7 @@ export class TaskCardComponent implements OnInit {
                 error : err => {
                     console.log(err);
                   }
-             })
+             })}
           });
 
     }
@@ -187,6 +188,7 @@ export class TaskCardComponent implements OnInit {
             icon: 'warning',
             buttons: ['No','Yes']
         }).then(isYes=>{
+            if ( isYes){
             this.task.deleteStatus=false;
             this.taskCardService.restoreTask(id,boardId,this.task).subscribe({
                 next:res=>{
@@ -196,7 +198,7 @@ export class TaskCardComponent implements OnInit {
                 error : err =>{
                     console.log(err);
                 }
-            })
+            })}
         })
     }
 

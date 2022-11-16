@@ -29,7 +29,7 @@ import { ForgetPasswordComponent } from './components/page/forgetPassword/forget
 import { BoardBookmarkComponent } from './components/layout/boardBookmark.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { CarouselModule } from 'ngx-owl-carousel-o';
-import { ShowDeleteTaskComponent } from './components/page/mytasks/showDeleteTask';
+import { CloseTaskComponent } from './components/page/mytasks/close-task.component';
 
 
 import { AuthInterceptor } from './model/service/interceptor/auth.interceptor';
@@ -55,8 +55,7 @@ import { AuthInterceptor } from './model/service/interceptor/auth.interceptor';
     ForgetPasswordComponent,
     BoardBookmarkComponent,
     BoardChatComponent,
-   ShowDeleteTaskComponent
-
+    CloseTaskComponent
   ],
   imports: [
     BrowserModule,
