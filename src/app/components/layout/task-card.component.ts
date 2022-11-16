@@ -24,22 +24,22 @@ import { ActivatedRoute } from '@angular/router';
                      <!-- for achieve taskcard -->
                     <div>
                         <i *ngIf="task.stage.id==3  && !task.deleteStatus" (click)="removeTask($event,task.id)" class="fa-solid fa-xmark" > </i>
-                        
-                        <i *ngIf="task.stage.id==3 && task.deleteStatus" (click)="restoreTask($event)" class="fa-solid fa-rotate-left text-muted"></i>
-                    </div>  
+
+                        <i *ngIf="task.stage.id==3 && task.deleteStatus" (click)="restoreTaskCard($event,task.id)" class="fa-solid fa-rotate-left text-muted"></i>
+                    </div>
                     <div class="dropdown" id="color-dropdown">
-                        <i (click)="handleShowColorPlatte($event)" class="fa-solid fa-palette" data-bs-toggle="dropdown" data-bs-target="#color-dropdown"></i>                           
+                        <i (click)="handleShowColorPlatte($event)" class="fa-solid fa-palette" data-bs-toggle="dropdown" data-bs-target="#color-dropdown"></i>
                         <ul class="dropdown-menu p-3">
                             <li style="font-size:14px;">Select Color :</li>
                             <li class="d-flex flex-wrap gap-1 my-2">
                                 <p (click)="handleSetColor( $event,  '')" class="p-0 m-0 rounded-0 shadow-sm text-center" style="width:20px;height:20px;" ><i class="fa-solid fa-ban text-muted"></i></p>
                                 <p *ngFor="let color of colors" (click)="handleSetColor($event, color)" class="p-0 m-0 rounded-0" style="width:20px;height:20px;" [style]="'background:'+color" ></p>
                             </li>
-                        </ul>   
-                    </div>   
+                        </ul>
+                    </div>
                 </div>
-            </div>    
-        <div class="w-100 d-flex  gap-2 align-items-end {{ !showDonePercent ? 'justify-content-end' : 'justify-content-between' }} " >      
+            </div>
+        <div class="w-100 d-flex  gap-2 align-items-end {{ !showDonePercent ? 'justify-content-end' : 'justify-content-between' }} " >
             <div class="d-flex gap-2 align-items-end">
                 <span style="font-size:13px;">{{ task.startedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
                 <span *ngIf="task.startedDate != task.endedDate"><i class="fa-solid fa-right-long" style="font-size:12px;"></i></span>
@@ -51,11 +51,11 @@ import { ActivatedRoute } from '@angular/router';
                     <mat-progress-bar [value]="donePercent"  mode="determinate" ></mat-progress-bar>
                     <small style="font-size:10px;" class="fw-bold thm">{{ donePercent }}%</small>
                 </div>
-            </div>  
-              
+            </div>
+
 
         </div>
-       </div> 
+       </div>
     `
 })
 export class TaskCardComponent implements OnInit {
@@ -72,8 +72,8 @@ export class TaskCardComponent implements OnInit {
     donePercent : number = 0;
     showDonePercent : boolean = true;
 
-    constructor( 
-        private taskCardService : TaskCardService , 
+    constructor(
+        private taskCardService : TaskCardService ,
         public route : ActivatedRoute ,
         private activityService : ActivityService ,
         private commentService : CommentService ){}
@@ -176,28 +176,29 @@ export class TaskCardComponent implements OnInit {
                   }
              })
           });
+
     }
 
-    restoreTask(e : Event){
+    restoreTaskCard(e : Event , id : number){
+      let boardId = this.route.snapshot.params['boardId'];
         e.stopPropagation();
         swal({
             text: 'Are you sure to restore TaskCard?',
             icon: 'warning',
             buttons: ['No','Yes']
         }).then(isYes=>{
-           if( isYes ){
-                this.task.deleteStatus=false;
-                this.taskCardService.updateTaskCard(this.task).subscribe({
-                    next:res=>{
-                        this.emitRestoreTask.emit(this.task);
-                        this.task.deleteStatus=false;
-                    },
-                    error : err =>{
-                        console.log(err);
-                    }
-                })
-           }
+            this.task.deleteStatus=false;
+            this.taskCardService.restoreTask(id,boardId,this.task).subscribe({
+                next:res=>{
+                    this.emitRestoreTask.emit(this.task);
+                    this.task.deleteStatus=false;
+                },
+                error : err =>{
+                    console.log(err);
+                }
+            })
         })
     }
+
 
 }
