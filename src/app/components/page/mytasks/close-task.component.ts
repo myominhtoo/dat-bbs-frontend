@@ -4,8 +4,9 @@ import { TaskCard } from "src/app/model/bean/taskCard";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { CdkDragDrop , moveItemInArray } from '@angular/cdk/drag-drop';
-import * as swal from "sweetalert";
+import swal from "sweetalert";
 import { Stage } from "src/app/model/bean/stage";
+
 
 
 
@@ -20,6 +21,11 @@ export class CloseTaskComponent{
   @Input('stage') data : Stage = new Stage();
   @Input('task-cards') taskCardMap : Map<string,TaskCard[]> = new  Map();
   taskCards : TaskCard [] = [];
+  pdf='pdf';
+  excel='excel';
+  html='html';
+
+  path:string="";
 
   constructor( public toggleStore : ToggleStore ,
     private taskCardService : TaskCardService ,
@@ -65,5 +71,18 @@ console.log(idd);
        this.task.deleteStatus=false;
        this.taskCardMap.set ( this.data.stageName, tasksMap!);
      }
+
+     exportArchiveTaskReport(path:string ) {
+
+      let boardId = this.route.snapshot.params['id'];
+  
+      this.taskCardService.exportArchiveTaskReport(boardId,path).subscribe((data)=>{
+          swal({
+              text : 'Successfully Exported!',
+              icon : 'success'
+          });
+      })
+  
+    }
 
 }
