@@ -1,9 +1,11 @@
+import { BoardsHasUsers } from './../../bean/BoardsHasUser';
+import { User } from './../../bean/user';
 import { Injectable } from "@angular/core";
 import { Board } from "../../bean/board";
 import { AuthService } from "../http/auth.service";
 import { BoardService } from "../http/board.service";
 import { UserStore } from "./user.store";
-
+import { UserService } from '../http/user.service';
 @Injectable({
     providedIn : 'root'
 })
@@ -14,7 +16,7 @@ export class BoardStore{
     public boards : Board [] = [];
     public ownBoards : Board [] = [];
     public joinedBoards : Board [] = [];
-    
+    public boardsHasUsers:BoardsHasUsers[]=[];    
     public status = {
         isLoading : true,
         hasDoneFetching : false,
@@ -22,6 +24,7 @@ export class BoardStore{
 
     constructor( 
         private boaredService : BoardService , 
+        private userService:UserService ,
         public userStore : UserStore ,
         private authService : AuthService ){
         if( authService.isAuth() ){
@@ -38,7 +41,7 @@ export class BoardStore{
     private getBoardsByUserId( userId : number ){
         this.status.isLoading = true;
         this.boaredService.getBoardsForUser( userId ).subscribe({
-            next : datas => {
+            next : datas => {                
                 this.boards= datas.map( data => {
                     return { ...data , color : this.randomNumberBoard() };
                 })
@@ -65,6 +68,16 @@ export class BoardStore{
     public refetchBoardsByUserId( userId : number ){
         this.boards = [];
         this.getBoardsByUserId( userId );
+    }
+    public getAllMembers(userId:number){
+        this.userService.getAllMembers(userId).subscribe({
+            next:(res)=>{                      
+                this.boardsHasUsers=res.data.map((data)=> data);
+                
+            },error:(err)=>{
+                console.log(err)
+            }
+        })
     }
 
 }
