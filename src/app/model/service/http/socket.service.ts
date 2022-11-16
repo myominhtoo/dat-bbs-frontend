@@ -23,7 +23,8 @@ export class SocketService{
     constructor( 
         public boardStore : BoardStore , 
         private httpClient : HttpClient ,
-        private notiStore : NotificationStore){}
+        private notiStore : NotificationStore
+    ){}
 
     subscribeBoardsSocket(){
         const socket = new SockJS( 'http://localhost:8080/socket' );

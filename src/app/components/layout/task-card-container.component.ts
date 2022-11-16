@@ -70,7 +70,7 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
 })
 export class TaskCardContainerComponent {
 
-  constructor( 
+  constructor(
     private stageService : StageService ,
     private taskService : TaskCardService,
     private socketService : SocketService,
@@ -82,7 +82,7 @@ export class TaskCardContainerComponent {
   @Input('stage') data : Stage = new Stage();
 
   @Input('task-cards') taskCards : Map<string,TaskCard[]> = new  Map();
-  
+
   @Input('board') board = new Board();
 
   @Input('relations') relationContainers : string [] = [];
@@ -188,7 +188,7 @@ export class TaskCardContainerComponent {
             this.status.addTaskError = err.error.message;
           }
         })
-      }  
+      }
     }
 
   }
@@ -228,8 +228,8 @@ export class TaskCardContainerComponent {
     this.showTaskOffcanvas.emit(task);
   }
 
-  deleteStage(stage : Stage){ 
-    
+  deleteStage(stage : Stage){
+
       swal({
             text : 'Are you sure ?',
             icon : 'warning',
@@ -238,13 +238,22 @@ export class TaskCardContainerComponent {
             if (isYes){
               // this.stageService.deleteStage(stage.id).subscribe(data=>{
               this.emitDeleteStage.emit(stage);
-              // }) 
+              // })
             }
     })
   }
+
   removeTask(task : TaskCard){
     let tasksMap= this.taskCards.get(this.data.stageName);
     this.taskCards.set( this.data.stageName , tasksMap?.filter( taskMap => taskMap.id != task.id )!);
    }
+
+
+   restoreTask(task : TaskCard){
+    let tasksMap= this.taskCards.get(this.data.stageName);
+    this.taskCards.set( this.data.stageName , tasksMap?.filter( taskMap => taskMap.id != task.id )!);
+   }
+
+
 
 }

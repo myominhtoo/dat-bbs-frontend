@@ -28,6 +28,9 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe( ( event ) => {
       if( event instanceof NavigationEnd ){
          this.currentUrl = event.url;
+         if(this.currentUrl.includes('?')){
+           this.currentUrl = this.currentUrl.split('?')[0];
+         }
          this.isExceptionPage =  ['/','/login','/register','/verify-email','/forget-password'].includes(this.currentUrl) || this.currentUrl.includes('/register');
       }
     })
@@ -35,9 +38,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.authService.isAuth()){
-       this.socketService.subscribeBoardsSocket();
        this.userStore.fetchUserData();
-       this.notiStore.reFetchNotis( this.userStore.user.id )
+       setTimeout(() => {
+        this.socketService.subscribeBoardsSocket();
+        this.notiStore.reFetchNotis( this.userStore.user.id )
+       }, 1000 );
     }
   }
 

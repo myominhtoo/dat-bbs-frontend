@@ -21,7 +21,6 @@ import { MyBoardComponent } from './components/page/board/my-board.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CreateTaskCardComponent } from './components/page/mytasks/create-taskCard.component';
 import { ProfileComponent } from './components/page/profile/profile.component';
 import { NotFoundComponent } from './components/page/404/not-found.component';
 import { MemberviewComponent } from './components/page/memberView/memberview.component';
@@ -30,6 +29,9 @@ import { ForgetPasswordComponent } from './components/page/forgetPassword/forget
 import { BoardBookmarkComponent } from './components/layout/boardBookmark.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { ShowDeleteTaskComponent } from './components/page/mytasks/showDeleteTask';
+
+
 import { AuthInterceptor } from './model/service/interceptor/auth.interceptor';
 
 @NgModule({
@@ -46,14 +48,15 @@ import { AuthInterceptor } from './model/service/interceptor/auth.interceptor';
     ReportingComponent,
     WorkspaceComponent,
     MyBoardComponent,
-    CreateTaskCardComponent,
     ProfileComponent,
     NotFoundComponent,
     MemberviewComponent,
     ArchiveBoardComponent,
     ForgetPasswordComponent,
     BoardBookmarkComponent,
-    BoardChatComponent
+    BoardChatComponent,
+   ShowDeleteTaskComponent
+
   ],
   imports: [
     BrowserModule,

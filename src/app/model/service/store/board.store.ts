@@ -60,8 +60,6 @@ export class BoardStore{
             }
         });
     }
-   
-     
 
     
     public refetchBoardsByUserId( userId : number ){
