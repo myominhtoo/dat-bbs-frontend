@@ -89,7 +89,7 @@ export class TaskCardComponent implements OnInit {
         this.getComments();
         setTimeout(() => {
             this.getActivityDonePercent();
-        } , 300 );
+        } , 500 );
     }
 
     handleShowOffCanvas( task : TaskCard ){

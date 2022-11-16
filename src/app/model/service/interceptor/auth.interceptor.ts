@@ -1,15 +1,26 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import PUBLIC_URL from "../../constant/http";
+import { AuthService } from "../http/auth.service";
 
 @Injectable({
     providedIn : 'root'
 })
 export class AuthInterceptor implements HttpInterceptor{
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    constructor( private authService : AuthService ){}
 
-       return next.handle(req);
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+       const requestUrl = req.url.replace("http://localhost:8080","");
+       if( PUBLIC_URL.includes(requestUrl.trim()) ){
+         return next.handle(req);
+       }  
+       const token =this.authService.getToken();
+       const request = req.clone({ setHeaders : {
+        'Authorization' : token
+       }});
+       return next.handle(request);
     }
 
     

@@ -54,7 +54,6 @@ import { AuthInterceptor } from './model/service/interceptor/auth.interceptor';
     ForgetPasswordComponent,
     BoardBookmarkComponent,
     BoardChatComponent
-    
   ],
   imports: [
     BrowserModule,
@@ -69,9 +68,8 @@ import { AuthInterceptor } from './model/service/interceptor/auth.interceptor';
     PickerModule,
     CarouselModule
   ],
-  providers: [],
+  providers: [{ provide : HTTP_INTERCEPTORS , useClass : AuthInterceptor , multi : true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
 
-// { provide : HTTP_INTERCEPTORS , useClass : AuthInterceptor , multi : true }

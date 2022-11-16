@@ -126,8 +126,7 @@ export class NavbarComponent implements OnInit {
         buttons : [ 'No' , 'Yes' ]
       }).then( isYes => {
         if(isYes){
-          localStorage.removeItem(window.btoa('user'));
-          
+          localStorage.removeItem(window.btoa('user'));      
           this.router.navigateByUrl('/login');
         }
       });

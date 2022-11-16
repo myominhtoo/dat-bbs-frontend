@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Board } from "../../bean/board";
+import { AuthService } from "../http/auth.service";
 import { BoardService } from "../http/board.service";
 import { UserStore } from "./user.store";
 
@@ -21,9 +22,12 @@ export class BoardStore{
 
     constructor( 
         private boaredService : BoardService , 
-        public userStore : UserStore ){
-        this.userStore.fetchUserData();
-        if( this.userStore.user.id )  this.getBoardsByUserId( userStore.user.id ); 
+        public userStore : UserStore ,
+        private authService : AuthService ){
+        if( authService.isAuth() ){
+            this.userStore.fetchUserData();
+            if( this.userStore.user.id )  this.getBoardsByUserId( userStore.user.id ); 
+        }
     }
     
     public randomNumberBoard(){
@@ -32,37 +36,37 @@ export class BoardStore{
     }    
 
     private getBoardsByUserId( userId : number ){
-        // this.status.isLoading = true;
-        // this.boaredService.getBoardsForUser( userId ).subscribe({
-        //     next : datas => {
-        //         this.boards= datas.map( data => {
-        //             return { ...data , color : this.randomNumberBoard() };
-        //         })
+        this.status.isLoading = true;
+        this.boaredService.getBoardsForUser( userId ).subscribe({
+            next : datas => {
+                this.boards= datas.map( data => {
+                    return { ...data , color : this.randomNumberBoard() };
+                })
 
-        //         this.ownBoards = this.boards.filter( board => {
-        //             board.color = this.randomNumberBoard();
-        //             return board.user.id == this.userStore.user.id
-        //         });
-        //         this.joinedBoards = this.boards.filter( board => {
-        //             board.color = this.randomNumberBoard();
-        //             return board.user.id != this.userStore.user.id;
-        //         });
+                this.ownBoards = this.boards.filter( board => {
+                    board.color = this.randomNumberBoard();
+                    return board.user.id == this.userStore.user.id
+                });
+                this.joinedBoards = this.boards.filter( board => {
+                    board.color = this.randomNumberBoard();
+                    return board.user.id != this.userStore.user.id;
+                });
 
-        //         this.status.isLoading = false;
-        //         this.status.hasDoneFetching = true;
-        //     },
-        //     error : err => {
-        //         console.log(err);
-        //     }
-        // });
+                this.status.isLoading = false;
+                this.status.hasDoneFetching = true;
+            },
+            error : err => {
+                console.log(err);
+            }
+        });
     }
    
      
 
     
     public refetchBoardsByUserId( userId : number ){
-        // this.boards = [];
-        // this.getBoardsByUserId( userId );
+        this.boards = [];
+        this.getBoardsByUserId( userId );
     }
 
 }
