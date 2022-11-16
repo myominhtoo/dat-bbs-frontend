@@ -176,7 +176,6 @@ export class TaskCardComponent implements OnInit {
                   }
              })
           });
-    
     }
 
     restoreTask(e : Event){
@@ -186,16 +185,18 @@ export class TaskCardComponent implements OnInit {
             icon: 'warning',
             buttons: ['No','Yes']
         }).then(isYes=>{
-            this.task.deleteStatus=false;
-            this.taskCardService.updateTaskCard(this.task).subscribe({
-                next:res=>{
-                    this.emitRestoreTask.emit(this.task);
-                    this.task.deleteStatus=false;
-                },
-                error : err =>{
-                    console.log(err);
-                }
-            })
+           if( isYes ){
+                this.task.deleteStatus=false;
+                this.taskCardService.updateTaskCard(this.task).subscribe({
+                    next:res=>{
+                        this.emitRestoreTask.emit(this.task);
+                        this.task.deleteStatus=false;
+                    },
+                    error : err =>{
+                        console.log(err);
+                    }
+                })
+           }
         })
     }
 

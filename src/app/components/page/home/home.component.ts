@@ -89,9 +89,10 @@ export class HomeComponent implements OnInit {
     showHideIcons(){            
         // console.log("Show Hide Icons",this.carousel.nativeElement.scrollLeft)
         // console.log( this.firstDiv.nativeElement.clientWidth + 14)
-        console.log("scrollLeft",this.carousel.nativeElement.scrollLeft);
-    return this.carousel.nativeElement.scrollLeft;
+        // console.log("scrollLeft",this.carousel.nativeElement.scrollLeft);
+        return this.carousel.nativeElement.scrollLeft;
     }
+
     dragStart(e:any){
         console.log("dragStart is working")
         this.dragStatus.isDragStart = true;
@@ -102,12 +103,12 @@ export class HomeComponent implements OnInit {
     dragging(e:any){
         console.log("dragging is working");
         if(!this.dragStatus.isDragStart) return;
-    e.preventDefault();
-    this.dragStatus.isDragging = true;
-    this.carousel.nativeElement.classList.add("dragging");
-    this.positionDiff = (e.pageX || e.touches[0].pageX) - this.prevPageX;
-    this.carousel.nativeElement.scrollLeft = this.prevScrollLeft - this.positionDiff;
-    this.showHideIcons();
+        e.preventDefault();
+        this.dragStatus.isDragging = true;
+        this.carousel.nativeElement.classList.add("dragging");
+        this.positionDiff = (e.pageX || e.touches[0].pageX) - this.prevPageX;
+        this.carousel.nativeElement.scrollLeft = this.prevScrollLeft - this.positionDiff;
+        this.showHideIcons();
     }
     dragStop(){
         console.log("dragStop is working");

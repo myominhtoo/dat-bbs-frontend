@@ -32,37 +32,37 @@ export class BoardStore{
     }    
 
     private getBoardsByUserId( userId : number ){
-        this.status.isLoading = true;
-        this.boaredService.getBoardsForUser( userId ).subscribe({
-            next : datas => {
-                this.boards= datas.map( data => {
-                    return { ...data , color : this.randomNumberBoard() };
-                })
+        // this.status.isLoading = true;
+        // this.boaredService.getBoardsForUser( userId ).subscribe({
+        //     next : datas => {
+        //         this.boards= datas.map( data => {
+        //             return { ...data , color : this.randomNumberBoard() };
+        //         })
 
-                this.ownBoards = this.boards.filter( board => {
-                    board.color = this.randomNumberBoard();
-                    return board.user.id == this.userStore.user.id
-                });
-                this.joinedBoards = this.boards.filter( board => {
-                    board.color = this.randomNumberBoard();
-                    return board.user.id != this.userStore.user.id;
-                });
+        //         this.ownBoards = this.boards.filter( board => {
+        //             board.color = this.randomNumberBoard();
+        //             return board.user.id == this.userStore.user.id
+        //         });
+        //         this.joinedBoards = this.boards.filter( board => {
+        //             board.color = this.randomNumberBoard();
+        //             return board.user.id != this.userStore.user.id;
+        //         });
 
-                this.status.isLoading = false;
-                this.status.hasDoneFetching = true;
-            },
-            error : err => {
-                console.log(err);
-            }
-        });
+        //         this.status.isLoading = false;
+        //         this.status.hasDoneFetching = true;
+        //     },
+        //     error : err => {
+        //         console.log(err);
+        //     }
+        // });
     }
    
      
 
     
     public refetchBoardsByUserId( userId : number ){
-        this.boards = [];
-        this.getBoardsByUserId( userId );
+        // this.boards = [];
+        // this.getBoardsByUserId( userId );
     }
 
 }

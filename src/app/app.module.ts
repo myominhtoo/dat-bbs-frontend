@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { LayoutModule } from './components/layout/layout.module';
 import { LoginComponent } from './components/page/login/login.component';
 import { VerifypassComponent } from './components/page/verifyEmail/verifypass.component';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './components/page/home/home.component';
 import { CreateBoardComponent } from './components/page/board/create-board.component';
@@ -21,7 +21,6 @@ import { MyBoardComponent } from './components/page/board/my-board.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {  MatButtonModule } from '@angular/material/button';
 import { CreateTaskCardComponent } from './components/page/mytasks/create-taskCard.component';
 import { ProfileComponent } from './components/page/profile/profile.component';
 import { NotFoundComponent } from './components/page/404/not-found.component';
@@ -31,6 +30,7 @@ import { ForgetPasswordComponent } from './components/page/forgetPassword/forget
 import { BoardBookmarkComponent } from './components/layout/boardBookmark.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { AuthInterceptor } from './model/service/interceptor/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -64,7 +64,6 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     FormsModule,
     MatInputModule,
     MatAutocompleteModule,
-    MatButtonModule,
     BrowserAnimationsModule,
     DragDropModule,
     PickerModule,
@@ -74,3 +73,5 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+// { provide : HTTP_INTERCEPTORS , useClass : AuthInterceptor , multi : true }

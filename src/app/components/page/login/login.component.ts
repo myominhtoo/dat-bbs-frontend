@@ -29,8 +29,9 @@ export class LoginComponent {
     constructor(private userService : UserService ,
          private router : Router , 
          public userStore : UserStore , 
-         public boardStore : BoardStore , 
-         private notiStore : NotificationStore  ){}
+        //  public boardStore : BoardStore , 
+        //  private notiStore : NotificationStore  
+        ){}
      
     ngOnInit(): void {
         let storeUser = localStorage.getItem(window.btoa(('user')));
@@ -41,15 +42,16 @@ export class LoginComponent {
         this.userService.LoginUser(this.user).subscribe({
          next : (res) => {
             this.error = { hasError : false , msg : '' }
-            this.userStore.saveUserData(res.data);
-            this.boardStore.refetchBoardsByUserId(res.data.id);
-            this.notiStore.reFetchNotis( res.data.id );
-            swal({
-                text : res.message,
-                icon : 'success',
-            }).then(() => {
-                this.router.navigateByUrl('/home');
-            })
+            // this.userStore.saveUserData(res.data);
+            // this.boardStore.refetchBoardsByUserId(res.data.id);
+            // this.notiStore.reFetchNotis( res.data.id );
+            // swal({
+            //     text : res.message,
+            //     icon : 'success',
+            // }).then(() => {
+            //     this.router.navigateByUrl('/home');
+            // })
+            console.log(res.headers.get('Authorization'))
          }, error : err => {
             this.user.password = '';
            this.error = { hasError : true , msg :err.error.message};
