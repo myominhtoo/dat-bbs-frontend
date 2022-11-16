@@ -10,21 +10,16 @@ import { Stage } from "src/app/model/bean/stage";
 
 
 @Component({
-  selector:'showDeleteTask',
-  templateUrl : 'showDeleteTask.html'
+  selector:'CloseTaskComponent',
+  templateUrl : 'close-task.component.html'
 })
 
-export class ShowDeleteTaskComponent{
+export class CloseTaskComponent{
 
   @Input('task') task : TaskCard = new TaskCard();
-
   @Input('stage') data : Stage = new Stage();
-
-
   @Input('task-cards') taskCardMap : Map<string,TaskCard[]> = new  Map();
-
   taskCards : TaskCard [] = [];
-
 
   constructor( public toggleStore : ToggleStore ,
     private taskCardService : TaskCardService ,
@@ -65,28 +60,10 @@ console.log(idd);
 
     restoreTask(task : TaskCard){
       let tasksMap= this.taskCardMap.get(this.data.stageName);
-       this.taskCardMap.set( this.data.stageName , tasksMap?.filter( taskMap => taskMap.id != task.id )!);
+      tasksMap?.push(task);
+       this.taskCards=this.taskCards.filter(tsk => tsk.id != task.id);
+       this.task.deleteStatus=false;
+       this.taskCardMap.set ( this.data.stageName, tasksMap!);
      }
-
-
-  //    restoreTask(e : Event){
-  //    e.stopPropagation();
-  //     swal({
-  //          text: 'Are you sure to restore TaskCard?',
-  //         icon: 'warning',
-  //         buttons: ['No','Yes']
-  //     }).then(isYes=>{
-  //         this.task.deleteStatus=false;
-  //         this.taskCardService.updateTaskCard(this.task).subscribe({
-  //             next:res=>{
-  //                 this.emitRestoreTask.emit(this.task);
-  //                 this.task.deleteStatus=false;
-  //             },
-  //             error : err =>{
-  //                 console.log(err);
-  //             }
-  //         })
-  //     })
-  // }
 
 }

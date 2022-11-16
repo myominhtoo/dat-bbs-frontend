@@ -17,8 +17,9 @@ import { MemberviewComponent } from './components/page/memberView/memberview.com
 import { ArchiveBoardComponent } from './components/page/board/archive-board.component';
 import { ForgetPasswordComponent } from './components/page/forgetPassword/forget-password.component';
 import { BoardBookmarkComponent } from './components/layout/boardBookmark.component';
-import { ShowDeleteTaskComponent } from './components/page/mytasks/showDeleteTask';
+
 import { AuthGuard } from './model/service/guard/auth.guard';
+import { CloseTaskComponent } from './components/page/mytasks/close-task.component';
 
 
 
@@ -80,11 +81,7 @@ const routes: Routes = [
     component : MyBoardComponent,
     canActivate : [ AuthGuard ]
   },
-  {
-    path : 'boards/:id/showDeleteTask',
-    component : ShowDeleteTaskComponent,
-    canActivate : [ AuthGuard ]
-  },
+
   {
     path : 'users/:id/profile',
     component : MemberviewComponent,
@@ -112,6 +109,13 @@ const routes: Routes = [
     path:"boards/:id/chat",
     component : BoardChatComponent,
     canActivate : [ AuthGuard ]
+  },
+  {
+    path : 'boards/:id/close-task',
+    component : CloseTaskComponent,
+    pathMatch :'full',
+    canActivate : [ AuthGuard ]
+
   },
   {
     path : '**',
