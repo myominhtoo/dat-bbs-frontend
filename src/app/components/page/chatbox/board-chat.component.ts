@@ -30,8 +30,6 @@ export class BoardChatComponent implements OnInit{
   //  public othermessages:BoardMessage[]=[]
     constructor(
       public userStore:UserStore,
-        private UserService : UserService,
-        private Router: Router,
         private socket:SocketService,
         public route : ActivatedRoute,
         public boardStore:BoardStore,
@@ -46,7 +44,6 @@ export class BoardChatComponent implements OnInit{
      this.getBoardMessage(profileId)         
      this.subscribeBoardsMessageSocket();
      if(profileId) this.getBoardWithBoardId(profileId);  
-     console.log(document.getElementById("chat-container")?.scrollHeight)
     }
 
     ngAfterViewChecked(): void {   
