@@ -77,7 +77,7 @@ import {SocketService} from "../../model/service/http/socket.service";
                       <li class="list-item">
                         <h6 class="h6 w-25 fs-6">Description</h6>
                         <div class="w-100">
-                            <textarea id="input" class="form-control outlineBtn shadow-none" cols="30" rows="5" placeholder="Enter description about task card "[(ngModel)]="task.description" name="description" ></textarea>
+                            <textarea id="input" class="form-control outlineBtn shadow-none" cols="15" rows="5" placeholder="Enter description about task card "[(ngModel)]="task.description" name="description" ></textarea>
                         </div>
                       </li>
                       <li class="text-end">
@@ -87,7 +87,7 @@ import {SocketService} from "../../model/service/http/socket.service";
 
                     <!-- activites -->
                     <div class="list-group d-flex flex-column list-unstyled text-muted p-2 gap-3 my-2">
-                        <h6 class="text-center" *ngIf="task.activities.length > 0">Activities</h6>
+                        <h6 class="text-center text-dark" *ngIf="task.activities.length > 0">Activities</h6>
                         <div *ngFor="let activity of task.activities;let idx = index;" class="w-100 position-relative ">
                             <div class="p-0 w-100  d-flex gap-2 align-items-center ">
                                 <input *ngIf="activity.id" type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,idx)" />
@@ -148,6 +148,7 @@ import {SocketService} from "../../model/service/http/socket.service";
                     <div class="text-muted  my-4">
                         <span class="w-25 my-2">Activity Name</span>
                         <input type="text" class="form-control w-100 text-capitalize text-muted" [(ngModel)]="detailActivity.activityName" >
+                        <small *ngIf="this.status.updateActivityError" class="text-danger">{{ this.status.updateActivityError }}</small>
                     </div>
 
                     <div class="text-muted  my-4">
@@ -303,6 +304,7 @@ export class TaskOffCanvasComponent implements OnInit {
         errorTask : '',
         attachmentError : '',
         addingAttachment : false,
+        updateActivityError : '',
     }
 
     constructor(
@@ -666,16 +668,21 @@ export class TaskOffCanvasComponent implements OnInit {
 
    //updating activity in detaiil activity
    handleUpdateActivity(){
+    this.status.updateActivityError = '';
     this.activityService.updateActivity( this.detailActivity )
     .subscribe({
         next : resStatus => {
-          // ok
+          if( resStatus.ok ){
+            swal({
+                text : 'Activity Updted Succesfully!',
+                icon : 'success'
+            }).then(() => {
+                this.handleChangeResultStage();
+            })
+          }
         },
         error : err => {
-            swal({
-                text : 'Failed to update activity!',
-                icon : 'warning'
-            });
+          this.status.updateActivityError = err.error.message;
         }
     });
    }

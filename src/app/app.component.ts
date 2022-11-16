@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
        setTimeout(() => {
         this.socketService.subscribeBoardsSocket();
         this.notiStore.reFetchNotis( this.userStore.user.id )
-       }, 1000 );
+       }, 1500 );
     }
   }
 

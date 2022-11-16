@@ -1,3 +1,7 @@
+import { BoardsHasUsers } from './../../../model/bean/BoardsHasUser';
+import { Board } from './../../../model/bean/board';
+import { User } from './../../../model/bean/user';
+import { BoardStore } from './../../../model/service/store/board.store';
 
 import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from "@angular/core";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
@@ -10,8 +14,10 @@ import { getRandom  } from "src/app/util/random";
     templateUrl : './home.component.html',
 })
 export class HomeComponent implements OnInit {
-    @ViewChild("carousel",{static:true}) carousel!: ElementRef;
-    @ViewChild("firstDiv",{static:true}) firstDiv!: ElementRef;
+    @ViewChild("carousel",{static:true}) carousel!: ElementRef;//document Element
+    @ViewChild("firstDiv",{static:true}) firstDiv!: ElementRef;    
+    @ViewChild("countUp",{static:true}) count!: ElementRef;
+    date=new Date();
     scrollWidthDiv!:number;        
         dragStatus={
             isDragStart : false,
@@ -20,30 +26,36 @@ export class HomeComponent implements OnInit {
         prevPageX!:number;
         prevScrollLeft!:number;
         positionDiff!:number;
-        
-            
+              
     
     username : string = '';
     period : string = 'Good Morning';
     dateObj = new Date();
-    
 
-    constructor( public toggleStore : ToggleStore , public userStore : UserStore ){
+    user=new User();
+    homeBoards:Board[]=[];
+    homeCollaborator:Board[]=[]
+    
+    constructor( public toggleStore : ToggleStore , public userStore : UserStore,public boardStore:BoardStore ){
         document.title = "BBMS | Home";
         this.username = this.userStore.user.username;
         this.typeAnimate();
+        
+        
     }
 
     ngOnInit(): void {
+        this.countUp()
         this.calculatePeriod();
+        
         setTimeout(()=>{
             this.scrollWidthDiv = this.carousel.nativeElement.scrollWidth - this.carousel.nativeElement.clientWidth;
-            console.log("Scroll width",this.carousel.nativeElement.scrollWidth)
-            console.log(this.carousel.nativeElement.clientWidth);
-        },1000)        
-     console.log("Hellooo",this.carousel);
-     console.log("Hellooo",this.firstDiv);
-     
+            this.user=this.userStore.user;
+            // this.homeBoards=this.boardStore.ownBoards;            
+            // this.homeCollaborator=this.boardStore.boardsHasUsers.map((res)=>res.board);
+           
+        },500)        
+        
     }
     
 
@@ -66,6 +78,7 @@ export class HomeComponent implements OnInit {
         } , 200 );
     }
 
+// Start Carousel
     private calculatePeriod(){
         const hour = this.dateObj.getHours();   
     
@@ -90,18 +103,19 @@ export class HomeComponent implements OnInit {
         // console.log("Show Hide Icons",this.carousel.nativeElement.scrollLeft)
         // console.log( this.firstDiv.nativeElement.clientWidth + 14)
         // console.log("scrollLeft",this.carousel.nativeElement.scrollLeft);
+
         return this.carousel.nativeElement.scrollLeft;
     }
 
     dragStart(e:any){
-        console.log("dragStart is working")
+        // console.log("dragStart is working")
         this.dragStatus.isDragStart = true;
         this.prevPageX = e.pageX || e.touches[0].pageX;
         this.prevScrollLeft = this.carousel.nativeElement.scrollLeft;
     }
 
     dragging(e:any){
-        console.log("dragging is working");
+        // console.log("dragging is working");
         if(!this.dragStatus.isDragStart) return;
         e.preventDefault();
         this.dragStatus.isDragging = true;
@@ -111,7 +125,7 @@ export class HomeComponent implements OnInit {
         this.showHideIcons();
     }
     dragStop(){
-        console.log("dragStop is working");
+        // console.log("dragStop is working");
         this.dragStatus.isDragStart = false;
         this.carousel.nativeElement.classList.remove("dragging");
         if(!this.dragStatus.isDragging) return;
@@ -120,7 +134,7 @@ export class HomeComponent implements OnInit {
     }
     
     iconClick(id:string){
-        console.log(id)
+        // console.log(id)
         let firstImgWidth = this.firstDiv.nativeElement.clientWidth + 14;
         this.carousel.nativeElement.scrollLeft += id == "left" ? -firstImgWidth : firstImgWidth;
         setTimeout(() => this.showHideIcons(), 60);
@@ -129,22 +143,46 @@ export class HomeComponent implements OnInit {
     
     autoSlide(){
          // if there is no image left to scroll then return from here
-    if(this.carousel.nativeElement.atscrollLeft - (this.carousel.nativeElement.scrollWidth - this.carousel.nativeElement.clientWidth) > -1 || this.carousel.nativeElement.scrollLeft <= 0) return;
+        if(this.carousel.nativeElement.atscrollLeft - (this.carousel.nativeElement.scrollWidth - this.carousel.nativeElement.clientWidth) > -1 || this.carousel.nativeElement.scrollLeft <= 0) return;
 
-    this.positionDiff = Math.abs(this.positionDiff); // making positionDiff value to positive
-    let firstImgWidth = this.firstDiv.nativeElement.clientWidth + 14;
-    // getting difference value that needs to add or reduce from this.carousel left to take middle img center
-    let valDifference = firstImgWidth - this.positionDiff;
+        this.positionDiff = Math.abs(this.positionDiff); // making positionDiff value to positive
+        let firstImgWidth = this.firstDiv.nativeElement.clientWidth + 14;
+        // getting difference value that needs to add or reduce from this.carousel left to take middle img center
+        let valDifference = firstImgWidth - this.positionDiff;
 
-    if(this.carousel.nativeElement.scrollLeft > this.prevScrollLeft) { // if user is scrolling to the right
-        return this.carousel.nativeElement.scrollLeft += this.positionDiff > firstImgWidth / 3 ? valDifference : -this.positionDiff;
-    }
-    // if user is scrolling to the left
-    this.carousel.nativeElement.scrollLeft -= this.positionDiff > firstImgWidth / 3 ? valDifference : -this.positionDiff;
+        if(this.carousel.nativeElement.scrollLeft > this.prevScrollLeft) { // if user is scrolling to the right
+            return this.carousel.nativeElement.scrollLeft += this.positionDiff > firstImgWidth / 3 ? valDifference : -this.positionDiff;
+        }
+        // if user is scrolling to the left
+        this.carousel.nativeElement.scrollLeft -= this.positionDiff > firstImgWidth / 3 ? valDifference : -this.positionDiff;
     }
     
+    // End Carousel
+
+    countUp(){
+        let valueInfo=document.querySelectorAll("#count");    
+        let interval=400
+        
+        valueInfo.forEach((value)=>{
+            let initialValue=0
+            
+            setTimeout(()=>{
+                let end= Number(value.getAttribute("data-count"));;                        
+                
+                let counter=setInterval(()=>{
+                    initialValue +=1                
+                    value.innerHTML=`${initialValue}`;
+                    if(initialValue === end){
+                        clearInterval(counter);
+                    }
+                },interval)
+            },600)
+            
+            
+        })
+    }    
+
+
 }
 
 
-
-    

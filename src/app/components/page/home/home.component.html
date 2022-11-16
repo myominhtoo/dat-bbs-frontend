@@ -9,14 +9,13 @@
         <span *ngFor="let char of username.split('');">{{ char }}</span>
         <span *ngIf="username.length != userStore.user.username.length">|</span>
     </h3>
-    <div class="d-flex  user-tasks justify-content-center text-muted">
+    <div class="d-flex  user-tasks justify-content-center text-muted" #countUp>
         <div>
             <span>
                 <i class="fa-solid fa-list-check bx-tada-hover mx-2 fw-bold  " style="font-size: 19px;"></i>
             </span>
-            <span class="mx-1 fw-bold fs-3">
-1
-            </span>
+            <!-- <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeBoards.length">
+            </span> -->
             <span class="user-infos">
             Tasks
         </span>
@@ -25,21 +24,21 @@
             <span>
                 <i class="bx bx-briefcase bx-sm bx-tada-hover mx-2"></i>
             </span>
-            <span class="mx-1 fw-bold fs-3">
-3
-            </span>
-            <span class="user-infos">
-            Board
-        </span>
+            <!-- <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeBoards.length" >
+
+            </span> -->
+            <!-- <span class="user-infos" >
+                {{homeBoards.length==0?"Board":"Boards"}}
+            </span> -->
         </div>
         <div>
             
             <span>
                 <i class="fa-solid fa-user-group bx-tada-hover mx-2"></i>
             </span>
-            <span class="mx-1 fw-bold fs-3">
- 2               
-            </span>
+            <!-- <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeCollaborator.length">                 -->
+                <!-- {{countUp(homeBoards.length)}} -->
+            <!-- </span> -->
             <span class="user-infos">
              Collaborators
             </span>
@@ -54,8 +53,14 @@
                     <div class="w-100 row p-2 d-flex justify-content-center align-items-center pb-1 m-0" style="border-bottom: 1px solid #6d6e6f65;">
                         <!-- img holder -->
                         <div class="col-2 bg-red pe-0" id="user-profile-img " >                                                
-                            <div class="w-75 mx-auto">
-                            <img  class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" src="assets\img\board-profile-img\gru.jpg"  alt="">                                                        
+                            <div class="w-75 mx-auto pb-2">           
+                                <div *ngIf="userStore.user.imageUrl == null && userStore.user.username != null" class="text-dark d-flex justify-content-center align-items-center bg-secondary " style="width: 50px;height: 50px; border-radius: 50%;padding-top: 7px;">
+                                    <h4>{{ user.username &&  user.username[0].toUpperCase() }}</h4>
+                                </div>                                             
+                                <div *ngIf="userStore.user.imageUrl != null" class="d-flex justify-content-center align-items-center " style="width: 50px;height: 50px; border-radius: 50%;">
+                            <img  *ngIf="userStore.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+userStore.user.imageUrl"  alt="">
+                                </div>
+                            <!-- <span *ngIf="userStore.user.imageUrl == null && userStore.user.username != null" class="text-dark">{{ userStore.user.username[0].toUpperCase() }}</span> -->
                         </div>
                         </div>
                         <!-- img holder -->
@@ -103,10 +108,11 @@
                     <h4 class="m-0">Board</h4>
                 </div>
                 <div class="">
-                    <div class="row my-prior-list" style="overflow-y: scroll;height: 210px;">
-                        <!-- start -->                        
-                        <div class="col-6 mb-1">
-                            <div class="row px-3 py-1">
+                    <div class="row align-content-start my-prior-list" style="overflow-y: scroll;height: 220px;">
+                        <!-- start --> 
+                        
+                        <div class="col-6 mb-4" style="height: 40px !important;">
+                            <div class="row px-3 py-0">
                             <div class="col-2 user-show-projects  d-flex justify-content-center align-items-center rounded-3" >
                                 <i class="fas fa-plus text-white " style="font-size: 20px;"></i>
                             </div>
@@ -116,22 +122,23 @@
                                 
                             </div>
                         </div>
-                        </div>
+                        </div>                        
+                        
 
-                        <div class="col-6 mb-1">
-                            <div class="row px-3 py-1">
+                        <div class="col-6 mb-4" style="height:40px !important;" *ngFor="let board of homeBoards">
+                            <div class="row px-3 py-0">
                             <div class="col-2 user-show-projects  d-flex justify-content-center align-items-center rounded-3" >
                                 <i class="fas fa-list-squares text-white " style="font-size: 20px;"></i>
                             </div>
                             <div class="col-9">
-                                <h5 class="m-0 p-0">To Sleep</h5>
+                                <h5 class="m-0 p-0">{{board.boardName}}</h5>
                                 <h6 class="m-0 p-0 text-muted">3 tasks due soon</h6>
                                 
                             </div>
                         </div>
                         </div>
                         
-                        
+                    
 
 <!-- end  -->
                  
@@ -152,17 +159,29 @@
                         <div class="carousel" #carousel (touchstart)="dragStart($event)" (mousedown)="dragStart($event)"
                         (touchmove)="dragging($event)" (touchend)="dragStop()">                            
                             <!-- start  -->                            
-                        <div class="rounded-3 mx-2 user-people" #firstDiv>
+                        <div class="rounded-3 mx-2 user-people" #firstDiv *ngFor="let collaborators of this.homeCollaborator">
+                            
                             <div class="flex-column d-flex justify-content-around align-items-center p-3" style="height:100%">
                                 <div class="d-flex flex-column  justify-content-center align-items-center" >
-                                <div class="w-100 m-0 p-0 ">
-                                    <div class="m-0 p-0 mx-auto" style="width: 50%;">
-                                    <img  class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" src="assets\img\board-profile-img\gru.jpg"  alt="">                                                        
+                                <div class="w-100 m-0 p-0">
+                                <div class="m-0 p-0 d-flex justify-content-center align-items-center"  style="width: 100%;" >
+                                    <!-- [ngStyle]="userStore.user.imageUrl?{'width': '100%'} : {'width': '50%'}" -->
+
+
+                                    <div *ngIf="collaborators.user.imageUrl  == null && collaborators.user.username != null" class="text-dark d-flex justify-content-center align-items-center bg-secondary" style="width: 90px;height: 90px; border-radius: 50%;">
+                                            <h4>{{  user.username &&  user.username[0].toUpperCase() }}</h4>
+                                    </div>                                             
+                                    
                                 </div>
+                                    
+                                         <div *ngIf="collaborators.user.imageUrl != null" class="mx-auto" style="width: 90px;height: 90px; border-radius: 50%;">                                            
+                                             <img  *ngIf="collaborators.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+collaborators.user.imageUrl"  alt="">       
+                                    <!-- <img  class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" src="assets\img\board-profile-img\gru.jpg"  alt="">                                                         -->
+                                </div> 
                                 </div>                                
                                 <div class="pt-2 text-center" >
-                                <h5>ZayarMyoOo</h5>                                    
-                                <h6><p class="text-muted">Joined at : <span>Nov 10</span> </p></h6>                                
+                                <h5>{{collaborators.user.username}}</h5>                                    
+                                <h6><p class="text-muted">Joined at : <span>{{ collaborators.user.joinedDate}}</span> </p></h6>                                
                                 </div>
                             </div>
                                 <div class="">
