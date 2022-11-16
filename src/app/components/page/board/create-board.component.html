@@ -1,49 +1,41 @@
 <section class="container-fluid d-flex justify-content-center align-items-center w-100" style="height:92vh;">
-    <div class="container d-flex justify-content-center align-item-center w-auto rounded-1 text-black card h-auto shadow-sm my-auto" style="width:650px !important;max-width:650px;">
-        <div class="w-50 bg-primary">
-            <img class="w-100 h-100" src="/assets/img/create-board.png"/>
+    <div class="bg-snow d-flex  text-black-50  shadow-sm my-auto rounded-2 shadow-sm" style="width:950px !important;max-width:950px;height:500px;max-height:500px;">
+        <div style="width:50%;border-top-left-radius:5px;border-bottom-left-radius: 5px;" class="overflow-hidden">
+            <img class="w-100 h-100 " style="object-fit: cover;" src="/assets/img/create-board.jpg"/>
         </div>
-        <form (ngSubmit)="createBoard()" class="w-50" >
-            <div class="row d-flex justify-content-center align-items-center">
-                <h1 class="text-center mb-3 opacity-75">Create Board</h1>
-                <div class="col-8">
-                    <div class="form-floating mb-3">              
-                        
-                        <input  type="text" class="form-control shadow-none" name=boardName id="floatingInput" placeholder="UserName" [(ngModel)]="board.boardName" [class.is-invalid]="status.error.boardName.hasError" required/>
-                        <label for="floatingInput" class="text-black-50">Board Name</label>
-                        <small *ngIf="status.error.boardName.hasError" class="text-danger">{{ status.error.boardName.msg }}</small>
+        <form (ngSubmit)="createBoard()" class="d-flex justify-content-center align-items-center" style="width:50%;max-height: 100% !important;" >
+            <div class="row d-flex justify-content-center align-items-center p-5 h-100" style="max-height:100% !important;">
+                <h5 class="text-center mb-2 thm">Create Your Own Board Here</h5>
+                <div class="col-12 py-2">
+                    <div class="my-1">              
+                        <label for="floatingInput" class=" my-1 thm " style="font-size:13px;">Board Name</label>
+                        <input  type="text" class="form-control shadow-none" name=boardName id="floatingInput" placeholder="Enter board's name" [(ngModel)]="board.boardName" [class.is-invalid]="status.error.boardName.hasError" required/>
+                        <small *ngIf="status.error.boardName.hasError" class="text-danger" style="font-size:10px;">{{ status.error.boardName.msg }}</small>
                     </div>
-                    <div class="col-12 ">
-                        <div class="form-floating mb-3">
-                            
-                            <textarea class="form-control shadow-none" name="description" id="floatingTextarea2" placeholder="Description" style="height: 100px" [(ngModel)]="board.description" ></textarea>
-                            <label for="floatingTextarea2" class="text-black-50">Description</label>
-                            <!-- <small *ngIf="status.error.description.hasError" class="text-danger">{{ status.error.description.msg }}</small> -->
-                
-                        </div>
+                    <div class="col-12 my-1">
+                        <label for="floatingTextarea2" class=" my-1 thm" style="font-size:13px;">Description (option)</label>             
+                        <textarea class="form-control shadow-none" name="description" id="floatingTextarea2" placeholder="Enter board's description" style="height: 80px" [(ngModel)]="board.description" ></textarea>
                     </div>
-                    <div class="col-12 emailbox" [style]="emails.length > 3 ? 'height:100px !important;' : 'height:auto;'">
-                        <label for="invite" class="form-label text-black-50">Invite Members</label>
-                        <div  class="d-flex gap-1 flex-wrap ">
-                            <span *ngFor="let email of emails;let idx =index" (click)="setUpdateEmail(idx)"  class="badge d-inline-block fs-6 fw-light py-2 my-2" id="mail-capsule">
+                    <div class="col-12  my-1">
+                        <label for="invite" class="form-label  my-1 thm" style="font-size:13px;">Invite Members</label>
+                        <div  class="d-flex gap-1 flex-wrap emailbox overflow-scroll " [style]="emails.length > 1 ? 'height:50px !important;' : 'height:auto;'">
+                            <span *ngFor="let email of emails;let idx =index" (click)="setUpdateEmail(idx)"  class="badge d-inline-block fs-6 fw-light my-2" id="mail-capsule">
                                  {{email}}
                                  <span (click)="removeEmail(idx)" class="mx-1 fs-6 fas fa-close"></span>
                             </span>
                         </div>
-
                     </div>
 
-                    <div class="w-100 form-floating">
+                    <div class="w-100">
                             <input 
-                             name="emailStr" 
-                            [(ngModel)]="emailStr" (keyup)="onChange($event)" 
-                            [value]="emailStr" [class.is-invalid]="status.error.email.hasError" 
-                            id="invitedEmail" 
-                            [matAutocomplete]="emailAutoComplete"
-                            class="form-control shadow-none"
-                            placeholder="member@gmail.com" 
+                                name="emailStr" 
+                                [(ngModel)]="emailStr" (keyup)="onChange($event)" 
+                                [value]="emailStr" [class.is-invalid]="status.error.email.hasError" 
+                                id="invitedEmail" 
+                                [matAutocomplete]="emailAutoComplete"
+                                class="form-control shadow-none"
+                                placeholder="member@gmail.com" 
                             />
-                            <label for="invitedEmail" class="text-black-50">member@gmail.com</label>
                             <mat-autocomplete #emailAutoComplete="matAutocomplete" >
                                 <mat-option *ngFor="let email of filterEmails" [value]="email">
                                     {{ email }}

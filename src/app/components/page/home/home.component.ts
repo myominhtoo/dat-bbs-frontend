@@ -26,10 +26,7 @@ export class HomeComponent implements OnInit {
         prevPageX!:number;
         prevScrollLeft!:number;
         positionDiff!:number;
-        
-    
-    
-            
+              
     
     username : string = '';
     period : string = 'Good Morning';
@@ -54,12 +51,11 @@ export class HomeComponent implements OnInit {
         setTimeout(()=>{
             this.scrollWidthDiv = this.carousel.nativeElement.scrollWidth - this.carousel.nativeElement.clientWidth;
             this.user=this.userStore.user;
-            this.homeBoards=this.boardStore.ownBoards;            
-            this.homeCollaborator=this.boardStore.boardsHasUsers.map((res)=>res.board);
-            console.log(this.boardStore.boardsHasUsers)
+            // this.homeBoards=this.boardStore.ownBoards;            
+            // this.homeCollaborator=this.boardStore.boardsHasUsers.map((res)=>res.board);
+           
         },500)        
-     
-     
+        
     }
     
 

@@ -337,6 +337,7 @@ padding-bottom:3px;
 
 #mail-capsule{
     background-color: var(--thm);
+    padding:5px 10px;
 }
 
 #mail-capsule:active{

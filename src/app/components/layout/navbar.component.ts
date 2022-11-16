@@ -63,16 +63,16 @@ export class NavbarComponent implements OnInit {
     }
 
     getUserData( userId : number ){
-        // this.userService.getUser( userId )
-        // .subscribe({
-        //   next : resUser => {
-        //     this.userInfo={...resUser};
+        this.userService.getUser( userId )
+        .subscribe({
+          next : resUser => {
+            this.userInfo={...resUser};
   
-        //   },
-        //   error : err => {
-        //     console.log(err);
-        //   }
-        // });
+          },
+          error : err => {
+            console.log(err);
+          }
+        });
       }
   
 
