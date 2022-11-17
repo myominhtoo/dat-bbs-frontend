@@ -141,6 +141,11 @@ export class MyBoardComponent implements OnInit {
     }
 
     async getBoard( boardId : number ) : Promise<void> {
+
+      let filterBoardId = this.boardStore.boards.some(board=> board.id == boardId);
+      if (!filterBoardId){
+        window.history.back();
+      }else{
         this.boardService.getBoardWithBoardId( boardId )
         .subscribe({
             next : board => {
@@ -151,7 +156,7 @@ export class MyBoardComponent implements OnInit {
             error : err  => {
                 // window.history.back();
             }
-        })
+        })}
     }
 
     getUsers(){
@@ -166,9 +171,9 @@ export class MyBoardComponent implements OnInit {
       })
     }
 
-
     doActionForCurrentBoard( boardId : any ){
       if( isNaN(boardId) ){
+        
         /*
          will do if boardId is not a number
          cuz we created boardId as a number
