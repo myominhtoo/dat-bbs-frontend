@@ -155,7 +155,7 @@ export class SocketService{
         if(this.stompClient){
             users.forEach( user => {
                 const noti = new Notification();
-                noti.content = `${this.userStore.user.username} invited you to join \n "${board.boardName} Board" Click Here to Join!`;
+                noti.content = `${this.userStore.user.username} invited you to join \n "${board.boardName} Board" \n Click Here to Join!`;
                 noti.sentUser = this.userStore.user;
                 noti.board = board;
                 noti.isInvitiation = true;
@@ -169,12 +169,10 @@ export class SocketService{
      for invitiation noti 
     */
     private subscribeToPrivateNoti(){
-        if(this.stompClient){
             this.privateNotiSubscription = this.stompClient?.subscribe( `/users/${this.userStore.user.id}/notifications` , 
             ( payload ) => {
                 this.showNoti(payload);
             });               
-        }
     }
     
     private getSocketClient(){

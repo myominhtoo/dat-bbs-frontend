@@ -25,11 +25,11 @@ import { Notification } from 'src/app/model/bean/notification';
 })
 export class MyBoardComponent implements OnInit {
 
-  pdf='pdf';
-  excel='excel';
-  html='html';
+    pdf='pdf';
+    excel='excel';
+    html='html';
 
-  path:string="";
+    path:string="";
 
     boardsHasUsers : BoardsHasUsers [] = [];
     members : User [] = [];
@@ -43,6 +43,8 @@ export class MyBoardComponent implements OnInit {
     storedEmails : string [] = [];
     tempComment : string ='';
     showEmojis : boolean = false;
+
+    registeredUsers : User [] = [];
 
     stage  : Stage = new Stage();
 
@@ -97,14 +99,14 @@ export class MyBoardComponent implements OnInit {
          }
 
     ngOnInit(): void {
-      //listening route
-      this.handleRouteChange();
+        //listening route
+        this.handleRouteChange();
 
+        this.getUsers();
         this.doActionForCurrentBoard( this.route.snapshot.params['id'] );
         this.stage.stageName = "";
         this.stage.defaultStatus = false;
         document.title = "BBMS | My Board";
-
     }
 
     getRelationContainers( me : Stage ){
@@ -155,6 +157,18 @@ export class MyBoardComponent implements OnInit {
                 // window.history.back();
             }
         })}
+    }
+
+    getUsers(){
+      this.userService.getUsers()
+      .subscribe({
+        next : resUsers => {
+          this.registeredUsers = resUsers;
+        },
+        error : err => {
+          console.log(err);
+        }
+      })
     }
 
     doActionForCurrentBoard( boardId : any ){
@@ -225,7 +239,15 @@ export class MyBoardComponent implements OnInit {
 
     inviteMembers(){
         if( this.emails.length == 0 && this.email.length > 5 ) this.emails.push(this.email);
-        this.board.invitedEmails=this.emails;
+        this.board.invitedEmails = this.emails;
+
+        /*
+          not to invite member again
+        */
+        this.board.invitedEmails = this.board.invitedEmails.filter( email => {
+          !this.boardsHasUsers.map( boardHasUser => boardHasUser.user.email ).includes(email);
+        });
+
         if( this.emails.length > 0 || this.email.length > 5 ){
           swal({
             text : 'Are you sure to invite this members?',
@@ -234,6 +256,10 @@ export class MyBoardComponent implements OnInit {
           }).then( isYes => {
             if( isYes ){
               this.status.isInviting = true;
+
+              const invitedUsers = this.registeredUsers.filter( user => this.board.invitedEmails.includes(user.email) );
+              this.socketService.sendBoardInvitiationNotiToUsers( this.board , invitedUsers );
+
               this.boardService.inviteMembersToBoard(this.board.id, this.board)
               .subscribe({
                 next : data => {
