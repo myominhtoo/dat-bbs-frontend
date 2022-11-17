@@ -45,5 +45,10 @@ export class BoardService{
     //   return this.httpClient.get<Map<string,string>>(`http://locahost:8080/api/reportBoard/${filetype}`);
     // }
 
+    exportArchiveBoardReport(id : number ,filetype : string){
+      return this.httpClient.get<any>(`http://localhost:8080/api/users/${id}/archive-board-report?format=${filetype}`);
+    }
+
+
 }
 
