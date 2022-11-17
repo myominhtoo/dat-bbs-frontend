@@ -23,6 +23,10 @@ export class ArchiveBoardComponent implements OnInit {
     excel='excel';
     html='html';
 
+status = {
+        isLoading : false,
+        hasDoneFetching : false,
+    }    
 
     ngOnInit(): void {
         this.showDeletedBoardsByUserId(this.userStore.user.id );
@@ -36,9 +40,13 @@ export class ArchiveBoardComponent implements OnInit {
 
     showDeletedBoardsByUserId( userId : number ){
        // console.log(userId);
+        this.status.isLoading=true
         this.boardService.getDeletedBoardWithBoardId(userId).subscribe({
-            next : data => {
-                this.boards= data;
+            next: data => {
+                
+                this.boards = data;
+                this.status.isLoading = false
+                this.status.hasDoneFetching = true;
             },
             error : err => {
                 console.log(err);

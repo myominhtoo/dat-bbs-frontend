@@ -81,7 +81,6 @@ const routes: Routes = [
     component : MyBoardComponent,
     canActivate : [ AuthGuard ]
   },
-
   {
     path : 'users/:id/profile',
     component : MemberviewComponent,

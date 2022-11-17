@@ -22,10 +22,10 @@ export class WorkspaceComponent implements OnInit {
     bookmarks:BoardBookMark[]=[];
     boards : Board[]=[];
 
-    status = {
-        isLoading : false,
-        hasDoneFetching : false,
-    }
+    // status = {
+    //     isLoading : false,
+    //     hasDoneFetching : false,
+    // }
     // fileName='board.xlsx';
     pdf='pdf';
     excel='excel';

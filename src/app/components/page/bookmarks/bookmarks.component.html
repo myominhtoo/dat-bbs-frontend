@@ -1,8 +1,20 @@
 <div class="container-fluid p-4">
-  <div class="d-flex justify-content-between align-items-center border-board mb-3">
-  <h2 class="pb-1">BookMark</h2>
-</div>
-  <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="bookMarks"  (cdkDropListDropped)="drop($event)" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap" >
-      <boardBookmark cdkDrag *ngFor="let bookMark of bookMarks" [dataBookmark]="bookMark" [bookMarks]="bookMarks" (toggle-bookmark)="toggleBookMark($event)" class="col-4 my-2" ></boardBookmark>     
+  <div class="boards-not-have " *ngIf="bookMarks.length==0 && status.hasDoneFetching">
+    <!-- <span style='font-size:50px;'>
+      <i class="fa-regular  fa-bookmark"></i>
+    </span> -->
+
+    <img class="mb-4 opacity-75" src="assets/img/3D/undraw_checking_boxes_re_9h8m.svg" alt="" width="25%"
+      style="max-width: 250px;">
+    <h3 class="fw-bold opacity-75">No Bookmarks Yet</h3>
   </div>
+  <div *ngIf="bookMarks.length!=0" class="d-flex justify-content-between align-items-center border-board mb-3">
+    <h2 class="pb-1">BookMark</h2>
+  </div>
+  <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="bookMarks" (cdkDropListDropped)="drop($event)"
+    class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
+    <boardBookmark cdkDrag *ngFor="let bookMark of bookMarks" [dataBookmark]="bookMark" [bookMarks]="bookMarks"
+      (toggle-bookmark)="toggleBookMark($event)" class="col-4 my-2"></boardBookmark>
+  </div>
+  <loading target="bookMark" [show]="status.isLoading"></loading>
 </div>
