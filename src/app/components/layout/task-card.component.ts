@@ -21,17 +21,17 @@ import { ActivatedRoute } from '@angular/router';
                         <i class="fa-regular fa-message"></i>
                         <span *ngIf="task.comments.length > 0" class="badge text-white p-1 bg-danger noti-con fw-light " style="transform:translate(40%,40%);">{{ task.comments.length }}</span>
                     </div>
-                     <!-- for achieve taskcard -->
+                    <!-- for achieve taskcard -->
                     <div>
                         <i *ngIf="task.stage.id==3  && !task.deleteStatus" (click)="removeTask($event,task.id)" class="fa-solid fa-xmark" > </i>
 
                         <i *ngIf="task.stage.id==3 && task.deleteStatus" (click)="restoreTaskCard($event,task.id)" class="fa-solid fa-rotate-left text-muted"></i>
                     </div>
-                    <div class="dropdown" id="color-dropdown">
+                    <div class="dropdown p-0 m-0" id="color-dropdown">
                         <i (click)="handleShowColorPlatte($event)" class="fa-solid fa-palette" data-bs-toggle="dropdown" data-bs-target="#color-dropdown"></i>
                         <ul class="dropdown-menu p-3">
-                            <li style="font-size:14px;">Select Color :</li>
-                            <li class="d-flex flex-wrap gap-1 my-2">
+                            <li style="font-size:16px;">Select Color :</li>
+                            <li class="d-flex flex-wrap justify-content-center gap-1 my-2">
                                 <p (click)="handleSetColor( $event,  '')" class="p-0 m-0 rounded-0 shadow-sm text-center" style="width:20px;height:20px;" ><i class="fa-solid fa-ban text-muted"></i></p>
                                 <p *ngFor="let color of colors" (click)="handleSetColor($event, color)" class="p-0 m-0 rounded-0" style="width:20px;height:20px;" [style]="'background:'+color" ></p>
                             </li>

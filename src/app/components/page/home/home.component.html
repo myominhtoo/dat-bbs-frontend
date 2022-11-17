@@ -1,212 +1,262 @@
 <div class="container-fluid mb-4">
-<div class="w-75 mx-auto py-4 text-center">
-   <h4 class="h5 text-muted text-center ">
-        <span>{{ dateObj | date : 'yyyy' }} </span>
-        <span>{{ dateObj | date : 'MMM' }}, </span>
-        <span>{{ dateObj | date : 'dd' }}</span>
-    </h4>
-    <h3 class="text-dark h2 py-3 pt-0">{{ period }} , 
-        <span *ngFor="let char of username.split('');">{{ char }}</span>
-        <span *ngIf="username.length != userStore.user.username.length">|</span>
-    </h3>
-    <div class="d-flex  user-tasks justify-content-center text-muted" #countUp>
-        <div>
-            <span>
-                <i class="fa-solid fa-list-check bx-tada-hover mx-2 fw-bold  " style="font-size: 19px;"></i>
-            </span>
-            <!-- <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeBoards.length">
-            </span> -->
-            <span class="user-infos">
-            Tasks
-        </span>
-        </div>
-        <div>
-            <span>
-                <i class="bx bx-briefcase bx-sm bx-tada-hover mx-2"></i>
-            </span>
-            <!-- <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeBoards.length" >
+    <div class="w-75 mx-auto py-4 text-center">
+        <h4 class="h5 text-muted text-center ">
+            <span>{{ dateObj | date : 'yyyy' }} </span>
+            <span>{{ dateObj | date : 'MMM' }}, </span>
+            <span>{{ dateObj | date : 'dd' }}</span>
+        </h4>
+        <h3 class="text-dark h2 py-3 pt-0">{{ period }} ,
+            <span *ngFor="let char of username.split('');">{{ char }}</span>
+            <span *ngIf="username.length != userStore.user.username.length">|</span>
+        </h3>
+        <div class="d-flex  user-tasks justify-content-center text-muted" #countUp>
+            <div>
+                <span>
+                    <i class="fa-solid fa-list-check bx-tada-hover mx-2 fw-bold  " style="font-size: 19px;"></i>
+                </span>
+                <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeBoards.length">
 
-            </span> -->
-            <!-- <span class="user-infos" >
-                {{homeBoards.length==0?"Board":"Boards"}}
-            </span> -->
+                </span>
+                <span class="user-infos">
+                    Tasks
+                </span>
+            </div>
+            <div>
+                <span>
+                    <i class="bx bx-briefcase bx-sm bx-tada-hover mx-2"></i>
+                </span>
+                <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeBoards.length">
+
+                </span>
+                <span class="user-infos">
+                    {{homeBoards.length==0?"Board":"Boards"}}
+                </span>
+            </div>
+            <div>
+
+                <span>
+                    <i class="fa-solid fa-user-group bx-tada-hover mx-2"></i>
+                </span>
+                <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeCollaborator.length">
+
+                </span>
+                <span class="user-infos">
+                    Collaborators
+                </span>
+            </div>
         </div>
-        <div>
-            
-            <span>
-                <i class="fa-solid fa-user-group bx-tada-hover mx-2"></i>
-            </span>
-            <!-- <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeCollaborator.length">                 -->
-                <!-- {{countUp(homeBoards.length)}} -->
-            <!-- </span> -->
-            <span class="user-infos">
-             Collaborators
-            </span>
-        </div>
-    </div>
-</div>
-    <div class="w-100 pt-2">
-        <div class="container">
-            <div class="container-fluid d-flex justify-content-center w-100 mb-3" >
-            <div class="w-50 user-info-cards mx-1">
-                <div class="">
-                    <div class="w-100 row p-2 d-flex justify-content-center align-items-center pb-1 m-0" style="border-bottom: 1px solid #6d6e6f65;">
-                        <!-- img holder -->
-                        <div class="col-2 bg-red pe-0" id="user-profile-img " >                                                
-                            <div class="w-75 mx-auto pb-2">           
-                                <div *ngIf="userStore.user.imageUrl == null && userStore.user.username != null" class="text-dark d-flex justify-content-center align-items-center bg-secondary " style="width: 50px;height: 50px; border-radius: 50%;padding-top: 7px;">
-                                    <h4>{{ user.username &&  user.username[0].toUpperCase() }}</h4>
-                                </div>                                             
-                                <div *ngIf="userStore.user.imageUrl != null" class="d-flex justify-content-center align-items-center " style="width: 50px;height: 50px; border-radius: 50%;">
-                            <img  *ngIf="userStore.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+userStore.user.imageUrl"  alt="">
+        <div class="w-100 pt-2">
+            <div class="container">
+                <div class="container-fluid d-flex justify-content-center w-100 mb-3">
+                    <div class="w-50 user-info-cards mx-1">
+                        <div class="w-100 text-start">
+                            <div class="w-100 row p-2 d-flex justify-content-center align-items-center pb-1 m-0"
+                                style="border-bottom: 1px solid #6d6e6f65;">
+                                <!-- img holder -->
+                                <div class="col-2 bg-red pe-0" id="user-profile-img ">
+                                    <div class="w-75 mx-auto pb-2">
+                                        <div *ngIf="userStore.user.imageUrl == null && userStore.user.username != null"
+                                            class="text-dark d-flex justify-content-center align-items-center bg-secondary "
+                                            style="width: 50px;height: 50px; border-radius: 50%;padding-top: 7px;">
+                                            <h4>{{ user.username && user.username[0].toUpperCase() }}</h4>
+                                        </div>
+                                        <div *ngIf="userStore.user.imageUrl != null"
+                                            class="d-flex justify-content-center align-items-center "
+                                            style="width: 50px;height: 50px; border-radius: 50%;">
+                                            <img *ngIf="userStore.user.imageUrl != null" class="w-100 h-100"
+                                                style="border-radius: 100%;object-fit: cover;"
+                                                [src]="'http://localhost:8080/img/'+userStore.user.imageUrl" alt="">
+                                        </div>
+
+                                    </div>
                                 </div>
-                            <!-- <span *ngIf="userStore.user.imageUrl == null && userStore.user.username != null" class="text-dark">{{ userStore.user.username[0].toUpperCase() }}</span> -->
-                        </div>
-                        </div>
-                        <!-- img holder -->
-                        <!-- My Priorities  -->
-                        <div class="col-10 ps-2 m-0">
-                            <h4 class="m-0 ps-1">My Priorities</h4>
-                            <div class="my-prior p-0 m-0">
-                                <span class="pt-0">
-                                    Upcoming
+                                <!-- img holder -->
+                                <!-- My Priorities  -->
+                                <div class="col-10 ps-2 m-0">
+                                    <h4 class="m-0 ps-1">My Priorities</h4>
+                                    <div class="my-prior p-0 m-0">
+                                        <span class="pt-0">
+                                            Upcoming
+                                        </span>
+                                        <span class="pt-0">Overdue</span>
+                                        <span class="pt-0">Completed</span>
+                                    </div>
+                                </div>
+                                <!-- My Priorities  -->
+                            </div>
+                            <div class="w-100">
+                                <div class="container-fluid text-center"
+                                    *ngIf="this.homeCollaborator.length==0 && status.hasDoneFetching">
+                                    <div class="pt-5">
+
+                                        <img class="mb-4 opacity-75" src="assets/img/3D/undraw_invite_re_rrcp.svg"
+                                            alt="" width="25%" style="max-width: 200px;">
+                                        <h4 class="fw-bold opacity-75">No Tasks</h4>
+                                    </div>
+                                </div>
+                                <!-- <ul class="list-unstyled my-prior-list"
+                                    style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
+
+                                    <li class="d-flex justify-content-between mx-auto p-2 "
+                                        style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
+                                        <div>
+                                            <span>
+                                                 <input type="checkbox" name="" id=""
+                                                    class="form-check-input shadow-none">
                                 </span>
-                                <span class="pt-0">Overdue</span>
-                                <span class="pt-0">Completed</span>
+                                <span>
+                                    To Sleep
+                                </span>
+                            </div>
+                            <div>
+                                <span class="badge  p-2" style="background-color: #3e3636;">
+                                    Board...
+                                </span>
+                                <span>
+                                    Nov 12 -15
+                                </span>
+                            </div>
+                            </li>
+                            </ul> -->
                             </div>
                         </div>
-                        <!-- My Priorities  -->
                     </div>
-                    <div class="w-100">
-                            <ul class="list-unstyled my-prior-list"  style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
-                                <li class="d-flex justify-content-between mx-auto p-2 " style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
-                                        <div>
-                                            <span>
-                                                <input type="checkbox" name="" id="" class="form-check-input shadow-none">
-                                            </span>
-                                            <span>
-                                                To Sleep
-                                            </span>
+                    <div class="w-50 user-info-cards mx-1 pt-3">
+                        <div class="p-2">
+                            <h4 class="m-0">Board</h4>
+                        </div>
+                        <div class="">
+                            <div class="row align-content-start my-prior-list"
+                                style="overflow-y: scroll;height: 220px;">
+                                <!-- start -->
+
+                                <div class="col-6 mb-4" style="height: 40px !important;">
+                                    <div class="row px-3 py-0">
+                                        <div routerLink="/create-board" style="cursor: pointer;"
+                                            class="col-2 user-show-projects  d-flex justify-content-center align-items-center rounded-3">
+                                            <i class="fas fa-plus text-white " style="font-size: 20px;"></i>
                                         </div>
-                                        <div>
-                                            <span class="badge  p-2" style="background-color: #3e3636;">
-                                                Board...
-                                            </span>
-                                            <span>
-                                                Nov 12 -15
-                                            </span>
+                                        <div class="col-8 d-flex justify-content-start align-items-center">
+                                            <h5 class="m-0 p-0">Create Board</h5>
+                                            <!-- <h6 class="m-0 p-0 text-muted">3 tasks due soon</h6> -->
+
                                         </div>
-                                </li>
-                                
-          
-                            </ul>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-6 mb-4" style="height:40px !important;"
+                                    *ngFor="let board of homeBoards">
+                                    <div class="row px-3 py-0">
+                                        <div
+                                            class="col-2 user-show-projects  d-flex justify-content-center align-items-center rounded-3">
+                                            <i class="fas fa-list-squares text-white " style="font-size: 20px;"></i>
+                                        </div>
+                                        <div class="col-9">
+                                            <h5 class="m-0 p-0">{{board.boardName}}</h5>
+                                            <h6 class="m-0 p-0 text-muted">3 tasks due soon</h6>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- end  -->
+
+
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="w-50 user-info-cards mx-1 pt-3">
-                <div class="p-2">
-                    <h4 class="m-0">Board</h4>
-                </div>
-                <div class="">
-                    <div class="row align-content-start my-prior-list" style="overflow-y: scroll;height: 220px;">
-                        <!-- start --> 
-                        
-                        <div class="col-6 mb-4" style="height: 40px !important;">
-                            <div class="row px-3 py-0">
-                            <div class="col-2 user-show-projects  d-flex justify-content-center align-items-center rounded-3" >
-                                <i class="fas fa-plus text-white " style="font-size: 20px;"></i>
-                            </div>
-                            <div class="col-8 d-flex justify-content-start align-items-center">
-                                <h5 class="m-0 p-0">Create Board</h5>
-                                <!-- <h6 class="m-0 p-0 text-muted">3 tasks due soon</h6> -->
-                                
-                            </div>
-                        </div>
-                        </div>                        
-                        
+                <div class="container">
+                    <div class="mx-1 user-info-people w-100" style="height: auto;">
+                        <div class="p-2">
+                            <h4 class="m-0">Collaborators</h4>
 
-                        <div class="col-6 mb-4" style="height:40px !important;" *ngFor="let board of homeBoards">
-                            <div class="row px-3 py-0">
-                            <div class="col-2 user-show-projects  d-flex justify-content-center align-items-center rounded-3" >
-                                <i class="fas fa-list-squares text-white " style="font-size: 20px;"></i>
-                            </div>
-                            <div class="col-9">
-                                <h5 class="m-0 p-0">{{board.boardName}}</h5>
-                                <h6 class="m-0 p-0 text-muted">3 tasks due soon</h6>
-                                
-                            </div>
                         </div>
-                        </div>
-                        
-                    
+                        <div class="p-2 px-4 wrapper ">
 
-<!-- end  -->
-                 
-                    
+                            <i id="left" class="fa-solid fa-angle-left" *ngIf="this.homeCollaborator.length !=0"
+                                [class.d-none]="carousel.scrollLeft == 0" (click)="iconClick('left')"></i>
+
+                            <div class="carousel d-flex justify-content-start" #carousel
+                                (touchstart)="dragStart($event)" (mouseover)="dragStart($event)"
+                                (touchmove)="dragging($event)" (touchend)="dragStop()">
+                                <div class="container-fluid text-start " style="height: 280px;" #firstDiv>
+                                    <!-- start  -->
+                                    <!-- start no collaborators -->
+                                    <div class="container-fluid text-center"
+                                        *ngIf="this.homeCollaborator.length==0 && status.hasDoneFetching">
+                                        <div class="pt-4">
+
+                                            <img class="mb-4 opacity-75"
+                                                src="assets/img/3D/undraw_collaboration_re_vyau.svg" alt="" width="25%"
+                                                style="max-width: 200px;">
+                                            <h4 class="fw-bold opacity-75">No Collaborators</h4>
+                                        </div>
+                                    </div>
+                                    <!-- end no collaborators -->
+                                    <div class="rounded-3 mx-2 user-people"
+                                        *ngFor="let collaborators of this.homeCollaborator">
+                                        <div class="flex-column d-flex justify-content-around align-items-center p-3"
+                                            style="height:100%">
+                                            <div class="d-flex flex-column  justify-content-center align-items-center">
+                                                <div class="w-100 m-0 p-0">
+                                                    <div class="m-0 p-0 d-flex justify-content-center align-items-center"
+                                                        style="width: 100%;">
+
+
+
+                                                        <div *ngIf="collaborators.imageUrl  == null && collaborators.username != null"
+                                                            class="text-dark d-flex justify-content-center align-items-center bg-secondary"
+                                                            style="width: 90px;height: 90px; border-radius: 50%;">
+                                                            <h4>{{ collaborators.username &&
+                                                                collaborators.username[0].toUpperCase() }}
+                                                            </h4>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div *ngIf="collaborators.imageUrl != null" class="mx-auto"
+                                                        style="width: 90px;height: 90px; border-radius: 50%;">
+                                                        <img *ngIf="collaborators.imageUrl != null" class="w-100 h-100"
+                                                            style="border-radius: 100%;object-fit: cover;"
+                                                            [src]="'http://localhost:8080/img/'+collaborators.imageUrl"
+                                                            alt="">
+
+                                                    </div>
+                                                </div>
+                                                <div class="pt-2 text-center">
+                                                    <h5>{{collaborators.username}}</h5>
+                                                    <h6>
+                                                        <p class="text-muted">Joined at : <span>{{
+                                                                collaborators.joinedDate}}</span> </p>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                            <div class="">
+
+                                                <button [routerLink]="'/users/'+collaborators.id+'/profile'"
+                                                    class="btn btn-outline-dark">View
+                                                    Profile</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end -->
+
+
+                                </div>
+
+
+                            </div>
+                            <i id="right" class="fa-solid fa-angle-right" *ngIf="this.homeCollaborator.length !=0"
+                                [class.d-none]="carousel.scrollLeft == scrollWidthDiv" (click)="iconClick('right')"></i>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div class="mx-1 user-info-people w-100" style="height: auto;">   
-                <div class="p-2">
-                    <h4 class="m-0">Collaborators</h4>
-                </div>
-                <div class="p-2 px-4 wrapper " >
-                    
-                        <i id="left" class="fa-solid fa-angle-left" *ngIf="showHideIcons() >80" (click)="iconClick('left')" ></i>
-                        
-                        <div class="carousel" #carousel (touchstart)="dragStart($event)" (mousedown)="dragStart($event)"
-                        (touchmove)="dragging($event)" (touchend)="dragStop()">                            
-                            <!-- start  -->                            
-                        <div class="rounded-3 mx-2 user-people" #firstDiv *ngFor="let collaborators of this.homeCollaborator">
-                            
-                            <div class="flex-column d-flex justify-content-around align-items-center p-3" style="height:100%">
-                                <div class="d-flex flex-column  justify-content-center align-items-center" >
-                                <div class="w-100 m-0 p-0">
-                                <div class="m-0 p-0 d-flex justify-content-center align-items-center"  style="width: 100%;" >
-                                    <!-- [ngStyle]="userStore.user.imageUrl?{'width': '100%'} : {'width': '50%'}" -->
 
-
-                                    <div *ngIf="collaborators.user.imageUrl  == null && collaborators.user.username != null" class="text-dark d-flex justify-content-center align-items-center bg-secondary" style="width: 90px;height: 90px; border-radius: 50%;">
-                                            <h4>{{  user.username &&  user.username[0].toUpperCase() }}</h4>
-                                    </div>                                             
-                                    
-                                </div>
-                                    
-                                         <div *ngIf="collaborators.user.imageUrl != null" class="mx-auto" style="width: 90px;height: 90px; border-radius: 50%;">                                            
-                                             <img  *ngIf="collaborators.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+collaborators.user.imageUrl"  alt="">       
-                                    <!-- <img  class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" src="assets\img\board-profile-img\gru.jpg"  alt="">                                                         -->
-                                </div> 
-                                </div>                                
-                                <div class="pt-2 text-center" >
-                                <h5>{{collaborators.user.username}}</h5>                                    
-                                <h6><p class="text-muted">Joined at : <span>{{ collaborators.user.joinedDate}}</span> </p></h6>                                
-                                </div>
-                            </div>
-                                <div class="">
-                                   <button class="btn btn-outline-dark">View Profile</button>
-                                </div>
-                            </div>
-                        
-                        </div>                            
-                        
-                                              
-                        
-
-
-                                                
-                    <!-- end  -->                                                                                                                     
-                        
-                    </div>
-                    <i id="right" class="fa-solid fa-angle-right" *ngIf="showHideIcons() != scrollWidthDiv" (click)="iconClick('right')" ></i> 
-                </div>
-            </div>
-        </div>
-        </div>
     </div>
-
-</div>
-
-
-
