@@ -14,7 +14,10 @@ import { CdkDragDrop , moveItemInArray } from '@angular/cdk/drag-drop';
 export class MyTaskComponent implements OnInit{
     taskCards : TaskCard [] = [];
     //userId : string = "";
-
+    status = {
+        isLoading : false,
+        hasDoneFetching : false,
+    }
     constructor( public toggleStore : ToggleStore ,
         private taskCardService : TaskCardService ,
         public route : ActivatedRoute ,
@@ -34,10 +37,12 @@ export class MyTaskComponent implements OnInit{
 
         getTasks(userId : number){
             // console.log ("YouSee");
-
+            this.status.isLoading = true;
             this.taskCardService.showMyTasks(userId).subscribe({
              next : data => {
-                this.taskCards = data;
+                    this.taskCards = data;
+                    this.status.hasDoneFetching = true
+                    this.status.isLoading = false;
              },
              error : err => {
                 console.log(err);
