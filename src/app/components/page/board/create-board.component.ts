@@ -9,6 +9,8 @@ import { UserService } from "src/app/model/service/http/user.service";
 import { map } from "rxjs";
 import { BoardStore } from "src/app/model/service/store/board.store";
 import { UserStore } from "src/app/model/service/store/user.store";
+import { SocketService } from "src/app/model/service/http/socket.service";
+import { COLORS } from "src/app/model/constant/colors";
 
 @Component({
     selector :'create-board',
@@ -21,7 +23,8 @@ export class CreateBoardComponent implements OnInit {
       private router : Router ,
       private userService : UserService ,
       public userStore : UserStore,
-      public boardStore : BoardStore ){}
+      public boardStore : BoardStore ,
+      private socketService : SocketService ){}
 
     emailStr :string ='';
     emails : string [] = [];  
@@ -34,6 +37,7 @@ export class CreateBoardComponent implements OnInit {
     */
     storedEmails : string [] = [];
     filterEmails : string [] = [];
+    registeredUsers : User [] = [];
 
     status = {
       update : {
@@ -109,15 +113,8 @@ export class CreateBoardComponent implements OnInit {
     }
   
     createBoard(){
-      /*
-      to change
-      */
-      let userId = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))).id;
-
-
-      const user = new User();
-      user.id = userId;
-      this.board.user = user;
+      this.userStore.fetchUserData();
+      this.board.user = this.userStore.user;
       this.board.invitedEmails = this.emails;
 
       this.board.boardName == null || this.board.boardName == ''
@@ -138,26 +135,44 @@ export class CreateBoardComponent implements OnInit {
           if( isYes ){
             this.status.isLoading = true;
             this.board.invitedEmails = this.board.invitedEmails.filter( email => email != this.userStore.user.email );
+           
+            /*
+             for board's icon color
+            */
+           this.board.iconColor = COLORS[ Math.floor( Math.random() * (COLORS.length - 1) ) ];
+           
             this.boardService.createBoard(this.board)
             .subscribe({
-              next : data => {
+              next : resCreateBoard => {
                 this.status.isLoading = false;
-                this.boardStore.refetchBoardsByUserId( userId ); 
-                swal({
-                  text : data.message,
-                  icon : 'success'
-                }).then( () => {
-                  this.router.navigateByUrl('/boards');
-                })
+                /*
+                 for internal app invitiation noti
+                */
+               if( resCreateBoard.ok ){
+                  const createdBoard = resCreateBoard.data;
+
+                  const invitedUsers = this.registeredUsers.filter( user => this.board.invitedEmails.includes(user.email));
+                  this.socketService.sendBoardInvitiationNotiToUsers( createdBoard , invitedUsers );
+                  
+                  this.boardStore.boards.push( createdBoard );
+                  this.boardStore.ownBoards.push( createdBoard );
+
+                  swal({
+                    text : resCreateBoard.message,
+                    icon : 'success'
+                  }).then( () => {
+                    this.router.navigateByUrl('/boards');
+                  })
+               }
               },
               error : err => {
+                this.status.isLoading = false;
                 console.log(err);
                 this.board.boardName = '';
                 this.board.description = '';
               }
             });  
           }else{
-            // console.log('he')
             this.status.isLoading = false;
           }
         })
@@ -171,6 +186,7 @@ export class CreateBoardComponent implements OnInit {
           return resUsers.filter( user => {
             return user.id != this.userStore.user.id;
           }).map( filteredUser => {
+            this.registeredUsers.push(filteredUser);
             return filteredUser.email;
           })
         })
@@ -184,7 +200,7 @@ export class CreateBoardComponent implements OnInit {
       });
     }
 
-    filterAutoCompleteEmails(   filterEmail : string ){
+    filterAutoCompleteEmails( filterEmail : string ){
       this.filterEmails =  this.storedEmails.filter(
         ( email )=>{
           return email.toLocaleLowerCase().includes( filterEmail.toLocaleLowerCase());

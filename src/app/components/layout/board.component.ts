@@ -119,33 +119,30 @@ export class BoardComponent implements OnInit {
         this.boardBookMark.board=data;        
         this.boardBookMark.user=data.user;      
         
-        //getting current board form book marks
-        const curBoardFromBookMarks = this.bookMarks.filter( bookMark => bookMark.board.id == this.data.id );
-        
-        // will enter if cur board has been book mark        
-        swal({
-          text:curBoardFromBookMarks.length>0?"Are you sure to remove?":"Are you sure?",
-          icon:"warning",
-          buttons : [ 'No' , 'Yes' ]
-        }).then(isYes=>{
-          if(isYes){
-            if( curBoardFromBookMarks.length > 0 ){
-              this.boardBookMark.id = curBoardFromBookMarks[0].id;
-            }            
-          this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
-            next:(res)=>{          
-              if(res.ok){
-                this.toggleBookMarkEmit.emit( res.data );
-              }
-            },error:(err)=>{
-                console.log(err)
-            }
-        })              
+            //getting current board form book marks
+            const curBoardFromBookMarks = this.bookMarks.filter( bookMark => bookMark.board.id == this.data.id );
+            
+           // will enter if cur board has been book mark        
+            swal({
+              text:curBoardFromBookMarks.length>0?"Are you sure to remove?":"Are you sure?",
+              icon:"warning",
+              buttons : [ 'No' , 'Yes' ]
+            }).then(isYes=>{
+              if(isYes){
+                if( curBoardFromBookMarks.length > 0 ){
+                  this.boardBookMark.id = curBoardFromBookMarks[0].id;
+                }            
+              this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
+                next:(res)=>{          
+                  if(res.ok){
+                    this.toggleBookMarkEmit.emit( res.data );
+                  }
+                },error:(err)=>{
+                    console.log(err)
+                }
+            })              
           }
-        })
-        
-        
-         
+        })     
     }
 
     isBookMark(){      

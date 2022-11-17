@@ -62,8 +62,7 @@ export class BoardStore{
             }
         });
     }
-
-    
+ 
     public refetchBoardsByUserId( userId : number ){
         this.boards = [];
         this.getBoardsByUserId( userId );

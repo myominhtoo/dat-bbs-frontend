@@ -7,6 +7,7 @@ import { UserStore } from "src/app/model/service/store/user.store";
 import { BoardStore } from "src/app/model/service/store/board.store";
 // import * as swal from "sweetalert";
 import swal from "sweetalert";
+import { SocketService } from "src/app/model/service/http/socket.service";
 
 
 
@@ -33,7 +34,11 @@ status = {
 
     }
 
-    constructor( private boardService : BoardService , public userStore : UserStore , private boardStore : BoardStore ){}
+    constructor( 
+        private boardService : BoardService ,
+        public userStore : UserStore ,
+        private boardStore : BoardStore ,
+        private socketService : SocketService   ){}
 
     drop( e : CdkDragDrop<Board[]> ){}
 
@@ -58,6 +63,7 @@ status = {
         this.boards=this.boards.filter(resBoard=>resBoard.id!=board.id)
         board.deleteStatus = false;
         this.boardStore.ownBoards.push( board );
+        this.socketService.subscribeBoard( board.id ); //subscribing restored baord
     }
 
     exportArchiveBoardReport(path:string) {

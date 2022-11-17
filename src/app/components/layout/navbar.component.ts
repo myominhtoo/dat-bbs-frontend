@@ -5,7 +5,6 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { UserStore } from 'src/app/model/service/store/user.store';
 import swal from "sweetalert";
 import { Client  } from 'stompjs';
-import { BoardStore } from 'src/app/model/service/store/board.store';
 import { NotificationStore } from 'src/app/model/service/store/notification.store';
 import { Router } from '@angular/router';
 
@@ -51,9 +50,7 @@ export class NavbarComponent implements OnInit {
             if( this.userStore.user.id ) this.getUserData(this.userStore.user.id )
     }
 
-    ngOnInit(): void {
-      
-    }
+    ngOnInit(): void {}
 
   
     toggleSidebar(){
