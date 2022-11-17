@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as SockJS from "sockjs-client";
 import { Client, Message, over, Subscription } from "stompjs";
@@ -29,7 +30,8 @@ export class SocketService{
         private httpClient : HttpClient ,
         private notiStore : NotificationStore,
         private authService : AuthService,
-        private userStore : UserStore
+        private userStore : UserStore ,
+        private route : ActivatedRoute
     ){  
         if( authService.isAuth() ) {
            this.getSocketClient();
@@ -88,7 +90,7 @@ export class SocketService{
                 duration : 5000,
                 gravity : 'bottom',
                 className : 'noti__toast',
-                position : 'right',
+                position : 'right'
             }).showToast();     
                 this.notiStore.notifications.unshift( newNoti );
         }        
@@ -179,4 +181,7 @@ export class SocketService{
         const socket = new SockJS( 'http://localhost:8080/socket' );
         this.stompClient = over( socket );
     }
+
+    
+
 }

@@ -96,7 +96,7 @@ export class MyBoardComponent implements OnInit {
           this.offCanvasTask.activities = [];
           this.offCanvasTask.comments = [];
           this.board.user = new User();
-         }
+    }
 
     ngOnInit(): void {
         //listening route
@@ -107,6 +107,8 @@ export class MyBoardComponent implements OnInit {
         this.stage.stageName = "";
         this.stage.defaultStatus = false;
         document.title = "BBMS | My Board";
+
+        console.log(this.route)
     }
 
     getRelationContainers( me : Stage ){
