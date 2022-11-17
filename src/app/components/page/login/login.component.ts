@@ -52,7 +52,7 @@ export class LoginComponent {
                         this.boardStore.refetchBoardsByUserId(res.body.data.id);
                         this.notiStore.reFetchNotis( res.body.data.id );
                         setTimeout(() => {
-                            this.socketService.subscribeBoardsSocket();
+                           this.socketService.subscribeNotis();
                         } , 1000 );
                         swal({
                             text : res.body.message,

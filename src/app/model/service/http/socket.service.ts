@@ -1,16 +1,18 @@
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { BoardMessage } from './../../bean/BoardMessage';
 import { Injectable } from "@angular/core";
+import { Observable } from 'rxjs';
 import * as SockJS from "sockjs-client";
 import { Client, Message, over, Subscription } from "stompjs";
 import swal from "sweetalert";
-import { Notification } from "../../bean/notification";
-import { BoardStore } from "../store/board.store";
 import * as Toastify from 'toastify-js';
+import { Board } from '../../bean/board';
+import { Notification } from "../../bean/notification";
+import { User } from '../../bean/user';
+import { BoardStore } from "../store/board.store";
 import { NotificationStore } from '../store/notification.store';
-import { AuthService } from './auth.service';
 import { UserStore } from '../store/user.store';
+import { BoardMessage } from './../../bean/BoardMessage';
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -20,23 +22,27 @@ export class SocketService{
 
     stompClient : Client | undefined = undefined;
     boardNotisSubscriptions : Subscription [] = [];
+    privateNotiSubscription : Subscription | undefined;
 
     constructor( 
         public boardStore : BoardStore , 
         private httpClient : HttpClient ,
         private notiStore : NotificationStore,
-        private authService : AuthService
+        private authService : AuthService,
+        private userStore : UserStore
     ){  
         if( authService.isAuth() ) {
            this.getSocketClient();
+           this.userStore.fetchUserData();
         }
     }
 
-    subscribeBoardsSocket(){
+    subscribeNotis(){
        this.getSocketClient();
         if(this.stompClient){
             this.stompClient.connect( {} ,
                 () => {
+                    this.subscribeToPrivateNoti();
                     this.boardStore.boards.forEach( board => {
                         const subscription =  this.stompClient?.subscribe( `/boards/${board.id}/notifications` , ( payload ) => {
                             // const newNoti = JSON.parse(payload.body) as Notification;
@@ -72,7 +78,7 @@ export class SocketService{
         }
     }
 
-    showNoti( payload : Message ){
+    private showNoti( payload : Message ){
         const newNoti = JSON.parse(payload.body) as Notification;
         if( newNoti.sentUser.id != this.boardStore.userStore.user.id ){
         ($('#noti-ring')[0] as HTMLAudioElement).play();
@@ -141,7 +147,35 @@ export class SocketService{
     public getBoardMessageList(id:number):Observable<BoardMessage[]>{
         return this.httpClient.get<BoardMessage[]>(`http://localhost:8080/api/boards/${id}/messages`);
     }     
+
+    /*
+        to send internal noti for registered users when invite board
+    */
+    public sendBoardInvitiationNotiToUsers(  board : Board , users : User [] ){
+        if(this.stompClient){
+            users.forEach( user => {
+                const noti = new Notification();
+                noti.content = `${this.userStore.user.username} invited you to join \n "${board.boardName} Board" Click Here to Join!`;
+                noti.sentUser = this.userStore.user;
+                noti.board = board;
+                noti.isInvitiation = true;
+                
+                this.stompClient?.send( `/app/users/${user.id}/send-notification` , {} , JSON.stringify(noti) );
+            });
+        }
+    }
     
+    /*
+     for invitiation noti 
+    */
+    private subscribeToPrivateNoti(){
+        if(this.stompClient){
+            this.privateNotiSubscription = this.stompClient?.subscribe( `/users/${this.userStore.user.id}/notifications` , 
+            ( payload ) => {
+                this.showNoti(payload);
+            });               
+        }
+    }
     
     private getSocketClient(){
         const socket = new SockJS( 'http://localhost:8080/socket' );

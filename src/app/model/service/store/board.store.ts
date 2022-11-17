@@ -63,12 +63,12 @@ export class BoardStore{
             }
         });
     }
-
-    
+ 
     public refetchBoardsByUserId( userId : number ){
         this.boards = [];
         this.getBoardsByUserId( userId );
     }
+
     public getAllMembers(userId:number){
         this.userService.getAllMembers(userId).subscribe({
             next:(res)=>{                      
