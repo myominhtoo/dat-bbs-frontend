@@ -9,12 +9,16 @@ import swal from 'sweetalert';
     templateUrl : './forget-password.component.html'
 })
 export class ForgetPasswordComponent implements OnInit {
+
     ngOnInit(): void {
        this.user.email='';
       
     }
-    constructor(private userService : UserService,
-                public userStore : UserStore ){}
+    constructor(
+      private userService : UserService,
+      public userStore : UserStore ){
+        document.title = "BBMS | forget-password"
+      }
     
 
     user : User = new User;
@@ -32,7 +36,7 @@ export class ForgetPasswordComponent implements OnInit {
         this.userService.forgetPassword(email).subscribe({
             next : (res) => {
                swal({
-                text : 'Successfully!',
+                text : 'Successfully Sent,Check Your Email!',
                 icon : 'success'
               })
               this.status.isEmailLoading=false;
@@ -67,20 +71,19 @@ export class ForgetPasswordComponent implements OnInit {
               },
               error : err=>{
                   swal({
-                    text : 'Failed to reset password!',
-                    icon : 'error'
+                    text : err.error.messsage,
+                    icon : 'warning'
                   })
               }
             })
           })
          }else{
           swal ({
-            text : 'passwords are not matched!',
+            text : 'Two passwords must be match!',
             icon : 'warning'
           })
         
         }
-      
-        }
+      }
 }
 

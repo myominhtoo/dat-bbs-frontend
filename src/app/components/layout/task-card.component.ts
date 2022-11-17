@@ -90,6 +90,7 @@ export class TaskCardComponent implements OnInit {
         setTimeout(() => {
             this.getActivityDonePercent();
         } , 500 );
+       this.getTaskCardRemainDay();
     }
 
     handleShowOffCanvas( task : TaskCard ){
@@ -202,5 +203,10 @@ export class TaskCardComponent implements OnInit {
         })
     }
 
+    getTaskCardRemainDay(){
+        const date = new Date();
+        const startedDate = new Date(this.task.startedDate);
+        const endedDate = new Date(this.task.endedDate);
+    }
 
 }
