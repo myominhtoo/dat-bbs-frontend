@@ -10,6 +10,7 @@ import { UserStore } from 'src/app/model/service/store/user.store';
 import { BoardService } from 'src/app/model/service/http/board.service';
 // import * as XLSX from 'xlsx';
 import swal from "sweetalert";
+import { SocketService } from 'src/app/model/service/http/socket.service';
 
 @Component({
     selector : 'workspace',
@@ -42,9 +43,8 @@ export class WorkspaceComponent implements OnInit {
         public userService :UserService  ,
         public boardService : BoardService,
         private router : Router ,
-        private userStore : UserStore  ){
-
-        }
+        private userStore : UserStore,
+        private socketService : SocketService  ){}
 
     ngOnInit(): void {
         document.title = "BBMS | My Workspace";
@@ -55,6 +55,7 @@ export class WorkspaceComponent implements OnInit {
 
      removeBoard(board : Board){
          this.boardStore.ownBoards = this.boardStore.ownBoards.filter( boarding=> boarding.id!=board.id );
+         this.socketService.unsubscribeBoard( board.id ); // to unsubscribe removed boards
         ($('#delete-track')[0] as any).play();
     }
 
@@ -84,10 +85,6 @@ export class WorkspaceComponent implements OnInit {
 
     archiveBoards(){
         this.router.navigateByUrl(`/archive-boards`,);
-    }
-
-    restoreBoard(board : Board){
-        this.boardStore.ownBoards = this.boardStore.ownBoards.filter(resBoard=> resBoard.id!=board.id)
     }
 
     exportBoardReport(path:string) {

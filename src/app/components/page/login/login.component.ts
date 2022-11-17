@@ -63,7 +63,7 @@ export class LoginComponent {
                     }
                 }, error : err => {
                     this.user.password = '';
-                this.error = { hasError : true , msg :err.error.message};
+                    this.error = { hasError : true , msg :err.error.message};
                 }
             
             }

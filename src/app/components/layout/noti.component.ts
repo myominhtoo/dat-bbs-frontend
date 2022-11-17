@@ -23,8 +23,7 @@ export class NotiComponent implements OnInit {
 
     @Input('noti') noti : Notification = new Notification();
 
-    constructor( private boardStore : BoardStore , private router : Router ){
-    }
+    constructor( private boardStore : BoardStore , private router : Router ){}
 
     ngOnInit() : void {
         this.noti.board.color = '';
