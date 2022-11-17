@@ -5,7 +5,7 @@ import { HttpResponse } from "../../bean/httpResponse";
 import { Observable } from "rxjs";
 
 @Injectable({
-    providedIn  : 'root'   
+    providedIn  : 'root'
 })
 
 export class BoardService{
@@ -37,8 +37,8 @@ export class BoardService{
       return this.httpClient.get<Board[]> (`http://localhost:8080/api/archive-boards?userId=${userId}`);
     }
 
-    exportBoardReport(boardFormat : string){
-      return this.httpClient.get<Board[]>(`http://localhost:8080/api/reportBoard/${boardFormat}`);
+    exportBoardReport(userId : number ,filetype : string){
+      return this.httpClient.get<any>(`http://localhost:8080/api/users/${userId}/report-board?format=${filetype}`);
     }
 
     // exportReport(filetype: string): Observable<Map<string,string>>{

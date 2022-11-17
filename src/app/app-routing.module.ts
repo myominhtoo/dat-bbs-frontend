@@ -18,6 +18,8 @@ import { MemberviewComponent } from './components/page/memberView/memberview.com
 import { ArchiveBoardComponent } from './components/page/board/archive-board.component';
 import { ForgetPasswordComponent } from './components/page/forgetPassword/forget-password.component';
 import { BoardBookmarkComponent } from './components/layout/boardBookmark.component';
+import { ShowDeleteTaskComponent } from './components/page/mytasks/showDeleteTask';
+
 
 
 const routes: Routes = [
@@ -71,6 +73,10 @@ const routes: Routes = [
     component : MyBoardComponent,
   },
   {
+    path : 'boards/:id/showDeleteTask',
+    component : ShowDeleteTaskComponent
+  },
+  {
     path : 'create-taskCard',
     component : CreateTaskCardComponent
   },
@@ -78,7 +84,7 @@ const routes: Routes = [
     path : 'users/:id/profile',
     component : MemberviewComponent,
   },
-  
+
   {
     path : 'archive-boards',
     component : ArchiveBoardComponent,
@@ -97,7 +103,7 @@ const routes: Routes = [
   {
     path:"boards/:id/chat",
     component : BoardChatComponent,
-  },  
+  },
   {
     path : '**',
     component : NotFoundComponent,

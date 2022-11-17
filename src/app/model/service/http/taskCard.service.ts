@@ -38,10 +38,22 @@ export class TaskCardService {
     exportTaskReport(boardId : number , taskFormat : string ){
         return this.httpClient.get<TaskCard[]>(`http://localhost:8080/api/boards/${boardId}/reportTask?format=${taskFormat}`);
       }
-    
+
     updateDeleteStatusTask( boardId : number , id : number ,taskCard : TaskCard): Observable <TaskCard>{
         return this.httpClient.put<TaskCard>(`http://localhost:8080/api/boards/${boardId}/task-cards?id=${id}`,taskCard);
     }
 
+    showDeleteTaskCard(boardId : number):Observable<TaskCard[]>{
+      return this.httpClient.get<TaskCard[]>(`http://localhost:8080/api/boards/${boardId}/archive-tasks`)
+    }
+
+    // restoreDeleteTask(boardId : number):Observable<TaskCard>{
+    //   return this.httpClient.put<TaskCard>(`http://localhost:8080/api/boards/${boardId}/restore-tasks`,taskCard);
+    // }
+
+
+    restoreTask(id : number ,boardId : number, taskCard : TaskCard) : Observable<HttpResponse<TaskCard>>{
+      return this.httpClient.put<HttpResponse<TaskCard>>(`http://localhost:8080/api/boards/${boardId}/restore-tasks?id=${id}` , taskCard  );
+  }
 
 }
