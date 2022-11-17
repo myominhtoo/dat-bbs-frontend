@@ -40,8 +40,8 @@ export class AppComponent implements OnInit {
     if(this.authService.isAuth()){
        this.userStore.fetchUserData();
        setTimeout(() => {
-        this.socketService.subscribeBoardsSocket();
-        this.notiStore.reFetchNotis( this.userStore.user.id )
+        this.socketService.subscribeNotis();
+        this.notiStore.reFetchNotis( this.userStore.user.id );
        }, 1500 );
     }
   }

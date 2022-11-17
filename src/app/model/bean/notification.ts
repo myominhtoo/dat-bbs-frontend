@@ -5,6 +5,7 @@ export class Notification {
     id ! : number;
     content ! : string;
     createdDate ! : Date;
-    board ! : Board;
+    board  : Board | undefined | null;
     sentUser !: User;
+    isInvitiation : boolean | undefined | null ;
 }

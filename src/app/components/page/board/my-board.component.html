@@ -18,7 +18,7 @@
                   <button class="btn btn-sm myboard-btn btn-outline-secondary"  routerLink="/boards/{{board.id}}/close-task">
                     <i class=></i> Archive Tasks</button>
                     <span class="">
-                        <button class=" btn btn-sm myboard-btn btn-outline-secondary"  data-bs-toggle="dropdown" ><span>Export</span><i class="fa-solid fa-file-export"></i></button>
+                        <button class=" btn btn-sm myboard-btn btn-outline-secondary"  data-bs-toggle="dropdown" ><i class="fa-solid fa-file-export mx-1"></i>Export</button>
                         <ul class="dropdown-menu">
                             <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="HTML" (click)="exportTaskReport(html)"/>
                             <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="PDF" (click)="exportTaskReport(pdf)"/>
@@ -41,10 +41,10 @@
                  <div class="offcanvas offcanvas-end" id="demo">
                   <div class="offcanvas-header shadow-sm" >
                     <h5 class="offcanvas-title" >Team Members</h5>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas"></button>
+                    <!-- <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas"></button> -->
 
                     <span class="">
-                      <button class=" btn btn-sm myboard-btn btn-outline-secondary"  data-bs-toggle="dropdown" ><span>Export</span><i class="fa-solid fa-file-export"></i></button>
+                      <button class=" btn btn-sm myboard-btn btn-outline-secondary"  data-bs-toggle="dropdown" ><i class="fa-solid fa-file-export mx-1"></i>Export</button>
                       <ul class="dropdown-menu">
                           <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="HTML" (click)="exportMemberReport(html)"/>
                           <li><input type="button" name="textShow" id="btn"  class="dropdown-item" value="EXCEL" (click)="exportMemberReport(excel)"/>
@@ -141,7 +141,6 @@
                         </div>
                     </div>
                  </div>
-
             </div>
         </div>
         <div class="row">
