@@ -14,7 +14,10 @@ export class BoardMarkComponent{
     bookmark: BoardBookMark = new BoardBookMark;
     bookMarks : BoardBookMark[] = [];
     // bookmarks : BoardBookMark[]=[];
-    
+ status = {
+        isLoading : false,
+        hasDoneFetching : false,
+    }    
 
     constructor( public toggleStore : ToggleStore ,
                  public boardStore : BoardStore,
@@ -28,11 +31,14 @@ export class BoardMarkComponent{
     }
 
      showBookMarks( userId : number ){
-        console.log(userId);
+         console.log(userId);
+         this.status.isLoading = true;
         this.boardBoardmarkService.showBookmarks(userId).subscribe({
-            next : dataBookmark =>{
-                console.log(dataBookmark);
-                this.bookMarks=dataBookmark;
+            next: dataBookmark => {
+                
+                this.bookMarks = dataBookmark;
+                this.status.isLoading = false;
+                this.status.hasDoneFetching = true;
             },
             error : err =>{
                 console.log(err);
@@ -41,7 +47,7 @@ export class BoardMarkComponent{
      }
 
      toggleBookMark( boardBookMark : BoardBookMark ){ 
-        // console.log("hi");       
+     
        this.bookMarks = this.bookMarks.filter( bookmark => bookmark.id != boardBookMark.id );
     }
 

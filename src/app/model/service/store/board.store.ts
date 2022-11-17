@@ -16,7 +16,7 @@ export class BoardStore{
     public boards : Board [] = [];
     public ownBoards : Board [] = [];
     public joinedBoards : Board [] = [];
-    public boardsHasUsers:BoardsHasUsers[]=[];    
+    
     public status = {
         isLoading : true,
         hasDoneFetching : false,
@@ -24,7 +24,6 @@ export class BoardStore{
 
     constructor( 
         private boaredService : BoardService , 
-        private userService:UserService ,
         public userStore : UserStore ,
         private authService : AuthService ){
         if( authService.isAuth() ){
@@ -68,16 +67,6 @@ export class BoardStore{
         this.boards = [];
         this.getBoardsByUserId( userId );
     }
-
-    public getAllMembers(userId:number){
-        this.userService.getAllMembers(userId).subscribe({
-            next:(res)=>{                      
-                this.boardsHasUsers=res.data.map((data)=> data);
-                
-            },error:(err)=>{
-                console.log(err)
-            }
-        })
-    }
+   
 
 }

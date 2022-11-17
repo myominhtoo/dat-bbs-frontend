@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output  } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Activity } from "src/app/model/bean/activity";
 import { ActivityService } from "src/app/model/service/http/activity.service";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
@@ -14,11 +14,11 @@ import { Stage } from "src/app/model/bean/stage";
 import { Attachment } from "src/app/model/bean/attachment";
 import { AttachmentService } from "src/app/model/service/http/attachment.service";
 import { Notification } from "../../model/bean/notification";
-import {SocketService} from "../../model/service/http/socket.service";
+import { SocketService } from "../../model/service/http/socket.service";
 
 @Component({
-    selector : 'task-offcanvas',
-    template : `
+    selector: 'task-offcanvas',
+    template: `
         <div class='offcanvas offcanvas-end' id='task-offcanvas' >
             <div class="offcanvas-header shadow-sm py-3 px-3" [style.borderLeft]="task.markColor == null || task.markColor == ''  ? '0.5px solid rgb(206, 202, 202)' : '4px solid '+task.markColor +'!important'  ">
                 <div class="d-flex flex-column w-50">
@@ -262,454 +262,454 @@ import {SocketService} from "../../model/service/http/socket.service";
 export class TaskOffCanvasComponent implements OnInit {
 
 
-    MAX_ITEM_PER_PAGE : number = 5;
+    MAX_ITEM_PER_PAGE: number = 5;
 
-    showtime:Comment[] =[];
+    showtime: Comment[] = [];
     boardId !: number;
     taskCardId !: number;
-    activity : Activity= new Activity();
-    startedDate !: Date ;
+    activity: Activity = new Activity();
+    startedDate !: Date;
     endedDate !: Date;
     description !: string;
-    changeStage :Stage=new Stage();
-    changeTask:TaskCard=new TaskCard();
-    attachments : Attachment [] = [];
-    paginatedAttachments : Attachment [] = [];
-    curPageOfAttachments : number = 1;
-    totalPagesOfAttachments : number = 0;
-    newAttachment : Attachment = new Attachment();
-    showEmojis : boolean = false
-    
+    changeStage: Stage = new Stage();
+    changeTask: TaskCard = new TaskCard();
+    attachments: Attachment[] = [];
+    paginatedAttachments: Attachment[] = [];
+    curPageOfAttachments: number = 1;
+    totalPagesOfAttachments: number = 0;
+    newAttachment: Attachment = new Attachment();
+    showEmojis: boolean = false
 
-    @Input('task') task : TaskCard = new TaskCard();
+
+    @Input('task') task: TaskCard = new TaskCard();
     // @Input('activities') activities : Activity [] = [];
     // @Input('comments') comments : Comment [] = [];
-    @Input('isLoading') isLoading : boolean = false;
-    @Input('members') members : User [] = [];
-    @Input('board') board : Board = new Board();
-    @Input('tasks') tasks : Map<string,TaskCard[]> = new Map();
-    @Input('tab')  tab : string = 'activity';
+    @Input('isLoading') isLoading: boolean = false;
+    @Input('members') members: User[] = [];
+    @Input('board') board: Board = new Board();
+    @Input('tasks') tasks: Map<string, TaskCard[]> = new Map();
+    @Input('tab') tab: string = 'activity';
 
     @Output('deleteComment') emitDeleteComment = new EventEmitter<Comment>();
     @Output('updateComment') emitUpdateComment = new EventEmitter<Comment>();
 
-    detailActivity : Activity = new Activity();
-    comment : Comment = new Comment();
+    detailActivity: Activity = new Activity();
+    comment: Comment = new Comment();
 
     status = {
-        isAddActivity : false,
-        activityError : '',
-        msg : '',
-        errorTargetIdx : 0,
-        errorTask : '',
-        attachmentError : '',
-        addingAttachment : false,
-        updateActivityError : '',
+        isAddActivity: false,
+        activityError: '',
+        msg: '',
+        errorTargetIdx: 0,
+        errorTask: '',
+        attachmentError: '',
+        addingAttachment: false,
+        updateActivityError: '',
     }
 
     constructor(
-        public route : ActivatedRoute ,
-        private activityService : ActivityService ,
-        private taskCardService : TaskCardService ,
-        private commentService : CommentService ,
-        public userStore : UserStore , 
-        public attachmentService :AttachmentService ,
-        private socketService : SocketService ){}
+        public route: ActivatedRoute,
+        private activityService: ActivityService,
+        private taskCardService: TaskCardService,
+        private commentService: CommentService,
+        public userStore: UserStore,
+        public attachmentService: AttachmentService,
+        private socketService: SocketService) { }
 
     ngOnInit(): void {
         this.task.users = [];
         this.comment.comment = '';
     }
 
-    changeTab( tab : string ){
+    changeTab(tab: string) {
         this.tab = tab;
     }
 
-    changeChecked(check:boolean,checkIdx:number){
-        if( !this.task.activities[checkIdx] ) return ;
+    changeChecked(check: boolean, checkIdx: number) {
+        if (!this.task.activities[checkIdx]) return;
         const checkActivity = this.task.activities[checkIdx]
-        
-        swal({
-            text : 'Are you sure ?',
-            icon : 'warning',
-            buttons : [ 'No' , 'Yes' ]
-          }).then( isYes => {
-            
-            if( isYes ){
-                this.activityService.updateActivity( checkActivity ).subscribe({
-                    next:(res)=>{
-                            this.status.msg = res.message;
-                            setTimeout(() => {
-                                this.status.msg = '';
-                            } , 500 );  
 
-                            this.handleChangeResultStage();
-                            /*
-                             refactored code is in the last
-                            */
-                                                        
-                    },error:(err)=>{
-                            console.log(err)
-                        }
+        swal({
+            text: 'Are you sure ?',
+            icon: 'warning',
+            buttons: ['No', 'Yes']
+        }).then(isYes => {
+
+            if (isYes) {
+                this.activityService.updateActivity(checkActivity).subscribe({
+                    next: (res) => {
+                        this.status.msg = res.message;
+                        setTimeout(() => {
+                            this.status.msg = '';
+                        }, 500);
+
+                        this.handleChangeResultStage();
+                        /*
+                         refactored code is in the last
+                        */
+
+                    }, error: (err) => {
+                        console.log(err)
                     }
-                )                   
-            }else{
-                this.task.activities[ checkIdx ].status = !check;
-            }   
+                }
+                )
+            } else {
+                this.task.activities[checkIdx].status = !check;
+            }
         })
     }
 
-    setUpAddActivity(){
-    //     // to control clicking this button again & again
-    //    if( !this.status.isAddActivity || this.activities.length == 0 ){
-    //     this.status.isAddActivity = true;
+    setUpAddActivity() {
+        //     // to control clicking this button again & again
+        //    if( !this.status.isAddActivity || this.activities.length == 0 ){
+        //     this.status.isAddActivity = true;
 
         const newActivity = new Activity();
-        this.task.activities.push( newActivity );
-    //    }
+        this.task.activities.push(newActivity);
+        //    }
     }
 
-    handleAddActivity( e : KeyboardEvent , targetIdx : number ){
-       this.status.activityError = '';
-       let curActivityName =  this.task.activities[ targetIdx ].activityName;
-       if( e.code === 'Enter' ){
-          if( curActivityName  == '' || curActivityName == null ){
-            this.status.activityError = 'Acitiviy is required!';
-            return;
-          }
+    handleAddActivity(e: KeyboardEvent, targetIdx: number) {
+        this.status.activityError = '';
+        let curActivityName = this.task.activities[targetIdx].activityName;
+        if (e.code === 'Enter') {
+            if (curActivityName == '' || curActivityName == null) {
+                this.status.activityError = 'Acitiviy is required!';
+                return;
+            }
 
-         const newActivity = this.task.activities[ targetIdx ];
-         newActivity.taskCard = { ...this.task };    
-         newActivity.taskCard.activities = [];
-         newActivity.taskCard.comments = [];  
+            const newActivity = this.task.activities[targetIdx];
+            newActivity.taskCard = { ...this.task };
+            newActivity.taskCard.activities = [];
+            newActivity.taskCard.comments = [];
 
-         if(newActivity.id==undefined){
-            this.activityService
-            .createActivity( this.task.activities[ targetIdx ])
-            .subscribe({
-               next : res => {
-                   this.status.msg = res.message;
-                   this.task.activities[ targetIdx ] = res.data;
-                   const noti = new Notification();
-                   noti.content = `${this.userStore.user.username} created activity in ${this.board.boardName} Board `;
-                   noti.sentUser = this.userStore.user;
-                   noti.board = this.board;
+            if (newActivity.id == undefined) {
+                this.activityService
+                    .createActivity(this.task.activities[targetIdx])
+                    .subscribe({
+                        next: res => {
+                            this.status.msg = res.message;
+                            this.task.activities[targetIdx] = res.data;
+                            const noti = new Notification();
+                            noti.content = `${this.userStore.user.username} created activity in ${this.board.boardName} Board `;
+                            noti.sentUser = this.userStore.user;
+                            noti.board = this.board;
 
-                   this.handleChangeResultStage();
+                            this.handleChangeResultStage();
 
-                   this.socketService.sentNotiToBoard( this.board.id , noti);
+                            this.socketService.sentNotiToBoard(this.board.id, noti);
 
-                   setTimeout(() => {
-                       this.status.msg  = "";
-                   } , 1000 );
-               },
-               error : err => {
-                  this.status.errorTargetIdx = targetIdx;
-                  this.status.activityError = err.error.message;
-               }
-            });
-            this.status.isAddActivity = false;
-         }else{
-            this.activityService
-            .updateActivity( this.task.activities[ targetIdx ])
-            .subscribe({
-               next : res => {                   
-                this.status.msg = res.message;
+                            setTimeout(() => {
+                                this.status.msg = "";
+                            }, 1000);
+                        },
+                        error: err => {
+                            this.status.errorTargetIdx = targetIdx;
+                            this.status.activityError = err.error.message;
+                        }
+                    });
+                this.status.isAddActivity = false;
+            } else {
+                this.activityService
+                    .updateActivity(this.task.activities[targetIdx])
+                    .subscribe({
+                        next: res => {
+                            this.status.msg = res.message;
 
-                const noti = new Notification();
-                noti.content = `${this.userStore.user.username} updated activity in ${this.board.boardName} Board `;
-                noti.sentUser = this.userStore.user;
-                noti.board = this.board;
+                            const noti = new Notification();
+                            noti.content = `${this.userStore.user.username} updated activity in ${this.board.boardName} Board `;
+                            noti.sentUser = this.userStore.user;
+                            noti.board = this.board;
 
-                this.socketService.sentNotiToBoard( this.board.id , noti);
+                            this.socketService.sentNotiToBoard(this.board.id, noti);
 
-                setTimeout(() => {
-                    this.status.msg  = "";
-                } , 1000 );
-               },
-               error : err => {
-                  this.status.errorTargetIdx = targetIdx;
-                  this.status.activityError = err.error.message;
-               }
-            });
-            this.status.isAddActivity = false;
-         }
+                            setTimeout(() => {
+                                this.status.msg = "";
+                            }, 1000);
+                        },
+                        error: err => {
+                            this.status.errorTargetIdx = targetIdx;
+                            this.status.activityError = err.error.message;
+                        }
+                    });
+                this.status.isAddActivity = false;
+            }
 
-    
-       }
+
+        }
     }
 
-    handleShowDetailActivity( activityId : number ){
+    handleShowDetailActivity(activityId: number) {
         this.isLoading = true;
-        this.attachmentService.getAttachmentsForActivity( activityId  )
-        .subscribe({
-            next : resAttachments => {
-                this.attachments = resAttachments;
-                this.totalPagesOfAttachments = Math.ceil( resAttachments.length / this.MAX_ITEM_PER_PAGE );
-                this.handleAssignPaginatedAttachments( this.curPageOfAttachments );
-                this.detailActivity = this.task.activities.filter( activity => activity.id === activityId )[0];
-                this.isLoading = false;
-                this.tab = 'activity-detail';
+        this.attachmentService.getAttachmentsForActivity(activityId)
+            .subscribe({
+                next: resAttachments => {
+                    this.attachments = resAttachments;
+                    this.totalPagesOfAttachments = Math.ceil(resAttachments.length / this.MAX_ITEM_PER_PAGE);
+                    this.handleAssignPaginatedAttachments(this.curPageOfAttachments);
+                    this.detailActivity = this.task.activities.filter(activity => activity.id === activityId)[0];
+                    this.isLoading = false;
+                    this.tab = 'activity-detail';
+                },
+                error: err => {
+                    console.log(err);
+                }
+            });
+    }
+
+    handleAssignPaginatedAttachments(pageNo: number) {
+        this.curPageOfAttachments = pageNo;
+        let from = (pageNo - 1) * this.MAX_ITEM_PER_PAGE;
+        let results = [];
+        let idx = from;
+        for (let i = 0; i < this.MAX_ITEM_PER_PAGE; i++) {
+            if (!this.attachments[idx]) break;
+            results.push(this.attachments[idx]);
+            idx++;
+        }
+        this.paginatedAttachments = results;
+    }
+
+    handleUpdateTaskName(e: KeyboardEvent) {
+        this.status.errorTask = '';
+        if (e.key === 'Enter') {
+            this.taskCardService.updateTaskCard(this.task)
+                .subscribe({
+                    next: res => {
+                        this.task = res.data;
+
+                        const noti = new Notification();
+                        noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
+                        noti.sentUser = this.userStore.user;
+                        noti.board = this.board;
+
+                        this.socketService.sentNotiToBoard(this.board.id, noti);
+                        // console.log(res);
+                    },
+                    error: err => {
+                        this.status.errorTask = err.error.message;
+                    }
+                });
+        }
+    }
+
+    handleComment() {
+        this.comment.user = new User();
+        this.comment.taskCard = new TaskCard();
+
+        this.comment.user.id = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))).id;
+        this.comment.taskCard.id = this.task.id;
+
+        //console.log(this.comment.taskCard.id);
+
+        this.commentService.createComment(this.comment)
+            .subscribe({
+                next: res => {
+                    if (res.ok) {
+                        this.comment.comment = '';
+                        this.task.comments.unshift(res.data);
+                        this.showEmojis = false;
+                    }
+                },
+                error: err => {
+                    console.log(err);
+                }
+            })
+    }
+
+    handleAssignTask(e: any) {
+        let userId = Number(e.target.value);
+        if (!this.task.users.some(member => member.id == userId)) {
+            this.task.users.push(this.members.find(member => member.id == userId)!);
+        }
+    }
+
+    handleRemoveUserFromAssign(e: Event, userId: number) {
+        e.stopPropagation();
+        this.task.users = this.task.users.filter(user => {
+            return user.id != userId;
+        });
+        if (this.task.users.length == 2) {
+            $('#assign-users-dropdown-btn').click();
+        }
+    }
+
+    updateTask() {
+
+        this.taskCardService.updateTaskCard(this.task).subscribe({
+            next: res => {
+                if (res) {
+                    swal({
+                        text: "successfully!",
+                        icon: 'success'
+                    }).then(() => {
+
+                        const noti = new Notification();
+                        noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
+                        noti.sentUser = this.userStore.user;
+                        noti.board = this.board;
+
+                        this.socketService.sentNotiToBoard(this.board.id, noti);
+
+                    })
+                }
             },
-            error : err => {
+            error: err => {
                 console.log(err);
             }
         });
     }
 
-    handleAssignPaginatedAttachments( pageNo : number ){
-        this.curPageOfAttachments = pageNo;
-        let from = ( pageNo - 1 ) * this.MAX_ITEM_PER_PAGE;
-        let results  = [];
-        let idx = from;
-        for( let i = 0 ; i < this.MAX_ITEM_PER_PAGE ; i++ ){
-            if(!this.attachments[idx]) break;
-           results.push(this.attachments[idx]);
-           idx++;
-        }
-        this.paginatedAttachments = results;
-    }
-
-    handleUpdateTaskName( e : KeyboardEvent ){
-       this.status.errorTask = '';
-       if( e.key === 'Enter' ){
-            this.taskCardService.updateTaskCard(this.task)
-            .subscribe({
-                next : res => {
-                    this.task = res.data;
-
-                    const noti = new Notification();
-                    noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
-                    noti.sentUser = this.userStore.user;
-                    noti.board = this.board;
-
-                    this.socketService.sentNotiToBoard( this.board.id , noti);
-                    // console.log(res);
-                },
-                error : err => {
-                    this.status.errorTask = err.error.message;
-                }
-            });
-       }
-    }
-
-    handleComment(){
-       this.comment.user = new User();
-       this.comment.taskCard = new TaskCard();
-
-       this.comment.user.id = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))).id;
-       this.comment.taskCard.id = this.task.id;
-
-       //console.log(this.comment.taskCard.id);
-
-       this.commentService.createComment( this.comment )
-       .subscribe({
-        next : res => {
-            if( res.ok ){
-                this.comment.comment = '';
-                this.task.comments.unshift(res.data);
-                this.showEmojis = false;
-            }
-        },
-        error : err => {
-            console.log(err);
-        }
-       })
-    }
-
-    handleAssignTask( e : any ){
-       let userId = Number(e.target.value);
-       if( !this.task.users.some( member => member.id == userId )){
-          this.task.users.push(this.members.find( member => member.id == userId )!);
-       }
-    }
-
-    handleRemoveUserFromAssign( e : Event , userId : number ){
-        e.stopPropagation();
-        this.task.users = this.task.users.filter( user => {
-            return user.id != userId;
-        });
-        if(this.task.users.length == 2){
-            $('#assign-users-dropdown-btn').click();
-        }
-    }
-   
-    updateTask(){
-     
-        this.taskCardService.updateTaskCard( this.task).subscribe({   
-                 next : res => {
-                   if( res ){
-                     swal({
-                       text : "successfully!",
-                       icon : 'success'
-                     }).then(() => {
-
-                       const noti = new Notification();
-                       noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
-                       noti.sentUser = this.userStore.user;
-                       noti.board = this.board;
-
-                       this.socketService.sentNotiToBoard( this.board.id , noti);
-
-                     })
-                  }
-                 },
-                 error : err => {
-                   console.log(err);
-                 }
-                });
-    }
-
-    handleInviteMembers(){
+    handleInviteMembers() {
         console.log('hi')
         $('#invite-members').click();
     }
 
-    deleteComment(cmt : Comment){ 
-        
+    deleteComment(cmt: Comment) {
+
         swal({
-            text : 'Are you sure to Delete ?',
-            icon : 'warning',
-            buttons : [ 'No' , 'Yes' ]
-            }).then( isYes => {
-            if (isYes){
-                this.commentService.deleteComment(cmt.id).subscribe(data=>{
-                this.task.comments=this.task.comments.filter(comment=>comment.id != cmt.id);
+            text: 'Are you sure to Delete ?',
+            icon: 'warning',
+            buttons: ['No', 'Yes']
+        }).then(isYes => {
+            if (isYes) {
+                this.commentService.deleteComment(cmt.id).subscribe(data => {
+                    this.task.comments = this.task.comments.filter(comment => comment.id != cmt.id);
                 });
             }
-            })
+        })
     }
 
-   deleteAttachment(att : Attachment){
-    swal({
-        text : 'Are you sure to Delete?',
-        icon : 'warning',
-        buttons : [ 'No' , 'Yes ']
-    }).then( isYes => {
-        if (isYes){
-            this.attachmentService.deleteAttachment(att.id).subscribe( data=>{
-              this.attachments=this.attachments.filter(attachment=> attachment.id != att.id);
-              this.totalPagesOfAttachments = Math.ceil(this.attachments.length / this.MAX_ITEM_PER_PAGE );
-              this.handleAssignPaginatedAttachments( this.totalPagesOfAttachments > 1 ? this.curPageOfAttachments : 1 );
+    deleteAttachment(att: Attachment) {
+        swal({
+            text: 'Are you sure to Delete?',
+            icon: 'warning',
+            buttons: ['No', 'Yes ']
+        }).then(isYes => {
+            if (isYes) {
+                this.attachmentService.deleteAttachment(att.id).subscribe(data => {
+                    this.attachments = this.attachments.filter(attachment => attachment.id != att.id);
+                    this.totalPagesOfAttachments = Math.ceil(this.attachments.length / this.MAX_ITEM_PER_PAGE);
+                    this.handleAssignPaginatedAttachments(this.totalPagesOfAttachments > 1 ? this.curPageOfAttachments : 1);
 
-              const noti = new Notification();
-              noti.content = `${this.userStore.user.username} deleted attachment in \n ${this.detailActivity.activityName} activity of ${this.detailActivity.activityName} Task Card in ${this.board.boardName} Board `;
-              noti.sentUser = this.userStore.user;
-              noti.board = this.board;
+                    const noti = new Notification();
+                    noti.content = `${this.userStore.user.username} deleted attachment in \n ${this.detailActivity.activityName} activity of ${this.detailActivity.activityName} Task Card in ${this.board.boardName} Board `;
+                    noti.sentUser = this.userStore.user;
+                    noti.board = this.board;
 
-              this.socketService.sentNotiToBoard( this.board.id , noti);
+                    this.socketService.sentNotiToBoard(this.board.id, noti);
 
-            });
-        }
-    })
-   }
-
-   updateComment ( comment:Comment ){
-      this.emitUpdateComment.emit(comment);
-      $("#editComment").click();
-   }
-
-   handleAddAttachment(){
-    const inputFiles = ($('#attachment')[0] as HTMLInputElement).files;
-    if( inputFiles?.length == 0 || !this.newAttachment.name ){
-        if(!this.newAttachment.name) this.newAttachment.name = '';
-        if( inputFiles?.length == 0 ) this.status.attachmentError = 'Attachment file is required!'
-    }else{
-        this.status.attachmentError = '';
-        this.newAttachment.file = inputFiles![0];
-        this.newAttachment.user = this.userStore.user;
-        this.newAttachment.activity = this.detailActivity;
-        
-        this.status.addingAttachment = true;
-        this.attachmentService.addAttachmentToActivity( this.newAttachment )
-        .subscribe({
-            next : res => {
-                this.status.addingAttachment = false;
-                if( res.ok ){
-                    swal({
-                        text : 'Successfully Uploaded!',
-                        icon : 'success'
-                    }).then(() => {
-                        $('#close-attachment-btn').click();
-                        const resAttachment = res.data;
-                        resAttachment.user = this.newAttachment.user;
-                        this.attachments.push(resAttachment);
-                        this.totalPagesOfAttachments = Math.ceil(this.attachments.length / this.MAX_ITEM_PER_PAGE );
-                        this.handleAssignPaginatedAttachments( this.totalPagesOfAttachments > 1 ? this.curPageOfAttachments + 1 : 1 );
-                        this.newAttachment = new Attachment();
-
-                        const noti = new Notification();
-                        noti.content = `${this.userStore.user.username} uploaded attachment in \n ${this.detailActivity.activityName}  Activity of ${this.detailActivity.taskCard.taskName} Task in ${this.board.boardName} Board `;
-                        noti.sentUser = this.userStore.user;
-                        noti.board = this.board;
-
-                        this.socketService.sentNotiToBoard( this.board.id , noti);
-
-                        $('#attachment').val('');
-                    })
-                }
-            },
-            error : err => {
-                this.status.addingAttachment = false;
-                this.status.attachmentError = err.error.message;
+                });
             }
-        });
-       
+        })
     }
-   }
 
-   toggleEmojis(){
-    this.showEmojis = !this.showEmojis;
-   }
+    updateComment(comment: Comment) {
+        this.emitUpdateComment.emit(comment);
+        $("#editComment").click();
+    }
 
-   addEmojiToComment( e : any ){
-     this.comment.comment += e.emoji.native;
-   }
+    handleAddAttachment() {
+        const inputFiles = ($('#attachment')[0] as HTMLInputElement).files;
+        if (inputFiles?.length == 0 || !this.newAttachment.name) {
+            if (!this.newAttachment.name) this.newAttachment.name = '';
+            if (inputFiles?.length == 0) this.status.attachmentError = 'Attachment file is required!'
+        } else {
+            this.status.attachmentError = '';
+            this.newAttachment.file = inputFiles![0];
+            this.newAttachment.user = this.userStore.user;
+            this.newAttachment.activity = this.detailActivity;
 
-   //updating activity in detaiil activity
-   handleUpdateActivity(){
-    this.status.updateActivityError = '';
-    this.activityService.updateActivity( this.detailActivity )
-    .subscribe({
-        next : resStatus => {
-          if( resStatus.ok ){
-            swal({
-                text : 'Activity Updted Succesfully!',
-                icon : 'success'
-            }).then(() => {
-                this.handleChangeResultStage();
-            })
-          }
-        },
-        error : err => {
-          this.status.updateActivityError = err.error.message;
+            this.status.addingAttachment = true;
+            this.attachmentService.addAttachmentToActivity(this.newAttachment)
+                .subscribe({
+                    next: res => {
+                        this.status.addingAttachment = false;
+                        if (res.ok) {
+                            swal({
+                                text: 'Successfully Uploaded!',
+                                icon: 'success'
+                            }).then(() => {
+                                $('#close-attachment-btn').click();
+                                const resAttachment = res.data;
+                                resAttachment.user = this.newAttachment.user;
+                                this.attachments.push(resAttachment);
+                                this.totalPagesOfAttachments = Math.ceil(this.attachments.length / this.MAX_ITEM_PER_PAGE);
+                                this.handleAssignPaginatedAttachments(this.totalPagesOfAttachments > 1 ? this.curPageOfAttachments + 1 : 1);
+                                this.newAttachment = new Attachment();
+
+                                const noti = new Notification();
+                                noti.content = `${this.userStore.user.username} uploaded attachment in \n ${this.detailActivity.activityName}  Activity of ${this.detailActivity.taskCard.taskName} Task in ${this.board.boardName} Board `;
+                                noti.sentUser = this.userStore.user;
+                                noti.board = this.board;
+
+                                this.socketService.sentNotiToBoard(this.board.id, noti);
+
+                                $('#attachment').val('');
+                            })
+                        }
+                    },
+                    error: err => {
+                        this.status.addingAttachment = false;
+                        this.status.attachmentError = err.error.message;
+                    }
+                });
+
         }
-    });
-   }
+    }
 
-   /*
-    this method is just refactoring code to be DRY
-   */
-   handleChangeResultStage(){
+    toggleEmojis() {
+        this.showEmojis = !this.showEmojis;
+    }
 
-        let NEXT_STAGE_ID : number = 0;// for next stage id of task 
+    addEmojiToComment(e: any) {
+        this.comment.comment += e.emoji.native;
+    }
 
-        if( this.task.activities.every((res)=> res.status==true)){         
+    //updating activity in detaiil activity
+    handleUpdateActivity() {
+        this.status.updateActivityError = '';
+        this.activityService.updateActivity(this.detailActivity)
+            .subscribe({
+                next: resStatus => {
+                    if (resStatus.ok) {
+                        swal({
+                            text: 'Activity Updted Succesfully!',
+                            icon: 'success'
+                        }).then(() => {
+                            this.handleChangeResultStage();
+                        })
+                    }
+                },
+                error: err => {
+                    this.status.updateActivityError = err.error.message;
+                }
+            });
+    }
+
+    /*
+     this method is just refactoring code to be DRY
+    */
+    handleChangeResultStage() {
+
+        let NEXT_STAGE_ID: number = 0;// for next stage id of task 
+
+        if (this.task.activities.every((res) => res.status == true)) {
             NEXT_STAGE_ID = 3;
         }
-        else if( this.task.activities.some((res)=> res.status==true)){
+        else if (this.task.activities.some((res) => res.status == true)) {
             NEXT_STAGE_ID = 2;
         }
-        else{
+        else {
             NEXT_STAGE_ID = 1;
-        } 
+        }
 
-        const  prevTaskCardsOfTask = this.tasks.get(this.task.stage.stageName);
-        this.tasks.set( this.task.stage.stageName, [ ... prevTaskCardsOfTask?.filter( task => task.id != this.task.id )!] );
+        const prevTaskCardsOfTask = this.tasks.get(this.task.stage.stageName);
+        this.tasks.set(this.task.stage.stageName, [...prevTaskCardsOfTask?.filter(task => task.id != this.task.id)!]);
 
 
         this.changeStage.id = NEXT_STAGE_ID;
-        this.changeTask={...this.task}
+        this.changeTask = { ...this.task }
         this.changeTask.stage = this.changeStage;
 
         //won't let request to backend if not change stage
@@ -720,18 +720,19 @@ export class TaskOffCanvasComponent implements OnInit {
         //     return ;
         // }
 
-        this.taskCardService.updateTaskCard( this.changeTask ).subscribe({
-            next : res => {
-                this.task = res.data;  
+        this.taskCardService.updateTaskCard(this.changeTask).subscribe({
+            next: res => {
+                this.task = res.data;
                 this.task.activities = this.changeTask.activities;
-                this.task.comments = this.changeTask.comments; 
+                this.task.comments = this.changeTask.comments;
 
                 const resultTasks = this.tasks.get(this.task.stage.stageName);
                 resultTasks?.push(this.task);
-                this.tasks.set( this.task.stage.stageName , resultTasks! );              
+                this.tasks.set(this.task.stage.stageName, resultTasks!);
             },
-            error : err => {
+            error: err => {
                 console.log(err);
-        }});
-   }
+            }
+        });
+    }
 }

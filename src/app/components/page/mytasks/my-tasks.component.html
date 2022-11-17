@@ -1,7 +1,22 @@
 <div class="container-fluid p-4">
-    <h2 class="pb-4"> My Tasks </h2>
-    <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="taskCards"  (cdkDropListDropped)="drop($event)" class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap" >
-        <task-card cdkDrag *ngFor="let task of taskCards"  [task]="task" [routerLink]="'/boards/'+task.board.id"  class="col-4" ></task-card>
-        
+
+    <div class="boards-not-have " *ngIf="taskCards.length==0 && status.hasDoneFetching">
+        <!-- <span style='font-size:100px;'>🙁</span> -->
+        <img class="mb-4 opacity-75" src="assets/img/3D/undraw_relaxing_at_home_re_mror.svg" alt="" width="25%"
+            style="max-width: 250px;">
+        <h3 class="fw-bold opacity-75">No TaskCards Yet</h3>
     </div>
+
+    <div class="container-fluid" *ngIf="taskCards.length!=0">
+        <h2 class="pb-4"> My Tasks </h2>
+        <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="taskCards"
+            (cdkDropListDropped)="drop($event)"
+            class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
+            <task-card cdkDrag *ngFor="let task of taskCards" [task]="task" [routerLink]="'/boards/'+task.board.id"
+                class="col-4"></task-card>
+
+        </div>
+    </div>
+    <loading target="TaskCards" [show]="status.isLoading"></loading>
+
 </div>
