@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
 import { User } from "src/app/model/bean/user";
 import { UserService } from "src/app/model/service/http/user.service";
 import { UserStore } from "src/app/model/service/store/user.store";
@@ -16,6 +17,7 @@ export class ForgetPasswordComponent implements OnInit {
     }
     constructor(
       private userService : UserService,
+      private router : Router , 
       public userStore : UserStore ){
         document.title = "BBMS | forget-password"
       }
@@ -36,13 +38,17 @@ export class ForgetPasswordComponent implements OnInit {
         this.userService.forgetPassword(email).subscribe({
             next : (res) => {
                swal({
-                text : 'Successfully Sent,Check Your Email!',
+                text : 'Successfully Sent! , Check Your Email!',
                 icon : 'success'
               })
               this.status.isEmailLoading=false;
               this.status.sendEmail=true;
             },
             error: err =>{
+              swal({
+                text : err.error.message,
+                icon : 'warning'
+              })
               this.status.isEmailLoading=false;
             }
         })
@@ -65,15 +71,19 @@ export class ForgetPasswordComponent implements OnInit {
                   swal({
                     text : 'Successfully Changed!',
                     icon : 'success'
-                  })
-                  this.status.isLoading=false;
+                  }).then(() => {
+                    this.router.navigateByUrl('/login');
+                    })
+                    this.status.isLoading=false;
+                  
                 }
               },
               error : err=>{
                   swal({
-                    text : err.error.messsage,
+                    text : 'Codes are not matched!',
                     icon : 'warning'
                   })
+                  this.status.isLoading=false;
               }
             })
           })
