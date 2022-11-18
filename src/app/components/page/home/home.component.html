@@ -102,7 +102,8 @@
 
                                     <li class="d-flex justify-content-between mx-auto p-2 taskcard-pointer container-fluid"
                                         *ngFor="let taskList of  this.taskCardList"
-                                        style="border-bottom: 1px solid #6d6e6f65;cursor: pointer;" [routerLink]="'/boards/'+taskList.board.id">
+                                        style="border-bottom: 1px solid #6d6e6f65;cursor: pointer;"
+                                        [routerLink]="'/boards/'+taskList.board.id">
                                         <div>
                                             <span>
                                                 <i class='bx bxs-checkbox'></i>
@@ -116,30 +117,37 @@
                                                 {{taskList.taskName.substring(0,11) }}...
                                             </span>
 
-     
+
                                         </div>
                                         <div>
-                                            <span class="badge  p-2" style="background-color: #3e3636;"
-                                                *ngIf="taskList.board.boardName.length>10">
-                                                {{taskList.board.boardName.substring(0,10)}}...
-                                            </span>
-                                            <span class="badge  p-2" style="background-color: #3e3636;"
-                                                *ngIf="taskList.board.boardName.length<=10">
-                                                {{taskList.board.boardName.substring(0,10)}}
-                                            </span>
-                                            <span>
-                                                {{taskList.startedDate}}
+                                            <h6 class="d-inline-block" style="font-size: 14px;"><span
+                                                    class="badge  fw-light" style="background-color: #3e3636;"
+                                                    *ngIf="taskList.board.boardName.length>10">
+                                                    {{taskList.board.boardName.substring(0,10)}}...
+                                                </span></h6>
+                                            <h6 class="d-inline-block" style="font-size: 14px;"><span
+                                                    class="badge  fw-light"
+                                                    style="background-color: #3e3636;padding: 8px 8px;"
+                                                    *ngIf="taskList.board.boardName.length<=10">
+                                                    {{taskList.board.boardName.substring(0,10)}}
+                                                </span>
+                                            </h6>
+                                            <span style="font-size: 12px;">
+                                                {{taskList.startedDate}} <i class="fa-solid fa-right-long"
+                                                    style="font-size:12px;"></i>
+                                                {{taskList.endedDate}}
                                             </span>
                                         </div>
                                     </li>
                                 </ul>
 
-                                <ul class="list-unstyled my-prior-list" *ngIf="this.status.overDueTab"
+                                <ul class="list-unstyled my-prior-list container-fluid" *ngIf="this.status.overDueTab"
                                     style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
 
                                     <li class="d-flex justify-content-between mx-auto p-2 taskcard-pointer container-fluid"
                                         *ngFor="let taskList of  this.OverdueTaskList"
-                                        style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
+                                        style="border-bottom: 1px solid #6d6e6f65;cursor: pointer;"
+                                        [routerLink]="'/boards/'+taskList.board.id">
                                         <div>
                                             <span>
                                                 <i class='bx bxs-checkbox'></i>
@@ -151,28 +159,35 @@
                                             </span>
                                         </div>
                                         <div>
-                                            <span class="badge  p-2" style="background-color: #3e3636;"
-                                                *ngIf="taskList.board.boardName.length>10">
-                                                {{taskList.board.boardName.substring(0,10)}}...
-                                            </span>
-                                            <span class="badge  p-2" style="background-color: #3e3636;"
-                                                *ngIf="taskList.board.boardName.length<=10">
-                                                {{taskList.board.boardName.substring(0,10)}}
-                                            </span>
-                                            <span>
-                                                {{taskList.startedDate}}
+                                            <h6 class="d-inline-block" style="font-size: 14px;"><span
+                                                    class="badge  fw-light" style="background-color: #3e3636;"
+                                                    *ngIf="taskList.board.boardName.length>10">
+                                                    {{taskList.board.boardName.substring(0,10)}}...
+                                                </span></h6>
+                                            <h6 class="d-inline-block" style="font-size: 14px;"><span
+                                                    class="badge  fw-light"
+                                                    style="background-color: #3e3636;padding: 8px 8px;"
+                                                    *ngIf="taskList.board.boardName.length<=10">
+                                                    {{taskList.board.boardName.substring(0,10)}}
+                                                </span>
+                                            </h6>
+                                            <span style="font-size: 12px;">
+                                                {{taskList.startedDate}} <i class="fa-solid fa-right-long"
+                                                    style="font-size:12px;"></i>
+                                                {{taskList.endedDate}}
                                             </span>
                                         </div>
                                     </li>
                                 </ul>
 
 
-                                <ul class="list-unstyled my-prior-list" *ngIf="this.status.completedTab"
+                                <ul class="list-unstyled my-prior-list container-fluid" *ngIf="this.status.completedTab"
                                     style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
 
                                     <li class="d-flex justify-content-between mx-auto p-2 taskcard-pointer container-fluid"
                                         *ngFor="let taskList of  this.CompletedTaskList"
-                                        style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
+                                        style="border-bottom: 1px solid #6d6e6f65;cursor: pointer;"
+                                        [routerLink]="'/boards/'+taskList.board.id">
                                         <div>
                                             <span>
                                                 <i class='bx bxs-checkbox'></i>
@@ -184,16 +199,22 @@
                                             </span>
                                         </div>
                                         <div>
-                                            <span class="badge  p-2" style="background-color: #3e3636;"
-                                                *ngIf="taskList.board.boardName.length>10">
-                                                {{taskList.board.boardName.substring(0,10)}}...
-                                            </span>
-                                            <span class="badge  p-2" style="background-color: #3e3636;"
-                                                *ngIf="taskList.board.boardName.length<=10">
-                                                {{taskList.board.boardName.substring(0,10)}}
-                                            </span>
-                                            <span>
-                                                {{taskList.startedDate}}
+                                            <h6 class="d-inline-block" style="font-size: 14px;"><span
+                                                    class="badge  fw-light" style="background-color: #3e3636;"
+                                                    *ngIf="taskList.board.boardName.length>10">
+                                                    {{taskList.board.boardName.substring(0,10)}}...
+                                                </span></h6>
+                                            <h6 class="d-inline-block" style="font-size: 14px;"><span
+                                                    class="badge  fw-light"
+                                                    style="background-color: #3e3636;padding: 8px 8px;"
+                                                    *ngIf="taskList.board.boardName.length<=10">
+                                                    {{taskList.board.boardName.substring(0,10)}}
+                                                </span>
+                                            </h6>
+                                            <span style="font-size: 12px;">
+                                                {{taskList.startedDate}} <i class="fa-solid fa-right-long"
+                                                    style="font-size:12px;"></i>
+                                                {{taskList.endedDate}}
                                             </span>
                                         </div>
                                     </li>
@@ -210,14 +231,15 @@
                                 style="overflow-y: scroll;height: 220px;">
                                 <!-- start -->
                                 <!-- style="height: 40px !important;" -->
-                                <div class="col-6 mb-4 p-0 m-0">
-                                    <div routerLink="/create-board" style="cursor: pointer;" class="px-3 ps-2 pe-0 py-0 d-flex justify-content-center align-items-center">
-                                        <div 
+                                <div class="col-6 mb-4 p-0 m-0 ps-1">
+                                    <div routerLink="/create-board" style="cursor: pointer;"
+                                        class="px-1 ps-3 py-0 d-flex justify-content-start align-items-center">
+                                        <div
                                             class="user-show-projects  d-flex justify-content-center align-items-center rounded-3">
                                             <i class="fas fa-plus text-white " style="font-size: 20px;"></i>
                                         </div>
                                         <div class="ps-2 text-start">
-                                            <h6 class="m-0 p-0 fw-bold">Create Board</h6>
+                                            <h6 class="m-0 p-0" style="font-size: 18px;">Create Board</h6>
                                             <!-- <h6 class="m-0 p-0 text-muted">3 tasks due soon</h6> -->
 
                                         </div>
@@ -225,20 +247,23 @@
                                 </div>
 
                                 <!-- style="height:40px !important;" -->
-                                <div class="col-6 mb-4  taskcard-pointer" 
-                                    *ngFor="let board of homeBoards" style="cursor: pointer;">
-                                <div class=" px-1 ps-2 py-0 d-flex justify-content-start align-items-center" [routerLink]="'/boards/'+board.id">
+                                <div class="col-6 mb-4  taskcard-pointer" *ngFor="let board of homeBoards"
+                                    style="cursor: pointer;">
+                                    <div class=" px-1 ps-2 py-0 d-flex justify-content-start align-items-center"
+                                        [routerLink]="'/boards/'+board.id">
                                         <div
                                             class="user-show-projects  d-flex justify-content-center align-items-center rounded-3">
                                             <i class="fas fa-list-squares text-white " style="font-size: 20px;"></i>
                                         </div>
                                         <div class="" *ngIf="board.boardName.length<=7">
-                                            <h5 class="m-0 p-0 ps-2 " style="font-size: 18px;">{{board.boardName.substring(0,7) }}</h5>
+                                            <h6 class="m-0 p-0 ps-2 " style="font-size: 18px;">
+                                                {{board.boardName.substring(0,7) }}</h6>
 
 
                                         </div>
                                         <div class="" *ngIf="board.boardName.length>8">
-                                            <h5 class="m-0 p-0 ps-2" style="font-size: 18px;">{{board.boardName.substring(0,7)}}...</h5>
+                                            <h6 class="m-0 p-0 ps-2" style="font-size: 18px;">
+                                                {{board.boardName.substring(0,7)}}...</h6>
 
 
                                         </div>
@@ -302,7 +327,8 @@
                                                     <div *ngIf="collaborators.imageUrl != null" class="mx-auto"
                                                         style="width: 90px;height: 90px; border-radius: 50%;">
                                                         <img *ngIf="collaborators.imageUrl != null" class="w-100 h-100"
-                                                        homeCollaborator                                              style="border-radius: 100%;object-fit: cover;"
+                                                            homeCollaborator
+                                                            style="border-radius: 100%;object-fit: cover;"
                                                             [src]="'http://localhost:8080/img/'+collaborators.imageUrl"
                                                             alt="">
 
