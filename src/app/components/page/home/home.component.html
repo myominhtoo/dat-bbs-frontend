@@ -87,7 +87,7 @@
                                 </div>
                                 <!-- My Priorities  -->
                             </div>
-                            <div class="w-100">
+                            <div class="w-100 ">
                                 <div class="container-fluid text-center"
                                     *ngIf="this.taskCardList.length==0 && status.hasTaskFetching">
                                     <div class="pt-5">
@@ -97,21 +97,26 @@
                                         <h4 class="fw-bold opacity-75">No Tasks</h4>
                                     </div>
                                 </div>
-                                <ul class="list-unstyled my-prior-list" *ngIf="this.status.upComingTab"
+                                <ul class="list-unstyled my-prior-list container-fluid" *ngIf="this.status.upComingTab"
                                     style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
 
-                                    <li class="d-flex justify-content-between mx-auto p-2 "
+                                    <li class="d-flex justify-content-between mx-auto p-2 taskcard-pointer container-fluid"
                                         *ngFor="let taskList of  this.taskCardList"
-                                        style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
+                                        style="border-bottom: 1px solid #6d6e6f65;cursor: pointer;" [routerLink]="'/boards/'+taskList.board.id">
                                         <div>
                                             <span>
                                                 <i class='bx bxs-checkbox'></i>
                                                 <!-- <input type="checkbox" name="" id=""
                                                     class="form-check-input shadow-none"> -->
                                             </span>
-                                            <span>
-                                                {{taskList.taskName }}
+                                            <span *ngIf="taskList.taskName.length<=11">
+                                                {{taskList.taskName.substring(0,11) }}
                                             </span>
+                                            <span *ngIf="taskList.taskName.length>11">
+                                                {{taskList.taskName.substring(0,11) }}...
+                                            </span>
+
+     
                                         </div>
                                         <div>
                                             <span class="badge  p-2" style="background-color: #3e3636;"
@@ -132,7 +137,7 @@
                                 <ul class="list-unstyled my-prior-list" *ngIf="this.status.overDueTab"
                                     style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
 
-                                    <li class="d-flex justify-content-between mx-auto p-2 "
+                                    <li class="d-flex justify-content-between mx-auto p-2 taskcard-pointer container-fluid"
                                         *ngFor="let taskList of  this.OverdueTaskList"
                                         style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
                                         <div>
@@ -165,7 +170,7 @@
                                 <ul class="list-unstyled my-prior-list" *ngIf="this.status.completedTab"
                                     style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
 
-                                    <li class="d-flex justify-content-between mx-auto p-2 "
+                                    <li class="d-flex justify-content-between mx-auto p-2 taskcard-pointer container-fluid"
                                         *ngFor="let taskList of  this.CompletedTaskList"
                                         style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
                                         <div>
@@ -205,9 +210,9 @@
                                 style="overflow-y: scroll;height: 220px;">
                                 <!-- start -->
                                 <!-- style="height: 40px !important;" -->
-                                <div class="col-6 mb-4" >
-                                    <div class="px-3 ps-2 pe-0 py-0 d-flex justify-content-center align-items-center">
-                                        <div routerLink="/create-board" style="cursor: pointer;"
+                                <div class="col-6 mb-4 p-0 m-0">
+                                    <div routerLink="/create-board" style="cursor: pointer;" class="px-3 ps-2 pe-0 py-0 d-flex justify-content-center align-items-center">
+                                        <div 
                                             class="user-show-projects  d-flex justify-content-center align-items-center rounded-3">
                                             <i class="fas fa-plus text-white " style="font-size: 20px;"></i>
                                         </div>
@@ -220,21 +225,21 @@
                                 </div>
 
                                 <!-- style="height:40px !important;" -->
-                                <div class="col-6 mb-4" 
+                                <div class="col-6 mb-4  taskcard-pointer" 
                                     *ngFor="let board of homeBoards" style="cursor: pointer;">
-                                <div class=" px-1 ps-2 py-0 d-flex justify-content-start" [routerLink]="'/boards/'+board.id">
+                                <div class=" px-1 ps-2 py-0 d-flex justify-content-start align-items-center" [routerLink]="'/boards/'+board.id">
                                         <div
                                             class="user-show-projects  d-flex justify-content-center align-items-center rounded-3">
                                             <i class="fas fa-list-squares text-white " style="font-size: 20px;"></i>
                                         </div>
                                         <div class="" *ngIf="board.boardName.length<=7">
                                             <h5 class="m-0 p-0 ps-2 " style="font-size: 18px;">{{board.boardName.substring(0,7) }}</h5>
-                                            <h6 class="m-0 ps-2 text-muted" style="font-size:12px !important;">3 tasks due soon</h6>
+
 
                                         </div>
                                         <div class="" *ngIf="board.boardName.length>8">
                                             <h5 class="m-0 p-0 ps-2" style="font-size: 18px;">{{board.boardName.substring(0,7)}}...</h5>
-                                            <h6 class="m-0 ps-2 text-muted" style="font-size:12px !important;">3 tasks due soon</h6>
+
 
                                         </div>
                                     </div>
@@ -297,7 +302,7 @@
                                                     <div *ngIf="collaborators.imageUrl != null" class="mx-auto"
                                                         style="width: 90px;height: 90px; border-radius: 50%;">
                                                         <img *ngIf="collaborators.imageUrl != null" class="w-100 h-100"
-                                                            style="border-radius: 100%;object-fit: cover;"
+                                                        homeCollaborator                                              style="border-radius: 100%;object-fit: cover;"
                                                             [src]="'http://localhost:8080/img/'+collaborators.imageUrl"
                                                             alt="">
 

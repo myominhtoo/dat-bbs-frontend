@@ -177,7 +177,7 @@
             </div>
         </div>
         <div class="row">
-            <div id="task-container" *ngIf="!status.isLoading" class="scrolling-wrapper d-flex  px-5 bg-transparent">
+            <div id="task-container" *ngIf="!status.isLoading" class="scrolling-wrapper d-flex  px-5 ">
                 <task-card-container *ngFor="let stage of stages" [stage]="stage"
                     (show-comment)="handleShowCommentSectionInOffCanvas($event)" [task-cards]="taskCardsMap"
                     [stages]="stages" (deleteStage)="handleDeleteStage($event)"

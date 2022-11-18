@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
     username : string = '';
     period : string = 'Good Morning';
     dateObj = new Date();
-    boardsHasUsers:BoardsHasUsers[]=[];    
+    // boardsHasUsers:BoardsHasUsers[]=[];    
     user=new User();
     homeBoards:Board[]=[];
     homeCollaborator: User[] = []
@@ -216,11 +216,32 @@ export class HomeComponent implements OnInit {
         this.status.isLoading=true
         this.userService.getAllMembers(userId).subscribe({
             next:(res)=>{                      
-                this.boardsHasUsers = res.map((data) => data);           
-                this.homeCollaborator = this.boardsHasUsers.map((res) => res.user);        
+                let prevUserId = 0;
+
+                // Method-1
+                // for( let i = 0 ; i < boardHasUsersSize ; i++ ){
+                //     const data = res[ i ];
+                //     if( prevUserId != data.user.id  ){
+                //         console.log(prevUserId)
+                //         this.homeCollaborator.push(data.user);
+                //         prevUserId = data.user.id;
+                //     }
+                // }
+                // Method-2
+                this.homeCollaborator = res.map( boardHasUser => boardHasUser.user )
+                                        .filter( user => {
+                                            if( prevUserId != user.id ){
+                                                prevUserId = user.id;
+                                                return true;
+                                            }
+                                            return false;
+                                        } )
+                
+
+                console.log(this.homeCollaborator)
                 this.status.isLoading = true
                 this.status.hasDoneFetching=true
-                console.log(this.homeCollaborator)
+                
             },error:(err)=>{
                 console.log(err)
             }
@@ -231,7 +252,10 @@ export class HomeComponent implements OnInit {
         this.status.hasTaskFetching=false
         this.taskCardService.showMyTasks(userId).subscribe({
             next:(res)=>{
-                this.taskCardList = res;
+                // console.log(res)
+                this.taskCardList = res.filter((res)=> {
+                    return res.board.deleteStatus==false && res.deleteStatus==false;
+                });
                 this.status.hasTaskFetching=true
             }, error: (err) => {
                 console.log(err)
@@ -257,7 +281,7 @@ export class HomeComponent implements OnInit {
         } else if (title == "Completed") {
             this.status.completedTab = true   
             this.CompletedTaskList = this.taskCardList.filter((res) => {
-                return res.stage.id = 3;
+                return res.stage.id == 3;
             })
             this.status.upComingTab = false
             this.status.overDueTab = false
