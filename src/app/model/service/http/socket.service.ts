@@ -90,7 +90,7 @@ export class SocketService{
              Toastify({
                 text : newNoti.content,
                 close : true,
-                duration : 5000,
+                duration : 10000,
                 gravity : 'bottom',
                 className : 'noti__toast',
                 position : 'right',
@@ -102,7 +102,7 @@ export class SocketService{
                             buttons : [ 'No' , 'Yes' ]
                         }).then( isYes => {
                             if(isYes){
-                                
+
                             }
                         })
                     }else{
