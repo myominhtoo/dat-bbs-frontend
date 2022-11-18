@@ -137,7 +137,7 @@
                                 <ul class="list-unstyled my-prior-list" *ngIf="this.status.overDueTab"
                                     style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
 
-                                    <li class="d-flex justify-content-between mx-auto p-2 "
+                                    <li class="d-flex justify-content-between mx-auto p-2 taskcard-pointer container-fluid"
                                         *ngFor="let taskList of  this.OverdueTaskList"
                                         style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
                                         <div>
@@ -170,7 +170,7 @@
                                 <ul class="list-unstyled my-prior-list" *ngIf="this.status.completedTab"
                                     style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
 
-                                    <li class="d-flex justify-content-between mx-auto p-2 "
+                                    <li class="d-flex justify-content-between mx-auto p-2 taskcard-pointer container-fluid"
                                         *ngFor="let taskList of  this.CompletedTaskList"
                                         style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
                                         <div>
