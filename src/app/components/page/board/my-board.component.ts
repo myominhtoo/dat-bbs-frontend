@@ -1,4 +1,3 @@
-import { BoardStore } from 'src/app/model/service/store/board.store';
 import { Component ,  OnInit } from "@angular/core";
 import { ActivatedRoute , NavigationEnd, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
@@ -18,6 +17,7 @@ import { BoardsHasUsers } from 'src/app/model/bean/BoardsHasUser';
 import { UserStore } from 'src/app/model/service/store/user.store';
 import { SocketService } from 'src/app/model/service/http/socket.service';
 import { Notification } from 'src/app/model/bean/notification';
+import { COLORS } from "src/app/model/constant/colors";
 
 @Component({
     selector : 'my-board',
@@ -120,10 +120,13 @@ export class MyBoardComponent implements OnInit {
 
     getUserMembers(){
       this.userService.getUsersForBoard(this.route.snapshot.params['id']).subscribe(data=>{
-            this.boardsHasUsers = data.filter( d => d.user.username != null );
+            this.boardsHasUsers = data.filter( d => d.user.username != null )
+                                  .map( boardHasUser => {
+                                    return { ...boardHasUser , iconColor : COLORS[ Math.floor( Math.random() *  COLORS.length -1 )] }
+                                  });
             this.members = data.map( d => d.user ).filter( user => user.username != null );
       });
-      }
+    }
 
     /*
         getting stages for baord

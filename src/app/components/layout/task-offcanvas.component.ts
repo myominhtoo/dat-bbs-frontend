@@ -22,17 +22,17 @@ import { SocketService } from "../../model/service/http/socket.service";
         <div class='offcanvas offcanvas-end' id='task-offcanvas' >
             <div class="offcanvas-header shadow-sm py-3 px-3" [style.borderLeft]="task.markColor == null || task.markColor == ''  ? '0.5px solid rgb(206, 202, 202)' : '4px solid '+task.markColor +'!important'  ">
                 <div class="d-flex flex-column w-50">
-                    <input (keydown)="handleUpdateTaskName($event)" [(ngModel)]="task.taskName" type="text" [class.is-invalid]="status.errorTask && task.taskName" class="form-control fs-4 fw-bold w-100 outline-none text-capitalize text-muted py-0 shadow-none"  placeholder="Enter task name"  [value]="task.taskName"/>
+                    <input (keydown)="handleUpdateTaskName($event)" [(ngModel)]="task.taskName" type="text" [class.is-invalid]="status.errorTask && task.taskName" class="form-control fs-5 fw-bold w-100 outline-none text-capitalize text-muted py-0 shadow-none"  placeholder="Enter task name"  [value]="task.taskName"/>
                     <small class="text-danger" style="font-size:15px;">{{ status.errorTask }}</small>
                 </div>
                 <!-- <button class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#task-offcanvas" ></button> -->
                 <div id="comment-btn" class="d-flex justify-content-center gap-5 text-muted align-items-center">
                     <!-- <p class="fa-regular fa-comment text-center text-muted p-0 m-0"></p> -->
-                    <span id="tab" (click)= "changeTab('activity')" [class.thm]="tab == 'activity'" class="fw-bold" ><i class="fa-solid fa-list-check mx-1 fs-5"></i>Activities</span>
-                    <span id="tab" (click)="changeTab('comment')" [class.thm]="tab == 'comment'" class="fw-bold"><i class="fa-solid fa-comment-dots mx-1 fs-5"></i>Comments</span>
+                    <span id="tab" (click)= "changeTab('activity')" [class.thm]="tab == 'activity'" class="fw-bold" ><i class="fa-solid fa-list-check mx-1 "></i>Activities</span>
+                    <span id="tab" (click)="changeTab('comment')" [class.thm]="tab == 'comment'" class="fw-bold"><i class="fa-solid fa-comment-dots mx-1"></i>Comments</span>
                 </div>
             </div>
-            <div class=" offcanvas-body overflow-scroll py-1 px-2">
+            <div class=" offcanvas-body overflow-scroll py-1 px-0 ps-2">
                 <div *ngIf="tab == 'activity' && !isLoading" class="container py-3">
                    <h6 class="text-center tex">Task's Info</h6>
                    <ul class="list-group list-unstyled text-muted gap-3">
@@ -66,7 +66,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                         <div class="w-100 d-flex gap-2">
                            <div class="w-50">
                                 <small class="my-2">Start Date</small>
-                                <input type="date" class="form-control w-100 outlineBtn shadow-none "  [(ngModel)]="task.startedDate" name="startedDate"  />
+                                <input type="date" class="form-control w-100 outlineBtn shadow-none "  [(ngModel)]="task.startedDate" [min]="task.startedDate" name="startedDate"  />
                            </div>
                             <div class="w-50">
                                 <small class="my-2">Due Date</small>
@@ -114,7 +114,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                     <div id="comments">
                         <div *ngFor="let comment of task.comments" id="comment-container" class="w-100 my-3 px-3 ">
                             <div id="comment-icon">
-                                <h6 class="h6 mx-2" style="font-size:17px !important;">{{ comment.user.username && comment.user.username | titlecase }}<small class="text-muted mx-2" style="font-size:13px;">{{ comment.createdDate | pentaDate }}</small></h6>
+                                <h6 class="h6 mx-2" style="font-size:14px !important;">{{ comment.user.username && comment.user.username | titlecase }}<small class="text-muted mx-2 text-primary" style="font-size:10px;">{{ comment.createdDate | pentaDate }}</small></h6>
                             </div>
                             <div id="comment">
                                 {{ comment.comment }}
@@ -155,11 +155,11 @@ import { SocketService } from "../../model/service/http/socket.service";
                         <div class="w-100 text-muted d-flex gap-2">
                             <div class="w-50">
                                 <small class="my-2">Start Date</small>
-                                <input type="datetime-local" [(ngModel)]="detailActivity.startedDate" class="form-control text-muted w-100" />
+                                <input type="datetime-local" [(ngModel)]="detailActivity.startedDate" class="form-control text-muted w-100" [min]="detailActivity.startedDate" />
                            </div>
                             <div class="w-50">
                                 <small class="my-2">Due Date</small>
-                                <input type="datetime-local" [(ngModel)]="detailActivity.endedDate" class="form-control text-muted w-100">
+                                <input type="datetime-local" [(ngModel)]="detailActivity.endedDate" class="form-control text-muted w-100" [min]="detailActivity.startedDate" >
                             </div>
                         </div>
                     </div>
@@ -188,10 +188,15 @@ import { SocketService } from "../../model/service/http/socket.service";
                     <div class="text-muted">
                         <p class="w-25 my-3">Attachments</p>
                         <div class="w-100">
-                            <table class="table w-100 text-muted " style="{{ paginatedAttachments.length > 0 ? 'min-height:280px !important;' : '' }}">
+                            <table class="table w-100 text-muted " style="{{ paginatedAttachments.length > 0 ? 'min-height:250px !important;' : '' }}">
                                 <thead >
                                     <tr>
-                                        <td></td>
+                                        <td>
+                                            <!-- <button data-bs-toggle="modal" data-bs-target="#add-attachment-modal" class=" text-light px-3 btn-sm"> -->
+                                                <i data-bs-toggle="modal" data-bs-target="#add-attachment-modal" class="fa-solid fa-plus mx-1"></i>
+                                                <!-- Upload -->
+                                            <!-- </button> -->
+                                        </td>
                                         <td>Name</td>
                                         <td>Uploaded By</td>
                                         <td>Action</td>
@@ -218,7 +223,6 @@ import { SocketService } from "../../model/service/http/socket.service";
                                         <span>{{ curPageOfAttachments }}</span>  
                                         <button [disabled]="curPageOfAttachments == totalPagesOfAttachments" (click)="handleAssignPaginatedAttachments(curPageOfAttachments + 1 )" class="fa-solid fa-chevron-right border-0 bg-transparent p-2 text-primary" [class.text-primary]="curPageOfAttachments < totalPagesOfAttachments" ></button>
                                 </div>
-                                <button data-bs-toggle="modal" data-bs-target="#add-attachment-modal" class="btn bg-thm text-light px-3 btn-sm"><i class="fa-solid fa-plus mx-1"></i>Upload</button>
                             </div>
                         </div>
                     </div>
@@ -479,7 +483,7 @@ export class TaskOffCanvasComponent implements OnInit {
                         this.task = res.data;
 
                         const noti = new Notification();
-                        noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
+                        noti.content = `${this.userStore.user.username} Updated Task \n in ${this.board.boardName} Board `;
                         noti.sentUser = this.userStore.user;
                         noti.board = this.board;
 

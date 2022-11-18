@@ -8,4 +8,6 @@ export class BoardsHasUsers {
   joinedStatus ! : boolean;
   joinedDate ! : Date;
   members: any;
+
+  iconColor : string | undefined;
 }
