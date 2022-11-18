@@ -1372,4 +1372,12 @@ color: black;
     }
   }
 
+  #noti{
+    cursor: pointer;
+  }
+
+  #noti.invitiation{
+    border-left:2px solid #B72525 !important;
+  }
+
   

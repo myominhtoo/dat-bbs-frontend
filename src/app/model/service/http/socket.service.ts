@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as SockJS from "sockjs-client";
 import { Client, Message, over, Subscription } from "stompjs";
@@ -31,7 +31,8 @@ export class SocketService{
         private notiStore : NotificationStore,
         private authService : AuthService,
         private userStore : UserStore ,
-        private route : ActivatedRoute
+        private route : ActivatedRoute ,
+        private router : Router
     ){  
         if( authService.isAuth() ) {
            this.getSocketClient();
@@ -84,13 +85,35 @@ export class SocketService{
         const newNoti = JSON.parse(payload.body) as Notification;
         if( newNoti.sentUser.id != this.boardStore.userStore.user.id ){
         ($('#noti-ring')[0] as HTMLAudioElement).play();
+            let currentUrl = window.location.href;
+            currentUrl = currentUrl.replace('http://localhost:4200','');
              Toastify({
                 text : newNoti.content,
                 close : true,
                 duration : 5000,
                 gravity : 'bottom',
                 className : 'noti__toast',
-                position : 'right'
+                position : 'right',
+                onClick : () => {
+                    if( newNoti.invitiation ){
+                        swal({
+                            text : 'Are you sure to join this board?',
+                            icon : 'warning',
+                            buttons : [ 'No' , 'Yes' ]
+                        }).then( isYes => {
+                            if(isYes){
+                                
+                            }
+                        })
+                    }else{
+                        const targetUrl = `/boards/${newNoti.board?.id}`;
+                        if( currentUrl === targetUrl  ){
+                            window.location.href = targetUrl;
+                        }else{
+                            this.router.navigateByUrl(targetUrl);
+                        }
+                    }
+                }
             }).showToast();     
                 this.notiStore.notifications.unshift( newNoti );
         }        
@@ -160,7 +183,7 @@ export class SocketService{
                 noti.content = `${this.userStore.user.username} invited you to join \n "${board.boardName} Board" \n Click Here to Join!`;
                 noti.sentUser = this.userStore.user;
                 noti.board = board;
-                noti.isInvitiation = true;
+                noti.invitiation = true;
                 
                 this.stompClient?.send( `/app/users/${user.id}/send-notification` , {} , JSON.stringify(noti) );
             });
