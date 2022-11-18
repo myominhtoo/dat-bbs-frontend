@@ -40,7 +40,10 @@ export class MyTaskComponent implements OnInit{
             this.status.isLoading = true;
             this.taskCardService.showMyTasks(userId).subscribe({
              next : data => {
-                    this.taskCards = data;
+                        
+                    this.taskCards = data.filter((res=>{
+                        return res.board.deleteStatus==false && res.deleteStatus==false;
+                    }));
                     this.status.hasDoneFetching = true
                     this.status.isLoading = false;
              },

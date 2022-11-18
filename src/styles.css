@@ -1378,3 +1378,7 @@ color: black;
   .error-pass{
     border-color: red !important;
   }
+  .taskcard-pointer:hover{
+    background:#dbd9d9;
+    
+  }
