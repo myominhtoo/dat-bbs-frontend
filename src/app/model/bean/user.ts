@@ -14,4 +14,5 @@ export class User {
       code! :number;
       confirmpassword!:string;
 
+      iconColor !: string;
 }

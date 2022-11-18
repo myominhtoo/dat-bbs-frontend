@@ -14,8 +14,8 @@ import { BoardStore } from "src/app/model/service/store/board.store";
              </p>
            </div>
            <div id="noti-body" class="col-10 ps-2 pe-1 text-justify">
-              <h6 *ngIf="!noti.invitiation" class="p-0 m-0 " style="font-size:13px !important;letter-spacing:0.4px;">{{  noti.content.length > 100 ? noti.content.substring(0,100)+'...' : noti.content }}</h6>
-              <h6 *ngIf="noti.invitiation" class="p-0 m-0 " style="font-size:13px !important;letter-spacing:0.4px;">{{  noti.content }}</h6>
+              <h6 *ngIf="!noti.invitiation" class="p-0 m-0 " style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">{{  noti.content.length > 80 ? noti.content.substring(0,80)+'...' : noti.content }}</h6>
+              <h6 *ngIf="noti.invitiation" class="p-0 m-0 " style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">{{  noti.content }}</h6>
               <small style="font-size:10px;" class="text-primary">{{ noti.createdDate | pentaDate }}</small>
            </div>
         </div>

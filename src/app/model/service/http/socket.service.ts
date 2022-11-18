@@ -87,6 +87,7 @@ export class SocketService{
         ($('#noti-ring')[0] as HTMLAudioElement).play();
             let currentUrl = window.location.href;
             currentUrl = currentUrl.replace('http://localhost:4200','');
+            console.log(newNoti)
              Toastify({
                 text : newNoti.content,
                 close : true,
@@ -102,7 +103,7 @@ export class SocketService{
                             buttons : [ 'No' , 'Yes' ]
                         }).then( isYes => {
                             if(isYes){
-
+                                // code to connect backend
                             }
                         })
                     }else{

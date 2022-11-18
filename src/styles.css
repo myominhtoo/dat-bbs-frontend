@@ -523,13 +523,14 @@ body{
     /* overflow-x: scroll; */
     /* overflow-y: hidden; */
     white-space: nowrap;
+
   box-sizing: border-box;
   /* height:auto; */
   /* height: 82vh; */
   padding: 16px 12px 0;
   /* position: relative; */
   /* background-color:rgb(225, 225, 225) !important;  */
-  
+
   }
     /* .scrolling-wrapper {
       -webkit-overflow-scrolling: touch;
