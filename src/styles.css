@@ -1277,12 +1277,15 @@ color: black;
   }
   .my-prior-list::-webkit-scrollbar{
     width: 4px;
-
+  }
+  .my-prior--active{
+    border-bottom: 3px solid #6D6E6F;
   }
 
   .user-show-projects{
-    width: 55px !important;
-    height: 50px !important;
+    /* width: 55px !important;
+    height: 50px !important; */
+    padding: 15px 14px;
     background-color: #3e3636;        
   }
 
@@ -1380,4 +1383,7 @@ color: black;
     border-left:2px solid #B72525 !important;
   }
 
-  
+   
+  .error-pass{
+    border-color: red !important;
+  }

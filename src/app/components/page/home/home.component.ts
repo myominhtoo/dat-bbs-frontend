@@ -1,3 +1,4 @@
+import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
 import { map } from 'rxjs';
 import { UserService } from 'src/app/model/service/http/user.service';
 import { BoardsHasUsers } from './../../../model/bean/BoardsHasUser';
@@ -10,6 +11,7 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { UserStore } from "src/app/model/service/store/user.store";
 import { COLORS } from "src/app/model/constant/colors";
 import { getRandom  } from "src/app/util/random";
+import { TaskCard } from 'src/app/model/bean/taskCard';
 
 @Component({
     selector : 'home',
@@ -35,13 +37,25 @@ export class HomeComponent implements OnInit {
     boardsHasUsers:BoardsHasUsers[]=[];    
     user=new User();
     homeBoards:Board[]=[];
-    homeCollaborator:User[]=[]
+    homeCollaborator: User[] = []
+    taskCardList: TaskCard[] = []
+    OverdueTaskList:TaskCard[]=[]
+    CompletedTaskList: TaskCard[] = []
+ 
     status = {
         isLoading : false,
-        hasDoneFetching : false,
+        hasDoneFetching: false,
+        hasTaskFetching: false,
+        upComingTab: true,
+        overDueTab: false,
+        completedTab: false
+
     }    
     
-    constructor( public toggleStore : ToggleStore , public userStore : UserStore,public userService:UserService,public boardStore:BoardStore){
+    constructor(public toggleStore: ToggleStore,
+        public userStore: UserStore, public userService: UserService,
+        public boardStore: BoardStore, private taskCardService: TaskCardService
+        ){
         document.title = "BBMS | Home";
         this.username = this.userStore.user.username;
         this.typeAnimate();
@@ -50,7 +64,7 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        
+
         this.calculatePeriod();
         this.countUp()
         setTimeout(()=>{
@@ -59,6 +73,8 @@ export class HomeComponent implements OnInit {
             this.homeBoards = this.boardStore.ownBoards;            
             if (this.user) {
                 this.getAllMembers(this.user.id)
+                this.getMyTasks(this.user.id)
+                
             }
             
         },500)        
@@ -204,10 +220,48 @@ export class HomeComponent implements OnInit {
                 this.homeCollaborator = this.boardsHasUsers.map((res) => res.user);        
                 this.status.isLoading = true
                 this.status.hasDoneFetching=true
+                console.log(this.homeCollaborator)
             },error:(err)=>{
                 console.log(err)
             }
         })
+    }
+
+    public getMyTasks(userId: number) {
+        this.status.hasTaskFetching=false
+        this.taskCardService.showMyTasks(userId).subscribe({
+            next:(res)=>{
+                this.taskCardList = res;
+                this.status.hasTaskFetching=true
+            }, error: (err) => {
+                console.log(err)
+            }
+        })
+        
+    }
+    myPriorities(title: String) {
+           
+        if (title == "Upcoming") {
+            this.status.upComingTab = true
+            
+            this.status.completedTab = false
+            this.status.overDueTab = false
+        } else if (title == "Overdue") {
+            this.status.overDueTab = true
+            this.OverdueTaskList = this.taskCardList.filter((res) => {
+                let endDate = new Date(res.endedDate);
+                return this.date.getTime() > endDate.getTime();
+            })
+            this.status.upComingTab = false
+            this.status.completedTab=false
+        } else if (title == "Completed") {
+            this.status.completedTab = true   
+            this.CompletedTaskList = this.taskCardList.filter((res) => {
+                return res.stage.id = 3;
+            })
+            this.status.upComingTab = false
+            this.status.overDueTab = false
+        }
     }
 }
 
