@@ -19,7 +19,7 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
   template: `
     <div class="task-card-container mx-2 d-inline-block rounded-1">
       <!-- start task-card-header -->
-      <div class="w-100 bg-transparent task-card-header p-2 pb-0" style="width:315px !important">
+      <div class="w-100 bg-transparent task-card-header p-2 pb-0" >
         <div class="d-flex justify-content-between align-items-center p-2 rounded-sm bg-stage-dark">
           <!-- task-card-title -->
           <div class="text-justify" >
