@@ -1283,8 +1283,9 @@ color: black;
   }
 
   .user-show-projects{
-    width: 55px !important;
-    height: 50px !important;
+    /* width: 55px !important;
+    height: 50px !important; */
+    padding: 15px 14px;
     background-color: #3e3636;        
   }
 
@@ -1374,3 +1375,6 @@ color: black;
     }
   }
   
+  .error-pass{
+    border-color: red !important;
+  }

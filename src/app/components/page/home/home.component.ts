@@ -220,6 +220,7 @@ export class HomeComponent implements OnInit {
                 this.homeCollaborator = this.boardsHasUsers.map((res) => res.user);        
                 this.status.isLoading = true
                 this.status.hasDoneFetching=true
+                console.log(this.homeCollaborator)
             },error:(err)=>{
                 console.log(err)
             }
