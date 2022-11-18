@@ -24,7 +24,10 @@ export class CloseTaskComponent{
   pdf='pdf';
   excel='excel';
   html='html';
-
+status = {
+        isLoading : false,
+        hasDoneFetching : false,
+    }    
   path:string="";
 
   constructor( public toggleStore : ToggleStore ,
@@ -52,10 +55,12 @@ drop( e : CdkDragDrop<TaskCard[]> ){
          console.log ("YouSee");
         let idd=this.route.snapshot.params['id'];
 console.log(idd);
-
+      this.status.isLoading=true
         this.taskCardService.showDeleteTaskCard(idd).subscribe({
          next : data => {
             this.taskCards = data;
+            this.status.isLoading = true
+            this.status.hasDoneFetching=true
          },
          error : err => {
             console.log(err);
