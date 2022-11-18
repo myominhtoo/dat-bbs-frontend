@@ -43,6 +43,7 @@ export class MyBoardComponent implements OnInit {
     storedEmails : string [] = [];
     tempComment : string ='';
     showEmojis : boolean = false;
+    boardId : number | undefined;
 
     registeredUsers : User [] = [];
 
@@ -84,7 +85,6 @@ export class MyBoardComponent implements OnInit {
 
     constructor( public toggleStore : ToggleStore ,
          public route : ActivatedRoute ,
-         public boardStore:BoardStore,
          private router : Router ,
          private stageService : StageService ,
          private boardService : BoardService ,
@@ -103,12 +103,11 @@ export class MyBoardComponent implements OnInit {
         this.handleRouteChange();
 
         this.getUsers();
-        this.doActionForCurrentBoard( this.route.snapshot.params['id'] );
+        this.boardId = this.route.snapshot.params['id'];
+        this.doActionForCurrentBoard(  this.boardId );
         this.stage.stageName = "";
         this.stage.defaultStatus = false;
         document.title = "BBMS | My Board";
-
-        console.log(this.route)
     }
 
     getRelationContainers( me : Stage ){
@@ -124,7 +123,7 @@ export class MyBoardComponent implements OnInit {
             this.boardsHasUsers = data.filter( d => d.user.username != null );
             this.members = data.map( d => d.user ).filter( user => user.username != null );
       });
-    }
+      }
 
     /*
         getting stages for baord
@@ -143,11 +142,6 @@ export class MyBoardComponent implements OnInit {
     }
 
     async getBoard( boardId : number ) : Promise<void> {
-
-      let filterBoardId = this.boardStore.boards.some(board=> board.id == boardId);
-      if (!filterBoardId){
-        window.history.back();
-      }else{
         this.boardService.getBoardWithBoardId( boardId )
         .subscribe({
             next : board => {
@@ -158,7 +152,7 @@ export class MyBoardComponent implements OnInit {
             error : err  => {
                 // window.history.back();
             }
-        })}
+        })
     }
 
     getUsers(){
@@ -174,8 +168,7 @@ export class MyBoardComponent implements OnInit {
     }
 
     doActionForCurrentBoard( boardId : any ){
-      if( isNaN(boardId) ){
-        
+      if( isNaN(boardId)  ){       
         /*
          will do if boardId is not a number
          cuz we created boardId as a number
@@ -185,6 +178,8 @@ export class MyBoardComponent implements OnInit {
       }else{
         this.status.isLoading = true;
         this.getStages( boardId ).then(() => {
+            this.userStore.fetchUserData();
+            this.getBoards( this.userStore.user.id )
             this.getBoard( boardId );
             this.getUserMembers();
         })
@@ -246,9 +241,6 @@ export class MyBoardComponent implements OnInit {
         /*
           not to invite member again
         */
-        this.board.invitedEmails = this.board.invitedEmails.filter( email => {
-          !this.boardsHasUsers.map( boardHasUser => boardHasUser.user.email ).includes(email);
-        });
 
         if( this.emails.length > 0 || this.email.length > 5 ){
           swal({
@@ -259,13 +251,23 @@ export class MyBoardComponent implements OnInit {
             if( isYes ){
               this.status.isInviting = true;
 
-              const invitedUsers = this.registeredUsers.filter( user => this.board.invitedEmails.includes(user.email) );
-              this.socketService.sendBoardInvitiationNotiToUsers( this.board , invitedUsers );
-
               this.boardService.inviteMembersToBoard(this.board.id, this.board)
               .subscribe({
                 next : data => {
                   this.status.isInviting = false;
+
+                  if( !this.members.some( member => this.board.invitedEmails.includes(member.email)) ){
+                    const invitedUsers = this.registeredUsers.filter( user => this.board.invitedEmails.includes(user.email) );
+                    this.socketService.sendBoardInvitiationNotiToUsers( this.board , invitedUsers );
+
+                    const noti = new Notification();
+                    noti.content = `${this.userStore.user.username} invited new members in ${this.board.boardName} Board `;
+                    noti.sentUser = this.userStore.user;
+                    noti.board = this.board;
+
+                    this.socketService.sentNotiToBoard( this.board.id , noti);
+                  }
+
                   swal({
                     text : 'Successfully Invited !',
                     icon : 'success'
@@ -274,18 +276,9 @@ export class MyBoardComponent implements OnInit {
                     this.email = "";
                     this.getUserMembers();
                     $("#invite-modal .btn-close").click();
-
-                    const noti = new Notification();
-                    noti.content = `${this.userStore.user.username} invited new members in ${this.board.boardName} Board `;
-                    noti.sentUser = this.userStore.user;
-                    noti.board = this.board;
-
-                    this.socketService.sentNotiToBoard( this.board.id , noti);
-
                   })
                 },
                 error : err => {
-                  console.log(err);
                   this.status.isInviting =false;
                 }
               });
@@ -402,6 +395,21 @@ export class MyBoardComponent implements OnInit {
           console.log(err);
         }
        });
+    }
+
+    getBoards( userId : number ){
+      this.boardService.getBoardsForUser( userId )
+      .subscribe({
+        next : boards => {
+          const isMyBoard = boards.some( board => board.id == this.boardId );
+          if( !isMyBoard ){
+            window.history.back();
+          }
+        },
+        error : err => {
+          console.log(err);
+        }
+      })
     }
 
 

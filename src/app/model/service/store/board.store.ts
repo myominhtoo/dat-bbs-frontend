@@ -37,7 +37,7 @@ export class BoardStore{
         return this.colorBoards[number];
     }    
 
-    private getBoardsByUserId( userId : number ){
+    public getBoardsByUserId( userId : number ){
         this.status.isLoading = true;
         this.boaredService.getBoardsForUser( userId ).subscribe({
             next : datas => {                

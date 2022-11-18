@@ -18,22 +18,22 @@ import { SocketService } from 'src/app/model/service/http/socket.service';
 })
 export class WorkspaceComponent implements OnInit {
 
-    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
-    boarding : Board=new Board();
-    bookmarks:BoardBookMark[]=[];
-    boards : Board[]=[];
+        // storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
+        boarding : Board=new Board();
+        bookmarks:BoardBookMark[]=[];
+        boards : Board[]=[];
 
     // status = {
     //     isLoading : false,
     //     hasDoneFetching : false,
     // }
     // fileName='board.xlsx';
-    pdf='pdf';
-    excel='excel';
-    html='html';
-    path='';
-    msg='';
-    click!: boolean;
+        pdf='pdf';
+        excel='excel';
+        html='html';
+        path='';
+        msg='';
+        click!: boolean;
 
 
     constructor(

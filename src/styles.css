@@ -1374,11 +1374,22 @@ color: black;
       width: 100%;
     }
   }
-  
+
+  #noti{
+    cursor: pointer;
+  }
+
+  #noti.invitiation{
+    border-left:2px solid #B72525 !important;
+  }
+
+   
   .error-pass{
     border-color: red !important;
   }
+
   .taskcard-pointer:hover{
     background:#dbd9d9;
     
   }
+
