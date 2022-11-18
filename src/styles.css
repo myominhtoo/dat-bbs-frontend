@@ -1277,7 +1277,9 @@ color: black;
   }
   .my-prior-list::-webkit-scrollbar{
     width: 4px;
-
+  }
+  .my-prior--active{
+    border-bottom: 3px solid #6D6E6F;
   }
 
   .user-show-projects{
@@ -1371,5 +1373,4 @@ color: black;
       width: 100%;
     }
   }
-
   

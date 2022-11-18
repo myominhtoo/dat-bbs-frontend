@@ -14,7 +14,7 @@
                 <span>
                     <i class="fa-solid fa-list-check bx-tada-hover mx-2 fw-bold  " style="font-size: 19px;"></i>
                 </span>
-                <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeBoards.length">
+                <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="taskCardList.length">
 
                 </span>
                 <span class="user-infos">
@@ -75,18 +75,21 @@
                                 <div class="col-10 ps-2 m-0">
                                     <h4 class="m-0 ps-1">My Priorities</h4>
                                     <div class="my-prior p-0 m-0">
-                                        <span class="pt-0">
+                                        <span class="pt-0" (click)="myPriorities('Upcoming')"
+                                            [class.my-prior--active]="this.status.upComingTab">
                                             Upcoming
                                         </span>
-                                        <span class="pt-0">Overdue</span>
-                                        <span class="pt-0">Completed</span>
+                                        <span class="pt-0" (click)="myPriorities('Overdue')"
+                                            [class.my-prior--active]="this.status.overDueTab">Overdue</span>
+                                        <span class="pt-0" (click)="myPriorities('Completed')"
+                                            [class.my-prior--active]="this.status.completedTab">Completed</span>
                                     </div>
                                 </div>
                                 <!-- My Priorities  -->
                             </div>
                             <div class="w-100">
                                 <div class="container-fluid text-center"
-                                    *ngIf="this.homeCollaborator.length==0 && status.hasDoneFetching">
+                                    *ngIf="this.taskCardList.length==0 && status.hasTaskFetching">
                                     <div class="pt-5">
 
                                         <img class="mb-4 opacity-75" src="assets/img/3D/undraw_invite_re_rrcp.svg"
@@ -94,30 +97,102 @@
                                         <h4 class="fw-bold opacity-75">No Tasks</h4>
                                     </div>
                                 </div>
-                                <!-- <ul class="list-unstyled my-prior-list"
+                                <ul class="list-unstyled my-prior-list" *ngIf="this.status.upComingTab"
                                     style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
 
                                     <li class="d-flex justify-content-between mx-auto p-2 "
+                                        *ngFor="let taskList of  this.taskCardList"
                                         style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
                                         <div>
                                             <span>
-                                                 <input type="checkbox" name="" id=""
-                                                    class="form-check-input shadow-none">
-                                </span>
-                                <span>
-                                    To Sleep
-                                </span>
-                            </div>
-                            <div>
-                                <span class="badge  p-2" style="background-color: #3e3636;">
-                                    Board...
-                                </span>
-                                <span>
-                                    Nov 12 -15
-                                </span>
-                            </div>
-                            </li>
-                            </ul> -->
+                                                <i class='bx bxs-checkbox'></i>
+                                                <!-- <input type="checkbox" name="" id=""
+                                                    class="form-check-input shadow-none"> -->
+                                            </span>
+                                            <span>
+                                                {{taskList.taskName }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span class="badge  p-2" style="background-color: #3e3636;"
+                                                *ngIf="taskList.board.boardName.length>10">
+                                                {{taskList.board.boardName.substring(0,10)}}...
+                                            </span>
+                                            <span class="badge  p-2" style="background-color: #3e3636;"
+                                                *ngIf="taskList.board.boardName.length<=10">
+                                                {{taskList.board.boardName.substring(0,10)}}
+                                            </span>
+                                            <span>
+                                                {{taskList.startedDate}}
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <ul class="list-unstyled my-prior-list" *ngIf="this.status.overDueTab"
+                                    style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
+
+                                    <li class="d-flex justify-content-between mx-auto p-2 "
+                                        *ngFor="let taskList of  this.OverdueTaskList"
+                                        style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
+                                        <div>
+                                            <span>
+                                                <i class='bx bxs-checkbox'></i>
+                                                <!-- <input type="checkbox" name="" id=""
+                                                    class="form-check-input shadow-none"> -->
+                                            </span>
+                                            <span>
+                                                {{taskList.taskName }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span class="badge  p-2" style="background-color: #3e3636;"
+                                                *ngIf="taskList.board.boardName.length>10">
+                                                {{taskList.board.boardName.substring(0,10)}}...
+                                            </span>
+                                            <span class="badge  p-2" style="background-color: #3e3636;"
+                                                *ngIf="taskList.board.boardName.length<=10">
+                                                {{taskList.board.boardName.substring(0,10)}}
+                                            </span>
+                                            <span>
+                                                {{taskList.startedDate}}
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+
+
+                                <ul class="list-unstyled my-prior-list" *ngIf="this.status.completedTab"
+                                    style="overflow-y: scroll;height: 200px;scroll-behavior: smooth;">
+
+                                    <li class="d-flex justify-content-between mx-auto p-2 "
+                                        *ngFor="let taskList of  this.CompletedTaskList"
+                                        style="border-bottom: 1px solid #6d6e6f65;width: 85%;">
+                                        <div>
+                                            <span>
+                                                <i class='bx bxs-checkbox'></i>
+                                                <!-- <input type="checkbox" name="" id=""
+                                                    class="form-check-input shadow-none"> -->
+                                            </span>
+                                            <span>
+                                                {{taskList.taskName }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span class="badge  p-2" style="background-color: #3e3636;"
+                                                *ngIf="taskList.board.boardName.length>10">
+                                                {{taskList.board.boardName.substring(0,10)}}...
+                                            </span>
+                                            <span class="badge  p-2" style="background-color: #3e3636;"
+                                                *ngIf="taskList.board.boardName.length<=10">
+                                                {{taskList.board.boardName.substring(0,10)}}
+                                            </span>
+                                            <span>
+                                                {{taskList.startedDate}}
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -147,9 +222,9 @@
 
                                 <div class="col-6 mb-4" style="height:40px !important;"
                                     *ngFor="let board of homeBoards">
-                                    <div class="row px-3 py-0">
+                                    <div class="row px-3 py-0 d-flex justify-content-start">
                                         <div
-                                            class="col-2 user-show-projects  d-flex justify-content-center align-items-center rounded-3">
+                                            class="col-3 user-show-projects  d-flex justify-content-center align-items-center rounded-3">
                                             <i class="fas fa-list-squares text-white " style="font-size: 20px;"></i>
                                         </div>
                                         <div class="col-9">
