@@ -126,7 +126,9 @@ export class SocketService{
                                                     
                                                     this.boardStore.boards.push(newNoti.board!);
                                                     this.boardStore.joinedBoards.push(newNoti.board!);
-                                                     this.router.navigateByUrl(`/boards/${newNoti.board?.id}`);
+                                                    this.sendNotiBackToInviter(newNoti.board!,newNoti.sentUser);
+                                                    this.router.navigateByUrl(`/boards/${newNoti.board?.id}`);
+                                                 
                                                    })
                                              } 
                                          },
@@ -221,6 +223,17 @@ export class SocketService{
                 
                 this.stompClient?.send( `/app/users/${user.id}/send-notification` , {} , JSON.stringify(noti) );
             });
+        }
+    }
+
+    public sendNotiBackToInviter ( board : Board , user : User){
+        if ( this.stompClient){
+            const noti = new Notification();
+            noti.content = `${this.userStore.user.username} accepted your Invitation to join \n "${board.boardName} Board" `;
+            noti.sentUser = this.userStore.user;
+            noti.board = board;
+            noti.invitiation = false;
+            this.stompClient?.send( `/app/users/${user.id}/send-notification` , {} , JSON.stringify(noti) );
         }
     }
     

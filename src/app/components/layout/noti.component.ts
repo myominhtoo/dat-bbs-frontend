@@ -1,9 +1,13 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { Board } from "src/app/model/bean/board";
 import { Notification } from "src/app/model/bean/notification";
+import { User } from "src/app/model/bean/user";
 import { BoardService } from "src/app/model/service/http/board.service";
+import { SocketService } from "src/app/model/service/http/socket.service";
 import { BoardStore } from "src/app/model/service/store/board.store";
 import { UserStore } from "src/app/model/service/store/user.store";
+import { Client } from "stompjs";
 import swal from "sweetalert";
 @Component({
     selector : 'noti',
@@ -26,12 +30,15 @@ import swal from "sweetalert";
 export class NotiComponent implements OnInit {
 
     borderLeft : string = 'none !important';
+    stompClient : Client | undefined = undefined;
+    board : Board = new Board();
 
     @Input('noti') noti : Notification = new Notification();
 
     constructor( private boardStore : BoardStore ,
       private boardService : BoardService,
       private userStore : UserStore ,
+      private socketService : SocketService,
        private router : Router ){}
 
     ngOnInit() : void {
@@ -63,6 +70,9 @@ export class NotiComponent implements OnInit {
                      }).then( () => {
                      this.boardStore.boards.push(this.noti.board!);
                      this.boardStore.joinedBoards.push(this.noti.board!);
+                     this.socketService.sendNotiBackToInviter(this.noti.board! , this.noti.sentUser);
+                  //   this.sendNotiBackToInviter(this.noti.board!,this.noti.sentUser);
+                  //   this.sendNotiBackToInviter(this.noti.board!,this.userStore.user);
                         this.router.navigateByUrl(`/boards/${boardId}`);
                      })
                   }
@@ -85,6 +95,5 @@ export class NotiComponent implements OnInit {
            $('#noti-dropdown').click();
         }
       }
-      
-
+   
 }
