@@ -1,16 +1,18 @@
 import { Component , OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CalendarOptions } from '@fullcalendar/angular';
+import { ActivatedRoute } from '@angular/router';
+import { CalendarOptions, DateSelectArg } from '@fullcalendar/angular';
 import { BoardTasksStore } from 'src/app/model/service/store/board-tasks.store';
 import { BoardService } from 'src/app/model/service/http/board.service';
 import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
-
+import swal from 'sweetalert';
+import { TaskCard } from 'src/app/model/bean/taskCard';
+import { Stage } from 'src/app/model/bean/stage';
  
 @Component({
     selector : 'board-tasks-calendar',
     template : `
-        <div class="px-2 pe-5 w-100 m-4 border-board d-flex justify-content-between align-items-center">
+        <div class="px-5 pe-5 w-100 m-4 border-board d-flex justify-content-between align-items-center">
            <div>
                 <h2>{{ boardTasksStore.board.boardName }} Board' Tasks Calendar</h2>
            </div>
@@ -29,7 +31,7 @@ import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
 export class BoardTasksCalendarComponent implements OnInit {
 
     calendarDetails : CalendarOptions = {
-        initialView : 'listWeek',
+        initialView : 'dayGridMonth',
         headerToolbar: {
             right : 'prev,next',
             center: 'title',
@@ -37,10 +39,8 @@ export class BoardTasksCalendarComponent implements OnInit {
         },
         selectable : true,
         weekends : true,
-        events : [
-            { title : 'To sleep'  , start : '2022-11-01  12:00:00' , end : '2022-11-20 12:00:00' ,  },
-            // { title : 'To eat'  , start : '2022-11-05' , end : '2022-11-20' }
-        ]
+        events : [],
+        select : this.handleSelectCalendar.bind(this)
     }
 
     constructor(
@@ -67,7 +67,7 @@ export class BoardTasksCalendarComponent implements OnInit {
         const events = this.boardTasksStore.taskCards
                        .filter( taskCard => taskCard.stage.id != 3 ) //filtering not to include task from done stage
                        .map( filteredTaskCard => {
-                         return { title : filteredTaskCard.taskName , start : `${filteredTaskCard.startedDate} 12:00:00` , end : `${filteredTaskCard.endedDate} 12:00:00`  }
+                         return { title : filteredTaskCard.taskName , start : `${filteredTaskCard.startedDate}` , end : `${filteredTaskCard.endedDate}`  }
                        });
         this.calendarDetails.events = events;
     }
@@ -102,6 +102,66 @@ export class BoardTasksCalendarComponent implements OnInit {
                 console.log(err);
             }
         });
+    }
+
+    private handleSelectCalendar( selectInfo : DateSelectArg ){
+       const currentDateInMilliSecond = new Date().getTime();
+       const taskStartDateInMilliSecond = selectInfo.start.getTime();
+       const taskEndDateInMilliSeconde = selectInfo.end.getTime();
+
+       // not allow to start task from prev date from now or end date that is front of start date
+      if(  ( currentDateInMilliSecond - taskStartDateInMilliSecond >  86400000)  || taskEndDateInMilliSeconde < taskStartDateInMilliSecond ){
+        swal({
+            text : 'Invalid start date or end date!',
+            icon : 'warning'
+        });
+      }else{
+            swal( 'Enter task name ' , {
+                content : {
+                    element : 'input'
+                }
+            }).then( taskName => {
+                const newTask = new TaskCard();
+                newTask.taskName = taskName;
+                newTask.startedDate = selectInfo.startStr as any as Date;
+                newTask.endedDate = selectInfo.endStr as any as Date;
+                const stage = new Stage();
+                stage.id = 1;
+                newTask.stage = stage;
+                newTask.board = this.boardTasksStore.board;
+
+
+                this.taskCardService.createTaskCard( newTask )
+                .subscribe({ 
+                    next : resStatus => {
+                        if(resStatus.ok){
+                            swal({
+                                text : resStatus.message,
+                                icon : 'success',
+                            }).then( () => {
+                                this.boardTasksStore.taskCards.push( newTask );
+                                this.calendarDetails.events = this.boardTasksStore.taskCards
+                                                              .map( task => {
+                                                                return { title : task.taskName , start : `${task.startedDate}` , end : `${task.endedDate}`}
+                                                              })
+                            })
+                        }else{
+                            swal({
+                                text : resStatus.message,
+                                icon : 'warning',
+                            })
+                        }
+                    },
+                    error : err => {
+                        swal({
+                            text : err.error.message,
+                            icon : 'warning'
+                        })
+                    }
+                })
+            });
+        }
+
     }
 
 }

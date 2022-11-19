@@ -378,6 +378,12 @@ export class MyBoardComponent implements OnInit {
     handleAddTask( taskCard : TaskCard ){
       let prevTasks = this.taskCardsMap.get(taskCard.stage.stageName);
       prevTasks?.push(taskCard);
+      
+      //for calendar view
+      if( taskCard.stage.id != 3 ){
+        this.boardTasksStore.taskCards.push( taskCard);
+      } 
+    
       this.taskCardsMap.set( taskCard.stage.stageName , prevTasks! );
     }
 
@@ -388,6 +394,16 @@ export class MyBoardComponent implements OnInit {
        })[0];
      
        payload.task.stage = targetStage; //setting updated stage to task
+
+       //will remove done stage task from calendar
+       if( payload.task.stage.id == 3 ){
+        this.boardTasksStore.taskCards = this.boardTasksStore.taskCards.filter( task => task.id != payload.task.id );
+       }else{
+        // if stage is not done stage , will check and push into calendar tasks
+         if( !this.boardTasksStore.taskCards.some( task => payload.task.id  == task.id )){
+          this.boardTasksStore.taskCards.push( payload.task );
+         }
+       }
 
        this.taskCardService.updateTaskCard( payload.task )
        .subscribe({

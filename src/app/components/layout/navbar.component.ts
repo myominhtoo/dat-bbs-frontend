@@ -4,7 +4,6 @@ import { User } from "src/app/model/bean/user";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { UserStore } from 'src/app/model/service/store/user.store';
 import swal from "sweetalert";
-import { Client  } from 'stompjs';
 import { NotificationStore } from 'src/app/model/service/store/notification.store';
 import { Router } from '@angular/router';
 
@@ -39,7 +38,6 @@ export class NavbarComponent implements OnInit {
           ok:false
         }
       }
-    stompClient : Client | undefined;
 
     constructor( private toggleStore : ToggleStore , 
         public userStore : UserStore,
@@ -81,7 +79,6 @@ export class NavbarComponent implements OnInit {
           {
           next:(res)=>
           {
-            console.log("Password is completely changed")
             this.userPass.changePassword=""
             this.userPass.currentPassword=""
             this.userPass.retypePassoword=""
@@ -109,9 +106,9 @@ export class NavbarComponent implements OnInit {
         this.userPass.changePassword=""
             this.userPass.currentPassword=""
             this.userPass.retypePassoword=""
-        this.status.changePassword.ok=true;
-        this.status.changePassword.msg="Password Not Match"
-        setTimeout(()=>this.status.changePassword.msg="",1000);
+            this.status.changePassword.ok=true;
+            this.status.changePassword.msg="Password Not Match"
+            setTimeout(()=>this.status.changePassword.msg="",1000);
       }
   
     }
