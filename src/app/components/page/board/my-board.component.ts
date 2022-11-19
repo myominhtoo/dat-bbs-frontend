@@ -18,6 +18,7 @@ import { UserStore } from 'src/app/model/service/store/user.store';
 import { SocketService } from 'src/app/model/service/http/socket.service';
 import { Notification } from 'src/app/model/bean/notification';
 import { COLORS } from "src/app/model/constant/colors";
+import { BoardTasksStore } from "src/app/model/service/store/board-tasks.store";
 
 @Component({
     selector : 'my-board',
@@ -92,7 +93,8 @@ export class MyBoardComponent implements OnInit {
          private commentService : CommentService,
          private userService :UserService ,
          public userStore : UserStore ,
-         public socketService : SocketService  ){
+         public socketService : SocketService ,
+         private boardTasksStore : BoardTasksStore  ){
           this.offCanvasTask.activities = [];
           this.offCanvasTask.comments = [];
           this.board.user = new User();
@@ -150,6 +152,7 @@ export class MyBoardComponent implements OnInit {
             next : board => {
                 this.status.isLoading = false;
                 this.board = board;
+                this.boardTasksStore.board  = board; // for calendar
                 this.getTaskCards( boardId );
             },
             error : err  => {
@@ -351,6 +354,8 @@ export class MyBoardComponent implements OnInit {
       .subscribe({
         next : tasks => {
             this.createTaskCardsWithStageMap( this.stages ,  tasks );
+            this.boardTasksStore.taskCards = tasks;
+            this.boardTasksStore.hasGotData = true;
         },
         error : err => {
           console.log(err);

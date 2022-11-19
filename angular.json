@@ -32,7 +32,10 @@
               "node_modules/boxicons/css/boxicons.min.css",
               "node_modules/toastify-js/src/toastify.css",
               "node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
-              "node_modules/owl.carousel/dist/assets/owl.theme.default.min.css"
+              "node_modules/owl.carousel/dist/assets/owl.theme.default.min.css",
+              "node_modules/@fullcalendar/common/main.css",
+              "node_modules/@fullcalendar/daygrid/main.css",
+              "node_modules/@fullcalendar/list/main.css"
             ],
             "scripts": [
               "node_modules/sweetalert/dist/sweetalert.min.js",

@@ -30,9 +30,21 @@ import { BoardBookmarkComponent } from './components/layout/boardBookmark.compon
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { CloseTaskComponent } from './components/page/mytasks/close-task.component';
-
+import { TestComponent } from './components/page/test.component';
+import { BoardTasksCalendarComponent  } from './components/page/board/board-tasks-calendar.component';
 
 import { AuthInterceptor } from './model/service/interceptor/auth.interceptor';
+import { FullCalendarModule } from '@fullcalendar/angular';
+
+import dayGridPlugin from '@fullcalendar/daygrid';
+import listWeek from '@fullcalendar/list';
+import interactionPlugin from '@fullcalendar/interaction';
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  interactionPlugin,
+  listWeek
+])
 
 @NgModule({
   declarations: [
@@ -55,7 +67,9 @@ import { AuthInterceptor } from './model/service/interceptor/auth.interceptor';
     ForgetPasswordComponent,
     BoardBookmarkComponent,
     BoardChatComponent,
-    CloseTaskComponent
+    CloseTaskComponent,
+    TestComponent,
+    BoardTasksCalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +82,8 @@ import { AuthInterceptor } from './model/service/interceptor/auth.interceptor';
     BrowserAnimationsModule,
     DragDropModule,
     PickerModule,
-    CarouselModule
+    CarouselModule,
+    FullCalendarModule
   ],
   providers: [{ provide : HTTP_INTERCEPTORS , useClass : AuthInterceptor , multi : true }],
   bootstrap: [AppComponent]
