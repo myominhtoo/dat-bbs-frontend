@@ -14,16 +14,22 @@ import { NotificationStore } from '../store/notification.store';
 import { UserStore } from '../store/user.store';
 import { BoardMessage } from './../../bean/BoardMessage';
 import { AuthService } from './auth.service';
+import { BoardService } from './board.service';
 
 
 @Injectable({
     providedIn : 'root'
 })
 export class SocketService{
-
+    board : Board = new Board();
     stompClient : Client | undefined = undefined;
     boardNotisSubscriptions : Subscription [] = [];
     privateNotiSubscription : Subscription | undefined;
+
+    status = {
+        hadGotVerification : false,
+        hadError : false
+    }
 
     constructor( 
         public boardStore : BoardStore , 
@@ -32,7 +38,8 @@ export class SocketService{
         private authService : AuthService,
         private userStore : UserStore ,
         private route : ActivatedRoute ,
-        private router : Router
+        private router : Router,
+        private boardService : BoardService,
     ){  
         if( authService.isAuth() ) {
            this.getSocketClient();
@@ -97,15 +104,41 @@ export class SocketService{
                 position : 'right',
                 onClick : () => {
                     if( newNoti.invitiation ){
-                        swal({
-                            text : 'Are you sure to join this board?',
-                            icon : 'warning',
-                            buttons : [ 'No' , 'Yes' ]
-                        }).then( isYes => {
-                            if(isYes){
-                                // code to connect backend
-                            }
-                        })
+                        if(!this.boardStore.joinedBoards.some(board=> board.id == newNoti.board?.id)){
+                            swal({
+                                text : 'Are you sure to join this board?',
+                                icon : 'warning',
+                                buttons : [ 'No' , 'Yes' ]
+                            }).then( isYes => {
+                                if(isYes){
+                                    // code to connect backend
+                                    this.userStore.fetchUserData;
+                                   // console.log(newNoti);
+                                     this.boardService.joinBoard(this.userStore.user.email,newNoti.board?.code!,newNoti.board?.id!).subscribe({
+                                         next:(res)=>{
+                                             if(res.ok){
+                                                 this.status.hadGotVerification=true;
+                                                //  this.boardStore.boards.push(boardData);
+                                                 swal({
+                                                     text : "Successfully!",
+                                                     icon : 'success'
+                                                   }).then( () => {
+                                                    
+                                                    this.boardStore.boards.push(newNoti.board!);
+                                                    this.boardStore.joinedBoards.push(newNoti.board!);
+                                                     this.router.navigateByUrl(`/boards/${newNoti.board?.id}`);
+                                                   })
+                                             } 
+                                         },
+                                         error : err => {
+                                             this.status.hadError=true;
+                                             console.log(err);
+                                         }
+                                     })
+                                }
+                            })
+                        }
+                      
                     }else{
                         const targetUrl = `/boards/${newNoti.board?.id}`;
                         if( currentUrl === targetUrl  ){

@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Notification } from "src/app/model/bean/notification";
+import { BoardService } from "src/app/model/service/http/board.service";
 import { BoardStore } from "src/app/model/service/store/board.store";
-
+import { UserStore } from "src/app/model/service/store/user.store";
+import swal from "sweetalert";
 @Component({
     selector : 'noti',
     template : `
@@ -27,7 +29,10 @@ export class NotiComponent implements OnInit {
 
     @Input('noti') noti : Notification = new Notification();
 
-    constructor( private boardStore : BoardStore , private router : Router ){}
+    constructor( private boardStore : BoardStore ,
+      private boardService : BoardService,
+      private userStore : UserStore ,
+       private router : Router ){}
 
     ngOnInit() : void {
       if(this.noti.invitiation){
@@ -38,12 +43,48 @@ export class NotiComponent implements OnInit {
     }
 
     handleGoBoardFromNoti( boardId : number ){
-       if( window.location.href.includes(`/boards/${boardId}`)){
-        window.location.href = `/boards/${boardId}`;
-        return;
-       }
-       this.router.navigateByUrl(`/boards/${boardId}`);
-       $('#noti-dropdown').click();
-    }
+      if(this.noti.invitiation==true)
+      {  
+        if(!this.boardStore.joinedBoards.some(board=> board.id == this.noti.board?.id)){
+         swal({
+            text : 'Are you sure to join this board?',
+            icon : 'warning',
+            buttons : [ 'No' , 'Yes' ]
+        }).then( isYes => {
+         if(isYes){
+            this.userStore.fetchUserData;
+            this.boardService.joinBoard(this.userStore.user.email,this.noti.board?.code!,this.noti.board?.id!).subscribe({
+               next:(res)=>{
+                  if(res.ok){
+                    
+                     swal({
+                        text : "Successfully!",
+                        icon : 'success'
+                     }).then( () => {
+                     this.boardStore.boards.push(this.noti.board!);
+                     this.boardStore.joinedBoards.push(this.noti.board!);
+                        this.router.navigateByUrl(`/boards/${boardId}`);
+                     })
+                  }
+               },
+               error : err => {
+                   console.log(err);
+               }
+            })
+            }
+      })
+        }
+
+      }else{
+
+         if( window.location.href.includes(`/boards/${boardId}`)){
+            window.location.href = `/boards/${boardId}`;
+            return;
+           }
+           this.router.navigateByUrl(`/boards/${boardId}`);
+           $('#noti-dropdown').click();
+        }
+      }
+      
 
 }
