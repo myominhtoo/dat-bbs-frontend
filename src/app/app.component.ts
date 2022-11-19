@@ -3,7 +3,6 @@ import {  NavigationEnd, Router } from '@angular/router';
 import { Client  } from 'stompjs';
 import { SocketService } from './model/service/http/socket.service';
 import { ToggleStore } from './model/service/store/toggle.service';
-import * as Toastify from 'toastify-js';
 import { AuthService } from './model/service/http/auth.service';
 import { UserStore } from './model/service/store/user.store';
 import { NotificationStore } from './model/service/store/notification.store';

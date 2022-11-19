@@ -1,7 +1,7 @@
-import { Component , OnInit } from '@angular/core';
+import { Component , OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { CalendarOptions, DateSelectArg } from '@fullcalendar/angular';
+import { CalendarOptions, DateSelectArg, FullCalendarComponent } from '@fullcalendar/angular';
 import { BoardTasksStore } from 'src/app/model/service/store/board-tasks.store';
 import { BoardService } from 'src/app/model/service/http/board.service';
 import { TaskCardService } from 'src/app/model/service/http/taskCard.service';
@@ -23,12 +23,22 @@ import { Stage } from 'src/app/model/bean/stage';
                 </button>
            </div>
         </div>
-        <div id="full-calendar-container" class="d-flex justify-content-center align-items-center">
-            <full-calendar [options]="calendarDetails" ></full-calendar>
+        <div class="d-flex justify-content-end gap-2 w-75 px-5 mx-auto">
+            <button (click)="changeView('calendar')" class="btn btn-sm btn-outline-secondary py-1 myboard-btn" [ngClass]="{ 'text-light' : curView == 'calendar' , 'btn-secondary' : curView == 'calendar' }" >Calendar View</button>
+            <button (click)="changeView('list')" class="btn btn-sm btn-outline-secondary py-1 myboard-btn" [ngClass]="{ 'text-light' : curView == 'list' , 'btn-secondary' : curView == 'list' }">List View</button>
         </div>
+        <div id="full-calendar-container" class="d-flex justify-content-center align-items-center">
+            <full-calendar #calendar [options]="calendarDetails" ></full-calendar>
+        </div>
+        <loading [show]="isLoading" target="Datas..."></loading>
     `
 })
 export class BoardTasksCalendarComponent implements OnInit {
+
+    isLoading : boolean = false;
+    curView : string = 'calendar';
+
+    @ViewChild('calendar') calendar : FullCalendarComponent | undefined ;
 
     calendarDetails : CalendarOptions = {
         initialView : 'dayGridMonth',
@@ -51,6 +61,7 @@ export class BoardTasksCalendarComponent implements OnInit {
         private taskCardService : TaskCardService ){}
     
     ngOnInit() : void { 
+        this.isLoading = true;
         const boardId = this.route.snapshot.params["id"];
         if( this.boardTasksStore.hasGotData  ){
             this.getEventsFromData();
@@ -63,6 +74,11 @@ export class BoardTasksCalendarComponent implements OnInit {
         this.location.back();
     }
 
+    changeView( target : string ){
+        this.curView = target;
+        this.calendar?.getApi().changeView( target == 'calendar' ? 'dayGridMonth' : 'listWeek' );
+    }
+
     private getEventsFromData(){
         const events = this.boardTasksStore.taskCards
                        .filter( taskCard => taskCard.stage.id != 3 ) //filtering not to include task from done stage
@@ -70,6 +86,7 @@ export class BoardTasksCalendarComponent implements OnInit {
                          return { title : filteredTaskCard.taskName , start : `${filteredTaskCard.startedDate}` , end : `${filteredTaskCard.endedDate}`  }
                        });
         this.calendarDetails.events = events;
+        this.isLoading = false;
     }
 
     private getRequiredData( boardId : number ){
