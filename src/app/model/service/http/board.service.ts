@@ -49,6 +49,10 @@ export class BoardService{
       return this.httpClient.get<any>(`http://localhost:8080/api/users/${id}/archive-board-report?format=${filetype}`);
     }
 
+    joinBoard( email: string, code : number, boardId : number){
+      return this.httpClient.get<any>(`http://localhost:8080/api/accept-join-board?email=${email}&code=${code}&boardId=${boardId}`);
+    }
+
 
 }
 
