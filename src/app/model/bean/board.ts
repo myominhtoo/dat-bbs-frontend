@@ -11,7 +11,8 @@ export class Board {
     deleteStatus !: boolean;
     invitedEmails !: string[];
     user !: User;
-    iconColor : string | undefined;   
+    iconColor : string | undefined;  
+    code !: number; 
 
     /*
      only to display in ui
