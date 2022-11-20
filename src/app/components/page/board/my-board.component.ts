@@ -124,7 +124,7 @@ export class MyBoardComponent implements OnInit {
       this.userService.getUsersForBoard(this.route.snapshot.params['id']).subscribe(data=>{
             this.boardsHasUsers = data.filter( d => d.user.username != null )
                                   .map( boardHasUser => {
-                                    return { ...boardHasUser , iconColor : COLORS[ Math.floor( Math.random() *  COLORS.length -1 )] }
+                                    return { ...boardHasUser , iconColor : COLORS[ Math.floor( Math.random() *  (COLORS.length - 1) )] }
                                   });
             this.members = data.map( d => d.user ).filter( user => user.username != null );
       });
@@ -373,7 +373,6 @@ export class MyBoardComponent implements OnInit {
          prevTaskCards?.push(taskCard);
          this.taskCardsMap.set( taskCard.stage.id.toString() , prevTaskCards! );
        })
-       console.log(this.taskCardsMap)
     }
 
     handleAddTask( taskCard : TaskCard ){

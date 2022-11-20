@@ -45,7 +45,7 @@ import { ActivatedRoute } from '@angular/router';
                 <span *ngIf="task.startedDate != task.endedDate"><i class="fa-solid fa-right-long" style="font-size:12px;"></i></span>
                 <span *ngIf="task.startedDate != task.endedDate" style="font-size:13px;">{{ task.endedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
             </div>
-            <div *ngIf="showDonePercent" class="text-end" style="width:35%;" >
+            <div *ngIf="showDonePercent && !task.deleteStatus" class="text-end" style="width:35%;" >
                 <small style="font-size:12px;">Done Activity</small>
                 <div class="w-100 d-flex align-items-center gap-1">
                     <mat-progress-bar [value]="donePercent"  mode="determinate" ></mat-progress-bar>

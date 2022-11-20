@@ -86,9 +86,7 @@
                         <!-- Showing views -->
                         <div class="container-fluid p-0 m-0">
 
-                            <div
-                                class="col-12 hover-member p-2 mb-1 d-flex align-items-center justify-content-between p-0 m-0  member-container ">
-
+                            <div class="hover-member p-2 mb-1 d-flex align-items-center justify-content-between m-0  member-container w-100 card row ">
                                 <div class="m-0 p-0 "
                                     [routerLink]="board.user.id == userStore.user.id ? '/profile' : '/users/'+ board.user.id +'/profile'">
                                     <div class="d-inline-block mx-2 " id="profile-member">
@@ -106,15 +104,16 @@
                                 </div>
                             </div>
 
+
                             <div *ngFor="let boardHasUser of boardsHasUsers;"
-                                class="row p-0 m-0  d-flex justify-content-center align-items-center">
+                                class="w-100 p-0 m-0  d-flex justify-content-center align-items-center">
 
                                 <!-- start col-12 -->
                                 <div [routerLink]="boardHasUser.user.id == userStore.user.id ? '/profile' : '/users/'+boardHasUser.user.id+'/profile' "
-                                    class="col-12 hover-member p-2 mb-1  d-flex align-items-center justify-content-between p-0 m-0  member-container">
+                                    class="hover-member p-2 mb-1  d-flex align-items-center justify-content-between p-0 m-0  card row w-100">
 
-                                    <div class="m-0 p-0 ">
-                                        <div class="d-inline-block mx-2 " id="profile-member">
+                                    <div class="m-0 p-0 d-flex ">
+                                        <div id="profile-member" class=" mx-2" >
                                             <span
                                                 *ngIf="boardHasUser.user.imageUrl == null && boardHasUser.user.username != null"
                                                 class=" d-flex justify-content-center align-items-center fs-4 text-light "
@@ -125,16 +124,14 @@
                                                 style="border-radius: 100%;object-fit: cover;"
                                                 [src]="'http://localhost:8080/img/'+boardHasUser.user.imageUrl" alt="">
                                         </div>
-                                        <div class="d-inline-block ps-1 fw-light text-muted" style="font-size:16px;">
-                                            {{ boardHasUser.user.username | titlecase }}
+                                        <div class="d-flex justify-content-between align-items-center ps-1 fw-light text-muted w-75" style="font-size:16px;">
+                                            <span>{{ boardHasUser.user.username | titlecase }}</span>
+                                            <div *ngIf="!boardHasUser.joinedStatus" class="d-flex align-items-center text-dark text-muted" style="font-size:10px;">
+                                                <i class='bx bx-pulse bx-sm my-1' style="font-size:10px;"></i>
+                                                <span class="pt-2 fw-light">pending</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <br>
-                                    <small *ngIf="!boardHasUser.joinedStatus"
-                                        class="d-flex justify-content-center align-content-center badge text-dark text-muted">
-                                        <i class='bx bx-pulse bx-sm my-1'></i>
-                                        <span class="pt-2 fw-light">pending</span>
-                                    </small>
                                 </div>
                                 <!-- end col-12 -->
                             </div>

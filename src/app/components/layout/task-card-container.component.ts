@@ -244,8 +244,8 @@ export class TaskCardContainerComponent {
   }
 
   removeTask(task : TaskCard){
-    let tasksMap= this.taskCards.get(this.data.stageName);
-    this.taskCards.set( this.data.stageName , tasksMap?.filter( taskMap => taskMap.id != task.id )!);
+    let tasksMap= this.taskCards.get(this.data.id.toString());
+    this.taskCards.set( this.data.id.toString() , tasksMap?.filter( taskMap => taskMap.id != task.id )!);
    }
 
 

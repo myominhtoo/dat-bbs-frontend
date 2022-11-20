@@ -152,7 +152,7 @@ header ( width is 100% , height: 8%)
     box-shadow: 0 0 0.5px var(--snow)
 }
 .member-container{
-    background-color: rgba(0,0,0,0.1);    
+    /* background-color: rgba(0,0,0,0.1);     */
 }
 #profile-member{
     width:45px;
@@ -219,9 +219,8 @@ header ( width is 100% , height: 8%)
     background:rgba(255,255,255,0.15) !important;
 }
 .hover-member:hover{
-    cursor: pointer;
-    
-    background:rgba(15, 15, 15, 0.14) !important;
+    cursor: pointer;  
+    background:rgba(15, 15, 15, 0.1) !important;
 }
 
 #main #sidebar .item{
