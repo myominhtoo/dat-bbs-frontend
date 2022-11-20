@@ -61,8 +61,8 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
         <div *ngIf="status.isAddTask" class="my-1">
           <input  [(ngModel)]="tempTask" name="tempTask" (keydown)="handleAddTask($event)"type="text" [class.is-invalid]="status.addTaskError" class="form-control shadow-none" placeholder="Enter Task" />
         </div>
-        <div cdkDropList [cdkDropListData]="taskCards.get(data.stageName)" [id]="''+data.stageName+''" [cdkDropListConnectedTo]="relationContainers" class="w-100 py-2 d-flex flex-column" style="min-height:700px !important;">
-            <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)" (delete-task)="removeTask($event)"  (show-comment)="showCommentEmitter.emit($event)"  *ngFor="let task of taskCards.get(data.stageName)" [task]="task"></task-card>
+        <div cdkDropList [cdkDropListData]="taskCards.get(data.id.toString())" [id]="''+data.id+''" [cdkDropListConnectedTo]="relationContainers" class="w-100 py-2 d-flex flex-column" style="min-height:700px !important;">
+            <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)" (delete-task)="removeTask($event)"  (show-comment)="showCommentEmitter.emit($event)"  *ngFor="let task of taskCards.get(data.id.toString())" [task]="task"></task-card>
         </div>
       </div>
     </div>
@@ -75,7 +75,6 @@ export class TaskCardContainerComponent {
     private taskService : TaskCardService,
     private socketService : SocketService,
     private userStore : UserStore,
-    private boardStore : BoardStore
     ){}
 
   @Input('stages') stages : Stage [] = [];
@@ -130,8 +129,9 @@ export class TaskCardContainerComponent {
         this.stageService.editStageName( this.data )
         .subscribe({
           next : res => {
-            $('#dropdown-btn').click();
+            $('.dropdown-open').toggle();
             if( res.ok ){
+
 
               const noti = new Notification();
               noti.content =  `${this.userStore.user.username.toLocaleUpperCase()}  Updated Stage in ${this.board.boardName} Board!`;
@@ -195,7 +195,7 @@ export class TaskCardContainerComponent {
 
   drop( e : CdkDragDrop<TaskCard[]> ){
     if( e.previousContainer === e.container ){
-      moveItemInArray( this.taskCards.get(this.data.stageName )! , e.previousIndex , e.currentIndex );
+      moveItemInArray( this.taskCards.get(this.data.id.toString() )! , e.previousIndex , e.currentIndex );
     }else{
       transferArrayItem( e.previousContainer.data , e.container.data , e.previousIndex , e.currentIndex );
       this.changeStage.emit({

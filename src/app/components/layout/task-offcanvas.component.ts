@@ -86,12 +86,18 @@ import { SocketService } from "../../model/service/http/socket.service";
                    </ul>
 
                     <!-- activites -->
-                    <div class="list-group d-flex flex-column list-unstyled text-muted p-2 gap-3 my-2">
+                    <div class="list-group d-flex flex-column list-unstyled text-muted p-2 gap-1 my-2">
                         <h6 class="text-center text-dark" *ngIf="task.activities.length > 0">Activities</h6>
-                        <div *ngFor="let activity of task.activities;let idx = index;" class="w-100 position-relative ">
-                            <div class="p-0 w-100  d-flex gap-2 align-items-center ">
-                                <input *ngIf="activity.id" type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none" name="{{activity.activityName}}" (change)="changeChecked(activity.status,idx)" />
-                                <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-muted text-capitalize" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" placeholder="Click enter to create"/>
+                        <div *ngIf="task.activities.length > 0" class="d-flex justify-content-between align-items-end my-0">
+                            <small class="text-success mx-2">{{ status.msg && status.msg }}</small><br/>
+                            <p (click)="setUpAddActivity()" class="text-primary " style="cursor:pointer;"><i class="fa-solid fa-plus mx-1"></i>Add Activity</p>
+                        </div>
+
+                        <div *ngFor="let activity of task.activities;let idx = index;" class="w-100 position-relative d-flex flex-column gap-2 mb-2 ">
+                            <div class="p-0 w-100  d-flex gap-1 align-items-center ">
+                                <input *ngIf="activity.id" type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none my-0" name="{{activity.activityName}}" (change)="changeChecked(activity.status,idx)" />
+                                <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-primary" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" placeholder="Click enter to create"/>
+                                <i *ngIf="!activity.id" (click)="handleRemoveTempActivity()" class="fa-regular fa-rectangle-xmark text-danger"></i>
                             </div>
                             <small class="mx-2 text-danger" *ngIf="status.errorTargetIdx === idx && status.activityError">{{ status.activityError }}</small>
                             <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
@@ -99,15 +105,12 @@ import { SocketService } from "../../model/service/http/socket.service";
                             </div>
                         </div>
 
-                        <div class="text-center p-0 m-0">
-                            <h6 *ngIf="task.activities.length == 0" class="my-2">There is no activity for this card... </h6>
+                        <div *ngIf="task.activities.length == 0" class="text-center p-0 m-0 my-3 d-flex justify-content-center align-items-center ">
+                            <h6 >There is no activity for this card</h6>
+                            <h6 (click)="setUpAddActivity()" class="text-primary " style="cursor:pointer;font-size:15px;"><i class="fa-solid fa-plus mx-1"></i>Add Activity!</h6>
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-end">
-                        <small class="text-success mx-2">{{ status.msg && status.msg }}</small><br/>
-                        <p (click)="setUpAddActivity()" class="text-primary " style="cursor:pointer;"><i class="fa-solid fa-plus mx-1"></i>Add Activity</p>
-                    </div>
                 </div>
 
                 <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" >
@@ -323,6 +326,15 @@ export class TaskOffCanvasComponent implements OnInit {
     ngOnInit(): void {
         this.task.users = [];
         this.comment.comment = '';
+
+        this.handleListenOffCanvasClose();
+    }
+
+    handleListenOffCanvasClose(){
+        $('#task-offcanvas')
+        .on('hide.bs.offcanvas' , () => {
+            this.tab = 'activity';
+        })
     }
 
     changeTab(tab: string) {
@@ -364,83 +376,102 @@ export class TaskOffCanvasComponent implements OnInit {
     }
 
     setUpAddActivity() {
-        //     // to control clicking this button again & again
-        //    if( !this.status.isAddActivity || this.activities.length == 0 ){
-        //     this.status.isAddActivity = true;
-
-        const newActivity = new Activity();
-        this.task.activities.push(newActivity);
-        //    }
+        // activity id will be undefned if it hasn't been created yet 
+        if( this.task.activities.some( activity => activity.id == undefined )){
+            this.createActivity( 0 );
+        }else{
+            const newActivity = new Activity();
+            this.task.activities.unshift(newActivity);  // edited to unshift from push for UX
+        }
     }
 
     handleAddActivity(e: KeyboardEvent, targetIdx: number) {
         this.status.activityError = '';
         let curActivityName = this.task.activities[targetIdx].activityName;
+        
         if (e.code === 'Enter') {
             if (curActivityName == '' || curActivityName == null) {
+                this.status.errorTargetIdx = targetIdx;
                 this.status.activityError = 'Acitiviy is required!';
                 return;
             }
 
-            const newActivity = this.task.activities[targetIdx];
-            newActivity.taskCard = { ...this.task };
-            newActivity.taskCard.activities = [];
-            newActivity.taskCard.comments = [];
-
-            if (newActivity.id == undefined) {
-                this.activityService
-                    .createActivity(this.task.activities[targetIdx])
-                    .subscribe({
-                        next: res => {
-                            this.status.msg = res.message;
-                            this.task.activities[targetIdx] = res.data;
-                            const noti = new Notification();
-                            noti.content = `${this.userStore.user.username} created activity in ${this.board.boardName} Board `;
-                            noti.sentUser = this.userStore.user;
-                            noti.board = this.board;
-
-                            this.handleChangeResultStage();
-
-                            this.socketService.sentNotiToBoard(this.board.id, noti);
-
-                            setTimeout(() => {
-                                this.status.msg = "";
-                            }, 1000);
-                        },
-                        error: err => {
-                            this.status.errorTargetIdx = targetIdx;
-                            this.status.activityError = err.error.message;
-                        }
-                    });
-                this.status.isAddActivity = false;
+            if (this.task.activities[targetIdx].id == undefined) {
+                this.createActivity( targetIdx );
             } else {
-                this.activityService
-                    .updateActivity(this.task.activities[targetIdx])
-                    .subscribe({
-                        next: res => {
-                            this.status.msg = res.message;
-
-                            const noti = new Notification();
-                            noti.content = `${this.userStore.user.username} updated activity in ${this.board.boardName} Board `;
-                            noti.sentUser = this.userStore.user;
-                            noti.board = this.board;
-
-                            this.socketService.sentNotiToBoard(this.board.id, noti);
-
-                            setTimeout(() => {
-                                this.status.msg = "";
-                            }, 1000);
-                        },
-                        error: err => {
-                            this.status.errorTargetIdx = targetIdx;
-                            this.status.activityError = err.error.message;
-                        }
-                    });
-                this.status.isAddActivity = false;
+                this.updateActivity( targetIdx );
             }
-
-
         }
+    }
+
+    handleRemoveTempActivity(){
+        this.task.activities.shift();
+    }
+
+    createActivity( targetIdx : number  ){
+        const newActivity = this.task.activities[targetIdx];
+        newActivity.taskCard = { ...this.task };
+        newActivity.taskCard.activities = [];
+        newActivity.taskCard.comments = [];
+
+        if( newActivity.activityName == '' || newActivity.activityName == null ){
+            this.status.errorTargetIdx = targetIdx;
+            this.status.activityError = 'Acitiviy is required!';
+            return;
+        }
+        
+        this.activityService
+        .createActivity(newActivity)
+        .subscribe({
+            next: res => {
+                this.status.msg = res.message;
+                this.task.activities.unshift(res.data);
+                const noti = new Notification();
+                noti.content = `${this.userStore.user.username} created activity in ${this.board.boardName} Board `;
+                noti.sentUser = this.userStore.user;
+                noti.board = this.board;
+
+                this.handleChangeResultStage();
+
+                this.socketService.sentNotiToBoard(this.board.id, noti);
+
+                setTimeout(() => {
+                     this.status.msg = "";
+                }, 1000);
+            },
+            error: err => {
+                this.status.errorTargetIdx = targetIdx;
+                this.status.activityError = err.error.message;
+            }
+        });
+        // this.status.isAddActivity = false;
+    }
+
+
+    updateActivity( targetIdx : number ){
+        this.activityService
+        .updateActivity(this.task.activities[targetIdx])
+        .subscribe({
+            next: res => {
+                this.status.msg = res.message;
+
+                const noti = new Notification();
+                noti.content = `${this.userStore.user.username} updated activity in ${this.board.boardName} Board `;
+                noti.sentUser = this.userStore.user;
+                noti.board = this.board;
+
+                this.socketService.sentNotiToBoard(this.board.id, noti);
+
+                setTimeout(() => {
+                    this.status.msg = "";
+                }, 1000);
+            },
+            error: err => {
+                this.status.errorTargetIdx = targetIdx;
+                this.status.activityError = err.error.message;
+            }
+        });
+    // this.status.isAddActivity = false;
     }
 
     handleShowDetailActivity(activityId: number) {
@@ -708,8 +739,8 @@ export class TaskOffCanvasComponent implements OnInit {
             NEXT_STAGE_ID = 1;
         }
 
-        const prevTaskCardsOfTask = this.tasks.get(this.task.stage.stageName);
-        this.tasks.set(this.task.stage.stageName, [...prevTaskCardsOfTask?.filter(task => task.id != this.task.id)!]);
+        const prevTaskCardsOfTask = this.tasks.get(this.task.stage.id.toString());
+        this.tasks.set(this.task.stage.id.toString(), [...prevTaskCardsOfTask?.filter(task => task.id != this.task.id)!]);
 
 
         this.changeStage.id = NEXT_STAGE_ID;
@@ -730,9 +761,9 @@ export class TaskOffCanvasComponent implements OnInit {
                 this.task.activities = this.changeTask.activities;
                 this.task.comments = this.changeTask.comments;
 
-                const resultTasks = this.tasks.get(this.task.stage.stageName);
+                const resultTasks = this.tasks.get(this.task.stage.id.toString());
                 resultTasks?.push(this.task);
-                this.tasks.set(this.task.stage.stageName, resultTasks!);
+                this.tasks.set(this.task.stage.id.toString(), resultTasks!);
             },
             error: err => {
                 console.log(err);

@@ -116,7 +116,7 @@ export class MyBoardComponent implements OnInit {
       return this.stages.filter( stage => {
         return stage.id != me.id;
       }).map( filterStage => {
-        return `${filterStage.stageName}`;
+        return `${filterStage.id}`;
       })
     }
 
@@ -219,7 +219,7 @@ export class MyBoardComponent implements OnInit {
                     })
 
                     this.stages.push( res.data );
-                    this.taskCardsMap.set( res.data.stageName , [] );
+                    this.taskCardsMap.set( res.data.id.toString() , [] );
 
                     const noti = new Notification();
                     noti.content =  `${this.userStore.user.username.toLocaleUpperCase()} created New Stage in ${this.board.boardName} Board!`;
@@ -366,17 +366,18 @@ export class MyBoardComponent implements OnInit {
     createTaskCardsWithStageMap( stages : Stage[] , taskCards : TaskCard[] ){
        // need to create key with steage name
        stages.forEach( stage => {
-        this.taskCardsMap.set( stage.stageName , [] );
+        this.taskCardsMap.set( stage.id.toString() , [] );
        })
        taskCards.forEach( taskCard => {
-         let prevTaskCards = this.taskCardsMap.get(taskCard.stage.stageName);
+         let prevTaskCards = this.taskCardsMap.get(taskCard.stage.id.toString());
          prevTaskCards?.push(taskCard);
-         this.taskCardsMap.set( taskCard.stage.stageName , prevTaskCards! );
+         this.taskCardsMap.set( taskCard.stage.id.toString() , prevTaskCards! );
        })
+       console.log(this.taskCardsMap)
     }
 
     handleAddTask( taskCard : TaskCard ){
-      let prevTasks = this.taskCardsMap.get(taskCard.stage.stageName);
+      let prevTasks = this.taskCardsMap.get(taskCard.stage.id.toString());
       prevTasks?.push(taskCard);
       
       //for calendar view
@@ -384,13 +385,13 @@ export class MyBoardComponent implements OnInit {
         this.boardTasksStore.taskCards.push( taskCard);
       } 
     
-      this.taskCardsMap.set( taskCard.stage.stageName , prevTasks! );
+      this.taskCardsMap.set( taskCard.stage.stageName.toString(), prevTasks! );
     }
 
     handleChangeStage( payload : ChangeStageType ){
        let prevStage = payload.task.stage.stageName;
        let targetStage = this.stages.filter( stage => {
-        return payload.stageTo === stage.stageName;
+        return payload.stageTo == stage.id;
        })[0];
      
        payload.task.stage = targetStage; //setting updated stage to task
@@ -493,18 +494,19 @@ export class MyBoardComponent implements OnInit {
    }
 
    handleDeleteStage( stg : Stage ){
-    if(this.taskCardsMap.get(stg.stageName)?.length==0){
-      // swal({
-      //   text : 'Deleted SuccessFully!',
-      //   icon : 'success'
-      // }).then(()=>{
-           this.stageService.deleteStage(stg.id).subscribe(data=>{
-               }) ;
-           this.stages=this.stages.filter(stage=>stage.id != stg.id);
-      // })
+    if(this.taskCardsMap.get(stg.id.toString())?.length==0){
+      this.stageService.deleteStage(stg.id).subscribe( res =>{
+          if( res.ok ){
+            swal({
+              text : res.message,
+              icon : 'success'
+            })
+          }
+      }) ;
+      this.stages=this.stages.filter(stage=>stage.id != stg.id);
     }else{
       swal({
-        text : 'Fail to Deleted!',
+        text : 'Unable to delete this stage!',
         icon : 'warning'
       })
       }
