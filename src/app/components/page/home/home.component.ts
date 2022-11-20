@@ -38,7 +38,10 @@ export class HomeComponent implements OnInit {
     user=new User();
     homeBoards:Board[]=[];
     homeCollaborator: User[] = []
-    taskCardList: TaskCard[] = []
+    
+    allTaskCardList:TaskCard[]=[]
+    upComingtaskCardList: TaskCard[] = []
+
     OverdueTaskList:TaskCard[]=[]
     CompletedTaskList: TaskCard[] = []
  
@@ -59,24 +62,25 @@ export class HomeComponent implements OnInit {
         document.title = "BBMS | Home";
         this.username = this.userStore.user.username;
         this.typeAnimate();
-        
+   
         
     }
 
     ngOnInit(): void {
-
+        
+        
         this.calculatePeriod();
-        this.countUp()
+        
         setTimeout(()=>{
-            // this.scrollWidthDiv = this.carousel.nativeElement.scrollWidth - this.carousel.nativeElement.clientWidth;            
+            this.countUp()    
             this.user = this.userStore.user;
             this.homeBoards = this.boardStore.ownBoards;            
             if (this.user) {
+            
                 this.getAllMembers(this.user.id)
                 this.getMyTasks(this.user.id)
-                
-            }
             
+            }        
         },500)        
         
     }
@@ -182,6 +186,7 @@ export class HomeComponent implements OnInit {
     
 
     countUp(){
+        
         let valueInfo=document.querySelectorAll("#count");    
         let interval=50
         
@@ -190,7 +195,7 @@ export class HomeComponent implements OnInit {
             
             setTimeout(()=>{
                 let end= Number(value.getAttribute("data-count"));;                        
-                
+                console.log("end",end);
                 let counter=setInterval(()=>{
                     initialValue +=1                
                     value.innerHTML = `${initialValue}`;
@@ -206,41 +211,28 @@ export class HomeComponent implements OnInit {
                     }
                     
                 },interval)
-            },600)
+            },400)
             
-            
+          
         })
     }    
 
     public getAllMembers(userId: number) {
-        this.status.isLoading=true
         this.userService.getAllMembers(userId).subscribe({
             next:(res)=>{                      
-                let prevUserId = 0;
-
-                // Method-1
-                // for( let i = 0 ; i < boardHasUsersSize ; i++ ){
-                //     const data = res[ i ];
-                //     if( prevUserId != data.user.id  ){
-                //         console.log(prevUserId)
-                //         this.homeCollaborator.push(data.user);
-                //         prevUserId = data.user.id;
-                //     }
-                // }
-                // Method-2
-                this.homeCollaborator = res.map( boardHasUser => boardHasUser.user )
+                
+                let prevUserId = 0;                
+                this.homeCollaborator = res.map( boardHasUser => boardHasUser.board.user )
                                         .filter( user => {
                                             if( prevUserId != user.id ){
-                                                prevUserId = user.id;
+                                                prevUserId = user.id;                                                
                                                 return true;
                                             }
                                             return false;
-                                        } )
-                
+                                        } )        //filter duplicate value        
 
-                console.log(this.homeCollaborator)
-                this.status.isLoading = true
-                this.status.hasDoneFetching=true
+                console.log("Home",this.homeCollaborator)
+                
                 
             },error:(err)=>{
                 console.log(err)
@@ -249,14 +241,21 @@ export class HomeComponent implements OnInit {
     }
 
     public getMyTasks(userId: number) {
+        this.status.isLoading=true
         this.status.hasTaskFetching=false
+            
         this.taskCardService.showMyTasks(userId).subscribe({
             next:(res)=>{
                 // console.log(res)
-                this.taskCardList = res.filter((res)=> {
+                this.allTaskCardList = res.filter((res)=> {
                     return res.board.deleteStatus==false && res.deleteStatus==false;
                 });
-                this.status.hasTaskFetching=true
+                // this.upComingtaskCardList=this.allTaskCardList.filter((res)=>{    
+                //     return res.stage.id==1;
+                // })
+                this.status.isLoading=false
+            this.status.hasDoneFetching=true
+               
             }, error: (err) => {
                 console.log(err)
             }
@@ -267,12 +266,14 @@ export class HomeComponent implements OnInit {
            
         if (title == "Upcoming") {
             this.status.upComingTab = true
-            
+            // this.upComingtaskCardList=this.allTaskCardList.filter((res)=>{    
+            //     return res.stage.id==1;
+            // })
             this.status.completedTab = false
             this.status.overDueTab = false
         } else if (title == "Overdue") {
             this.status.overDueTab = true
-            this.OverdueTaskList = this.taskCardList.filter((res) => {
+            this.OverdueTaskList = this.allTaskCardList.filter((res) => {
                 let endDate = new Date(res.endedDate);
                 return this.date.getTime() > endDate.getTime();
             })
@@ -280,7 +281,7 @@ export class HomeComponent implements OnInit {
             this.status.completedTab=false
         } else if (title == "Completed") {
             this.status.completedTab = true   
-            this.CompletedTaskList = this.taskCardList.filter((res) => {
+            this.CompletedTaskList = this.allTaskCardList.filter((res) => {
                 return res.stage.id == 3;
             })
             this.status.upComingTab = false
