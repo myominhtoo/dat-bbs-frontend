@@ -22,6 +22,7 @@ import { AuthGuard } from './model/service/guard/auth.guard';
 import { CloseTaskComponent } from './components/page/mytasks/close-task.component';
 import { TestComponent } from './components/page/test.component';
 import { BoardTasksCalendarComponent } from './components/page/board/board-tasks-calendar.component';
+import { StageTasksChartComponent } from './components/page/mytasks/stage-tasks-chart.component';
 
 
 
@@ -121,6 +122,12 @@ const routes: Routes = [
   {
     path : 'boards/:id/tasks-calendar',
     component : BoardTasksCalendarComponent,
+    pathMatch : 'full',
+    canActivate : [ AuthGuard ]
+  },
+  {
+    path : 'boards/:id/tasks-chart',
+    component : StageTasksChartComponent,
     pathMatch : 'full',
     canActivate : [ AuthGuard ]
   },
