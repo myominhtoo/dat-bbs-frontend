@@ -56,7 +56,13 @@
 
                 <div class="offcanvas offcanvas-end" id="demo">
                     <div class="offcanvas-header shadow-sm">
-                        <h5 class="offcanvas-title">Board Members</h5>
+                        <h5 class="offcanvas-title text-muted">
+                            <div class="position-relative">
+                                <i class="fa-solid fa-users mx-1" style="font-size:18px;"></i>
+                                Members
+                                <span class="badge rounded-pill bg-danger top-25 start-100">{{ boardsHasUsers.length + 1  }}</span>
+                            </div>
+                        </h5>
 
                         <span class="d-flex gap-2">
                             <button class=" btn btn-sm  btn-outline-secondary" data-bs-toggle="dropdown"

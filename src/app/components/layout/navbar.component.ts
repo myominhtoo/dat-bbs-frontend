@@ -6,6 +6,7 @@ import { UserStore } from 'src/app/model/service/store/user.store';
 import swal from "sweetalert";
 import { NotificationStore } from 'src/app/model/service/store/notification.store';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/model/service/http/auth.service';
 
 @Component({
     selector : 'navbar',
@@ -13,9 +14,8 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-    user : User = new User();
     userInfo:User=new User();
-    userPass={
+    userPass ={
         changePassword:"",
         currentPassword:"",
         retypePassoword:""
@@ -43,6 +43,7 @@ export class NavbarComponent implements OnInit {
         public userStore : UserStore,
         public userService:UserService , 
         public notificationStore : NotificationStore ,
+        private authService : AuthService,
         private router : Router ){
             userStore.fetchUserData();
             if( this.userStore.user.id ) this.getUserData(this.userStore.user.id )
@@ -61,7 +62,7 @@ export class NavbarComponent implements OnInit {
         this.userService.getUser( userId )
         .subscribe({
           next : resUser => {
-            this.userInfo={...resUser};
+            this.userInfo = {...resUser};
   
           },
           error : err => {
@@ -79,14 +80,21 @@ export class NavbarComponent implements OnInit {
           {
           next:(res)=>
           {
-            this.userPass.changePassword=""
-            this.userPass.currentPassword=""
-            this.userPass.retypePassoword=""
-            $("#change-password-close-btn").click();
-            swal({
-              text:"Successfully Changed",
-              icon:"success"
-            })
+            if( res.ok ){
+              
+              this.userStore.saveUserData( res.body.data );
+              this.authService.saveToken( res.headers.get('Authorization')! );
+
+              this.userPass.changePassword = "";
+              this.userPass.currentPassword = "";
+              this.userPass.retypePassoword = "";
+              $("#change-password-close-btn").click();
+
+              swal({
+                text:"Successfully Changed",
+                icon:"success"
+              })
+            }
           },
           error:(err)=>
           {

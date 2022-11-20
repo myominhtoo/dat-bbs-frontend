@@ -5,6 +5,7 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { UserService } from './../../../model/service/http/user.service';
 import swal from "sweetalert";
 import { UserStore } from "src/app/model/service/store/user.store";
+import { AuthService } from "src/app/model/service/http/auth.service";
 
 @Component({
     selector : "profile",
@@ -15,11 +16,13 @@ export class ProfileComponent{
 
     constructor( public toggleStore : ToggleStore ,
       private userService : UserService ,
-      public userStore : UserStore
+      public userStore : UserStore ,
+      private authService : AuthService
        ){
         this.userStore.fetchUserData();
-       }
-    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
+      }
+
+
     user : User = new User();
     userInfo:User=new User();
     confirmInput=document.createElement("input");
@@ -42,9 +45,9 @@ export class ProfileComponent{
 
     ngOnInit(): void {
       this.imgValue=null;
-      this.getUserData(this.storeUser.id);
+      this.userStore.fetchUserData();
+      this.getUserData(this.userStore.user.id);
       document.title = "BBMS | Profile";
-
 
     }
 
@@ -54,14 +57,12 @@ export class ProfileComponent{
         next : resUser => {
           this.user = resUser;
           this.userInfo={...this.user};
-
         },
         error : err => {
           console.log(err);
         }
       });
     }
-
 
 
     saveProfile(profile:NgForm){
@@ -74,7 +75,7 @@ export class ProfileComponent{
       }).then( isYes => {
         if( isYes ){
           swal({
-            text : 'Confirm Your Old Password',
+            text : 'Enter your password to confirm',
             closeOnClickOutside: false,
             content : {
               element : 'input',
@@ -84,22 +85,22 @@ export class ProfileComponent{
               }
             }
           }).then( confirmpassword => {
-            this.user.confirmpassword=confirmpassword;
-            this.user.id=this.storeUser.id;
+            this.user.confirmpassword = confirmpassword;
+            this.user.password = confirmpassword;
             this.userService.updateUser(this.user).subscribe(
               {
                 next:(res)=>{
-                  if( res.ok ){
+                  if( res.body.ok ){
+                    this.user = res.body.data!;
+                    this.userInfo = {...this.user};
+                    this.authService.saveToken( res.headers.get('Authorization')! ); 
+
                     swal({
-                      text : res.message,
+                      text : res.body.message,
                       icon : 'success',
                       closeOnClickOutside: false
                     }).then(() => {
-
-                      this.user = res.data;
-                      this.userInfo={...this.user}
-                      this.userStore.saveUserData( res.data );
-                      this.user.password="";
+                      this.userStore.saveUserData( res.body.data );
                     })
                   }
                 },
@@ -166,20 +167,20 @@ export class ProfileComponent{
     }
 
     
-textImg(){
- this.userService.delteImage(this.userInfo).subscribe({
-  next:(res)=>{
-    console.log("It's work")
-    console.log(res);
-    console.log(res.data);
-              this.user = res.data;
-              this.userInfo={...this.user}
-              this.userStore.saveUserData( res.data );
-  },
-  error:(err)=>{
-              console.log(err)
+  textImg(){
+    this.userService.delteImage(this.userInfo).subscribe({
+      next:(res)=>{
+        console.log("It's work")
+        console.log(res);
+        console.log(res.data);
+                  this.user = res.data;
+                  this.userInfo={...this.user}
+                  this.userStore.saveUserData( res.data );
+      },
+      error:(err)=>{
+                  console.log(err)
+      }
+    })
   }
- })
-}
 }
 
