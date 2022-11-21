@@ -1152,6 +1152,7 @@ color: black;
 .username-chat{
  position: absolute;
  top: -15px;
+ width: 120px;
  font-size: 13px;
     color: #161b22a6;
 

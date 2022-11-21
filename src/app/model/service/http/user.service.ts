@@ -89,4 +89,7 @@ export class UserService {
     getAllMembers(userId:number): Observable<BoardsHasUsers[]>{
         return this.httpClient.get<BoardsHasUsers[]>(`http://localhost:8080/api/users/${userId}/collaborators`);
     }
+    getAllJoinedMembers(userId:number): Observable<BoardsHasUsers[]>{
+        return this.httpClient.get<BoardsHasUsers[]>(`http://localhost:8080/api/users/${userId}/joinboard`);        
+    }
   }
