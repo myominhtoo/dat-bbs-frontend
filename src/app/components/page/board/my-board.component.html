@@ -165,13 +165,24 @@
                             <div class="modal-body">
                                 <form (ngSubmit)="inviteMembers()" class="form">
                                     <div>
-                                        <label for="invite-email" class="my-2 text-muted">Invited Members</label>
+                                        <label for="invite-email" class="text-muted">Invited Members</label>
                                  
-                                        <div class="d-flex gap-1 flex-wrap my-1">
-                                            <p *ngFor="let email of emails ; let idx = index " (click)="updateEmail(idx)" class="fw-light mx-2 text-light " id="mail-capsule">
-                                                {{email}}
+                                        <div class="d-flex gap-1  p-0 justify-content-start align-items-center my-1">
+                                            <p *ngFor="let idx of emails.length > 0 ? [0] : []" (click)="updateEmail(idx)" class="fw-light me-1 text-light " id="mail-capsule" style="padding:5px 20px !important;">
+                                                {{ emails[idx] }}
                                                 <span (click)="removeEmail(idx)" class="mx-1 fas fa-close"></span>
                                             </p>
+                                            <div *ngIf="emails.length > 1" class="dropdown" id="mails-dropdown">
+                                                <div data-bs-toggle="dropdown" data-bs-target="#mails-dropdown" class="p-1 d-flex justify-content-center align-items-center" style="width:25px;height:25px;background:#eee;border-radius: 100%;">
+                                                  <span>{{ emails.length - 1}}+</span>
+                                                </div>
+                                                <ul   class="dropdown-menu">
+                                                  <li *ngFor="let email of emails;let idx = index;" class="dropdown-item d-flex justify-content-between align-items-center">
+                                                      <span (click)="updateEmail(idx)" >{{ email }}</span>
+                                                      <span (click)="removeEmail(idx)" class="mx-1 fs-6 fas fa-close"></span>
+                                                  </li>
+                                                </ul>
+                                              </div>
                                         </div>
                                         <!-- <mat-autocomplete style="z-index:-1000 !important;" #emailAutoComplete="matAutocomplete"  >
                                             <mat-option *ngFor="let email of filterEmails" [value]="email">
