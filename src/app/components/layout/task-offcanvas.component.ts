@@ -39,21 +39,21 @@ import { SocketService } from "../../model/service/http/socket.service";
                       <li class="list-item mt-3 ">
                         <h6 *ngIf="members.length > 0" class="h6 w-25 fs-6">Assign To</h6>
                         <div *ngIf="task.users.length > 0" class="w-100 d-flex align-items-center my-3 ">
-                          <span *ngFor="let idx of (task.users.length > 1 ? [0,1] : [0])" class="badge fs-6 fw-light bg-dark  mx-1">{{ task.users[idx].username | titlecase }}<i (click)="handleRemoveUserFromAssign( $event, task.users[idx].id)" class="fa-solid fa-xmark mx-2"></i></span>
+                          <span *ngFor="let idx of (task.users.length > 1 ? [0,1] : [0])" class="badge fs-6 fw-light mx-1 " id="mail-capsule">{{ task.users[idx].username | titlecase }}<i (click)="handleRemoveUserFromAssign( $event, task.users[idx].id)" class="fa-solid fa-xmark mx-2"></i></span>
                           <div class="dropdown" id="assign-users-dropdown">
-                            <p *ngIf="task.users.length > 2" class="my-auto mx-2 text-center text-light " id="assign-users-dropdown-btn" data-bs-toggle="dropdown" data-bs-target="#assign-users-dropdown" style="width:25px;height:25px;border-radius:50% !important;background:#161b22;" >
+                            <p *ngIf="task.users.length > 2" class="my-auto mx-2 text-center text-dark " id="assign-users-dropdown-btn" data-bs-toggle="dropdown" data-bs-target="#assign-users-dropdown" style="width:25px;height:25px;border-radius:50% !important;background:#eee;" >
                                 <small>{{ task.users.length - 2 }}+</small>
                             </p>
                             <ul class="dropdown-menu" style="transform:translate(-10%,-100%) !important;">
-                                <li class="dropdown-item fw-bold">Assigned Members:</li>
+                                <li class="dropdown-item">Assigned Members:</li>
                                 <li class="dropdown-item fw-light d-flex justify-content-between" *ngFor="let user of task.users">{{ user.username | titlecase }}<i (click)="handleRemoveUserFromAssign( $event, user.id)" class="fa-solid fa-xmark mx-2 text-muted"></i></li>
                             </ul>
                           </div>
                         </div>
                         <div class="w-100" *ngIf="members.length > 0">
-                           <select class="form-select outline-none" (change)="handleAssignTask($event)" >
+                           <select class="form-select outline-none" id="assign-members"  (change)="handleAssignTask($event)" >
                              <option selected disabled>Assign Members</option>
-                             <option *ngFor="let member of members" class="text-capitalize" [value]="member.id" >{{ member.username }}</option>
+                             <option *ngFor="let member of members" class="text-capitalize" [value]="member.id" [class.text-danger]="isSelectedMember(member.id)" >{{ member.username }}</option>
                            </select>
                         </div>
                         <div *ngIf="members.length == 0" class="w-75 fs-6">
@@ -81,7 +81,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                         </div>
                       </li>
                       <li class="text-end">
-                         <button (click)="updateTask()" class="btn btn-sm bg-thm px-4 text-light ">Update</button>
+                         <button (click)="updateTask( true )" class="btn btn-sm bg-thm px-4 text-light ">Update</button>
                       </li>
                    </ul>
 
@@ -285,7 +285,7 @@ export class TaskOffCanvasComponent implements OnInit {
     curPageOfAttachments: number = 1;
     totalPagesOfAttachments: number = 0;
     newAttachment: Attachment = new Attachment();
-    showEmojis: boolean = false
+    showEmojis: boolean = false;
 
 
     @Input('task') task: TaskCard = new TaskCard();
@@ -334,6 +334,8 @@ export class TaskOffCanvasComponent implements OnInit {
         $('#task-offcanvas')
         .on('hide.bs.offcanvas' , () => {
             this.tab = 'activity';
+            $('#assign-members').val('Assign Members');
+            this.updateTask( false );
         })
     }
 
@@ -559,6 +561,10 @@ export class TaskOffCanvasComponent implements OnInit {
         }
     }
 
+    isSelectedMember( userId : number ){
+        return this.task.users.some( user => user.id == userId );
+    }
+
     handleRemoveUserFromAssign(e: Event, userId: number) {
         e.stopPropagation();
         this.task.users = this.task.users.filter(user => {
@@ -569,24 +575,21 @@ export class TaskOffCanvasComponent implements OnInit {
         }
     }
 
-    updateTask() {
-
+    updateTask( showStatus : boolean ) {
         this.taskCardService.updateTaskCard(this.task).subscribe({
             next: res => {
                 if (res) {
-                    swal({
-                        text: "successfully!",
-                        icon: 'success'
-                    }).then(() => {
-
-                        const noti = new Notification();
-                        noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
-                        noti.sentUser = this.userStore.user;
-                        noti.board = this.board;
-
-                        this.socketService.sentNotiToBoard(this.board.id, noti);
-
-                    })
+                    const noti = new Notification();
+                    noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
+                    noti.sentUser = this.userStore.user;
+                    noti.board = this.board;
+                    this.socketService.sentNotiToBoard(this.board.id, noti);  
+                    if(showStatus){
+                        swal({
+                            text: "successfully!",
+                            icon: 'success'
+                        })
+                    }
                 }
             },
             error: err => {
@@ -719,7 +722,7 @@ export class TaskOffCanvasComponent implements OnInit {
                 error: err => {
                     this.status.updateActivityError = err.error.message;
                 }
-            });
+        });
     }
 
     /*

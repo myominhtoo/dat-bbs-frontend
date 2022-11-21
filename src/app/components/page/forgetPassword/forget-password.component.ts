@@ -13,7 +13,9 @@ export class ForgetPasswordComponent implements OnInit {
 
     ngOnInit(): void {
        this.user.email='';
-      
+       this.user.code = '';
+       this.user.password = '';
+       this.user.confirmpassword = '';
     }
     constructor(
       private userService : UserService,
@@ -30,6 +32,7 @@ export class ForgetPasswordComponent implements OnInit {
         sendEmail : false ,
         isLoading : false,
         // isConfirm : false,
+        hasError : false
     }
 
     sendCode(email : string){
@@ -55,37 +58,43 @@ export class ForgetPasswordComponent implements OnInit {
     }
 
     forgetPasswordConfirm(forgetPassword:NgForm){
-        
+
+       if( this.user.password == '' || this.user.code == '' || this.user.confirmpassword == '' ){
+        this.status.hasError = true; 
+        return;
+       }
+       
+       this.status.hasError = false;
+
         if ( this.user.password == this.user.confirmpassword){
-          // this.status.isConfirm=true;
-          this.status.isLoading=true;
-          this.status.sendEmail=false;
           swal({
             text : 'Are you sure to reset your password?',
             icon : 'warning',
             buttons : [ 'No' , 'Yes' ]
           }).then(isYes => {
-            this.userService.changePassword(this.user).subscribe({
-              next : (res)=>{
-                if(res.ok){
-                  swal({
-                    text : 'Successfully Changed!',
-                    icon : 'success'
-                  }).then(() => {
-                    this.router.navigateByUrl('/login');
+            if( isYes ){
+              this.status.isLoading=true;
+              this.userService.changePassword(this.user).subscribe({
+                next : (res)=>{
+                  if(res.ok){
+                    swal({
+                      text : 'Successfully Changed!',
+                      icon : 'success'
+                    }).then(() => {
+                      this.router.navigateByUrl('/login');
+                      })
+                      this.status.isLoading=false;                
+                  }
+                },
+                error : err=>{
+                    swal({
+                      text : 'Codes are not matched!',
+                      icon : 'warning'
                     })
                     this.status.isLoading=false;
-                  
                 }
-              },
-              error : err=>{
-                  swal({
-                    text : 'Codes are not matched!',
-                    icon : 'warning'
-                  })
-                  this.status.isLoading=false;
-              }
-            })
+              })
+            }
           })
          }else{
           swal ({
