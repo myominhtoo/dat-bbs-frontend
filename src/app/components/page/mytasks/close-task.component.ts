@@ -27,7 +27,7 @@ export class CloseTaskComponent{
 status = {
         isLoading : false,
         hasDoneFetching : false,
-    }    
+    }
   path:string="";
 
   constructor( public toggleStore : ToggleStore ,
@@ -52,9 +52,9 @@ drop( e : CdkDragDrop<TaskCard[]> ){
 
 
     getTasks(id : number){
-         console.log ("YouSee");
+        //  console.log ("YouSee");
         let idd=this.route.snapshot.params['id'];
-console.log(idd);
+// console.log(idd);
       this.status.isLoading=true
         this.taskCardService.showDeleteTaskCard(idd).subscribe({
          next : data => {
@@ -80,14 +80,16 @@ console.log(idd);
      exportArchiveTaskReport(path:string ) {
 
       let boardId = this.route.snapshot.params['id'];
-  
+
+      // console.log("aaaaaaaaaaaaaaa");
+
       this.taskCardService.exportArchiveTaskReport(boardId,path).subscribe((data)=>{
           swal({
               text : 'Successfully Exported!',
               icon : 'success'
           });
       })
-  
+
     }
 
 }
