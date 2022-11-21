@@ -295,14 +295,15 @@
 
                         </div>
                         <div class="p-2 px-4 wrapper ">
+                            
 
                             <i id="left" class="fa-solid fa-angle-left" *ngIf="this.homeCollaborator.length !=0"
-                                [class.d-none]="carousel.scrollLeft == 0" (click)="iconClick('left')"></i>
+                            [class.d-none]="this.carouselDiv == 0" 
+                               (click)="iconClick('left')"></i>
 
-                            <div class="carousel d-flex justify-content-start" #carousel
-                                (touchstart)="dragStart($event)" (mouseover)="dragStart($event)"
-                                (touchmove)="dragging($event)" (touchend)="dragStop()">
-                                <div class="container-fluid text-start " style="height: 280px;" #firstDiv>
+                            <div class="carousel d-flex justify-content-start" id="carousel">
+                                <!--(touchstart)="dragStart($event)" (touchmove)="dragging($event)" (touchend)="dragStop()"(touchstart)="dragStart($event)" -->
+                                <div class="container-fluid text-start " style="height: 280px;" #firstDiv id="firstDiv">
                                     <!-- start  -->
                                     <!-- start no collaborators -->
                                     <div class="container-fluid text-center"
@@ -368,8 +369,8 @@
 
 
                             </div>
-                            <i id="right" class="fa-solid fa-angle-right" *ngIf="this.homeCollaborator.length !=0"
-                                [class.d-none]="carousel.scrollLeft == scrollWidthDiv" (click)="iconClick('right')"></i>
+                            <i id="right" class="fa-solid fa-angle-right" *ngIf="this.homeCollaborator.length !=0" [class.d-none]="this.carouselDiv == scrollWidthDiv"
+                                 (click)="iconClick('right')"></i>
 
                         </div>
                     </div>
