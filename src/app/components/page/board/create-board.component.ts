@@ -18,7 +18,7 @@ import { COLORS } from "src/app/model/constant/colors";
 })
 export class CreateBoardComponent implements OnInit {
 
-    constructor( public toggleStore : ToggleStore , 
+    constructor( public toggleStore : ToggleStore ,
       private boardService :BoardService ,
       private router : Router ,
       private userService : UserService ,
@@ -27,11 +27,11 @@ export class CreateBoardComponent implements OnInit {
       private socketService : SocketService ){}
 
     emailStr :string ='';
-    emails : string [] = [];  
+    emails : string [] = [];
 
     board : Board = new Board();
     debounceInput!: Function;
-    
+
     /*
       for auto fill
     */
@@ -64,9 +64,9 @@ export class CreateBoardComponent implements OnInit {
     ngOnInit(): void {
       this.getAllUsers();
       document.title = "BBMS | Create Board";
-     
+
     }
-  
+
     onChange( event : KeyboardEvent ){
 
       this.emailStr  == ''
@@ -80,11 +80,11 @@ export class CreateBoardComponent implements OnInit {
       if( lastChar === ',' || lastChar === ' ' ){
         // previous char before last char
         let prevLastChar = emailStr[emailStr.length - 2];
-  
+
         if( prevLastChar  == ' ' || prevLastChar == ','){
           this.emailStr = prevLastChar == ' ' ? emailStr.trim() : emailStr.replaceAll(',','');
         }
-        
+
         if(emailStr.includes('@') && emailStr.includes('.')){
           let storeEmail = emailStr.includes(',') ? emailStr.replaceAll(',','') : emailStr.replaceAll(' ','');
           this.status.update.willUpdate
@@ -92,26 +92,26 @@ export class CreateBoardComponent implements OnInit {
           : this.emails.includes(storeEmail)
            ? this.status.error.email = { hasError : true , msg : 'This email has already included!' }
            : this.emails.push( storeEmail );
-  
+
           this.status.update = { idx : 0 , willUpdate : false }
           this.emailStr = this.status.error.email.hasError ? this.emailStr : '';
-  
+
         }else{
-  
+
           this.status.error.email = { hasError : true , msg : 'Invalid email!'}
-          
+
         }
       }
-    } 
+    }
     removeEmail( idx : number ){
       if(!this.status.isLoading) this.emails.splice(idx,1);
     }
-  
+
     setUpdateEmail( idx : number ){
       this.emailStr = this.emails[idx];
       this.status.update = { idx : idx , willUpdate : true }
     }
-  
+
     createBoard(){
       this.userStore.fetchUserData();
       this.board.user = this.userStore.user;
@@ -127,7 +127,7 @@ export class CreateBoardComponent implements OnInit {
       // ? this.status.error.description = { hasError : true , msg : 'Description is required!'}
       // : this.status.error.description = { hasError : false , msg : '' };
 
-      
+
       if( !this.status.error.boardName.hasError ){
         swal({
           text : 'Are you sure to create board?',
@@ -137,12 +137,12 @@ export class CreateBoardComponent implements OnInit {
           if( isYes ){
             this.status.isLoading = true;
             this.board.invitedEmails = this.board.invitedEmails.filter( email => email != this.userStore.user.email );
-           
+
             /*
              for board's icon color
             */
            this.board.iconColor = COLORS[ Math.floor( Math.random() * (COLORS.length - 1) ) ];
-           
+
             this.boardService.createBoard(this.board)
             .subscribe({
               next : resCreateBoard => {
@@ -155,7 +155,7 @@ export class CreateBoardComponent implements OnInit {
 
                   const invitedUsers = this.registeredUsers.filter( user => this.board.invitedEmails.includes(user.email));
                   this.socketService.sendBoardInvitiationNotiToUsers( createdBoard , invitedUsers );
-                  
+
                   this.boardStore.boards.push( createdBoard );
                   this.boardStore.ownBoards.push( createdBoard );
 
@@ -173,7 +173,7 @@ export class CreateBoardComponent implements OnInit {
                 this.board.boardName = '';
                 this.board.description = '';
               }
-            });  
+            });
           }else{
             this.status.isLoading = false;
           }

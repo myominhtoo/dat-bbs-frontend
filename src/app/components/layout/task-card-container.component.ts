@@ -23,7 +23,7 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
         <div class="d-flex justify-content-between align-items-center p-2 rounded-sm bg-stage-dark">
           <!-- task-card-title -->
           <div class="text-justify" >
-            
+
             <h1 *ngIf="!status.isEditStage" class="stage-title text-white p-2 h5 mx-1 m-0 ">{{ data.stageName | titlecase }}</h1>
             <input *ngIf="status.isEditStage" [(ngModel)]="data.stageName" type="text" (keydown)="handleUpdateStage($event)"  class="form-control mx-2 text-capitalize rounded-0" style="box-shadow:none;" >
             <span *ngIf="status.stageError"  style="font-size:14px;" class="text-danger fw-bold mx-2">{{ status.stageError }}</span>
