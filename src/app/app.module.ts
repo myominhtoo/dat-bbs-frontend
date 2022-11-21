@@ -32,13 +32,15 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { CloseTaskComponent } from './components/page/mytasks/close-task.component';
 import { TestComponent } from './components/page/test.component';
 import { BoardTasksCalendarComponent  } from './components/page/board/board-tasks-calendar.component';
-
+import { StageTasksChartComponent} from './components/page/mytasks/stage-tasks-chart.component';
 import { AuthInterceptor } from './model/service/interceptor/auth.interceptor';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listWeek from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
+
+
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -69,7 +71,9 @@ FullCalendarModule.registerPlugins([
     BoardChatComponent,
     CloseTaskComponent,
     TestComponent,
-    BoardTasksCalendarComponent
+    BoardTasksCalendarComponent,
+    StageTasksChartComponent
+  
   ],
   imports: [
     BrowserModule,
@@ -83,7 +87,8 @@ FullCalendarModule.registerPlugins([
     DragDropModule,
     PickerModule,
     CarouselModule,
-    FullCalendarModule
+    FullCalendarModule,
+    
   ],
   providers: [{ provide : HTTP_INTERCEPTORS , useClass : AuthInterceptor , multi : true }],
   bootstrap: [AppComponent]
