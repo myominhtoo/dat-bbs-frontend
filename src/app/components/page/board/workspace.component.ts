@@ -90,7 +90,9 @@ export class WorkspaceComponent implements OnInit {
     exportBoardReport(path:string) {
 
       let useridd=this.userStore.user.id;
-      console.log(useridd);
+
+      // console.log(useridd);
+
         this.boardService.exportBoardReport(useridd,path).subscribe((data)=>{
             swal({
                 text : 'Successfully Exported!',

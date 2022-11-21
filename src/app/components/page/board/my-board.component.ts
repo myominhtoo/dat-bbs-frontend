@@ -32,6 +32,9 @@ export class MyBoardComponent implements OnInit {
 
     path:string="";
 
+
+    errorTaskCard:TaskCard []=[];
+
     boardsHasUsers : BoardsHasUsers [] = [];
     members : User [] = [];
     public stages : Stage [] = [];
@@ -174,7 +177,7 @@ export class MyBoardComponent implements OnInit {
     }
 
     doActionForCurrentBoard( boardId : any ){
-      if( isNaN(boardId)  ){       
+      if( isNaN(boardId)  ){
         /*
          will do if boardId is not a number
          cuz we created boardId as a number
@@ -215,7 +218,7 @@ export class MyBoardComponent implements OnInit {
 
                     const container = ($('#main-area')[0] as HTMLDivElement);
                     container.scrollTo ({
-                      left : container.scrollLeft + 200   
+                      left : container.scrollLeft + 200
                     })
 
                     this.stages.push( res.data );
@@ -378,12 +381,12 @@ export class MyBoardComponent implements OnInit {
     handleAddTask( taskCard : TaskCard ){
       let prevTasks = this.taskCardsMap.get(taskCard.stage.id.toString());
       prevTasks?.push(taskCard);
-      
+
       //for calendar view
       if( taskCard.stage.id != 3 ){
         this.boardTasksStore.taskCards.push( taskCard);
-      } 
-    
+      }
+
       this.taskCardsMap.set( taskCard.stage.stageName.toString(), prevTasks! );
     }
 
@@ -392,7 +395,7 @@ export class MyBoardComponent implements OnInit {
        let targetStage = this.stages.filter( stage => {
         return payload.stageTo == stage.id;
        })[0];
-     
+
        payload.task.stage = targetStage; //setting updated stage to task
 
        //will remove done stage task from calendar
@@ -553,13 +556,31 @@ export class MyBoardComponent implements OnInit {
 
     let boardId = this.route.snapshot.params['id'];
 
-    this.taskCardService.exportTaskReport(boardId,path).subscribe((data)=>{
-        swal({
-            text : 'Successfully Exported!',
-            icon : 'success'
-        });
-    })
+      this.taskCardService.getTaskCards(boardId).subscribe(data=>{
 
-  }
-  
+        this.errorTaskCard=data;
+        if(this.errorTaskCard.length==0){
+
+          swal({
+            text : 'TaskCard is not avaliable!',
+            icon : 'warning'
+        });
+        }
+        else{
+          this.taskCardService.exportTaskReport(boardId,path).subscribe((data)=>{
+
+
+            swal({
+                text : 'Successfully Exported!',
+                icon : 'success'
+            });
+        })
+
+        }
+
+
+      })
+
+ }
+
 }
