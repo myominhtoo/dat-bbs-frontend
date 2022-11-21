@@ -32,6 +32,9 @@ export class MyBoardComponent implements OnInit {
 
     path:string="";
 
+
+    errorTaskCard:TaskCard []=[];
+
     boardsHasUsers : BoardsHasUsers [] = [];
     members : User [] = [];
     public stages : Stage [] = [];
@@ -166,6 +169,9 @@ export class MyBoardComponent implements OnInit {
       .subscribe({
         next : resUsers => {
           this.registeredUsers = resUsers;
+
+          this.storedEmails = resUsers.filter( user => user.id != this.userStore.user.id )
+                              .map( filteredUser => filteredUser.email );
         },
         error : err => {
           console.log(err);
@@ -174,7 +180,7 @@ export class MyBoardComponent implements OnInit {
     }
 
     doActionForCurrentBoard( boardId : any ){
-      if( isNaN(boardId)  ){       
+      if( isNaN(boardId)  ){
         /*
          will do if boardId is not a number
          cuz we created boardId as a number
@@ -215,7 +221,7 @@ export class MyBoardComponent implements OnInit {
 
                     const container = ($('#main-area')[0] as HTMLDivElement);
                     container.scrollTo ({
-                      left : container.scrollLeft + 200   
+                      left : container.scrollLeft + 200
                     })
 
                     this.stages.push( res.data );
@@ -332,12 +338,14 @@ export class MyBoardComponent implements OnInit {
           }
         }
       }
-      filterAutoCompleteEmails(   filterEmail : string ){
+      filterAutoCompleteEmails(  filterEmail : string ){
+        console.log(filterEmail);
         this.filterEmails =  this.storedEmails.filter(
           ( email )=>{
             return email.toLocaleLowerCase().includes( filterEmail.toLocaleLowerCase());
           }
         )
+        console.log(this.filterEmails)
       }
       removeEmail( index : number ){
         if(!this.status.isLoading) this.emails.splice(index,1);
@@ -378,12 +386,12 @@ export class MyBoardComponent implements OnInit {
     handleAddTask( taskCard : TaskCard ){
       let prevTasks = this.taskCardsMap.get(taskCard.stage.id.toString());
       prevTasks?.push(taskCard);
-      
+
       //for calendar view
       if( taskCard.stage.id != 3 ){
         this.boardTasksStore.taskCards.push( taskCard);
-      } 
-    
+      }
+
       this.taskCardsMap.set( taskCard.stage.stageName.toString(), prevTasks! );
     }
 
@@ -392,7 +400,7 @@ export class MyBoardComponent implements OnInit {
        let targetStage = this.stages.filter( stage => {
         return payload.stageTo == stage.id;
        })[0];
-     
+
        payload.task.stage = targetStage; //setting updated stage to task
 
        //will remove done stage task from calendar
@@ -553,13 +561,31 @@ export class MyBoardComponent implements OnInit {
 
     let boardId = this.route.snapshot.params['id'];
 
-    this.taskCardService.exportTaskReport(boardId,path).subscribe((data)=>{
-        swal({
-            text : 'Successfully Exported!',
-            icon : 'success'
-        });
-    })
+      this.taskCardService.getTaskCards(boardId).subscribe(data=>{
 
-  }
-  
+        this.errorTaskCard=data;
+        if(this.errorTaskCard.length==0){
+
+          swal({
+            text : 'TaskCard is not avaliable!',
+            icon : 'warning'
+        });
+        }
+        else{
+          this.taskCardService.exportTaskReport(boardId,path).subscribe((data)=>{
+
+
+            swal({
+                text : 'Successfully Exported!',
+                icon : 'success'
+            });
+        })
+
+        }
+
+
+      })
+
+ }
+
 }

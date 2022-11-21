@@ -27,14 +27,14 @@ export class ArchiveBoardComponent implements OnInit {
 status = {
         isLoading : false,
         hasDoneFetching : false,
-    }    
+    }
 
     ngOnInit(): void {
         this.showDeletedBoardsByUserId(this.userStore.user.id );
 
     }
 
-    constructor( 
+    constructor(
         private boardService : BoardService ,
         public userStore : UserStore ,
         private boardStore : BoardStore ,
@@ -48,7 +48,7 @@ status = {
         this.status.isLoading=true
         this.boardService.getDeletedBoardWithBoardId(userId).subscribe({
             next: data => {
-                
+
                 this.boards = data;
                 this.status.isLoading = false
                 this.status.hasDoneFetching = true;
@@ -69,9 +69,13 @@ status = {
     exportArchiveBoardReport(path:string) {
 
       let id=this.userStore.user.id;
-      console.log(id);
+
         this.boardService.exportArchiveBoardReport(id,path).subscribe((data)=>{
 
+          if(data==null){
+
+
+          }
           swal({
             text : 'Successfully Exported!',
             icon : 'success'
