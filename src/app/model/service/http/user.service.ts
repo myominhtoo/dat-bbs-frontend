@@ -51,8 +51,8 @@ export class UserService {
         return this.httpClient.get<User>(`http://localhost:8080/api/users/${userId}`);
     }
 
-    updateUser(user:User):Observable<HttpResponse<User>>{
-        return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/api/update-user`,user);
+    updateUser(user:User):Observable<NgHttpResponse<any>>{
+        return this.httpClient.put<NgHttpResponse<any>>(`http://localhost:8080/api/update-user`,user , { observe : 'response' });
     }
 
     toggleBookMark(id : number , bookmark : BoardBookMark) :Observable <HttpResponse<BoardBookMark>>{
@@ -88,5 +88,8 @@ export class UserService {
     }
     getAllMembers(userId:number): Observable<BoardsHasUsers[]>{
         return this.httpClient.get<BoardsHasUsers[]>(`http://localhost:8080/api/users/${userId}/collaborators`);
+    }
+    getAllJoinedMembers(userId:number): Observable<BoardsHasUsers[]>{
+        return this.httpClient.get<BoardsHasUsers[]>(`http://localhost:8080/api/users/${userId}/joinboard`);        
     }
   }

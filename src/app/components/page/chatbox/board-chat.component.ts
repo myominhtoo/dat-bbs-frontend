@@ -19,15 +19,14 @@ import swal from "sweetalert";
   
 
 export class BoardChatComponent implements OnInit{
-  
-  
-   public saveBoard=new Board();   
-   public BoardMessage=new BoardMessage();  
-   public messages:BoardMessage[]=[];
-   public status={
+  profileId=this.route.snapshot.params['id'];
+
+  saveBoard=new Board();   
+  BoardMessage=new BoardMessage();  
+  messages:BoardMessage[]=[];
+  status={
     messageLoad:false
-   }
-  //  public othermessages:BoardMessage[]=[]
+   }  
     constructor(
       public userStore:UserStore,
         private socket:SocketService,
@@ -35,22 +34,25 @@ export class BoardChatComponent implements OnInit{
         public boardStore:BoardStore,
         public boaredService:BoardService
       ){
-        this.status.messageLoad = true;
+        this.status.messageLoad = false;
         document.title="BBMS | Chat"      
       }
 
     ngOnInit(): void {
-     let profileId=this.route.snapshot.params['id'];     
-     this.getBoardMessage(profileId)         
-     this.subscribeBoardsMessageSocket();
-     if(profileId) this.getBoardWithBoardId(profileId);  
+        this.scrollBottom();
+        this.subscribeBoardsMessageSocket();            
+        this.getBoardMessage(this.profileId)      
+       if(this.profileId) this.getBoardWithBoardId(this.profileId);    
     }
-
-    ngAfterViewChecked(): void {   
-      this.scrollBottom();
-   }
+    // ngafterviewinit
     
-      
+    ngAfterViewChecked(): void {                                   
+      // this.scrollBottom();            
+   }
+   ngAfterContentChecked():void{
+      this.scrollBottom();            
+   }
+
     public getBoardWithBoardId(boardId:number){
       this.boaredService.getBoardWithBoardId(boardId).subscribe({
         next:(res)=>{        
@@ -63,12 +65,14 @@ export class BoardChatComponent implements OnInit{
     }
 
     sentMessage(message:string){
+      
       if(this.BoardMessage.content!=""){
         this.BoardMessage.content=message
         this.BoardMessage.board=this.saveBoard;
         this.BoardMessage.user=this.userStore.user;
-        this.socket.sentMeesageToGroupChat(this.saveBoard.id,this.BoardMessage)   
+        this.socket.sentMeesageToGroupChat(this.saveBoard.id,this.BoardMessage)           
         this.BoardMessage.content=""
+        this.getBoardMessage(this.profileId);
       }else{   
         console.log("not works")
       }
@@ -76,17 +80,23 @@ export class BoardChatComponent implements OnInit{
     }
 
     subscribeBoardsMessageSocket(){
+  
       if(this.socket.stompClient){
         this.socket.stompClient.connect( {} ,
               () => {
+                console.log("it's working")
                   //subscribing boards channel
                   this.boardStore.boards.forEach( board => {
                       this.socket.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
+                        
                           const boardNoti = JSON.parse(payload.body) as BoardMessage;
-                          this.messages.push(boardNoti);                                         
+                          this.messages.push(boardNoti);                                     
                           if( boardNoti.id != this.boardStore.userStore.user.id ){  
-                            ($('#chat-noti')[0] as HTMLAudioElement).play();  
+                              console.log("It's work! and working");
+                              this.getBoardMessage(this.profileId);
+                            ($('#chat-noti')[0] as HTMLAudioElement).play();                              
                             this.scrollBottom()
+                            
                           }        
                       });       
                   });
@@ -97,6 +107,7 @@ export class BoardChatComponent implements OnInit{
                       icon : 'warning'
                   });
               });
+              
       }else{
           swal({
               text : 'Invalid Socket Connection!',
@@ -115,14 +126,15 @@ export class BoardChatComponent implements OnInit{
     }
 
     getBoardMessage(id:number){
+      
       this.socket.getBoardMessageList(id).subscribe({
-        next:(res)=>{
+        next:(res)=>{          
           this.messages=res;
-          this.status.messageLoad = false;
+
         },error:(err)=>{
           console.log(err)
         }
-      })
+      })   
     }
 }
   

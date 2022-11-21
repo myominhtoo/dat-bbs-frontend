@@ -117,6 +117,8 @@ export class CreateBoardComponent implements OnInit {
       this.board.user = this.userStore.user;
       this.board.invitedEmails = this.emails;
 
+      console.log(this.board.user)
+
       this.board.boardName == null || this.board.boardName == ''
       ? this.status.error.boardName = { hasError : true , msg : 'Board Name is required!'}
       : this.status.error.boardName = { hasError : false , msg : '' };

@@ -169,6 +169,9 @@ export class MyBoardComponent implements OnInit {
       .subscribe({
         next : resUsers => {
           this.registeredUsers = resUsers;
+
+          this.storedEmails = resUsers.filter( user => user.id != this.userStore.user.id )
+                              .map( filteredUser => filteredUser.email );
         },
         error : err => {
           console.log(err);
@@ -335,12 +338,14 @@ export class MyBoardComponent implements OnInit {
           }
         }
       }
-      filterAutoCompleteEmails(   filterEmail : string ){
+      filterAutoCompleteEmails(  filterEmail : string ){
+        console.log(filterEmail);
         this.filterEmails =  this.storedEmails.filter(
           ( email )=>{
             return email.toLocaleLowerCase().includes( filterEmail.toLocaleLowerCase());
           }
         )
+        console.log(this.filterEmails)
       }
       removeEmail( index : number ){
         if(!this.status.isLoading) this.emails.splice(index,1);

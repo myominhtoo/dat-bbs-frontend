@@ -18,10 +18,9 @@ import { TaskCard } from 'src/app/model/bean/taskCard';
     templateUrl : './home.component.html',
 })
 export class HomeComponent implements OnInit {
-    @ViewChild("carousel",{static:true}) carousel!: ElementRef;
-    @ViewChild("firstDiv",{static:true}) firstDiv!: ElementRef;    
-    @ViewChild("countUp", { static: true }) count!: ElementRef;
+
     date=new Date();
+    carouselDiv:number=0;
     scrollWidthDiv: any;
         dragStatus={
             isDragStart : false,
@@ -38,7 +37,8 @@ export class HomeComponent implements OnInit {
     user=new User();
     homeBoards:Board[]=[];
     homeCollaborator: User[] = []
-    
+    myBoardCollaborator:User[]=[]
+    joinCollaborator:User[]=[]
     allTaskCardList:TaskCard[]=[]
     upComingtaskCardList: TaskCard[] = []
 
@@ -61,28 +61,23 @@ export class HomeComponent implements OnInit {
         ){
         document.title = "BBMS | Home";
         this.username = this.userStore.user.username;
-        this.typeAnimate();
-   
-        
+        this.typeAnimate();      
     }
 
-    ngOnInit(): void {
-        
-        
+    ngOnInit(): void {       
         this.calculatePeriod();
-        
         setTimeout(()=>{
-            this.countUp()    
+            this.countUp()  
+            this.userStore.fetchUserData();  
             this.user = this.userStore.user;
             this.homeBoards = this.boardStore.ownBoards;            
             if (this.user) {
-            
                 this.getAllMembers(this.user.id)
-                this.getMyTasks(this.user.id)
-            
+                this.getMyTasks(this.user.id)           
             }        
-        },500)        
+        },500)  
         
+
     }
     
 
@@ -127,61 +122,25 @@ export class HomeComponent implements OnInit {
     }
 
     showHideIcons() {   
-        let scrollWidth=this.carousel.nativeElement.scrollWidth - this.carousel.nativeElement.clientWidth;    
-        this.scrollWidthDiv = scrollWidth;   
+        const carousel =  document.getElementById('carousel') ! ;
+        let scrollWidth=carousel.scrollWidth - carousel.clientWidth;    
+        this.scrollWidthDiv = scrollWidth;           
+        
     }
 
-    dragStart(e:any){
-        
-        this.dragStatus.isDragStart = true;
-        this.prevPageX = e.pageX || e.touches[0].pageX;
-        this.prevScrollLeft = this.carousel.nativeElement.scrollLeft;
-    }
 
-    dragging(e:any){
-        
-        if(!this.dragStatus.isDragStart) return;
-        e.preventDefault();
-        this.dragStatus.isDragging = true;
-        this.carousel.nativeElement.classList.add("dragging");
-        this.positionDiff = (e.pageX || e.touches[0].pageX) - this.prevPageX;
-        this.carousel.nativeElement.scrollLeft = this.prevScrollLeft - this.positionDiff;
-        this.showHideIcons();
-    }
-    dragStop(){
-        
-        this.dragStatus.isDragStart = false;
-        this.carousel.nativeElement.classList.remove("dragging");
-        if(!this.dragStatus.isDragging) return;
-        this.dragStatus.isDragging = false;
-        this.autoSlide();
-    }
     
     iconClick(id:string){
-        let firstImgWidth = this.firstDiv.nativeElement.clientWidth + 14;
-        this.carousel.nativeElement.scrollLeft += id == "left" ? -firstImgWidth : firstImgWidth;   
+        const carousel =  document.getElementById('carousel') ! ;
+        const firstDiv =  document.getElementById('firstDiv') !;
+        const firstImgWidth = firstDiv.clientWidth +14;
+        carousel.scrollLeft += id == "left" ? -firstImgWidth : firstImgWidth;    
+        this.carouselDiv=carousel.scrollLeft;      
+        console.log(this.carouselDiv)
         setTimeout(() => this.showHideIcons(), 60);
     }
     
     
-    autoSlide(){
-        if(this.carousel.nativeElement.atscrollLeft - (this.carousel.nativeElement.scrollWidth - this.carousel.nativeElement.clientWidth) > -1 || this.carousel.nativeElement.scrollLeft <= 0) return;
-        this.positionDiff = Math.abs(this.positionDiff); 
-        let firstImgWidth = this.firstDiv.nativeElement.clientWidth + 14;
-        
-        let valDifference = firstImgWidth - this.positionDiff;
-        console.log("Value Difference", valDifference)
-        console.log("FirstImgWidth", firstImgWidth)
-        console.log("postionDiff", this.positionDiff)
-        console.log("this.positionDiff > firstImgWidth / 3 ? valDifference : -this.positionDiff", this.positionDiff > firstImgWidth / 3 ? valDifference : -this.positionDiff)
-        console.log("this.carousel.nativeElement.scrollLeft", this.carousel.nativeElement.scrollLeft)
-        console.log("this.prevScrollLeft",this.prevScrollLeft)
-        if(this.carousel.nativeElement.scrollLeft > this.prevScrollLeft) { 
-            return this.carousel.nativeElement.scrollLeft += this.positionDiff > firstImgWidth / 3 ? valDifference : -this.positionDiff;
-        }
-        
-        this.carousel.nativeElement.scrollLeft -= this.positionDiff > firstImgWidth / 3 ? valDifference : -this.positionDiff;
-    }
     
     
 
@@ -195,7 +154,7 @@ export class HomeComponent implements OnInit {
             
             setTimeout(()=>{
                 let end= Number(value.getAttribute("data-count"));;                        
-                console.log("end",end);
+    
                 let counter=setInterval(()=>{
                     initialValue +=1                
                     value.innerHTML = `${initialValue}`;
@@ -211,7 +170,7 @@ export class HomeComponent implements OnInit {
                     }
                     
                 },interval)
-            },400)
+            },500)
             
           
         })
@@ -219,26 +178,57 @@ export class HomeComponent implements OnInit {
 
     public getAllMembers(userId: number) {
         this.userService.getAllMembers(userId).subscribe({
-            next:(res)=>{                      
-                
+            next:(res)=>{                          
                 let prevUserId = 0;                
-                this.homeCollaborator = res.map( boardHasUser => boardHasUser.board.user )
+                this.myBoardCollaborator = res.map( boardHasUser => boardHasUser.user )
                                         .filter( user => {
                                             if( prevUserId != user.id ){
                                                 prevUserId = user.id;                                                
                                                 return true;
                                             }
                                             return false;
-                                        } )        //filter duplicate value        
+                                        } )        //filter duplicate value                        
 
-                console.log("Home",this.homeCollaborator)
-                
+                            
                 
             },error:(err)=>{
-                console.log(err)
+    
             }
         })
+        this.userService.getAllJoinedMembers(userId).subscribe({
+            next:(res)=>{
+                let Userarr;
+                let prevUserId = 0;        
+                let prevAllUserId=0;        
+                this.joinCollaborator = res.map( boardHasUser => boardHasUser.board.user )
+                                        .filter( user => {
+                                            if( prevUserId != user.id ){
+                                                prevUserId = user.id;                                                
+                                                return true;
+                                            }
+                                            return false;
+                                        } )        //filter duplicate value                        
+
+                            
+                                        Userarr=[...this.myBoardCollaborator,...this.joinCollaborator]
+                                    this.homeCollaborator=Userarr.filter(user=>{
+                                        if(prevAllUserId !=user.id){
+                                            prevAllUserId=user.id
+                                            return true;
+                                        }else{
+                                            return false
+                                        }
+                                    })
+                                        
+
+            },
+            error:(err)=>{
+    
+            }
+        })                        
+        
     }
+
 
     public getMyTasks(userId: number) {
         this.status.isLoading=true
@@ -246,7 +236,7 @@ export class HomeComponent implements OnInit {
             
         this.taskCardService.showMyTasks(userId).subscribe({
             next:(res)=>{
-                // console.log(res)
+    
                 this.allTaskCardList = res.filter((res)=> {
                     return res.board.deleteStatus==false && res.deleteStatus==false;
                 });
@@ -257,7 +247,7 @@ export class HomeComponent implements OnInit {
             this.status.hasDoneFetching=true
                
             }, error: (err) => {
-                console.log(err)
+    
             }
         })
         
