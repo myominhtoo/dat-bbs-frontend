@@ -55,19 +55,6 @@ export class SocketService{
                     this.subscribeToPrivateNoti();
                     this.boardStore.boards.forEach( board => {
                         const subscription =  this.stompClient?.subscribe( `/boards/${board.id}/notifications` , ( payload ) => {
-                            // const newNoti = JSON.parse(payload.body) as Notification;
-                            // if( newNoti.sentUser.id != this.boardStore.userStore.user.id ){
-                            //    ($('#noti-ring')[0] as HTMLAudioElement).play();
-                            //     Toastify({
-                            //         text : newNoti.content,
-                            //         close : true,
-                            //         duration : 5000,
-                            //         gravity : 'bottom',
-                            //         className : 'noti__toast',
-                            //         position : 'right',
-                            //     }).showToast();     
-                            //     this.notiStore.notifications.unshift( newNoti );
-                            // }        
                             this.showNoti( payload );
                         });       
                         subscription!.id = `board-${board.id}`;
@@ -118,12 +105,11 @@ export class SocketService{
                                          next:(res)=>{
                                              if(res.ok){
                                                  this.status.hadGotVerification=true;
-                                                //  this.boardStore.boards.push(boardData);
+                                                 this.subscribeBoard( newNoti.board?.id! );
                                                  swal({
-                                                     text : "Successfully!",
+                                                     text : "Successfully Joined!",
                                                      icon : 'success'
                                                    }).then( () => {
-                                                    
                                                     this.boardStore.boards.push(newNoti.board!);
                                                     this.boardStore.joinedBoards.push(newNoti.board!);
                                                     this.sendNotiBackToInviter(newNoti.board!,newNoti.sentUser);
