@@ -14,7 +14,7 @@ export class BoardMarkComponent{
     bookmark: BoardBookMark = new BoardBookMark;
     bookMarks : BoardBookMark[] = [];
     // bookmarks : BoardBookMark[]=[];
- status = {
+    status = {
         isLoading : false,
         hasDoneFetching : false,
     }    
@@ -27,15 +27,14 @@ export class BoardMarkComponent{
      drop( e : CdkDragDrop<BoardBookMark[]> ){}
 
      ngOnInit(): void {
+        this.userStore.fetchUserData();
         this.showBookMarks(this.userStore.user.id);
     }
 
      showBookMarks( userId : number ){
-         console.log(userId);
-         this.status.isLoading = true;
+        this.status.isLoading = true;
         this.boardBoardmarkService.showBookmarks(userId).subscribe({
-            next: dataBookmark => {
-                
+            next: dataBookmark => {              
                 this.bookMarks = dataBookmark;
                 this.status.isLoading = false;
                 this.status.hasDoneFetching = true;
@@ -46,8 +45,7 @@ export class BoardMarkComponent{
         });
      }
 
-     toggleBookMark( boardBookMark : BoardBookMark ){ 
-     
+     toggleBookMark( boardBookMark : BoardBookMark ){     
        this.bookMarks = this.bookMarks.filter( bookmark => bookmark.id != boardBookMark.id );
     }
 
