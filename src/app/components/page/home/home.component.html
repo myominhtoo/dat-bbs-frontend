@@ -297,7 +297,7 @@
                         <div class="p-2 px-4 wrapper ">
                             
 
-                            <i id="left" class="fa-solid fa-angle-left" *ngIf="this.homeCollaborator.length !=0"
+                            <i id="left" class="fa-solid fa-angle-left" *ngIf="homeCollaborator.length !=0"
                             [class.d-none]="this.carouselDiv == 0" 
                                (click)="iconClick('left')"></i>
 
@@ -307,7 +307,7 @@
                                     <!-- start  -->
                                     <!-- start no collaborators -->
                                     <div class="container-fluid text-center"
-                                        *ngIf="this.homeCollaborator.length==0 && status.hasDoneFetching">
+                                        *ngIf="homeCollaborator.length==0 && status.hasDoneFetching">
                                         <div class="pt-4">
                                             <img class="mb-4 opacity-75"
                                                 src="assets/img/3D/undraw_collaboration_re_vyau.svg" alt="" width="25%"
@@ -369,7 +369,7 @@
 
 
                             </div>
-                            <i id="right" class="fa-solid fa-angle-right" *ngIf="this.homeCollaborator.length !=0" [class.d-none]="this.carouselDiv == scrollWidthDiv"
+                            <i id="right" class="fa-solid fa-angle-right" [class.d-none]="this.carouselDiv == scrollWidthDiv || (homeCollaborator.length == 1)"
                                  (click)="iconClick('right')"></i>
 
                         </div>

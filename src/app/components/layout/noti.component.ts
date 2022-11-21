@@ -65,15 +65,15 @@ export class NotiComponent implements OnInit {
                   if(res.ok){
                     
                      swal({
-                        text : "Successfully!",
+                        text : "Successfully Joined!",
                         icon : 'success'
                      }).then( () => {
                      this.boardStore.boards.push(this.noti.board!);
                      this.boardStore.joinedBoards.push(this.noti.board!);
                      this.socketService.sendNotiBackToInviter(this.noti.board! , this.noti.sentUser);
-                  //   this.sendNotiBackToInviter(this.noti.board!,this.noti.sentUser);
-                  //   this.sendNotiBackToInviter(this.noti.board!,this.userStore.user);
-                        this.router.navigateByUrl(`/boards/${boardId}`);
+                
+                     this.socketService.subscribeBoard( this.noti.board?.id! )
+                     this.router.navigateByUrl(`/boards/${boardId}`);
                      })
                   }
                },
