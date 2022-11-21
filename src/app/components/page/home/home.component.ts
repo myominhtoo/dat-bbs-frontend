@@ -216,16 +216,14 @@ export class HomeComponent implements OnInit {
 
                             
                                         Userarr=[...this.myBoardCollaborator,...this.joinCollaborator]
-                                    this.homeCollaborator=Userarr.filter(user=>{
-                                        if(prevAllUserId !=user.id){
-                                            prevAllUserId=user.id
-                                            return true;
-                                        }else{
-                                            return false
-                                        }
-                                    })
-                                        
-
+                                        let userSize=Userarr.length;
+                                    for(let i=0;i<userSize;i++){
+                                        if(prevAllUserId !=Userarr[i].id){
+                                            prevAllUserId=Userarr[i].id
+                                            this.homeCollaborator.push(Userarr[i])
+                                    }                                                                                                                        
+                    console.log(this.homeCollaborator)
+                                }
             },
             error:(err)=>{
     
