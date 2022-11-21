@@ -153,8 +153,7 @@ export class ProfileComponent{
                   this.imgValue = null;
                   this.user.imageUrl = res.data.imageUrl;
                   this.userStore.saveUserData( res.data );
-                } , 500 );
-
+                } , 1000 );
           },
           error:(err)=>{
             console.log(err)

@@ -11,7 +11,7 @@ export class User {
       gender !: number;
       image !: File;
       deleteStatus !: boolean;
-      code! :number;
+      code! :number | string;
       confirmpassword!:string;
 
       iconColor !: string;

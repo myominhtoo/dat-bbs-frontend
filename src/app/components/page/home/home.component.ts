@@ -61,25 +61,19 @@ export class HomeComponent implements OnInit {
         ){
         document.title = "BBMS | Home";
         this.username = this.userStore.user.username;
-        this.typeAnimate();
-   
-        
+        this.typeAnimate();      
     }
 
-    ngOnInit(): void {
-        
-        
+    ngOnInit(): void {       
         this.calculatePeriod();
-        
         setTimeout(()=>{
-            this.countUp()    
+            this.countUp()  
+            this.userStore.fetchUserData();  
             this.user = this.userStore.user;
             this.homeBoards = this.boardStore.ownBoards;            
             if (this.user) {
-            
                 this.getAllMembers(this.user.id)
-                this.getMyTasks(this.user.id)
-            
+                this.getMyTasks(this.user.id)           
             }        
         },500)        
         
