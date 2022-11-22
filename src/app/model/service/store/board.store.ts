@@ -47,6 +47,7 @@ export class BoardStore{
 
                 this.ownBoards = this.boards.filter( board => {
                     board.color = this.randomNumberBoard();
+                    // board.user.iconColor = this.userStore.user.iconColor;
                     return board.user.id == this.userStore.user.id
                 });
                 this.joinedBoards = this.boards.filter( board => {

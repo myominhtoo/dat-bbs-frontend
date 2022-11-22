@@ -217,7 +217,6 @@ export class HomeComponent implements OnInit {
                                             prevAllUserId=Userarr[i].id
                                             this.homeCollaborator.push(Userarr[i])
                                     }                                                                                                                        
-                    console.log(this.homeCollaborator)
                                 }
             },
             error:(err)=>{
