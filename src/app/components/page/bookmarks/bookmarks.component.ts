@@ -39,7 +39,8 @@ export class BoardMarkComponent{
      showBookMarks( userId : number ){
         this.status.isLoading = true;
         this.boardBoardmarkService.showBookmarks(userId).subscribe({
-            next: dataBookmark => {              
+            next: dataBookmark => {
+                console.log(dataBookmark);
                 this.bookMarks = dataBookmark;
                 this.status.isLoading = false;
                 this.status.hasDoneFetching = true;
