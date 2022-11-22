@@ -39,12 +39,7 @@ export class BoardMarkComponent{
      showBookMarks( userId : number ){
         this.status.isLoading = true;
         this.boardBoardmarkService.showBookmarks(userId).subscribe({
-<<<<<<< Updated upstream
             next: dataBookmark => {              
-=======
-            next: dataBookmark => {
-                console.log(dataBookmark);
->>>>>>> Stashed changes
                 this.bookMarks = dataBookmark;
                 this.status.isLoading = false;
                 this.status.hasDoneFetching = true;
