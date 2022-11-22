@@ -9,7 +9,7 @@ export class User {
       joinedDate !: Date;
       position !: string;
       gender !: number;
-      image !: File;
+      image : File |  null | undefined;
       deleteStatus !: boolean;
       code! :number | string;
       confirmpassword!:string;
