@@ -8,9 +8,8 @@
                         </div>   -->
                         <div class="col-12 d-flex  justify-content-center align-items-center">
                             <div class="mb-3 mx-auto imgholder">
-
-                                <div *ngIf="user.imageUrl==null && this.imgValue==null" class="text-dark boardprofile d-flex justify-content-center align-items-center bg-secondary">
-                                <h1>{{ user.username &&  user.username[0].toUpperCase() }}</h1>
+                                <div *ngIf="user.imageUrl==null && this.imgValue==null" class="text-dark boardprofile d-flex justify-content-center align-items-center" [style]="'background:'+user.iconColor +'!important'">
+                                <h1 style="font-size:100px !important;" class="text-light">{{ user.username &&  user.username[0].toUpperCase() }}</h1>
                                 </div>
                                 <img *ngIf="(user.imageUrl != null && this.imgValue==null)"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" loading="lazy" >
                                 <img *ngIf="this.imgValue!=null"  [src]="this.imgValue" class=" boardprofile" alt="Board-Img" loading="lazy" >
@@ -21,15 +20,16 @@
                                         Edit
                                     </span>
 
-                                    <ul class="dropdown-menu p-1 text-center">
-                                    <li>
+                                    <ul class="dropdown-menu p-1" style="font-size:14px !important;">
+                                        <li class="mb-1">
+                                            <input type="file" (change)="onFileChanged($event)" name="file" id="file"  class="dropdown-item inputfile" value="Upload Image" accept="image/png, image/jpeg , image/jpg">
+                                            <label for="file" class="d-block fw-light">Upload Image</label>
+                                        </li>
 
-                                    <input type="file" (change)="onFileChanged($event)" name="file" id="file"  class="dropdown-item inputfile" value="Upload Image" accept="image/png, image/jpeg , image/jpg">
-                                    <label for="file" class="d-block fw-light">Upload Image</label>
-                                    </li>
-                                    <li><input type="button" name="textShow" id="btn"  class="dropdown-item inputfile" value="Remove Images" (click)="textImg()"/>
-                                        <label for="btn" class="d-block fw-light">Remove Image</label>
-                                    </li>
+                                        <li>
+                                            <input type="button" name="textShow" i  class="dropdown-item inputfile" value="Remove Images" />
+                                            <label (click)="handleRemoveImage()" class="d-block fw-light">Remove Image</label>
+                                        </li>
                                     </ul>
                                 </span>
                             </div>

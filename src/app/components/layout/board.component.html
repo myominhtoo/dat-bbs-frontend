@@ -31,9 +31,10 @@
                     </p>
                     <p *ngIf="!data.user.imageUrl"
                         style="width:25px;height:25px;border-radius:100%; object-fit: cover; border: 1px #eee;"
-                        class=" d-flex justify-content-center align-items-center bg-thm m-0 text-light p-0 border-1">
-                        <span style="font-size:13px !important;"> {{ data.user && data.user.username[0] | titlecase
-                            }}</span>
+                        class=" d-flex justify-content-center align-items-center m-0 text-light p-0  bg-thm">
+                        <span style="font-size:13px !important;"> 
+                            {{ data.user && data.user.username[0] | titlecase }}
+                        </span>
                     </p>
                     <img *ngIf="data.user.imageUrl" [src]="'http://localhost:8080/img/'+data.user.imageUrl"
                         style="width:25px;height:25px;border-radius:100%; object-fit: cover; border: 1px #eee;"
