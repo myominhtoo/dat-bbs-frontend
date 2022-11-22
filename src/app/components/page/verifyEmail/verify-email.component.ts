@@ -47,6 +47,11 @@ export class VerifyEmailComponent implements OnInit{
         this.status.hasGotVerification = false;
         localStorage.removeItem('hasGotVerification');
     }
+
+    ngOnDestroy(){
+        this.status.hasGotVerification = false;
+        localStorage.removeItem('hasGotVerification');
+    }
     
 }
 

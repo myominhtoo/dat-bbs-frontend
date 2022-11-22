@@ -74,7 +74,6 @@ export class WorkspaceComponent implements OnInit {
     }
 
 
-
     //toggling bookmark from children
     // will run if got emit from children
     toggleBookMark( bookMark : BoardBookMark ){

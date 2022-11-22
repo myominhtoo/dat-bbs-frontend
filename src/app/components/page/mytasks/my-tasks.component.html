@@ -8,10 +8,10 @@
     </div>
 
     <div class="container-fluid" *ngIf="taskCards.length!=0">
-        <h2 class="pb-4"> My Tasks </h2>
+        <h2 class="pb-4 border-board"> My Tasks </h2>
         <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="taskCards"
             (cdkDropListDropped)="drop($event)"
-            class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
+            class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap my-2">
             <task-card cdkDrag *ngFor="let task of taskCards" [task]="task" [routerLink]="'/boards/'+task.board.id"
                 class="col-4"></task-card>
 

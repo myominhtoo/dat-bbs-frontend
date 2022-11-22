@@ -253,10 +253,11 @@ export class MyBoardComponent implements OnInit {
         /*
           not to invite member again
         */
+       
 
         if( this.emails.length > 0 || this.email.length > 5 ){
           swal({
-            text : 'Are you sure to invite this members?',
+            text : 'Are you sure to invite this emails?',
             icon : 'warning',
             buttons : [ 'No' , 'Yes' ]
           }).then( isYes => {

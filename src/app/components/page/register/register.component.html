@@ -46,7 +46,12 @@
                 <div class="d-grid">
                     <input type="submit" [disabled]="registerForm.invalid" class="btn signup-btn" value="Create Account">
                 </div>
-                <p class="text-center mt-2">Already have an account? <a routerLink="/login" class="fw-bold d-inline-block nav-link text-decoration-underline">Login here</a></p>
+                <div class="text-center mt-2 p-0 d-flex justify-content-center">
+                  Already have an account?
+                   <a routerLink="/login" class="fw-bold  nav-link text-decoration-underline">Login here</a></div>
+                <div class="text-center my-0 p-0">
+                  <small routerLink="/verify-email" class="text-danger text-decoration-underline" style="cursor:pointer;">Get Verification Code?</small>
+                </div>
             </div>
             </form>
         </div>

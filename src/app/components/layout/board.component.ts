@@ -114,17 +114,18 @@ export class BoardComponent implements OnInit {
 
 
     handleBookMark( e : Event,data:Board ){
-        e.stopPropagation();
-        
-        this.boardBookMark.board=data;        
-        this.boardBookMark.user=data.user;      
-        
+          e.stopPropagation();
+          this.usersStore.fetchUserData();
+          
+          this.boardBookMark.board = data;        
+          this.boardBookMark.user = this.usersStore.user;      
+          
             //getting current board form book marks
-            const curBoardFromBookMarks = this.bookMarks.filter( bookMark => bookMark.board.id == this.data.id );
+            const curBoardFromBookMarks = this.bookMarks.filter( bookMark => bookMark.board.id == data.id );
             
            // will enter if cur board has been book mark        
             swal({
-              text:curBoardFromBookMarks.length>0?"Are you sure to remove?":"Are you sure?",
+              text:curBoardFromBookMarks.length > 0 ? "Are you sure to remove?" : "Are you sure to bookmark?",
               icon:"warning",
               buttons : [ 'No' , 'Yes' ]
             }).then(isYes=>{
@@ -132,9 +133,10 @@ export class BoardComponent implements OnInit {
                 if( curBoardFromBookMarks.length > 0 ){
                   this.boardBookMark.id = curBoardFromBookMarks[0].id;
                 }            
-              this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
+                this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
                 next:(res)=>{          
                   if(res.ok){
+                    console.log(res.data)
                     this.toggleBookMarkEmit.emit( res.data );
                   }
                 },error:(err)=>{

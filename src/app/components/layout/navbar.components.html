@@ -1,14 +1,14 @@
-<header class="sticky-top position-fixed  w-100 bg-pale-dark d-flex px-5 pe-3 align-items-center justify-content-around gap-1" id="header">
+<header class="sticky-top position-fixed  w-100 bg-pale-dark d-flex px-5 pe-3 align-items-center justify-content-between gap-1" id="header">
   
     <div id="header-left" class=" gap-2 align-items-center px-5 w-25 d-flex justify-content-start gap-3" >
         <i (click)="toggleSidebar()" class="fa-solid fa-bars pale-snow" id="menu-icon" style="font-size:20px;transform: translateX(-100%); cursor: pointer;" ></i>
         <img routerLink="/home" src="/assets/icon.png" style="width:58px;cursor: pointer;" alt="icon">
     </div>
 
-    <div id="header-center" class="gap-2 text-center px-2 w-50">
+    <!-- <div id="header-center" class="gap-2 text-center px-2 w-50">
         <i class="fa-solid fa-magnifying-glass" id="search-icon" style="cursor: pointer;"></i>
         <input type="search" id="search" placeholder="Search" />
-    </div>
+    </div> -->
     <div id="header-right" class="gap-2 px-5 w-25 d-flex justify-content-end align-items-center gap-4">
         <div class="dropdown" id="notification-dropdown">
           <span id="noti-dropdown" data-bs-toggle="dropdown" data-bs-target="#notification-dropdown" data-bs-auto-close="outside"  class="text-white-50 pt-2 " style="cursor: pointer;">
