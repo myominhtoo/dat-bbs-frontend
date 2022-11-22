@@ -83,9 +83,12 @@ export class NotiComponent implements OnInit {
             })
             }
       })
+        }else{
+         this.router.navigateByUrl(`/boards/${boardId}`);
         }
 
       }else{
+           
 
          if( window.location.href.includes(`/boards/${boardId}`)){
             window.location.href = `/boards/${boardId}`;
@@ -94,6 +97,7 @@ export class NotiComponent implements OnInit {
            this.router.navigateByUrl(`/boards/${boardId}`);
            $('#noti-dropdown').click();
         }
+
       }
    
 }
