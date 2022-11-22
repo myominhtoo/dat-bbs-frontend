@@ -8,9 +8,6 @@
     <h3 class="fw-bold opacity-75">No Bookmarks Yet</h3>
   </div>
   <div *ngIf="bookMarks.length!=0" class="d-flex justify-content-between align-items-center border-board mb-3">
-<<<<<<< Updated upstream
-    <h2 class="pb-1">Bookmarks</h2>
-=======
     <h2 class="pb-1">BookMark</h2>
     <!-- report -->
             <div class="dropdown ">
@@ -27,7 +24,6 @@
                           (click)="exportBookmarkReport(excel)" />
               </ul>
           </div>
->>>>>>> Stashed changes
   </div>
   <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="bookMarks" (cdkDropListDropped)="drop($event)"
     class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
