@@ -5,6 +5,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { BoardStore } from 'src/app/model/service/store/board.store';
 import { BoardBookMarkService } from 'src/app/model/service/http/boardBookmark.service';
 import { UserStore } from 'src/app/model/service/store/user.store';
+import swal from "sweetalert";
 
 @Component({
     selector :'bookmarks',
@@ -13,6 +14,10 @@ import { UserStore } from 'src/app/model/service/store/user.store';
 export class BoardMarkComponent{
     bookmark: BoardBookMark = new BoardBookMark;
     bookMarks : BoardBookMark[] = [];
+
+    pdf='pdf';
+    excel='excel';
+    html='html';
     // bookmarks : BoardBookMark[]=[];
     status = {
         isLoading : false,
@@ -34,19 +39,37 @@ export class BoardMarkComponent{
      showBookMarks( userId : number ){
         this.status.isLoading = true;
         this.boardBoardmarkService.showBookmarks(userId).subscribe({
+<<<<<<< Updated upstream
             next: dataBookmark => {              
+=======
+            next: dataBookmark => {
+                console.log(dataBookmark);
+>>>>>>> Stashed changes
                 this.bookMarks = dataBookmark;
                 this.status.isLoading = false;
                 this.status.hasDoneFetching = true;
             },
             error : err =>{
                 console.log(err);
-            }
+            } 
         });
      }
 
      toggleBookMark( boardBookMark : BoardBookMark ){     
        this.bookMarks = this.bookMarks.filter( bookmark => bookmark.id != boardBookMark.id );
     }
+
+    exportBookmarkReport(path:string) {
+
+        let useridd=this.userStore.user.id;
+
+          this.boardBoardmarkService.reportBookMark(useridd,path).subscribe((data)=>{
+              swal({
+                  text : 'Successfully Exported!',
+                  icon : 'success'
+              });
+          })
+  
+        }
 
 }

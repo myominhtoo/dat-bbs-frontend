@@ -7,8 +7,33 @@
         <h3 class="fw-bold opacity-75">No TaskCards Yet</h3>
     </div>
 
+<<<<<<< Updated upstream
     <div class="container-fluid" *ngIf="taskCards.length!=0">
         <h2 class="pb-4 border-board"> My Tasks </h2>
+=======
+    <div class="container-fluid " *ngIf="taskCards.length!=0 ">
+        <div class="d-flex justify-content-between">
+                <h2 class="pb-4"> My Tasks </h2>
+
+                 <!-- report -->
+
+                <div class="dropdown ">
+                    <button class=" btn btn-outline-secondary btn-sm" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-file-export mx-1"></i>
+                        Export
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="HTML"
+                               (click)="exportAssignedTasksReport(html)" />
+                        <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="PDF"
+                                (click)="exportAssignedTasksReport(pdf)" />
+                        <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="EXCEL"
+                                (click)="exportAssignedTasksReport(excel)" />
+                    </ul>
+                </div>
+         </div>
+
+>>>>>>> Stashed changes
         <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="taskCards"
             (cdkDropListDropped)="drop($event)"
             class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap my-2">
