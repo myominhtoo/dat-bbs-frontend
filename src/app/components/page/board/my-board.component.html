@@ -10,7 +10,7 @@
                         <!-- (click)="handleBookMark($event,data)" [class.fw-bold]="isBookMark()" -->
                     </span>
                     <input (focus)="setupEditBoard()" type="text"
-                        class="text-dark-50 h2 mx-3 board-input w-100 my-2 shadow-none board-input text-capitalize"
+                        class="text-dark-50 h2 mx-3 board-input w-100 my-2 shadow-none board-input"
                         (keydown)="handleUpdateBoardName($event)" [class.form-control]="status.isEditBoardName"
                         placeholder="Enter board's name" [(ngModel)]="board.boardName">
                 </div>

@@ -19,6 +19,7 @@ import { SocketService } from 'src/app/model/service/http/socket.service';
 import { Notification } from 'src/app/model/bean/notification';
 import { COLORS } from "src/app/model/constant/colors";
 import { BoardTasksStore } from "src/app/model/service/store/board-tasks.store";
+import { BoardStore } from "src/app/model/service/store/board.store";
 
 @Component({
     selector : 'my-board',
@@ -97,7 +98,8 @@ export class MyBoardComponent implements OnInit {
          private userService :UserService ,
          public userStore : UserStore ,
          public socketService : SocketService ,
-         private boardTasksStore : BoardTasksStore  ){
+         private boardTasksStore : BoardTasksStore , 
+         private boardStore : BoardStore  ){
           this.offCanvasTask.activities = [];
           this.offCanvasTask.comments = [];
           this.board.user = new User();
@@ -484,6 +486,18 @@ export class MyBoardComponent implements OnInit {
            .subscribe({
                next : res => {
                    this.board = res.data;
+
+                   if( this.board.user.id == this.userStore.user.id  ){
+                     this.boardStore.ownBoards = this.boardStore.ownBoards.map( board => {
+                       if( board.id == res.data.id ) return res.data;
+                       return board;
+                     })
+                   }else{
+                    this.boardStore.joinedBoards = this.boardStore.joinedBoards.map( board => {
+                      if( board.id == res.data.id ) return res.data;
+                      return board;
+                    })
+                   }
 
                    this.status.isEditBoardName=false;
                    input.blur();
