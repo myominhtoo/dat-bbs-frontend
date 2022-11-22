@@ -5,8 +5,6 @@ import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import Chart  from 'chart.js/auto';
 import { BoardTasksStore } from "src/app/model/service/store/board-tasks.store";
 import { ActivatedRoute } from "@angular/router";
-import { Stage } from "src/app/model/bean/stage";
-import { count } from "rxjs";
 
 @Component({
     selector : 'board-tasks-chart',
@@ -15,14 +13,12 @@ import { count } from "rxjs";
                 <div class=" px-5 pe-5 w-100 m-4 border-board d-flex justify-content-between align-items-center">
                     <h2>Stages-TaskCards' Chart</h2>
                 </div>
-                <div class="" >
-                    <canvas width="800px" height="300px" id="chart"></canvas>
+                <div class="w-50 mx-auto" >
+                    <canvas id="chart"></canvas>
                     
                 </div>
             </div>
-
                `
-
 })
 export class StageTasksChartComponent implements OnInit {
      
@@ -65,16 +61,14 @@ export class StageTasksChartComponent implements OnInit {
                     label: 'TaskCards',
                     data : data,
                     // backgroundColor: ['rgb(0, 13, 65 )','rgb(2, 84, 44  )','rgb(191, 6, 104 )','rgb(255, 233, 48 )'],
-                    backgroundColor : ['#25316D','#5F6F94','#97D2EC'],
-                    borderColor: [],
-                    borderWidth: 1
-
+                    backgroundColor : ['#50577A'],
+                    borderColor: ['#50577A'],
+                    // borderWidth: 1,
+                   
                 }]
             },
             
           });
-        
-         
 
           chart.draw();
     }

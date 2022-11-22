@@ -7,6 +7,7 @@ import { ToggleStore } from "src/app/model/service/store/toggle.service";
 import { UserStore } from "src/app/model/service/store/user.store";
 import { OnInit } from '@angular/core';
 import { CdkDragDrop , moveItemInArray } from '@angular/cdk/drag-drop';
+import swal from "sweetalert";
 @Component({
     selector : 'my-tasks',
     templateUrl : './my-tasks.component.html',
@@ -18,6 +19,9 @@ export class MyTaskComponent implements OnInit{
         isLoading : false,
         hasDoneFetching : false,
     }
+    pdf='pdf';
+    excel='excel';
+    html='html';
     constructor( public toggleStore : ToggleStore ,
         private taskCardService : TaskCardService ,
         public route : ActivatedRoute ,
@@ -52,5 +56,18 @@ export class MyTaskComponent implements OnInit{
              }
            });
         }
+
+        exportAssignedTasksReport(path:string) {
+
+            let useridd=this.userStore.user.id;
+    
+              this.taskCardService.exportAssignedTasksReport(useridd,path).subscribe((data)=>{
+                  swal({
+                      text : 'Successfully Exported!',
+                      icon : 'success'
+                  });
+              })
+      
+            }
 }
 
