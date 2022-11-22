@@ -7,6 +7,7 @@ import swal from "sweetalert";
 import { NotificationStore } from 'src/app/model/service/store/notification.store';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/model/service/http/auth.service';
+import { SocketService } from 'src/app/model/service/http/socket.service';
 
 @Component({
     selector : 'navbar',
@@ -44,7 +45,8 @@ export class NavbarComponent implements OnInit {
         public userService:UserService , 
         public notificationStore : NotificationStore ,
         private authService : AuthService,
-        private router : Router ){
+        private router : Router , 
+        private socketService : SocketService ){
             userStore.fetchUserData();
             if( this.userStore.user.id ) this.getUserData(this.userStore.user.id )
     }
@@ -130,6 +132,7 @@ export class NavbarComponent implements OnInit {
         if(isYes){
           localStorage.removeItem(window.btoa('user'));   
           localStorage.removeItem(window.btoa('token'));   
+          this.socketService.unsubscribeAllChannels();
           this.router.navigateByUrl('/login');
         }
       });

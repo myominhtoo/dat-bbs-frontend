@@ -21,6 +21,7 @@ import { BoardService } from './board.service';
     providedIn : 'root'
 })
 export class SocketService{
+
     board : Board = new Board();
     stompClient : Client | undefined = undefined;
     boardNotisSubscriptions : Subscription [] = [];
@@ -238,6 +239,14 @@ export class SocketService{
         this.stompClient = over( socket );
     }
 
-    
+    public unsubscribeAllChannels(){
+        if(this.stompClient){
+            this.boardNotisSubscriptions.forEach( subscription => {
+                subscription.unsubscribe();
+            })
+
+            this.privateNotiSubscription?.unsubscribe();
+        }
+    }
 
 }
