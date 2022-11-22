@@ -86,10 +86,12 @@ export class UserService {
     exportMember(boardId:number,filetype :string) {
       return this.httpClient.get<any>(`http://localhost:8080/api/boards/${boardId}/members/report?format=${filetype}`);
     }
-    getAllMembers(userId:number): Observable<BoardsHasUsers[]>{
-        return this.httpClient.get<BoardsHasUsers[]>(`http://localhost:8080/api/users/${userId}/collaborators`);
+
+    getCollaborators(userId:number): Observable<User[]>{
+        return this.httpClient.get<User[]>(`http://localhost:8080/api/users/${userId}/collaborators`);
     }
-    getAllJoinedMembers(userId:number): Observable<BoardsHasUsers[]>{
-        return this.httpClient.get<BoardsHasUsers[]>(`http://localhost:8080/api/users/${userId}/joinboard`);        
-    }
+
+    // getAllJoinedMembers(userId:number): Observable<BoardsHasUsers[]>{
+    //     return this.httpClient.get<BoardsHasUsers[]>(`http://localhost:8080/api/users/${userId}/joinboard`);        
+    // }
   }

@@ -11,7 +11,7 @@
             <span *ngIf="username.length != userStore.user.username.length">|</span>
         </h3>
         <div class="d-flex  user-tasks justify-content-center text-muted" #countUp>
-            <div>
+            <div routerLink="/my-tasks" style="cursor:pointer;">
                 <span>
                     <i class="fa-solid fa-list-check bx-tada-hover mx-2 fw-bold  " style="font-size: 19px;"></i>
                 </span>
@@ -22,28 +22,27 @@
                     Tasks
                 </span>
             </div>
-            <div>
+            <div routerLink="/boards" style="cursor:pointer;">
                 <span>
                     <i class="bx bx-briefcase bx-sm bx-tada-hover mx-2"></i>
                 </span>
                 <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeBoards.length">
 
                 </span>
-                <span class="user-infos">
-                    
-                    {{homeCollaborator.length==0?"Board":"Boards"}}
+                <span class="user-infos">              
+                    {{ collaborators.length == 0 ? "Board" : "Boards"}}
                 </span>
             </div>
-            <div>
+            <div style="cursor:pointer;">
 
                 <span>
                     <i class="fa-solid fa-user-group bx-tada-hover mx-2"></i>
                 </span>
-                <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeCollaborator.length">
+                <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="collaborators.length">
 
                 </span>
                 <span class="user-infos">
-                    {{homeCollaborator.length==0?"Collaborator":"Collaborators"}}
+                    {{ collaborators.length == 0 ? "Collaborator":"Collaborators" }}
                 </span>
             </div>
         </div>
@@ -59,8 +58,10 @@
                                 <div class="col-2 bg-red px-0" id="user-profile-img ">
                                     <div class="w-75 mx-auto pb-2">
                                         <div *ngIf="userStore.user.imageUrl == null && userStore.user.username != null"
-                                            class="text-dark d-flex justify-content-center align-items-center bg-secondary "
-                                            style="width: 50px;height: 50px; border-radius: 50%;padding-top: 7px;">
+                                            class="text-light d-flex justify-content-center align-items-center "
+                                            style="width: 50px;height: 50px; border-radius: 50%;padding-top: 7px;"
+                                            [style.background]="userStore.user.iconColor + '!important'"
+                                            >
                                             <h4>{{ user.username && user.username[0].toUpperCase() }}</h4>
                                         </div>
                                         <div *ngIf="userStore.user.imageUrl != null"
@@ -236,7 +237,7 @@
                     </div>
                     <div class="w-50 user-info-cards mx-1 pt-3">
                         <div class="p-2">
-                            <h4 class="m-0">Board</h4>
+                            <h4 class="m-0">Boards</h4>
                         </div>
                         <div class="">
                             <div class="row align-content-start my-prior-list"
@@ -297,7 +298,7 @@
                         <div class="p-2 px-4 wrapper ">
                             
 
-                            <i id="left" class="fa-solid fa-angle-left" *ngIf="homeCollaborator.length !=0"
+                            <i id="left" class="fa-solid fa-angle-left" *ngIf="collaborators.length !=0"
                             [class.d-none]="this.carouselDiv == 0" 
                                (click)="iconClick('left')"></i>
 
@@ -307,7 +308,7 @@
                                     <!-- start  -->
                                     <!-- start no collaborators -->
                                     <div class="container-fluid text-center"
-                                        *ngIf="homeCollaborator.length==0 && status.hasDoneFetching">
+                                        *ngIf="collaborators.length==0 && status.hasDoneFetching">
                                         <div class="pt-4">
                                             <img class="mb-4 opacity-75"
                                                 src="assets/img/3D/undraw_collaboration_re_vyau.svg" alt="" width="25%"
@@ -317,7 +318,7 @@
                                     </div>
                                     <!-- end no collaborators -->
                                     <div class="rounded-3 mx-2 user-people"
-                                        *ngFor="let collaborators of this.homeCollaborator">
+                                        *ngFor="let collaborator of collaborators">
                                         <div class="flex-column d-flex justify-content-around align-items-center p-3"
                                             style="height:100%">
                                             <div class="d-flex flex-column  justify-content-center align-items-center">
@@ -327,36 +328,36 @@
 
 
 
-                                                        <div *ngIf="collaborators.imageUrl  == null && collaborators.username != null"
+                                                        <div *ngIf="collaborator.imageUrl  == null && collaborator.username != null"
                                                             class="text-dark d-flex justify-content-center align-items-center bg-secondary"
                                                             style="width: 90px;height: 90px; border-radius: 50%;">
-                                                            <h4>{{ collaborators.username &&
-                                                                collaborators.username[0].toUpperCase() }}
+                                                            <h4>{{ collaborator.username &&
+                                                                collaborator.username[0].toUpperCase() }}
                                                             </h4>
                                                         </div>
 
                                                     </div>
 
-                                                    <div *ngIf="collaborators.imageUrl != null" class="mx-auto"
+                                                    <div *ngIf="collaborator.imageUrl != null" class="mx-auto"
                                                         style="width: 90px;height: 90px; border-radius: 50%;">
-                                                        <img *ngIf="collaborators.imageUrl != null" class="w-100 h-100"
+                                                        <img *ngIf="collaborator.imageUrl != null" class="w-100 h-100"
                                                             homeCollaborator
                                                             style="border-radius: 100%;object-fit: cover;"
-                                                            [src]="'http://localhost:8080/img/'+collaborators.imageUrl"
+                                                            [src]="'http://localhost:8080/img/'+collaborator.imageUrl"
                                                             alt="">
 
                                                     </div>
                                                 </div>
                                                 <div class="pt-2 text-center">
-                                                    <h5>{{collaborators.username}}</h5>
+                                                    <h5>{{collaborator.username}}</h5>
                                                     <h6 style="font-size: 13px;">
-                                                        <p class="text-muted">Joined at:<span>{{collaborators.joinedDate|date}}</span> </p>
+                                                        <p class="text-muted">Joined at:<span>{{collaborator.joinedDate|date}}</span> </p>
                                                     </h6>   
                                                 </div>
                                             </div>
                                             <div class="">
 
-                                                <button [routerLink]="'/users/'+collaborators.id+'/profile'"
+                                                <button [routerLink]="'/users/'+collaborator.id+'/profile'"
                                                     class="btn btn-outline-dark">View
                                                     Profile</button>
                                             </div>
@@ -369,9 +370,8 @@
 
 
                             </div>
-                            <i id="right" class="fa-solid fa-angle-right" [class.d-none]="this.carouselDiv == scrollWidthDiv || (homeCollaborator.length == 1)"
+                            <i id="right" class="fa-solid fa-angle-right" [class.d-none]="this.carouselDiv == scrollWidthDiv || ( collaborators.length == 1)"
                                  (click)="iconClick('right')"></i>
-
                         </div>
                     </div>
                 </div>

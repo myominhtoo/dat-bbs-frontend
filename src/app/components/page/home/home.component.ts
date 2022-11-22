@@ -33,14 +33,13 @@ export class HomeComponent implements OnInit {
     username : string = '';
     period : string = 'Good Morning';
     dateObj = new Date();
-    // boardsHasUsers:BoardsHasUsers[]=[];    
+   
     user=new User();
     homeBoards:Board[]=[];
-    homeCollaborator: User[] = []
-    myBoardCollaborator:User[]=[]
-    joinCollaborator:User[]=[]
     allTaskCardList:TaskCard[]=[]
     upComingtaskCardList: TaskCard[] = []
+
+    collaborators : User [] = [];
 
     OverdueTaskList:TaskCard[]=[]
     CompletedTaskList: TaskCard[] = []
@@ -72,12 +71,10 @@ export class HomeComponent implements OnInit {
             this.user = this.userStore.user;
             this.homeBoards = this.boardStore.ownBoards;            
             if (this.user) {
-                this.getAllMembers(this.user.id)
+                this.getCollaborators( this.user.id );
                 this.getMyTasks(this.user.id)           
             }        
         },500)  
-        
-
     }
     
 
@@ -127,8 +124,6 @@ export class HomeComponent implements OnInit {
         this.scrollWidthDiv = scrollWidth;           
         
     }
-
-
     
     iconClick(id:string){
         const carousel =  document.getElementById('carousel') ! ;
@@ -140,18 +135,14 @@ export class HomeComponent implements OnInit {
         setTimeout(() => this.showHideIcons(), 60);
     }
     
-    
-    
-    
 
     countUp(){
         
-        let valueInfo=document.querySelectorAll("#count");    
-        let interval=50
+        let valueInfo = document.querySelectorAll("#count");    
+        let interval = 50
         
         valueInfo.forEach((value)=>{
-            let initialValue=0
-            
+            let initialValue=0          
             setTimeout(()=>{
                 let end= Number(value.getAttribute("data-count"));;                        
     
@@ -167,8 +158,7 @@ export class HomeComponent implements OnInit {
                     if(initialValue === end){
                         clearInterval(counter);
                     }    
-                    }
-                    
+                    }                  
                 },interval)
             },500)
             
@@ -176,55 +166,65 @@ export class HomeComponent implements OnInit {
         })
     }    
 
-    public getAllMembers(userId: number) {
-        this.userService.getAllMembers(userId).subscribe({
-            next:(res)=>{                          
-                let prevUserId = 0;                
-                this.myBoardCollaborator = res.map( boardHasUser => boardHasUser.user )
-                                        .filter( user => {
-                                            if( prevUserId != user.id ){
-                                                prevUserId = user.id;                                                
-                                                return true;
-                                            }
-                                            return false;
-                                        } )        //filter duplicate value                        
+    getCollaborators( userId : number ){
+        this.userService.getCollaborators( userId )
+        .subscribe({
+            next : resUsers => {
+                this.collaborators = resUsers;
+                console.log(resUsers)
+            } 
+        });
+    }
+
+    // public getAllMembers(userId: number) {
+    //     this.userService.getAllMembers(userId).subscribe({
+    //         next:(res)=>{                          
+    //             let prevUserId = 0;                
+    //             this.myBoardCollaborator = res.map( boardHasUser => boardHasUser.user )
+    //                                     .filter( user => {
+    //                                         if( prevUserId != user.id ){
+    //                                             prevUserId = user.id;                                                
+    //                                             return true;
+    //                                         }
+    //                                         return false;
+    //                                     } )        //filter duplicate value                        
 
                             
                 
-            },error:(err)=>{
+    //         },error:(err)=>{
     
-            }
-        })
-        this.userService.getAllJoinedMembers(userId).subscribe({
-            next:(res)=>{
-                let Userarr;
-                let prevUserId = 0;        
-                let prevAllUserId=0;        
-                this.joinCollaborator = res.map( boardHasUser => boardHasUser.board.user )
-                                        .filter( user => {
-                                            if( prevUserId != user.id ){
-                                                prevUserId = user.id;                                                
-                                                return true;
-                                            }
-                                            return false;
-                                        } )        //filter duplicate value                        
+    //         }
+    //     })
+    //     this.userService.getAllJoinedMembers(userId).subscribe({
+    //         next:(res)=>{
+    //             let Userarr;
+    //             let prevUserId = 0;        
+    //             let prevAllUserId=0;        
+    //             this.joinCollaborator = res.map( boardHasUser => boardHasUser.board.user )
+    //                                     .filter( user => {
+    //                                         if( prevUserId != user.id ){
+    //                                             prevUserId = user.id;                                                
+    //                                             return true;
+    //                                         }
+    //                                         return false;
+    //                                     } )        //filter duplicate value                        
 
                             
-                                        Userarr=[...this.myBoardCollaborator,...this.joinCollaborator]
-                                        let userSize=Userarr.length;
-                                    for(let i=0;i<userSize;i++){
-                                        if(prevAllUserId !=Userarr[i].id){
-                                            prevAllUserId=Userarr[i].id
-                                            this.homeCollaborator.push(Userarr[i])
-                                    }                                                                                                                        
-                                }
-            },
-            error:(err)=>{
+    //                                     Userarr=[...this.myBoardCollaborator,...this.joinCollaborator]
+    //                                     let userSize=Userarr.length;
+    //                                 for(let i=0;i<userSize;i++){
+    //                                     if(prevAllUserId !=Userarr[i].id){
+    //                                         prevAllUserId=Userarr[i].id
+    //                                         this.homeCollaborator.push(Userarr[i])
+    //                                 }                                                                                                                        
+    //                             }
+    //         },
+    //         error:(err)=>{
     
-            }
-        })                        
+    //         }
+    //     })                        
         
-    }
+    // }
 
 
     public getMyTasks(userId: number) {
