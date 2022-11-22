@@ -287,6 +287,8 @@ export class TaskOffCanvasComponent implements OnInit {
     newAttachment: Attachment = new Attachment();
     showEmojis: boolean = false;
 
+    assignAbleUsers : User [] = [];
+
 
     @Input('task') task: TaskCard = new TaskCard();
     // @Input('activities') activities : Activity [] = [];
@@ -326,8 +328,11 @@ export class TaskOffCanvasComponent implements OnInit {
     ngOnInit(): void {
         this.task.users = [];
         this.comment.comment = '';
-
         this.handleListenOffCanvasClose();
+
+        setTimeout(() => {
+            this.members.unshift(this.board.user);
+        } , 300 );
     }
 
     handleListenOffCanvasClose(){
