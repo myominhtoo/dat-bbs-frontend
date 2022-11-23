@@ -148,7 +148,7 @@ export class ProfileComponent{
                   this.user.imageUrl = res.data.imageUrl;
                   this.userInfo.imageUrl = res.data.imageUrl;
                   this.userStore.saveUserData( res.data );
-                } , 1000 );
+                } , 2000 );
           },
           error:(err)=>{
             console.log(err)
@@ -164,8 +164,11 @@ export class ProfileComponent{
   textImg(){
     this.userService.delteImage(this.userInfo).subscribe({
       next:(res)=>{
+          this.userStore.fetchUserData();
           this.user = res.data;
+          this.user.iconColor = this.userStore.user.iconColor;
           this.userInfo = {...this.user}
+          
           this.userStore.saveUserData( res.data );
       },
       error:(err)=>{

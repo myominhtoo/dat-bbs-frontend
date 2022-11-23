@@ -1,5 +1,6 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { forkJoin, tap } from "rxjs";
 import { Board } from "src/app/model/bean/board";
 import { BoardBookMark } from "src/app/model/bean/BoardBookMark";
 import { BoardService } from "src/app/model/service/http/board.service";
@@ -79,12 +80,21 @@ export class BoardComponent implements OnInit {
     }
 
     fetchRequiredDatas(){
-        this.getMembers( this.data.id  )
-        .then( () => {
-            this.getCards( this.data.id ).then( () => {
-                // console.log('hi')
-            });
-        });
+
+       forkJoin([
+        this.userService.getUsersForBoard(this.data.id),
+        this.taskCardService.getTaskCards(this.data.id)
+       ]).subscribe( ([ boardHasUsers , taskCards ]) => {
+          this.data.members = boardHasUsers.map( boardHasUser => boardHasUser.members );
+          this.data.tasks = taskCards;
+       });
+
+        // this.getMembers( this.data.id  )
+        // .then( () => {
+        //     this.getCards( this.data.id ).then( () => {
+        //         // console.log('hi')
+        //     });
+        // });
     }
 
     async getMembers( boardId : number ) : Promise<void> {

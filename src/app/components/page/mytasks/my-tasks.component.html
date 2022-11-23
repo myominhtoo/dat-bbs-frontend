@@ -7,13 +7,9 @@
         <h3 class="fw-bold opacity-75">No TaskCards Yet</h3>
     </div>
 
-<<<<<<< Updated upstream
-    <div class="container-fluid" *ngIf="taskCards.length!=0">
-        <h2 class="pb-4 border-board"> My Tasks </h2>
-=======
     <div class="container-fluid " *ngIf="taskCards.length!=0 ">
-        <div class="d-flex justify-content-between">
-                <h2 class="pb-4"> My Tasks </h2>
+        <div class="d-flex justify-content-between border-board">
+                <h2> My Tasks </h2>
 
                  <!-- report -->
 
@@ -33,10 +29,9 @@
                 </div>
          </div>
 
->>>>>>> Stashed changes
         <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="taskCards"
             (cdkDropListDropped)="drop($event)"
-            class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap my-2">
+            class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap my-3">
             <task-card cdkDrag *ngFor="let task of taskCards" [task]="task" [routerLink]="'/boards/'+task.board.id"
                 class="col-4"></task-card>
 

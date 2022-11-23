@@ -143,10 +143,10 @@ export class MyBoardComponent implements OnInit {
         .subscribe({
             next : datas => {
                 this.stages = datas;
+                this.boardTasksStore.stages = datas;
               },
             error : err => {
                 console.log(err);
-                // window.history.back();
             }
         });
     }
@@ -221,9 +221,11 @@ export class MyBoardComponent implements OnInit {
                     this.status.isAddingStage = false;
                    if( res.ok ){
 
-                    const container = ($('#main-area')[0] as HTMLDivElement);
+
+                    const container = document.getElementById('main-area')!;
                     container.scrollTo ({
-                      left : container.scrollLeft + 200
+                      left : container.scrollWidth,
+                      behavior : 'smooth'
                     })
 
                     this.stages.push( res.data );
@@ -564,7 +566,14 @@ export class MyBoardComponent implements OnInit {
 
   exportMemberReport(path:string) {
     let boardId = this.route.snapshot.params['id'];
-    this.userService.exportMember(boardId,path).subscribe((data) => {
+    this.userService.exportMember(boardId,path).subscribe((res) => {
+      const blob = new Blob([res.body], { type : 'application/octet-stream'});
+      const a = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+      a.href = objectUrl;
+      a.download = `members.${path=='excel' ? 'xlsx' : path.toLowerCase()}`,
+      a.click();
+      URL.revokeObjectURL(objectUrl);
       swal({
         text : 'Successfully Exported!',
         icon : 'success'
@@ -587,8 +596,14 @@ export class MyBoardComponent implements OnInit {
         });
         }
         else{
-          this.taskCardService.exportTaskReport(boardId,path).subscribe((data)=>{
-
+          this.taskCardService.exportTaskReport(boardId,path).subscribe((res)=>{
+            const blob = new Blob([res.body], { type : 'application/octet-stream'});
+            const a = document.createElement('a');
+            const objectUrl = URL.createObjectURL(blob);
+            a.href = objectUrl;
+            a.download = `taskCards.${path=='excel' ? 'xlsx' : path.toLowerCase()}`,
+            a.click();
+            URL.revokeObjectURL(objectUrl);
 
             swal({
                 text : 'Successfully Exported!',

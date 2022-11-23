@@ -51,7 +51,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                           </div>
                         </div>
                         <div class="w-100" *ngIf="members.length > 0">
-                           <select class="form-select outline-none" id="assign-members"  (change)="handleAssignTask($event)" >
+                           <select class="form-select outline-none" id="assign-members"  (change)="handleAssignTask($event)" [disabled]="task.stage.id == 3" >
                              <option selected disabled>Assign Members</option>
                              <option *ngFor="let member of members" class="text-capitalize" [value]="member.id" [class.text-danger]="isSelectedMember(member.id)" >{{ member.username }}</option>
                            </select>

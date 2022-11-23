@@ -22,7 +22,7 @@
                                 class="fa-solid fa-file-export mx-1"></i>
                             Export
                         </button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu"> 
                             <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="HTML"
                                     (click)="exportTaskReport(html)" />
                             <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="PDF"
@@ -231,7 +231,7 @@
                                 style="font-size:11px !important;">{{ status.addingStageError.msg }}</span>
                             <div class="d-flex justify-content-end gap-1 my-0">
                                 <button (click)="toggleIsAddStage()" class="btn  btn-sm my-1">Cancel</button>
-                                <button type="submit" (click)="handleAddStage()" class="btn btn-primary btn-sm my-1"
+                                <button type="submit" (click)="handleAddStage()" class="btn bg-thm px-3 text-light btn-sm my-1"
                                     [disabled]="status.isAddingStage">{{ status.isAddingStage ? 'Adding' : 'Add'
                                     }}</button>
                             </div>

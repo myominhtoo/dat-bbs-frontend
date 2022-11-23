@@ -37,15 +37,14 @@ export class ForgetPasswordComponent implements OnInit {
 
     sendCode(email : string){
         this.status.isEmailLoading=true;
-        this.status.sendEmail=false;
         this.userService.forgetPassword(email).subscribe({
             next : (res) => {
                swal({
                 text : 'Successfully Sent! , Check Your Email!',
                 icon : 'success'
               })
-              this.status.isEmailLoading=false;
-              this.status.sendEmail=true;
+              this.status.isEmailLoading = false;
+              this.status.sendEmail = true;
             },
             error: err =>{
               swal({
