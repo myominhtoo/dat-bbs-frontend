@@ -70,18 +70,18 @@ status = {
 
       let id=this.userStore.user.id;
 
-        this.boardService.exportArchiveBoardReport(id,path).subscribe((data)=>{
-
-          if(data==null){
-
-
-          }
+        this.boardService.exportArchiveBoardReport(id,path).subscribe((res)=>{
+            const blob = new Blob([res.body], { type : 'application/octet-stream'});
+            const a = document.createElement('a');
+            const objectUrl = URL.createObjectURL(blob);
+            a.href = objectUrl;
+            a.download = `archive-board.${path=='excel' ? 'xlsx' : path.toLowerCase()}`,
+            a.click();
+            URL.revokeObjectURL(objectUrl);
           swal({
             text : 'Successfully Exported!',
             icon : 'success'
         });
-
-
         })
 
       }

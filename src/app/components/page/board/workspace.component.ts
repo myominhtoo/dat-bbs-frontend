@@ -11,6 +11,7 @@ import { BoardService } from 'src/app/model/service/http/board.service';
 // import * as XLSX from 'xlsx';
 import swal from "sweetalert";
 import { SocketService } from 'src/app/model/service/http/socket.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector : 'workspace',
@@ -44,7 +45,8 @@ export class WorkspaceComponent implements OnInit {
         public boardService : BoardService,
         private router : Router ,
         private userStore : UserStore,
-        private socketService : SocketService  ){}
+        private socketService : SocketService , 
+        private domSantizer : DomSanitizer   ){}
 
     ngOnInit(): void {
         document.title = "BBMS | My Workspace";
@@ -92,7 +94,15 @@ export class WorkspaceComponent implements OnInit {
 
       // console.log(useridd);
 
-        this.boardService.exportBoardReport(useridd,path).subscribe((data)=>{
+        this.boardService.exportBoardReport(useridd,path).subscribe((res)=>{
+            const blob = new Blob([res.body], { type : 'application/octet-stream'});
+
+            const a = document.createElement('a');
+            const objectUrl = URL.createObjectURL(blob);
+            a.href = objectUrl;
+            a.download = `boards.${path=='excel' ? 'xlsx' : path.toLowerCase()}`,
+            a.click();
+            URL.revokeObjectURL(objectUrl);
             swal({
                 text : 'Successfully Exported!',
                 icon : 'success'

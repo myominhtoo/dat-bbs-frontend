@@ -564,7 +564,14 @@ export class MyBoardComponent implements OnInit {
 
   exportMemberReport(path:string) {
     let boardId = this.route.snapshot.params['id'];
-    this.userService.exportMember(boardId,path).subscribe((data) => {
+    this.userService.exportMember(boardId,path).subscribe((res) => {
+      const blob = new Blob([res.body], { type : 'application/octet-stream'});
+      const a = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+      a.href = objectUrl;
+      a.download = `members.${path=='excel' ? 'xlsx' : path.toLowerCase()}`,
+      a.click();
+      URL.revokeObjectURL(objectUrl);
       swal({
         text : 'Successfully Exported!',
         icon : 'success'
@@ -587,8 +594,14 @@ export class MyBoardComponent implements OnInit {
         });
         }
         else{
-          this.taskCardService.exportTaskReport(boardId,path).subscribe((data)=>{
-
+          this.taskCardService.exportTaskReport(boardId,path).subscribe((res)=>{
+            const blob = new Blob([res.body], { type : 'application/octet-stream'});
+            const a = document.createElement('a');
+            const objectUrl = URL.createObjectURL(blob);
+            a.href = objectUrl;
+            a.download = `taskCards.${path=='excel' ? 'xlsx' : path.toLowerCase()}`,
+            a.click();
+            URL.revokeObjectURL(objectUrl);
 
             swal({
                 text : 'Successfully Exported!',
