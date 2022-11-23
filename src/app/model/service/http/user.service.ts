@@ -84,7 +84,9 @@ export class UserService {
     // }
 
     exportMember(boardId:number,filetype :string) {
-      return this.httpClient.get<any>(`http://localhost:8080/api/boards/${boardId}/members/report?format=${filetype}`);
+        const headers = new HttpHeaders();
+        headers.set('Accept', 'application/octet-stream');
+      return this.httpClient.get<any>(`http://localhost:8080/api/boards/${boardId}/members/report?format=${filetype}`, { responseType : 'blob' as 'json', observe : 'response'});
     }
 
     getCollaborators(userId:number): Observable<User[]>{
