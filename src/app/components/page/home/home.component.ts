@@ -207,23 +207,9 @@ export class HomeComponent implements OnInit {
                                                 return true;
                                             }
                                             return false;
-<<<<<<< Updated upstream
-                                        } )        //filter duplicate value                        
-
-                            
-                                        Userarr=[...this.myBoardCollaborator,...this.joinCollaborator]
-                                        let userSize=Userarr.length;
-                                    for(let i=0;i<userSize;i++){
-                                        if(prevAllUserId !=Userarr[i].id){
-                                            prevAllUserId=Userarr[i].id
-                                            this.homeCollaborator.push(Userarr[i])
-                                    }                                                                                                                        
-                                }
-=======
                                         } )                                                                                                                 
                 let Userarr=[...this.myBoardCollaborator,...this.joinCollaborator];                                              
                 this.duplicateValue(Userarr)
->>>>>>> Stashed changes
             },
             error:(err)=>{
                     console.log(err)
