@@ -5,104 +5,100 @@ import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import Chart  from 'chart.js/auto';
 import { BoardTasksStore } from "src/app/model/service/store/board-tasks.store";
 import { ActivatedRoute } from "@angular/router";
+import { Location } from '@angular/common';
+import { forkJoin, tap } from "rxjs";
 
 @Component({
     selector : 'board-tasks-chart',
     template : `
             <div class=" container">
-                <div class=" px-5 pe-5 w-100 m-4 border-board d-flex justify-content-between align-items-center">
+                <div class=" px-5 w-100 py-2 mt-2 border-board d-flex justify-content-between align-items-center">
                     <h2>Stages-TaskCards' Chart</h2>
+                    <div>
+                        <button (click)="backToBoard()" class="btn btn-sm btn-outline-secondary py-1 myboard-btn">
+                            <i class="fa-solid fa-square-caret-left"></i>
+                            Back To Board
+                        </button>
+                    </div>
                 </div>
-                <div class="w-50 mx-auto" >
+                <loading [show]="status.isLoading" target="Chart..." ></loading>          
+                <div class="w-75 mx-auto" style="heigth:600px !important;" >
                     <canvas id="chart"></canvas>
-                    
                 </div>
             </div>
                `
 })
 export class StageTasksChartComponent implements OnInit {
      
-   // stages : Stage []=[];
+  
+    status = {
+        isLoading : false
+    }
 
     constructor(
-        private boardService : BoardService,
         private stageService : StageService,
         private taskCardService : TaskCardService,
         public boardTasksStore : BoardTasksStore,
-        private route : ActivatedRoute
-        
-        ){}
+        private route : ActivatedRoute , 
+        private location : Location,
+    ){}
     
+
     ngOnInit(): void {
         const boardId = this.route.snapshot.params["id"];
-        this.getdata(boardId);
-        setTimeout(()=>{ 
-           this.getTasksChart(boardId)},1000 );
+        if(this.boardTasksStore.hasGotData){
+            this.getTasksChart();
+        }else{
+            this.getData( boardId );
+        }
     }
 
 
-    private getTasksChart (boardId : number){
+    private getTasksChart (){
 
         const ctx = document.getElementById('chart') as HTMLCanvasElement;
         const stages = this.boardTasksStore.stages;
         const tasks = this.boardTasksStore.taskCards;
-        console.log(stages);
-        console.log(tasks);
         const data = stages.map(stage=>{
-                  return  tasks.filter(task=> task.stage.id == stage.id).length;
-                 })
+                        return  tasks.filter(task=> task.stage.id == stage.id).length;
+                    })
         data.push(Math.max(...data)+3);
-        // console.log(...data);
         const chart =new Chart (ctx, {
             type: 'bar',
             data: {
-                labels : stages.map(stage=> stage.stageName),
+                labels : stages.map( stage=> stage.stageName.toUpperCase() ),
                 datasets: [{
                     label: 'TaskCards',
                     data : data,
-                    // backgroundColor: ['rgb(0, 13, 65 )','rgb(2, 84, 44  )','rgb(191, 6, 104 )','rgb(255, 233, 48 )'],
                     backgroundColor : ['#50577A'],
                     borderColor: ['#50577A'],
-                    // borderWidth: 1,
-                   
                 }]
             },
             
           });
-
-          chart.draw();
     }
 
-    getStages(boardId :number ){
-        this.stageService.getStagesForBoard(boardId).subscribe({
-            next : (res) => {
-                this.boardTasksStore.stages=res;
-            },
-            error : err => {
-                console.log(err);
-            }
-        })
+    private getData(boardId : number){
+       this.status.isLoading = true;
+       forkJoin([
+        this.stageService.getStagesForBoard( boardId ).pipe(tap( res => res )),
+        this.taskCardService.getTaskCards( boardId ).pipe(tap( res => res ))
+       ]).subscribe({
+        next :  allResults => {
+            this.boardTasksStore.stages = allResults[0];
+            this.boardTasksStore.taskCards = allResults[1];
+            this.status.isLoading = false;
+            this.getTasksChart();
+         },
+         error : err => {
+            this.status.isLoading = false;
+         }
+       });
     }
 
-    getTasks(boardId : number){
-        this.taskCardService.getTaskCards(boardId).subscribe({
-            next: (res) =>{
-                this.boardTasksStore.taskCards=res;
-              
-              
-            }, 
-            error : err => {
-                console.log(err);
-            }
-        })
+    backToBoard(){
+        this.location.back();
     }
-
-    private getdata(boardId : number){
-        this.getStages(boardId);
-        this.getTasks(boardId);
-    }
-
-
    
 
 }
