@@ -1,10 +1,11 @@
 import { Activity } from 'src/app/model/bean/activity';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpResponse } from "../../bean/httpResponse";
 import { TaskCard } from "../../bean/taskCard";
 import { User } from "../../bean/user";
+import { getStickyHeaderDates } from '@fullcalendar/angular';
 
 @Injectable({
     providedIn : 'root'
@@ -36,7 +37,10 @@ export class TaskCardService {
 
 
     exportTaskReport(boardId : number , taskFormat : string ){
-        return this.httpClient.get<TaskCard[]>(`http://localhost:8080/api/boards/${boardId}/reportTask?format=${taskFormat}`);
+      const headers = new HttpHeaders();
+
+      headers.set('Accept', 'application/octet-stream');
+        return this.httpClient.get<any>(`http://localhost:8080/api/boards/${boardId}/reportTask?format=${taskFormat}` ,{ responseType : 'blob' as 'json', observe : 'response'} );
       }
 
     updateDeleteStatusTask( boardId : number , id : number ,taskCard : TaskCard): Observable <TaskCard>{
@@ -57,11 +61,16 @@ export class TaskCardService {
    }
 
    exportArchiveTaskReport(boardId : number , taskFormat : string ){
-    return this.httpClient.get<TaskCard[]>(`http://localhost:8080/api/boards/${boardId}/reportArchiveTask?format=${taskFormat}`);
+    const headers = new HttpHeaders();
+
+    headers.set('Accept', 'application/octet-stream');
+    return this.httpClient.get<any>(`http://localhost:8080/api/boards/${boardId}/reportArchiveTask?format=${taskFormat}`,{ responseType : 'blob' as 'json', observe : 'response'} );
   }
 
   exportAssignedTasksReport( id : number , format :string ){
-    return this.httpClient.get<TaskCard[]> (`http://localhost:8080/api/users/${id}/reportAssignedTasks?format=${format}`);
+    const headers = new HttpHeaders();
+    headers.set('Accept', 'application/octet-stream');
+    return this.httpClient.get<any> (`http://localhost:8080/api/users/${id}/reportAssignedTasks?format=${format}`,{ responseType : 'blob' as 'json', observe : 'response'});
   }
 
 }

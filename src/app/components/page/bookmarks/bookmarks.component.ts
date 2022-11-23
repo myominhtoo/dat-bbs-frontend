@@ -59,7 +59,14 @@ export class BoardMarkComponent{
 
         let useridd=this.userStore.user.id;
 
-          this.boardBoardmarkService.reportBookMark(useridd,path).subscribe((data)=>{
+          this.boardBoardmarkService.reportBookMark(useridd,path).subscribe((res)=>{
+            const blob = new Blob([res.body], { type : 'application/octet-stream'});
+            const a = document.createElement('a');
+            const objectUrl = URL.createObjectURL(blob);
+            a.href = objectUrl;
+            a.download = `bookMarks.${path=='excel' ? 'xlsx' : path.toLowerCase()}`,
+            a.click();
+            URL.revokeObjectURL(objectUrl);
               swal({
                   text : 'Successfully Exported!',
                   icon : 'success'

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders , HttpResponseBase} from "@angular/common/http";
 import { Board } from "../../bean/board";
 import { HttpResponse } from "../../bean/httpResponse";
 import { Observable } from "rxjs";
@@ -38,15 +38,20 @@ export class BoardService{
     }
 
     exportBoardReport(userId : number ,filetype : string){
-      return this.httpClient.get<any>(`http://localhost:8080/api/users/${userId}/report-board?format=${filetype}`);
+      const headers = new HttpHeaders();
+
+      headers.set('Accept', 'application/octet-stream');
+      return this.httpClient.get<any>(`http://localhost:8080/api/users/${userId}/report-board?format=${filetype}` , { responseType : 'blob' as 'json', observe : 'response'} );
     }
 
     // exportReport(filetype: string): Observable<Map<string,string>>{
     //   return this.httpClient.get<Map<string,string>>(`http://locahost:8080/api/reportBoard/${filetype}`);
     // }
-
+ 
     exportArchiveBoardReport(id : number ,filetype : string){
-      return this.httpClient.get<any>(`http://localhost:8080/api/users/${id}/archive-board-report?format=${filetype}`);
+      const headers = new HttpHeaders();
+      headers.set('Accept','application/octet-stream');
+      return this.httpClient.get<any>(`http://localhost:8080/api/users/${id}/archive-board-report?format=${filetype}` , {responseType : 'blob' as 'json' , observe : 'response'});
     }
 
     joinBoard( email: string, code : number, boardId : number){
