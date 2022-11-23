@@ -12,7 +12,6 @@ import $ from 'jquery';
 import { SocketService } from 'src/app/model/service/http/socket.service';
 import { Notification } from 'src/app/model/bean/notification';
 import { UserStore } from 'src/app/model/service/store/user.store';
-import { BoardStore } from 'src/app/model/service/store/board.store';
 
 @Component({
   selector: 'task-card-container',
@@ -24,7 +23,10 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
           <!-- task-card-title -->
           <div class="text-justify" >
 
-            <h1 *ngIf="!status.isEditStage" class="stage-title text-white p-2 h5 mx-1 m-0 ">{{ data.stageName | titlecase }}</h1>
+            <h1 *ngIf="!status.isEditStage" class="stage-title text-white p-2 h5 mx-1 m-0 ">
+              {{ data.stageName | titlecase }} 
+              <span class=" p-2 mx-2 badge bg-danger">{{ taskCards.get(data.id.toString())?.length  }}</span>
+            </h1>
             <input *ngIf="status.isEditStage" [(ngModel)]="data.stageName" type="text" (keydown)="handleUpdateStage($event)"  class="form-control mx-2 text-capitalize rounded-0" style="box-shadow:none;" >
             <span *ngIf="status.stageError"  style="font-size:14px;" class="text-danger fw-bold mx-2">{{ status.stageError }}</span>
           </div>
@@ -247,13 +249,5 @@ export class TaskCardContainerComponent {
     let tasksMap= this.taskCards.get(this.data.id.toString());
     this.taskCards.set( this.data.id.toString() , tasksMap?.filter( taskMap => taskMap.id != task.id )!);
    }
-
-
-  //  restoreTask(task : TaskCard){
-  //   let tasksMap= this.taskCards.get(this.data.stageName);
-  //   this.taskCards.set( this.data.stageName , tasksMap?.filter( taskMap => taskMap.id != task.id )!);
-  //  }
-
-
 
 }

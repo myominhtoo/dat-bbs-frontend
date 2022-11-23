@@ -221,9 +221,11 @@ export class MyBoardComponent implements OnInit {
                     this.status.isAddingStage = false;
                    if( res.ok ){
 
-                    const container = ($('#main-area')[0] as HTMLDivElement);
+
+                    const container = document.getElementById('main-area')!;
                     container.scrollTo ({
-                      left : container.scrollLeft + 200
+                      left : container.scrollWidth,
+                      behavior : 'smooth'
                     })
 
                     this.stages.push( res.data );
