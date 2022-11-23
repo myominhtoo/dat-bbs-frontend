@@ -41,21 +41,20 @@ import { ActivatedRoute } from '@angular/router';
                     </div>
                 </div>
             </div>
-        <div class="w-100 d-flex  gap-2 align-items-end {{ !showDonePercent ? 'justify-content-end' : 'justify-content-between' }} " >
-            <div class="d-flex gap-2 align-items-end">
+        <div class="w-100 d-flex  gap-2 align-items-end fw-bold justify-content-between " >
+            <div class="d-flex gap-2 align-items-end {{ taskColor }}">
                 <span style="font-size:13px;">{{ task.startedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
                 <span *ngIf="task.startedDate != task.endedDate"><i class="fa-solid fa-right-long" style="font-size:12px;"></i></span>
                 <span *ngIf="task.startedDate != task.endedDate" style="font-size:13px;">{{ task.endedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
             </div>
-            <div *ngIf="showDonePercent && !task.deleteStatus" class="text-end" style="width:35%;" >
-                <small style="font-size:12px;">Done Activity</small>
+            <div *ngIf="!task.deleteStatus" class="text-end d-flex flex-column" style="width:35%;" >
+                <!-- <small *ngIf="taskStatus != PERIOD_STATUS.OK" style="font-size:10px;">{{ taskStatus }}</small> -->
+                <small style="font-size:12px;">{{ showDonePercent ? 'Done Activity' : 'No Activity' }}</small>
                 <div class="w-100 d-flex align-items-center gap-1">
-                    <mat-progress-bar [value]="donePercent"  mode="determinate" ></mat-progress-bar>
+                    <mat-progress-bar [value]="donePercent"  mode="determinate" [color]="(taskStatus == PERIOD_STATUS.OVER) && 'warn'"></mat-progress-bar>
                     <small style="font-size:10px;" class="fw-bold thm">{{ donePercent }}%</small>
                 </div>
             </div>
-
-
         </div>
        </div>
     `
@@ -74,6 +73,16 @@ export class TaskCardComponent implements OnInit {
     donePercent : number = 0;
     showDonePercent : boolean = true;
 
+    PERIOD_STATUS  = {
+        OVER : 'Overdue',
+        CLOSE : 'Very Close',
+        FAR : 'Very Far',
+        OK : 'ok'
+    };
+
+    taskStatus = this.PERIOD_STATUS.OK;
+    taskColor = '';
+
     constructor(
         private taskCardService : TaskCardService ,
         public route : ActivatedRoute ,
@@ -87,12 +96,13 @@ export class TaskCardComponent implements OnInit {
         this.task.comments = [];
         this.task.activities = [];
 
+        this.taskColor = this.getTaskColorWithPeriod() !;
+        
         this.getActivities();
         this.getComments();
         setTimeout(() => {
             this.getActivityDonePercent();
         } , 500 );
-       this.getTaskCardRemainDay();
     }
 
     handleShowOffCanvas( task : TaskCard ){
@@ -205,10 +215,45 @@ export class TaskCardComponent implements OnInit {
         })
     }
 
-    getTaskCardRemainDay(){
-        const date = new Date();
-        const startedDate = new Date(this.task.startedDate);
-        const endedDate = new Date(this.task.endedDate);
+    getPeriodStatus( start : Date , end : Date ){
+        if( start == end  ) return this.PERIOD_STATUS.OK;
+        const startInHour = Math.round(new Date(start).getTime() / 3600000);
+        const endInHour = Math.round(new Date(end).getTime() / 3600000);
+        const curInHour = Math.round(new Date().getTime() / 3600000);
+        const realPeriod = endInHour - startInHour;
+        const remainPeriod = endInHour - curInHour;
+
+        const remainPercent = (remainPeriod/realPeriod) * 100;
+
+        if( remainPercent >= 80 && remainPercent > 20  ){
+            return this.PERIOD_STATUS.FAR;
+        }
+        else if( remainPercent <= 20 && remainPercent > 0 ){
+            return this.PERIOD_STATUS.CLOSE;
+        }else if( remainPercent < 0 ){
+            return this.PERIOD_STATUS.OVER;
+        }else{
+            return this.PERIOD_STATUS.OK;
+        }
+    }
+
+    getTaskColorWithPeriod(){
+        const periodStatus = this.getPeriodStatus( this.task.startedDate , this.task.endedDate );
+        this.taskStatus = periodStatus;
+
+        if( periodStatus == this.PERIOD_STATUS.OK ){
+            return '';
+        }
+        if( periodStatus == this.PERIOD_STATUS.FAR ){
+            return 'text-success';
+        }
+        if( periodStatus == this.PERIOD_STATUS.OVER ){
+            return 'text-danger'
+        }
+        if( periodStatus == this.PERIOD_STATUS.CLOSE ){
+            return 'text-warning';
+        }
+        return '';
     }
 
 }
