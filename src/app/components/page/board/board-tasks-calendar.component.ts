@@ -137,45 +137,57 @@ export class BoardTasksCalendarComponent implements OnInit {
                 content : {
                     element : 'input'
                 }
-            }).then( taskName => {
-                const newTask = new TaskCard();
-                newTask.taskName = taskName;
-                newTask.startedDate = selectInfo.startStr as any as Date;
-                newTask.endedDate = selectInfo.endStr as any as Date;
-                const stage = new Stage();
-                stage.id = 1;
-                newTask.stage = stage;
-                newTask.board = this.boardTasksStore.board;
+            }).then( ( taskName : string ) => {
 
+                if( taskName != null ){
 
-                this.taskCardService.createTaskCard( newTask )
-                .subscribe({ 
-                    next : resStatus => {
-                        if(resStatus.ok){
-                            swal({
-                                text : resStatus.message,
-                                icon : 'success',
-                            }).then( () => {
-                                this.boardTasksStore.taskCards.push( newTask );
-                                this.calendarDetails.events = this.boardTasksStore.taskCards
-                                                              .map( task => {
-                                                                return { title : task.taskName , start : `${task.startedDate}` , end : `${task.endedDate}`}
-                                                              })
-                            })
-                        }else{
-                            swal({
-                                text : resStatus.message,
-                                icon : 'warning',
-                            })
-                        }
-                    },
-                    error : err => {
+                    if( taskName.trim().length == 0){
                         swal({
-                            text : err.error.message,
+                            text : 'Task name shound not be blank!',
                             icon : 'warning'
                         })
+                        return;
                     }
-                })
+
+                    const newTask = new TaskCard();
+                    newTask.taskName = taskName;
+                    newTask.startedDate = selectInfo.startStr as any as Date;
+                    newTask.endedDate = selectInfo.endStr as any as Date;
+                    const stage = new Stage();
+                    stage.id = 1;
+                    newTask.stage = stage;
+                    newTask.board = this.boardTasksStore.board;
+
+
+                    this.taskCardService.createTaskCard( newTask )
+                    .subscribe({ 
+                        next : resStatus => {
+                            if(resStatus.ok){
+                                swal({
+                                    text : resStatus.message,
+                                    icon : 'success',
+                                }).then( () => {
+                                    this.boardTasksStore.taskCards.push( newTask );
+                                    this.calendarDetails.events = this.boardTasksStore.taskCards
+                                                                .map( task => {
+                                                                    return { title : task.taskName , start : `${task.startedDate}` , end : `${task.endedDate}`}
+                                                                })
+                                })
+                            }else{
+                                swal({
+                                    text : resStatus.message,
+                                    icon : 'warning',
+                                })
+                            }
+                        },
+                        error : err => {
+                            swal({
+                                text : err.error.message,
+                                icon : 'warning'
+                            })
+                        }
+                    })
+                }
             });
         }
 
