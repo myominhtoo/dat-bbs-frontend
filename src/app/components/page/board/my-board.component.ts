@@ -143,10 +143,10 @@ export class MyBoardComponent implements OnInit {
         .subscribe({
             next : datas => {
                 this.stages = datas;
+                this.boardTasksStore.stages = datas;
               },
             error : err => {
                 console.log(err);
-                // window.history.back();
             }
         });
     }

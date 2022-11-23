@@ -6,7 +6,6 @@ import Chart  from 'chart.js/auto';
 import { BoardTasksStore } from "src/app/model/service/store/board-tasks.store";
 import { ActivatedRoute } from "@angular/router";
 import { Location } from '@angular/common';
-import { Stage } from "src/app/model/bean/stage";
 import { forkJoin, tap } from "rxjs";
 
 @Component({
@@ -45,14 +44,17 @@ export class StageTasksChartComponent implements OnInit {
     ){}
     
 
-
     ngOnInit(): void {
         const boardId = this.route.snapshot.params["id"];
-        this.getData(boardId);
+        if(this.boardTasksStore.hasGotData){
+            this.getTasksChart();
+        }else{
+            this.getData( boardId );
+        }
     }
 
 
-    private getTasksChart (boardId : number){
+    private getTasksChart (){
 
         const ctx = document.getElementById('chart') as HTMLCanvasElement;
         const stages = this.boardTasksStore.stages;
@@ -86,7 +88,7 @@ export class StageTasksChartComponent implements OnInit {
             this.boardTasksStore.stages = allResults[0];
             this.boardTasksStore.taskCards = allResults[1];
             this.status.isLoading = false;
-            this.getTasksChart(boardId);
+            this.getTasksChart();
          },
          error : err => {
             this.status.isLoading = false;
