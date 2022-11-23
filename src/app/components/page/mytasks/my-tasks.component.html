@@ -11,6 +11,13 @@
         <div class="d-flex justify-content-between border-board">
                 <h2> My Tasks </h2>
 
+                <!-- For Calender -->
+                
+                <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#tasks-calender-modal" >
+                    <i class="fa-solid fa-calendar-days"></i>                        
+                     Calendar
+                </button>
+
                  <!-- report -->
 
                 <div class="dropdown ">
@@ -39,4 +46,22 @@
     </div>
     <loading target="TaskCards" [show]="status.isLoading"></loading>
 
+</div>
+
+<!-- modalbox for Calendar -->
+<div class="modal fade"  id="tasks-calender-modal">
+    <div class="modal-dialog " >
+        <div class="modal-content "  style="width: 1000px  !important; height: 700px">
+        <header class="modal-header d-flex justify-content-between">
+            <h4 class="text-muted">Calender</h4>
+            <i class="btn-close" id="close-attachment-btn" data-bs-dismiss='modal' data-bs-target="#tasks-calender-modal"></i>
+        </header>
+        <div class="model-body">
+           
+                <full-calendar #calendar [options]="calendarDetails" style=" width:100% ; height:100% " ></full-calendar>
+           
+        </div>
+        </div>
+       
+    </div>
 </div>

@@ -396,7 +396,7 @@ export class TaskOffCanvasComponent implements OnInit {
         this.status.activityError = '';
         let curActivityName = this.task.activities[targetIdx].activityName;
         
-        if (e.code === 'Enter') {
+        if (e.key === 'Enter') {
             if (curActivityName == '' || curActivityName == null) {
                 this.status.errorTargetIdx = targetIdx;
                 this.status.activityError = 'Acitiviy is required!';
