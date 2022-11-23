@@ -13,49 +13,49 @@ import { ActivatedRoute } from '@angular/router';
     selector : 'task-card',
     template : `
      <div (click)="handleShowOffCanvas( task)" class="d-flex task-cards my-0 p-2 gap-2 text-muted shadow-sm bg-pale-snow" style="padding-right:10px;" [style.borderLeft]="task.markColor == null || task.markColor == ''  ? '0.5px solid rgb(206, 202, 202)' : '4px solid '+task.markColor +'!important'  " >
-    <div class="d-flex flex-column align-items-star gap-3 w-100 " >
-        <div class="d-flex justify-content-between w-100">
-                <div class="w-75">
-                    <h5 class="fw-light" style="white-space:break-spaces;">{{ task.taskName | titlecase }}</h5>
-                </div>
-                <div class="d-flex gap-2 align-items-center">
-                    <div (click)="handleGoCommentSection($event)">
-                        <i class="fa-regular fa-message"></i>
-                        <span *ngIf="task.comments.length > 0" class="badge text-white p-1 bg-danger noti-con fw-light " style="transform:translate(40%,40%);">{{ task.comments.length }}</span>
+        <div class="d-flex flex-column align-items-star gap-3 w-100 " >
+            <div class="d-flex justify-content-between w-100">
+                    <div class="w-75">
+                        <h5 class="fw-light" style="white-space:break-spaces;">{{ task.taskName | titlecase }}</h5>
                     </div>
-                    <!-- for achieve taskcard -->
-                    <div>
-                        <i *ngIf="task.stage.id==3  && !task.deleteStatus" (click)="removeTask($event,task.id)" class="fa-solid fa-xmark" > </i>
+                    <div class="d-flex gap-2 align-items-center">
+                        <div (click)="handleGoCommentSection($event)">
+                            <i class="fa-regular fa-message"></i>
+                            <span *ngIf="task.comments.length > 0" class="badge text-white p-1 bg-danger noti-con fw-light " style="transform:translate(40%,40%);">{{ task.comments.length }}</span>
+                        </div>
+                        <!-- for achieve taskcard -->
+                        <div>
+                            <i *ngIf="task.stage.id==3  && !task.deleteStatus" (click)="removeTask($event,task.id)" class="fa-solid fa-xmark" > </i>
 
-                        <i *ngIf="task.stage.id==3 && task.deleteStatus" (click)="restoreTaskCard($event,task.id)" class="fa-solid fa-rotate-left text-muted"></i>
+                            <i *ngIf="task.stage.id==3 && task.deleteStatus" (click)="restoreTaskCard($event,task.id)" class="fa-solid fa-rotate-left text-muted"></i>
+                        </div>
+                        <div class="dropdown p-0 m-0" id="color-dropdown">
+                            <i (click)="handleShowColorPlatte($event)" class="fa-solid fa-palette" data-bs-toggle="dropdown" data-bs-target="#color-dropdown"></i>
+                            <ul class="dropdown-menu p-3">
+                                <li style="font-size:16px;">Select Color :</li>
+                                <li class="d-flex flex-wrap justify-content-center gap-1 my-2">
+                                    <p (click)="handleSetColor( $event,  '')" class="p-0 m-0 rounded-0 shadow-sm text-center" style="width:20px;height:20px;" ><i class="fa-solid fa-ban text-muted"></i></p>
+                                    <p *ngFor="let color of colors" (click)="handleSetColor($event, color)" class="p-0 m-0 rounded-0" style="width:20px;height:20px;" [style]="'background:'+color" ></p>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="dropdown p-0 m-0" id="color-dropdown">
-                        <i (click)="handleShowColorPlatte($event)" class="fa-solid fa-palette" data-bs-toggle="dropdown" data-bs-target="#color-dropdown"></i>
-                        <ul class="dropdown-menu p-3">
-                            <li style="font-size:16px;">Select Color :</li>
-                            <li class="d-flex flex-wrap justify-content-center gap-1 my-2">
-                                <p (click)="handleSetColor( $event,  '')" class="p-0 m-0 rounded-0 shadow-sm text-center" style="width:20px;height:20px;" ><i class="fa-solid fa-ban text-muted"></i></p>
-                                <p *ngFor="let color of colors" (click)="handleSetColor($event, color)" class="p-0 m-0 rounded-0" style="width:20px;height:20px;" [style]="'background:'+color" ></p>
-                            </li>
-                        </ul>
+                </div>
+            <div class="w-100 d-flex  gap-2 align-items-end justify-content-between " >
+                <div class="d-flex gap-2 align-items-end {{ taskStatus == PERIOD_STATUS.OVER && taskColor }} " [style]="'color:'+taskColor +'!important'">
+                    <span style="font-size:13px;">{{ task.startedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
+                    <span *ngIf="task.startedDate != task.endedDate"><i class="fa-solid fa-right-long" style="font-size:12px;"></i></span>
+                    <span *ngIf="task.startedDate != task.endedDate" style="font-size:13px;">{{ task.endedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
+                </div>
+                <div *ngIf="!task.deleteStatus" class="text-end d-flex flex-column" style="width:35%;" >
+                    <!-- <small *ngIf="taskStatus != PERIOD_STATUS.OK" style="font-size:10px;">{{ taskStatus }}</small> -->
+                    <small style="font-size:12px;">{{ showDonePercent ? 'Done Activity' : 'No Activity' }}<i class="fa-solid fa-circle ms-2 {{ taskColor }}" [style]="'color:'+ taskColor + ' !important' " ></i></small>
+                    <div class="w-100 d-flex align-items-center gap-1">
+                        <mat-progress-bar [value]="donePercent"  mode="determinate" [color]="(taskStatus == PERIOD_STATUS.OVER) && 'warn'"></mat-progress-bar>
+                        <small style="font-size:10px;" class="fw-bold thm">{{ donePercent }}%</small>
                     </div>
                 </div>
             </div>
-        <div class="w-100 d-flex  gap-2 align-items-end fw-bold justify-content-between " >
-            <div class="d-flex gap-2 align-items-end {{ taskColor }}">
-                <span style="font-size:13px;">{{ task.startedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
-                <span *ngIf="task.startedDate != task.endedDate"><i class="fa-solid fa-right-long" style="font-size:12px;"></i></span>
-                <span *ngIf="task.startedDate != task.endedDate" style="font-size:13px;">{{ task.endedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
-            </div>
-            <div *ngIf="!task.deleteStatus" class="text-end d-flex flex-column" style="width:35%;" >
-                <!-- <small *ngIf="taskStatus != PERIOD_STATUS.OK" style="font-size:10px;">{{ taskStatus }}</small> -->
-                <small style="font-size:12px;">{{ showDonePercent ? 'Done Activity' : 'No Activity' }}</small>
-                <div class="w-100 d-flex align-items-center gap-1">
-                    <mat-progress-bar [value]="donePercent"  mode="determinate" [color]="(taskStatus == PERIOD_STATUS.OVER) && 'warn'"></mat-progress-bar>
-                    <small style="font-size:10px;" class="fw-bold thm">{{ donePercent }}%</small>
-                </div>
-            </div>
-        </div>
        </div>
     `
 })
@@ -245,13 +245,13 @@ export class TaskCardComponent implements OnInit {
             return '';
         }
         if( periodStatus == this.PERIOD_STATUS.FAR ){
-            return 'text-success';
+            return 'green';
         }
         if( periodStatus == this.PERIOD_STATUS.OVER ){
             return 'text-danger'
         }
         if( periodStatus == this.PERIOD_STATUS.CLOSE ){
-            return 'text-warning';
+            return 'yellow';
         }
         return '';
     }

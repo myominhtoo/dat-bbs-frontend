@@ -13,7 +13,7 @@ import { forkJoin, tap } from "rxjs";
     template : `
             <div class=" container">
                 <div class=" px-5 w-100 py-2 mt-2 border-board d-flex justify-content-between align-items-center">
-                    <h2>Stages-TaskCards' Chart</h2>
+                    <h3>Stages - TaskCards' Chart</h3>
                     <div>
                         <button (click)="backToBoard()" class="btn btn-sm btn-outline-secondary py-1 myboard-btn">
                             <i class="fa-solid fa-square-caret-left"></i>

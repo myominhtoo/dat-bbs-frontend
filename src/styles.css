@@ -1400,10 +1400,9 @@ color: black;
 
 
   #full-calendar-container{
-    width:800px;
-    height:500px;
+    width: 1200px;
     padding: 0;
-    margin:50px auto !important;
+    margin: 0 auto !important;
   }
 
   full-calendar *{

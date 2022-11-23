@@ -8,7 +8,7 @@
   </div>
 
   <div class="d-flex justify-content-between align-items-center border-board px-3" *ngIf="taskCards.length!=0 ">
-    <h2 class=""> Closed TaskCards </h2>
+    <h3 class=""> Closed TaskCards </h3>
     <button class=" btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="dropdown"><span>Export</span><i
         class="fa-solid fa-file-export"></i></button>
     <ul class="dropdown-menu">
@@ -25,6 +25,5 @@
     class="row  d-flex justify-content-start align-items-center m-0 p-0 my-3 flex-wrap">
     <task-card cdkDrag *ngFor="let task of taskCards" (restoreDeletedTask)="restoreTask($event)" [task]="task"
       [routerLink]="'/boards/'+task.board.id" class="col-4"></task-card>
-
   </div>
 </div>

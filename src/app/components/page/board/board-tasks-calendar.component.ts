@@ -12,20 +12,20 @@ import { Stage } from 'src/app/model/bean/stage';
 @Component({
     selector : 'board-tasks-calendar',
     template : `
-        <div class="px-5 pe-5 w-100 m-4 border-board d-flex justify-content-between align-items-center">
+        <div class="px-5 py-2 pe-5 w-100 m-4 border-board d-flex justify-content-between align-items-center">
            <div>
                 <h2>{{ boardTasksStore.board.boardName }} Board' Tasks Calendar</h2>
            </div>
-           <div>
+           <div class="d-flex gap-1">
+                <div class="d-flex justify-content-end gap-1">
+                    <button (click)="changeView('calendar')" class="btn btn-sm btn-outline-secondary py-1 myboard-btn" [ngClass]="{ 'text-light' : curView == 'calendar' , 'btn-secondary' : curView == 'calendar' }" >Calendar View</button>
+                    <button (click)="changeView('list')" class="btn btn-sm btn-outline-secondary py-1 myboard-btn" [ngClass]="{ 'text-light' : curView == 'list' , 'btn-secondary' : curView == 'list' }">List View</button>
+                </div>
                 <button (click)="backToBoard()" class="btn btn-sm btn-outline-secondary py-1 myboard-btn">
                     <i class="fa-solid fa-square-caret-left"></i>
                     Back To Board
                 </button>
            </div>
-        </div>
-        <div class="d-flex justify-content-end gap-2 w-75 px-5 mx-auto">
-            <button (click)="changeView('calendar')" class="btn btn-sm btn-outline-secondary py-1 myboard-btn" [ngClass]="{ 'text-light' : curView == 'calendar' , 'btn-secondary' : curView == 'calendar' }" >Calendar View</button>
-            <button (click)="changeView('list')" class="btn btn-sm btn-outline-secondary py-1 myboard-btn" [ngClass]="{ 'text-light' : curView == 'list' , 'btn-secondary' : curView == 'list' }">List View</button>
         </div>
         <div id="full-calendar-container" class="d-flex justify-content-center align-items-center">
             <full-calendar #calendar [options]="calendarDetails" ></full-calendar>
