@@ -8,7 +8,6 @@ import { Board } from "src/app/model/bean/board";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UserStore } from 'src/app/model/service/store/user.store';
 import { BoardService } from 'src/app/model/service/http/board.service';
-// import * as XLSX from 'xlsx';
 import swal from "sweetalert";
 import { SocketService } from 'src/app/model/service/http/socket.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,16 +18,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class WorkspaceComponent implements OnInit {
 
-        // storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
         boarding : Board=new Board();
         bookmarks:BoardBookMark[]=[];
         boards : Board[]=[];
 
-    // status = {
-    //     isLoading : false,
-    //     hasDoneFetching : false,
-    // }
-    // fileName='board.xlsx';
         pdf='pdf';
         excel='excel';
         html='html';
@@ -92,8 +85,6 @@ export class WorkspaceComponent implements OnInit {
 
       let useridd=this.userStore.user.id;
 
-      // console.log(useridd);
-
         this.boardService.exportBoardReport(useridd,path).subscribe((res)=>{
             const blob = new Blob([res.body], { type : 'application/octet-stream'});
 
@@ -110,17 +101,6 @@ export class WorkspaceComponent implements OnInit {
         })
 
       }
-
-
-    //   isClick(con:boolean,filetype:string){
-    //     this.boardService.exportReport(filetype).subscribe(data=>
-    //         {
-    //         this.msg = Object.values(data)[0];
-    //      });
-    //      alert("fail");
-    //     this.click=con;
-    //     }
-
 }
 
 

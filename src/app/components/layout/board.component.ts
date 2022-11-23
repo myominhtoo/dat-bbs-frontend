@@ -58,7 +58,7 @@ export class BoardComponent implements OnInit {
       e.stopPropagation();
 
       swal({
-        text : 'Are you sure to delete board?',
+        text : 'Are you sure to archive board?',
         icon : 'warning',
         buttons : [ 'No' , 'Yes' ]
       }).then(isYes=>{
@@ -80,7 +80,6 @@ export class BoardComponent implements OnInit {
     }
 
     fetchRequiredDatas(){
-
        forkJoin([
         this.userService.getUsersForBoard(this.data.id),
         this.taskCardService.getTaskCards(this.data.id)
@@ -88,40 +87,8 @@ export class BoardComponent implements OnInit {
           this.data.members = boardHasUsers.map( boardHasUser => boardHasUser.members );
           this.data.tasks = taskCards;
        });
-
-        // this.getMembers( this.data.id  )
-        // .then( () => {
-        //     this.getCards( this.data.id ).then( () => {
-        //         // console.log('hi')
-        //     });
-        // });
+    
     }
-
-    async getMembers( boardId : number ) : Promise<void> {
-       this.userService.getUsersForBoard( boardId )
-       .subscribe({
-         next : members => {
-            this.data.members = members.map( d => d.members);
-         },
-         error : err => {
-            console.log('error in getting members!'+err);
-         }
-        });
-    }
-
-
-    async getCards( boardId : number ) : Promise<void> {
-        this.taskCardService.getTaskCards( boardId )
-        .subscribe({
-            next : tasks => {
-                this.data.tasks =  tasks;
-            },
-            error : err => {
-                console.log('error in getting taskcards!'+err);
-            }
-        });
-    }
-
 
     handleBookMark( e : Event,data:Board ){
           e.stopPropagation();
@@ -167,7 +134,7 @@ export class BoardComponent implements OnInit {
       e.stopPropagation();
       // this.data.deleteStatus=false;
       swal({
-        text : 'Are You Sure to Restore ?',
+        text : 'Are you sure to restore board?',
         icon : 'warning',
         buttons : ['No' , 'Yes']
       }).then(isYes=>
@@ -187,4 +154,13 @@ export class BoardComponent implements OnInit {
           // this.data.deleteStatus=true;
         }) 
     }
+
+    handleClickMenu( event : Event ){
+      event.stopPropagation();
+
+      // $(`.dropdown-menu`).hide();
+
+      $(`#board-dropdown${this.data.id} .dropdown-menu`).toggle();
+    }
+
 }

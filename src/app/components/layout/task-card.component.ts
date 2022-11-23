@@ -242,7 +242,7 @@ export class TaskCardComponent implements OnInit {
         this.taskStatus = periodStatus;
 
         if( periodStatus == this.PERIOD_STATUS.OK ){
-            return '';
+            return 'text-primary';
         }
         if( periodStatus == this.PERIOD_STATUS.FAR ){
             return 'green';
@@ -251,7 +251,7 @@ export class TaskCardComponent implements OnInit {
             return 'text-danger'
         }
         if( periodStatus == this.PERIOD_STATUS.CLOSE ){
-            return 'yellow';
+            return 'text-warning';
         }
         return '';
     }

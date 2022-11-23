@@ -1,22 +1,29 @@
-<div class=" card m-0 board p-2 shadow-none " [routerLink]="'/boards/'+data.id" style="border: 0.2px solid rgba(128, 128, 128, 0.628) !important;">
+<div class=" card m-0 board p-2 shadow-none "  style="border: 0.2px solid rgba(128, 128, 128, 0.628) !important;">
     <!-- <img src="assets\img\board-profile-img\profilepic.png" alt=""> -->
     <div class="card-body d-flex justify-content-between flex-column py-2 px-2 fw-bold">
         <div class="d-flex justify-content-between">
-            <span style="z-index:1000">
+            <div>
                 <!-- <i class="fa-solid fa-star mx-1"></i> -->
                 <i class=""></i>
                 <i class="bookmark-icon fa-regular fa-bookmark tw-color pe-2" (click)="handleBookMark($event,data)"
                     [class.fw-bold]="isBookMark()"></i>
                 {{ data.boardName | titlecase }}
-            </span>
-            <span>
-                <button (click)="removeBoard($event)" style="padding: 0; border: 0; background: none;">
+            </div>
+            <div class="dropdown" [id]="'board-dropdown'+data.id">
+                <i (click)="handleClickMenu($event)" class="fa-solid fa-ellipsis-vertical text-muted p-1" data-bs-toggle="dropdown" data-bs-target="#" ></i>
+                <!-- <button (click)="removeBoard($event)" style="padding: 0; border: 0; background: none;">
                     <i *ngIf="data.user.id==usersStore.user.id && !data.deleteStatus"
                         class="fa-sharp fa-solid fa-trash text-muted"> </i>
                 </button>
-                <i *ngIf="data.user.id==usersStore.user.id && data.deleteStatus" (click)="restoreBoard($event)"
-                    class="fa-solid fa-rotate-left text-muted"></i>
-            </span>
+                <i *ngIf="data.user.id == usersStore.user.id && data.deleteStatus" (click)="restoreBoard($event)"
+                    class="fa-solid fa-rotate-left text-muted"></i> -->
+                <ul class="dropdown-menu py-0" style="font-size:13px !important;">
+                    <li *ngIf="!data.deleteStatus" (click)="removeBoard($event)" class="dropdown-item">Archive</li>
+                    <li *ngIf="data.deleteStatus" class="dropdown-item">Unarchive</li>
+                    <li *ngIf="data.user.id == usersStore.user.id" (click)="restoreBoard($event)" class="dropdown-item text-danger">Delete</li>
+                    <li *ngIf="data.user.id != usersStore.user.id" class="dropdown-item text-danger">Leave</li>
+                </ul>
+            </div>
         </div>
 
         <div class="d-flex justify-content-between ">
