@@ -1,3 +1,4 @@
+import { Notification } from 'src/app/model/bean/notification';
 import { BoardBookMark } from './../../bean/BoardBookMark';
 import { User } from 'src/app/model/bean/user';
 import { HttpClient, HttpHeaders , HttpResponse as NgHttpResponse } from "@angular/common/http";
@@ -5,7 +6,6 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpResponse } from "../../bean/httpResponse";
 import { BoardsHasUsers } from '../../bean/BoardsHasUser';
-import { Notification } from '../../bean/notification';
 import { Board } from '../../bean/board';
 
 @Injectable({
@@ -79,6 +79,10 @@ export class UserService {
         return this.httpClient.get<Notification[]>(`http://localhost:8080/api/users/${userId}/notifications`);
     }
 
+    seenNoti(noti:Notification):Observable<Notification>{
+        return this.httpClient.put<Notification>(`http://localhost:8080/api/users/seen`,noti)
+
+    }
     // reportUser(boardId: number ,filetype: string): Observable<Map<string,string>>{
     //   return this.httpClient.get<Map<string,string>>(`http://localhost:8080/api/boards/${boardId}/members/report?format=${filetype}`);
     // }
