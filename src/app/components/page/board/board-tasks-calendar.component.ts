@@ -9,7 +9,7 @@ import swal from 'sweetalert';
 import { TaskCard } from 'src/app/model/bean/taskCard';
 import { Stage } from 'src/app/model/bean/stage';
  
-@Component({
+@Component({ 
     selector : 'board-tasks-calendar',
     template : `
         <div class="px-5 py-2 pe-5 w-100 m-4 border-board d-flex justify-content-between align-items-center">
