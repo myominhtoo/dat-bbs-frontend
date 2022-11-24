@@ -456,14 +456,14 @@ export class MyBoardComponent implements OnInit {
 
 
     handleShowOffCanvas( task  : TaskCard ){
+      this.offCanvasTab = this.offCanvasTab == 'comment' ? 'comment' : 'activity';
       $('#task-offcanvas-btn').click();
       this.offCanvasTask = task;
-      this.offCanvasTab = 'activity';
     }
 
     handleShowCommentSectionInOffCanvas( task : TaskCard ){
-      this.handleShowOffCanvas(task);
       this.offCanvasTab = 'comment';
+      this.handleShowOffCanvas(task);
     }
 
     handleRouteChange(){
