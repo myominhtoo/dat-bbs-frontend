@@ -340,7 +340,8 @@ export class TaskOffCanvasComponent implements OnInit {
         .on('hide.bs.offcanvas' , () => {
             this.tab = 'activity';
             $('#assign-members').val('Assign Members');
-            this.updateTask( false );
+            // this.updateTask( false );
+            this.showEmojis = false;
         })
     }
 

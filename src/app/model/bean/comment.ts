@@ -7,4 +7,7 @@ export class Comment{
     createdDate !: Date;
     user ! : User;
     taskCard ! : TaskCard;
+
+    parentComment ! : Comment;
+    childComments ! : Comment[];
 }
