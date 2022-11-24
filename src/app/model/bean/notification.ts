@@ -7,5 +7,7 @@ export class Notification {
     createdDate ! : Date;
     board  : Board | undefined | null;
     sentUser !: User;
+    seenUsers !:User[];
     invitiation : boolean | undefined | null ;
+    
 }
