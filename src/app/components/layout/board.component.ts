@@ -1,10 +1,9 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { forkJoin, tap } from "rxjs";
+import { forkJoin } from "rxjs";
 import { Board } from "src/app/model/bean/board";
 import { BoardBookMark } from "src/app/model/bean/BoardBookMark";
 import { BoardService } from "src/app/model/service/http/board.service";
-import { BoardBookMarkService } from "src/app/model/service/http/boardBookmark.service";
 import { TaskCardService } from "src/app/model/service/http/taskCard.service";
 import { UserService } from "src/app/model/service/http/user.service";
 import { BoardStore } from "src/app/model/service/store/board.store";
@@ -22,7 +21,6 @@ export class BoardComponent implements OnInit {
     ownerBoards:Board[]=[];
     assignBoards:Board[]=[];
 
-    storeUser = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`))));
     @Input('data') data : Board = new Board();
     @Input('target') target : number = 0;
     @Input('bookMarks') bookMarks :BoardBookMark[]=[];
@@ -31,6 +29,8 @@ export class BoardComponent implements OnInit {
     @Output('toggle-bookmark') toggleBookMarkEmit=new EventEmitter<BoardBookMark>();
     @Output('updateBoardDeleteStatus')  emitBoard = new EventEmitter<Board>();
     @Output('restore-board') emitRestoreBoard =new EventEmitter<Board>();
+    @Output('archive') archiveBoardEmit = new EventEmitter<Board>();
+    @Output('unarchive') unarchiveBoardEmit = new EventEmitter<Board>();
  
 
     constructor(
@@ -38,7 +38,6 @@ export class BoardComponent implements OnInit {
         private taskCardService : TaskCardService,
         public boardStore : BoardStore ,
         private boardServie : BoardService,
-        private boardBookmarkService : BoardBookMarkService,
         public usersStore : UserStore 
     ){    
         this.data.members = [];
@@ -51,7 +50,7 @@ export class BoardComponent implements OnInit {
 
     ngOnInit(): void {
         this.fetchRequiredDatas();
-
+        this.isBoardArchive();
     }
 
      removeBoard( e : Event ){
@@ -92,36 +91,38 @@ export class BoardComponent implements OnInit {
 
     handleBookMark( e : Event,data:Board ){
           e.stopPropagation();
-          this.usersStore.fetchUserData();
+          if( !this.data.isArchive ){
+                this.usersStore.fetchUserData();
           
-          this.boardBookMark.board = data;        
-          this.boardBookMark.user = this.usersStore.user;      
-          
-            //getting current board form book marks
-            const curBoardFromBookMarks = this.bookMarks.filter( bookMark => bookMark.board.id == data.id );
-            
-           // will enter if cur board has been book mark        
-            swal({
-              text:curBoardFromBookMarks.length > 0 ? "Are you sure to remove?" : "Are you sure to bookmark?",
-              icon:"warning",
-              buttons : [ 'No' , 'Yes' ]
-            }).then(isYes=>{
-              if(isYes){
-                if( curBoardFromBookMarks.length > 0 ){
-                  this.boardBookMark.id = curBoardFromBookMarks[0].id;
-                }            
-                this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
-                next:(res)=>{          
-                  if(res.ok){
-                    console.log(res.data)
-                    this.toggleBookMarkEmit.emit( res.data );
-                  }
-                },error:(err)=>{
-                    console.log(err)
+                this.boardBookMark.board = data;        
+                this.boardBookMark.user = this.usersStore.user;      
+                
+                  //getting current board form book marks
+                  const curBoardFromBookMarks = this.bookMarks.filter( bookMark => bookMark.board.id == data.id );
+                  
+                // will enter if cur board has been book mark        
+                  swal({
+                    text:curBoardFromBookMarks.length > 0 ? "Are you sure to remove?" : "Are you sure to bookmark?",
+                    icon:"warning",
+                    buttons : [ 'No' , 'Yes' ]
+                  }).then(isYes=>{
+                    if(isYes){
+                      if( curBoardFromBookMarks.length > 0 ){
+                        this.boardBookMark.id = curBoardFromBookMarks[0].id;
+                      }            
+                      this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
+                      next:(res)=>{          
+                        if(res.ok){
+                          console.log(res.data)
+                          this.toggleBookMarkEmit.emit( res.data );
+                        }
+                      },error:(err)=>{
+                          console.log(err)
+                      }
+                  })              
                 }
-            })              
+              })     
           }
-        })     
     }
 
     isBookMark(){      
@@ -130,37 +131,72 @@ export class BoardComponent implements OnInit {
       })          
     }
 
-    restoreBoard(e : Event){
-      e.stopPropagation();
-      // this.data.deleteStatus=false;
-      swal({
-        text : 'Are you sure to restore board?',
-        icon : 'warning',
-        buttons : ['No' , 'Yes']
-      }).then(isYes=>
-        {
-          if(isYes){
-            this.data.deleteStatus=false;
-            this.boardServie.updateBoard(this.data).subscribe({
-              next : res => {
-                this.emitRestoreBoard.emit(this.data);
-                this.data.deleteStatus=false;
-              },
-              error : err =>{
-                console.log(err)
-              }
-            });
-          }
-          // this.data.deleteStatus=true;
-        }) 
-    }
+    // restoreBoard(e : Event){
+    //   e.stopPropagation();
+    //   // this.data.deleteStatus=false;
+    //   swal({
+    //     text : 'Are you sure to restore board?',
+    //     icon : 'warning',
+    //     buttons : ['No' , 'Yes']
+    //   }).then(isYes=>
+    //     {
+    //       if(isYes){
+    //         this.data.deleteStatus=false;
+    //         this.boardServie.updateBoard(this.data).subscribe({
+    //           next : res => {
+    //             this.emitRestoreBoard.emit(this.data);
+    //             this.data.deleteStatus=false;
+    //           },
+    //           error : err =>{
+    //             console.log(err)
+    //           }
+    //         });
+    //       }
+    //       // this.data.deleteStatus=true;
+    //     }) 
+    // }
 
     handleClickMenu( event : Event ){
       event.stopPropagation();
 
-      // $(`.dropdown-menu`).hide();
-
       $(`#board-dropdown${this.data.id} .dropdown-menu`).toggle();
     }
 
+    archiveBoard( event : Event ){
+      event.stopPropagation();
+      
+      swal({
+        text : 'Are you sure to archive this board?',
+        icon : 'warning',
+        buttons : [ 'No' , 'Yes' ]
+      }).then( isYes => {
+        if(isYes){
+          this.usersStore.fetchUserData();
+          this.data.archivedUsers.push(this.usersStore.user);
+          this.archiveBoardEmit.emit( this.data );
+        }else{
+          $(`#board-dropdown${this.data.id} .dropdown-menu`).hide();
+        }
+      })
+    }
+
+    unarchiveBoard(){
+      swal({
+        text : 'Are you sure to unarchive this board?',
+        icon : 'warning',
+        buttons : [ 'No' , 'Yes' ]
+      }).then( isYes => {
+        if(isYes){
+          this.usersStore.fetchUserData();
+          this.data.archivedUsers = this.data.archivedUsers.filter( user => this.usersStore.user.id != user.id );
+          this.unarchiveBoardEmit.emit( this.data );
+        }else{
+          $(`#board-dropdown${this.data.id} .dropdown-menu`).hide();
+        }
+      })
+    }
+    
+    isBoardArchive(){
+      this.data.isArchive =  this.boardStore.archivedBoards.some( board => board.id == this.data.id );
+    }
 }

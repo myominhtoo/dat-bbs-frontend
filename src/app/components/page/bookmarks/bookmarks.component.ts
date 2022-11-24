@@ -40,8 +40,9 @@ export class BoardMarkComponent{
         this.status.isLoading = true;
         this.boardBoardmarkService.showBookmarks(userId).subscribe({
             next: dataBookmark => {
-                console.log(dataBookmark);
-                this.bookMarks = dataBookmark;
+                this.bookMarks = dataBookmark.filter( bookmark => {
+                    return (!this.boardStore.archivedBoards.map( archivedBoard => archivedBoard.id ).includes(bookmark.board.id));
+                })
                 this.status.isLoading = false;
                 this.status.hasDoneFetching = true;
             },

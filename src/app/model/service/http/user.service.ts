@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
 import { HttpResponse } from "../../bean/httpResponse";
 import { BoardsHasUsers } from '../../bean/BoardsHasUser';
 import { Notification } from '../../bean/notification';
-
+import { Board } from '../../bean/board';
 
 @Injectable({
     providedIn : 'root'
@@ -93,7 +93,12 @@ export class UserService {
         return this.httpClient.get<User[]>(`http://localhost:8080/api/users/${userId}/collaborators`);
     }
 
-    // getAllJoinedMembers(userId:number): Observable<BoardsHasUsers[]>{
-    //     return this.httpClient.get<BoardsHasUsers[]>(`http://localhost:8080/api/users/${userId}/joinboard`);        
-    // }
+    archiveBoard( user : User ,  board : Board ) : Observable<HttpResponse<User>> {
+        return this.httpClient.put<HttpResponse<User>>(`http://localhost:8080/api/users/${user.id}/archive-board` , board );
+    }
+
+    getArchiveBoards( userId : number) : Observable<Board[]> {
+        return this.httpClient.get<Board[]>(`http://localhost:8080/api/users/${userId}/archive-boards`);
+    }
+
   }

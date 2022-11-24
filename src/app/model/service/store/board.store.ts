@@ -1,11 +1,10 @@
-import { BoardsHasUsers } from './../../bean/BoardsHasUser';
-import { User } from './../../bean/user';
 import { Injectable } from "@angular/core";
 import { Board } from "../../bean/board";
 import { AuthService } from "../http/auth.service";
 import { BoardService } from "../http/board.service";
 import { UserStore } from "./user.store";
 import { UserService } from '../http/user.service';
+import { forkJoin } from 'rxjs';
 @Injectable({
     providedIn : 'root'
 })
@@ -16,6 +15,8 @@ export class BoardStore{
     public boards : Board [] = [];
     public ownBoards : Board [] = [];
     public joinedBoards : Board [] = [];
+
+    public archivedBoards : Board [] = [];
     
     public status = {
         isLoading : true,
@@ -25,7 +26,8 @@ export class BoardStore{
     constructor( 
         private boaredService : BoardService , 
         public userStore : UserStore ,
-        private authService : AuthService ){
+        private authService : AuthService ,
+        private userService : UserService ){
         if( authService.isAuth() ){
             this.userStore.fetchUserData();
             if( this.userStore.user.id )  this.getBoardsByUserId( userStore.user.id ); 
@@ -39,29 +41,34 @@ export class BoardStore{
 
     public getBoardsByUserId( userId : number ){
         this.status.isLoading = true;
-        this.boaredService.getBoardsForUser( userId ).subscribe({
-            next : datas => {                
-                this.boards= datas.map( data => {
-                    return { ...data , color : this.randomNumberBoard() };
-                })
 
-                this.ownBoards = this.boards.filter( board => {
-                    board.color = this.randomNumberBoard();
-                    // board.user.iconColor = this.userStore.user.iconColor;
-                    return board.user.id == this.userStore.user.id
-                });
-                this.joinedBoards = this.boards.filter( board => {
-                    board.color = this.randomNumberBoard();
-                    return board.user.id != this.userStore.user.id;
-                });
+        forkJoin([
+            this.boaredService.getBoardsForUser( userId ),
+            this.userService.getArchiveBoards( userId )            
+        ]).subscribe( ([ allBoards , archivedBoards ]) => {
+            this.boards = allBoards.filter( board => {
+                return !archivedBoards.map( brd => brd.id ).includes(board.id);
+            }).map( filteredBoard => {
+                return { ...filteredBoard , isArchive : false }
+            });
+            
+            this.ownBoards = this.boards.filter( board => {
+                board.color = this.randomNumberBoard();
+                // board.user.iconColor = this.userStore.user.iconColor;
+                return board.user.id == this.userStore.user.id
+            });
+            this.joinedBoards = this.boards.filter( board => {
+                board.color = this.randomNumberBoard();
+                return board.user.id != this.userStore.user.id;
+            });
 
-                this.status.isLoading = false;
-                this.status.hasDoneFetching = true;
-            },
-            error : err => {
-                console.log(err);
-            }
-        });
+            this.archivedBoards  = archivedBoards;
+
+            this.status.isLoading = false;
+            this.status.hasDoneFetching = true;
+
+        })
+
     }
  
     public refetchBoardsByUserId( userId : number ){

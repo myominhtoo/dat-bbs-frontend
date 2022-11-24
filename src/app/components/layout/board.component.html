@@ -18,9 +18,9 @@
                 <i *ngIf="data.user.id == usersStore.user.id && data.deleteStatus" (click)="restoreBoard($event)"
                     class="fa-solid fa-rotate-left text-muted"></i> -->
                 <ul class="dropdown-menu py-0" style="font-size:13px !important;">
-                    <li *ngIf="!data.deleteStatus" (click)="removeBoard($event)" class="dropdown-item">Archive</li>
-                    <li *ngIf="data.deleteStatus" class="dropdown-item">Unarchive</li>
-                    <li *ngIf="data.user.id == usersStore.user.id" (click)="restoreBoard($event)" class="dropdown-item text-danger">Delete</li>
+                    <li *ngIf="!data.isArchive" (click)="archiveBoard($event)" class="dropdown-item">Archive</li>
+                    <li *ngIf="data.isArchive" (click)="unarchiveBoard()" class="dropdown-item">Unarchive</li>
+                    <li *ngIf="data.user.id == usersStore.user.id" class="dropdown-item text-danger">Delete</li>
                     <li *ngIf="data.user.id != usersStore.user.id" class="dropdown-item text-danger">Leave</li>
                 </ul>
             </div>

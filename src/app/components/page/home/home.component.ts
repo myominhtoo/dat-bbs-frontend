@@ -131,7 +131,6 @@ export class HomeComponent implements OnInit {
         const firstImgWidth = firstDiv.clientWidth +14;
         carousel.scrollLeft += id == "left" ? -firstImgWidth : firstImgWidth;    
         this.carouselDiv=carousel.scrollLeft;      
-        console.log(this.carouselDiv)
         setTimeout(() => this.showHideIcons(), 60);
     }
     
@@ -166,106 +165,14 @@ export class HomeComponent implements OnInit {
         })
     }    
 
-<<<<<<< HEAD
-    public getAllMembers(userId: number) {
-        
-        this.userService.getAllMembers(userId).subscribe({
-            next:(res)=>{                          
-                let prevUserId = 0;                
-                this.myBoardCollaborator = res.map( boardHasUser => boardHasUser.user )
-                                        .filter( user => {
-                                            if( prevUserId != user.id ){
-                                                prevUserId = user.id;                                                
-                                                return true;
-                                            }
-                                            return false;
-                                        } )        //filter duplicate value                        
-=======
     getCollaborators( userId : number ){
         this.userService.getCollaborators( userId )
         .subscribe({
             next : resUsers => {
                 this.collaborators = resUsers;
-                console.log(resUsers)
             } 
         });
     }
-
-    // public getAllMembers(userId: number) {
-    //     this.userService.getAllMembers(userId).subscribe({
-    //         next:(res)=>{                          
-    //             let prevUserId = 0;                
-    //             this.myBoardCollaborator = res.map( boardHasUser => boardHasUser.user )
-    //                                     .filter( user => {
-    //                                         if( prevUserId != user.id ){
-    //                                             prevUserId = user.id;                                                
-    //                                             return true;
-    //                                         }
-    //                                         return false;
-    //                                     } )        //filter duplicate value                        
->>>>>>> bde91281aa422bfaf74bf95edb29706e5c260388
-
-                            
-                
-    //         },error:(err)=>{
-    
-<<<<<<< HEAD
-            }
-        })
-        this.userService.getAllJoinedMembers(userId).subscribe({
-            next:(res)=>{                
-                let prevUserId = 0;        
-                let prevAllUserId=0;        
-                this.joinCollaborator = res.map( boardHasUser => boardHasUser.board.user )
-                                        .filter( user => {
-                                            if( prevUserId != user.id ){
-                                                prevUserId = user.id;                                                
-                                                return true;
-                                            }
-                                            return false;
-                                        } )                                                                                                                 
-                let Userarr=[...this.myBoardCollaborator,...this.joinCollaborator];                                              
-                this.duplicateValue(Userarr)
-            },
-            error:(err)=>{
-                    console.log(err)
-            }
-        })                        
-=======
-    //         }
-    //     })
-    //     this.userService.getAllJoinedMembers(userId).subscribe({
-    //         next:(res)=>{
-    //             let Userarr;
-    //             let prevUserId = 0;        
-    //             let prevAllUserId=0;        
-    //             this.joinCollaborator = res.map( boardHasUser => boardHasUser.board.user )
-    //                                     .filter( user => {
-    //                                         if( prevUserId != user.id ){
-    //                                             prevUserId = user.id;                                                
-    //                                             return true;
-    //                                         }
-    //                                         return false;
-    //                                     } )        //filter duplicate value                        
-
-                            
-    //                                     Userarr=[...this.myBoardCollaborator,...this.joinCollaborator]
-    //                                     let userSize=Userarr.length;
-    //                                 for(let i=0;i<userSize;i++){
-    //                                     if(prevAllUserId !=Userarr[i].id){
-    //                                         prevAllUserId=Userarr[i].id
-    //                                         this.homeCollaborator.push(Userarr[i])
-    //                                 }                                                                                                                        
-    //                             }
-    //         },
-    //         error:(err)=>{
-    
-    //         }
-    //     })                        
->>>>>>> bde91281aa422bfaf74bf95edb29706e5c260388
-        
-    // }
-
 
     public getMyTasks(userId: number) {
         this.status.isLoading=true
@@ -286,6 +193,7 @@ export class HomeComponent implements OnInit {
         })
         
     }
+    
     myPriorities(title: String) {
            
         if (title == "Upcoming") {
@@ -312,19 +220,9 @@ export class HomeComponent implements OnInit {
             this.status.overDueTab = false
         }
     }
-    duplicateValue(arr:Array<User>){
-    console.log(arr)
-//     this.homeCollaborator=arr.filter( (user,i) => {
-//         console.log("Index of",arr.indexOf(user))
-//         console.log(i)
-//         return arr.indexOf(user)===i;
-//     } )        //filter duplicate value                        
-// console.log(this.homeCollaborator)
-//     }
-// 0==0 =>true 1==1 =>true 2==2 =>true
-this.homeCollaborator=Array.from(new Set(arr));
+        duplicateValue(arr:Array<User>){
 
-}
+    }
 }
 
 

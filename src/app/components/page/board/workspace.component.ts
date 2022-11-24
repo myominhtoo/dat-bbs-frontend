@@ -3,7 +3,7 @@ import { UserService } from 'src/app/model/service/http/user.service';
 import { Component, Input, OnInit } from "@angular/core";
 import { BoardStore } from "src/app/model/service/store/board.store";
 import { ToggleStore } from "src/app/model/service/store/toggle.service";
-import { CdkDragDrop , moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Board } from "src/app/model/bean/board";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UserStore } from 'src/app/model/service/store/user.store';
@@ -11,6 +11,7 @@ import { BoardService } from 'src/app/model/service/http/board.service';
 import swal from "sweetalert";
 import { SocketService } from 'src/app/model/service/http/socket.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { User } from 'src/app/model/bean/user';
 
 @Component({
     selector : 'workspace',
@@ -28,21 +29,20 @@ export class WorkspaceComponent implements OnInit {
         path='';
         msg='';
         click!: boolean;
-
-
+    
     constructor(
         public toggleStore : ToggleStore ,
         public route : ActivatedRoute ,
         public boardStore : BoardStore,
         public userService :UserService  ,
         public boardService : BoardService,
-        private router : Router ,
         private userStore : UserStore,
         private socketService : SocketService , 
-        private domSantizer : DomSanitizer   ){}
+     ){}
 
     ngOnInit(): void {
         document.title = "BBMS | My Workspace";
+        this.userStore.fetchUserData();
         this.getBookMarks( this.userStore.user.id );
     }
 
@@ -77,13 +77,9 @@ export class WorkspaceComponent implements OnInit {
         : this.bookmarks = this.bookmarks.filter( bookmark => bookmark.id != bookMark.id );
     }
 
-    archiveBoards(){
-        this.router.navigateByUrl(`/archive-boards`,);
-    }
-
     exportBoardReport(path:string) {
 
-      let useridd=this.userStore.user.id;
+      let useridd = this.userStore.user.id;
 
         this.boardService.exportBoardReport(useridd,path).subscribe((res)=>{
             const blob = new Blob([res.body], { type : 'application/octet-stream'});
@@ -101,6 +97,26 @@ export class WorkspaceComponent implements OnInit {
         })
 
       }
+
+    archiveBoard( board : Board ){
+        this.userStore.fetchUserData();
+        const isMyBoard = board.user.id == this.userStore.user.id;
+        this.userService.archiveBoard( this.userStore.user , board )
+        .subscribe( res => {
+           if(res.ok){
+             $(`#board-dropdown${board.id} .dropdown-menu`).hide();
+             board.isArchive = true;
+              this.boardStore.archivedBoards.push(board);
+              this.boardStore.boards = this.boardStore.boards.filter( brd => brd.id != board.id );
+              this.socketService.unsubscribeBoard( board.id );
+              if(isMyBoard){
+                this.boardStore.ownBoards = this.boardStore.ownBoards.filter( brd => brd.id != board.id );
+              }else{
+                this.boardStore.joinedBoards = this.boardStore.joinedBoards.filter( brd => brd.id != board.id );
+              }
+           }
+        });
+    }
 }
 
 

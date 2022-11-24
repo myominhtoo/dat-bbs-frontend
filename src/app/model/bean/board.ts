@@ -13,6 +13,7 @@ export class Board {
     user !: User;
     iconColor : string | undefined;  
     code !: number; 
+    archivedUsers !: User[];
 
     /*
      only to display in ui
@@ -20,4 +21,5 @@ export class Board {
    color !:string;
    tasks !: TaskCard[];
    members !: User[];
+   isArchive !: boolean;
 }

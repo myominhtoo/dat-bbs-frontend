@@ -1,3 +1,5 @@
+import { Board } from "./board";
+
 export class User {
       id !: number;
       username !: string;
@@ -15,4 +17,5 @@ export class User {
       confirmpassword!:string;
 
       iconColor !: string;
+      // archiveBoards !: Board [] ;
 }

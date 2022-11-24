@@ -8,6 +8,7 @@ import { BoardStore } from "src/app/model/service/store/board.store";
 // import * as swal from "sweetalert";
 import swal from "sweetalert";
 import { SocketService } from "src/app/model/service/http/socket.service";
+import { UserService } from "src/app/model/service/http/user.service";
 
 
 
@@ -15,7 +16,7 @@ import { SocketService } from "src/app/model/service/http/socket.service";
     selector :'archive-board',
     templateUrl : './archive-board.component.html'
 })
-export class ArchiveBoardComponent implements OnInit {
+export class ArchiveBoardComponent {
 
     user : User = new User();
     boards : Board[] = [];
@@ -24,43 +25,21 @@ export class ArchiveBoardComponent implements OnInit {
     excel='excel';
     html='html';
 
-status = {
+    status = {
         isLoading : false,
         hasDoneFetching : false,
-    }
-
-    ngOnInit(): void {
-        this.showDeletedBoardsByUserId(this.userStore.user.id );
-
     }
 
     constructor(
         private boardService : BoardService ,
         public userStore : UserStore ,
-        private boardStore : BoardStore ,
-        private socketService : SocketService   ){}
+        public boardStore : BoardStore ,
+        private socketService : SocketService , 
+        private userService : UserService   ){}
 
-    drop( e : CdkDragDrop<Board[]> ){}
-
-
-    showDeletedBoardsByUserId( userId : number ){
-       // console.log(userId);
-        this.status.isLoading=true
-        this.boardService.getDeletedBoardWithBoardId(userId).subscribe({
-            next: data => {
-
-                this.boards = data;
-                this.status.isLoading = false
-                this.status.hasDoneFetching = true;
-            },
-            error : err => {
-                console.log(err);
-            }
-        });
-    }
 
     restoreBoard(board : Board){
-        this.boards=this.boards.filter(resBoard=>resBoard.id!=board.id)
+        this.boards=this.boards.filter( resBoard => resBoard.id!=board.id)
         board.deleteStatus = false;
         this.boardStore.ownBoards.push( board );
         this.socketService.subscribeBoard( board.id ); //subscribing restored baord
@@ -84,8 +63,26 @@ status = {
         });
         })
 
-      }
+    }
 
+    unarchiveBoards( board : Board ){
+        this.userStore.fetchUserData();
+        const isMyBoard = board.user.id == this.userStore.user.id;
+        this.userService.archiveBoard( this.userStore.user , board  )
+        .subscribe( res => {
+            if(res.ok){
+                board.isArchive = false;
+                this.boardStore.archivedBoards = this.boardStore.archivedBoards.filter( brd => brd.id != board.id );
+                this.boardStore.boards.push( board );
+                this.socketService.subscribeBoard( board.id );
+                if( isMyBoard ){
+                    this.boardStore.ownBoards.push(board);
+                }else{
+                    this.boardStore.joinedBoards.push( board );
+                }
+            }
+        });
+    }
 
 }
 
