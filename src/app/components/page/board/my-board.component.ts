@@ -593,16 +593,17 @@ export class MyBoardComponent implements OnInit {
     let boardId = this.route.snapshot.params['id'];
 
       this.taskCardService.getTaskCards(boardId).subscribe(data=>{
-        this.status.isReporting=false;
+        
         this.errorTaskCard=data;
         if(this.errorTaskCard.length==0){
-
+          
           swal({
             text : 'TaskCard is not avaliable!',
             icon : 'warning'
         });
         }
         else{
+          
           this.taskCardService.exportTaskReport(boardId,path).subscribe((res)=>{
             const blob = new Blob([res.body], { type : 'application/octet-stream'});
             const a = document.createElement('a');
@@ -611,7 +612,7 @@ export class MyBoardComponent implements OnInit {
             a.download = `taskCards.${path=='excel' ? 'xlsx' : path.toLowerCase()}`,
             a.click();
             URL.revokeObjectURL(objectUrl);
-
+            this.status.isReporting=false;
             swal({
                 text : 'Successfully Exported!',
                 icon : 'success'
