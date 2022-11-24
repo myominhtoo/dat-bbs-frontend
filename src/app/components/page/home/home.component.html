@@ -1,6 +1,6 @@
 <div class="container-fluid mb-4">
-    
-    <div class="w-75 mx-auto py-4 text-center" >
+
+    <div class="w-75 mx-auto py-4 text-center">
         <h4 class="h5 text-muted text-center ">
             <span>{{ dateObj | date : 'yyyy' }} </span>
             <span>{{ dateObj | date : 'MMM' }}, </span>
@@ -29,7 +29,7 @@
                 <span class="mx-1 fw-bold fs-3" id="count" [attr.data-count]="homeBoards.length">
 
                 </span>
-                <span class="user-infos">              
+                <span class="user-infos">
                     {{ collaborators.length == 0 ? "Board" : "Boards"}}
                 </span>
             </div>
@@ -60,9 +60,10 @@
                                         <div *ngIf="userStore.user.imageUrl == null && userStore.user.username != null"
                                             class="text-light d-flex justify-content-center align-items-center "
                                             style="width: 50px;height: 50px; border-radius: 50%;padding-top: 7px;"
-                                            [style.background]="userStore.user.iconColor + '!important'"
-                                            >
-                                            <h4>{{ user.username && user.username[0].toUpperCase() }}</h4>
+                                            [style.background]="userStore.user.iconColor + '!important'">
+                                            <h4 class="text-dark pt-2">{{ user.username &&
+                                                user.username[0].toUpperCase() }}
+                                            </h4>
                                         </div>
                                         <div *ngIf="userStore.user.imageUrl != null"
                                             class="d-flex justify-content-center align-items-center "
@@ -153,7 +154,7 @@
                                         [routerLink]="'/boards/'+taskList.board.id">
                                         <div>
                                             <span>
-                                                <i class='bx bxs-checkbox'></i>
+                                                <i class='bx bxs-checkbox text-danger'></i>
                                                 <!-- <input type="checkbox" name="" id=""
                                                     class="form-check-input shadow-none"> -->
                                             </span>
@@ -179,7 +180,7 @@
                                                     {{taskList.board.boardName.substring(0,10)}}
                                                 </span>
                                             </h6>
-                                            <span style="font-size: 12px;">
+                                            <span style="font-size: 12px;" class="text-danger">
                                                 {{taskList.startedDate}} <i class="fa-solid fa-right-long"
                                                     style="font-size:12px;"></i>
                                                 {{taskList.endedDate}}
@@ -198,7 +199,7 @@
                                         [routerLink]="'/boards/'+taskList.board.id">
                                         <div>
                                             <span>
-                                                <i class='bx bxs-checkbox'></i>
+                                                <i class='bx bxs-checkbox text-success'></i>
                                                 <!-- <input type="checkbox" name="" id=""
                                                     class="form-check-input shadow-none"> -->
                                             </span>
@@ -296,11 +297,10 @@
 
                         </div>
                         <div class="p-2 px-4 wrapper ">
-                            
+
 
                             <i id="left" class="fa-solid fa-angle-left" *ngIf="collaborators.length !=0"
-                            [class.d-none]="this.carouselDiv == 0" 
-                               (click)="iconClick('left')"></i>
+                                [class.d-none]="this.carouselDiv == 0" (click)="iconClick('left')"></i>
 
                             <div class="carousel d-flex justify-content-start" id="carousel">
                                 <!--(touchstart)="dragStart($event)" (touchmove)="dragging($event)" (touchend)="dragStop()"(touchstart)="dragStart($event)" -->
@@ -317,42 +317,36 @@
                                         </div>
                                     </div>
                                     <!-- end no collaborators -->
-                                    <div class="rounded-3 mx-2 user-people"
-                                        *ngFor="let collaborator of collaborators">
+                                    <div class="rounded-3 mx-2 user-people" *ngFor="let collaborator of collaborators">
                                         <div class="flex-column d-flex justify-content-around align-items-center p-3"
                                             style="height:100%">
                                             <div class="d-flex flex-column  justify-content-center align-items-center">
                                                 <div class="w-100 m-0 p-0">
                                                     <div class="m-0 p-0 d-flex justify-content-center align-items-center"
                                                         style="width: 100%;">
-
-
-
                                                         <div *ngIf="collaborator.imageUrl  == null && collaborator.username != null"
-                                                            class="text-dark d-flex justify-content-center align-items-center bg-secondary"
-                                                            style="width: 90px;height: 90px; border-radius: 50%;">
-                                                            <h4>{{ collaborator.username &&
+                                                            class="text-dark d-flex justify-content-center align-items-center m-0"
+                                                            style="width: 90px;height: 90px; border-radius: 50%;background: #fff;">
+                                                            <h3>{{ collaborator.username &&
                                                                 collaborator.username[0].toUpperCase() }}
-                                                            </h4>
+                                                            </h3>
                                                         </div>
-
-                                                    </div>
-
-                                                    <div *ngIf="collaborator.imageUrl != null" class="mx-auto"
-                                                        style="width: 90px;height: 90px; border-radius: 50%;">
-                                                        <img *ngIf="collaborator.imageUrl != null" class="w-100 h-100"
-                                                            homeCollaborator
-                                                            style="border-radius: 100%;object-fit: cover;"
-                                                            [src]="'http://localhost:8080/img/'+collaborator.imageUrl"
-                                                            alt="">
-
+                                                        <div *ngIf="collaborator.imageUrl != null" class=" p-0 "
+                                                            style="width: 90px;height: 90px; border-radius: 50%; ">
+                                                            <img *ngIf="collaborator.imageUrl != null"
+                                                                class="w-100 h-100"
+                                                                style="border-radius: 100%;object-fit: cover;"
+                                                                [src]="'http://localhost:8080/img/'+collaborator.imageUrl"
+                                                                alt="">
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="pt-2 text-center">
                                                     <h5>{{collaborator.username}}</h5>
                                                     <h6 style="font-size: 13px;">
-                                                        <p class="text-muted">Joined at:<span>{{collaborator.joinedDate|date}}</span> </p>
-                                                    </h6>   
+                                                        <p class="text-muted">Joined
+                                                            at:<span>{{collaborator.joinedDate|date}}</span> </p>
+                                                    </h6>
                                                 </div>
                                             </div>
                                             <div class="">
@@ -370,8 +364,9 @@
 
 
                             </div>
-                            <i id="right" class="fa-solid fa-angle-right" [class.d-none]="this.carouselDiv == scrollWidthDiv || ( collaborators.length == 1)"
-                                 (click)="iconClick('right')"></i>
+                            <i id="right" class="fa-solid fa-angle-right"
+                                [class.d-none]="this.carouselDiv == scrollWidthDiv || ( collaborators.length == 1)"
+                                (click)="iconClick('right')"></i>
                         </div>
                     </div>
                 </div>

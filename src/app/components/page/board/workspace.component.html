@@ -54,7 +54,7 @@
             <board cdkDrag *ngFor="let board of boardStore.joinedBoards;let idx = index;" [data]="board"
                 (archive)="archiveBoard($event)"
                 [bookMarks]="bookmarks" (toggle-bookmark)="toggleBookMark($event)" [routerLink]="'/boards/'+board.id"
-                class="col-3"></board>
+                class="col-3 my-1"></board>
         </div>
     </div>  
 

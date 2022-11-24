@@ -11,10 +11,17 @@
         <div class="d-flex justify-content-between border-board">
                 <h2> My Tasks </h2>
 
+                <!-- For Calender -->
+             <div class="d-flex">
+                <button class="btn btn-outline-secondary btn-sm mx-2 mb-2" data-bs-toggle="modal" data-bs-target="#tasks-calender-modal" >
+                    <i class="fa-solid fa-calendar-days"></i>                        
+                     Calendar
+                </button>
+
                  <!-- report -->
 
                 <div class="dropdown ">
-                    <button class=" btn btn-outline-secondary btn-sm" data-bs-toggle="dropdown">
+                    <button class=" btn btn-outline-secondary btn-sm py-2" data-bs-toggle="dropdown">
                         <i class="fa-solid fa-file-export mx-1"></i>
                         Export
                     </button>
@@ -27,16 +34,33 @@
                                 (click)="exportAssignedTasksReport(excel)" />
                     </ul>
                 </div>
+            </div>   
          </div>
 
         <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="taskCards"
             (cdkDropListDropped)="drop($event)"
             class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap my-3">
             <task-card cdkDrag *ngFor="let task of taskCards" [task]="task" [routerLink]="'/boards/'+task.board.id"
-                class="col-4"></task-card>
+                class="col-4 my-1"></task-card>
 
         </div>
     </div>
     <loading target="TaskCards" [show]="status.isLoading"></loading>
 
+</div>
+
+<!-- modalbox for Calendar -->
+<div class="modal fade"  id="tasks-calender-modal" style="padding-left: 0px!important;">
+    <div class="modal-dialog modal-dialog-centered modal-lg" >
+        <div class="modal-content"  style="width: 1000px  !important; height: 800px">
+        <header class="modal-header d-flex justify-content-between">
+            <h4 class="text-muted">Calender</h4>
+            <i class="btn-close" id="close-calender-btn" data-bs-dismiss='modal' data-bs-target="#tasks-calender-modal"></i>
+        </header>
+        <div class="model-body">
+           <full-calendar #calendar [options]="calendarDetails" ></full-calendar>
+        </div>
+        </div>
+       
+    </div>
 </div>

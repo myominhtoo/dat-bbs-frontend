@@ -39,6 +39,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listWeek from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
+import { TasksCalenderComponent } from './components/page/mytasks/tasks-calender.component';
 
 
 
@@ -72,7 +73,8 @@ FullCalendarModule.registerPlugins([
     CloseTaskComponent,
     TestComponent,
     BoardTasksCalendarComponent,
-    StageTasksChartComponent
+    StageTasksChartComponent,
+    TasksCalenderComponent
   
   ],
   imports: [

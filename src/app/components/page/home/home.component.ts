@@ -184,8 +184,9 @@ export class HomeComponent implements OnInit {
                 this.allTaskCardList = res.filter((res)=> {
                     return res.board.deleteStatus==false && res.deleteStatus==false;
                 });               
+                console.log(this.allTaskCardList)
                 this.status.isLoading=false
-            this.status.hasDoneFetching=true
+            this.status.hasTaskFetching=true
                
             }, error: (err) => {
     

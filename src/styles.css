@@ -359,16 +359,32 @@ padding-bottom:3px;
 .boardprofile{
     /* width: 250px;
     height: 250px; */
-    width: 110px;
-    height: 110px;
+    width: 150px;
+    height: 150px;
     border: 1px solid rgba(15, 15, 15, 0.60);
     border-radius: 50%;
     object-fit: cover;
     /* background-image: url(assets/img/board-profile-img/download.jpg); */
 }
 
+.boardprofile-member {
+  /* width: 250px;
+    height: 250px; */
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+  /* background-image: url(assets/img/board-profile-img/download.jpg); */
+}
+
 .imgholder{
-    position: relative;
+  position: relative;
+    
+}
+.imgholder-member{
+  position: relative;
+  width: 100%;
+    height: 100%;
 }
 .imgedit{
     position: absolute;
@@ -812,12 +828,11 @@ body{
  }
 
 
- .ask-container{
+ /* .ask-container{
     position: relative;
     top: 0;
-    right:70px;
     
- }
+ } */
  
  
 .lineText{
@@ -978,6 +993,8 @@ color: black;
         margin: 0;
         padding: 0;
         border-radius: 100%;
+        border: 1px solid #606060;
+        background-color: #fff;
     }
     .btn-md{
         padding:8px 9px;
@@ -1434,8 +1451,6 @@ color: black;
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    
-    
   }
   .profile-card{
     width: 900px;
@@ -1444,10 +1459,48 @@ color: black;
     max-height: 70%;
     position: relative;
     bottom: 50px;
-    z-index: 300 !important;
+    z-index: 300 !important;    
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
   }
 
   #chart{
     width:100%;
    height: 100%;
   }
+  .profile-card-img{    
+box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  }
+
+    .member-cover-img{
+      position: relative;
+      height: 350px;
+        width: 380px;
+        border-radius: 20px;
+        box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.404);
+    }
+        .member-cover-img-holder{
+          position: absolute;
+          top: 60%;
+          transform: translate(-30%,-50%);
+        }
+
+        .fc-view-harness {
+          
+          height: 591px!important;
+          max-height: 591px!important;
+        }
+        .fc-view-harness-active{
+          
+          height: 500px !important;
+        }
+        .fc-col-header{
+          width: 100% !important;
+          height: 100%;
+        }
+        .fc-daygrid-body{
+          width: 100% !important;
+        }
+        .fc-scrollgrid-sync-table{
+          width: 100% !important; 
+          height: 468px !important;
+        }
