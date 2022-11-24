@@ -1483,3 +1483,7 @@ box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0p
           top: 60%;
           transform: translate(-30%,-50%);
         }
+        .fc-view-harness>* {
+          height: 591px!important;
+          max-height: 591px!important;
+        }
