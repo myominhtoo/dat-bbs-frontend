@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/model/service/http/user.service';
 import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
@@ -20,9 +21,20 @@ import swal from "sweetalert";
              </p>
            </div>
            <div id="noti-body" class="col-10 ps-2 pe-1 text-justify">
-              <h6 *ngIf="!noti.invitiation" class="p-0 m-0 " style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">{{  noti.content.length > 80 ? noti.content.substring(0,80)+'...' : noti.content }}</h6>
-              <h6 *ngIf="noti.invitiation" class="p-0 m-0 " style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">{{  noti.content }}</h6>
-              <small style="font-size:10px;" class="text-primary">{{ noti.createdDate | pentaDate }}</small>
+              <h6 *ngIf="!noti.invitiation" class="p-0 m-0 d-flex justify-content-between align-items-center" style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">
+              <span>{{  noti.content.length > 80 ? noti.content.substring(0,80)+'...' : noti.content }}</span>
+            <span *ngIf="!this.seenNoti" style="font-size: 8px;" class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
+            </h6>
+              <h6 *ngIf="noti.invitiation" class="p-0 m-0 d-flex justify-content-between align-items-center" style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">
+              <span>
+              {{  noti.content }}
+              </span>
+              <span *ngIf="!this.seenNoti"  style="font-size: 8px; "class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
+            </h6>
+              <small style="font-size:10px;" class="text-primary">
+              {{ noti.createdDate | pentaDate }}
+              
+            </small>
            </div>
         </div>
     `
@@ -32,14 +44,15 @@ export class NotiComponent implements OnInit {
     borderLeft : string = 'none !important';
     stompClient : Client | undefined = undefined;
     board : Board = new Board();
-
+   seenNoti:User=new User();
     @Input('noti') noti : Notification = new Notification();
 
     constructor( private boardStore : BoardStore ,
       private boardService : BoardService,
       private userStore : UserStore ,
       private socketService : SocketService,
-       private router : Router ){}
+       private router : Router,
+       private userService:UserService){}
 
     ngOnInit() : void {
       if(this.noti.invitiation){
@@ -49,10 +62,26 @@ export class NotiComponent implements OnInit {
       }
     }
 
-    handleGoBoardFromNoti( boardId : number ){
+    handleGoBoardFromNoti( boardId : number ){      
+      // new
+      this.noti.seenUsers.push(this.userStore.user);
+      console.log(this.noti.seenUsers)
+      this.userService.seenNoti(this.noti).subscribe({
+         next:(res)=>{
+            console.log("It's work!")
+            this.seenNoti=res.seenUsers[0];
+            console.log(res)
+            
+         },error:(err)=>{
+            console.log(err)
+         }
+      })
+// new
+
       if(this.noti.invitiation==true)
       {  
-        if(!this.boardStore.joinedBoards.some(board=> board.id == this.noti.board?.id)){
+        if(!this.boardStore.joinedBoards.some(board=> board.id == this.noti.board?.id))
+        {
          swal({
             text : 'Are you sure to join this board?',
             icon : 'warning',
@@ -71,9 +100,22 @@ export class NotiComponent implements OnInit {
                      this.boardStore.boards.push(this.noti.board!);
                      this.boardStore.joinedBoards.push(this.noti.board!);
                      this.socketService.sendNotiBackToInviter(this.noti.board! , this.noti.sentUser);
-                
-                     this.socketService.subscribeBoard( this.noti.board?.id! )
+                     
+                     this.socketService.subscribeBoard( this.noti.board?.id! )                                         
                      this.router.navigateByUrl(`/boards/${boardId}`);
+                     this.noti.seenUsers.push(this.userStore.user);
+                     console.log(this.noti.seenUsers)
+                     this.userService.seenNoti(this.noti).subscribe({
+                        next:(res)=>{
+                           console.log("It's work!")
+                           console.log(res)
+                           
+                        },error:(err)=>{
+                           console.log(err)
+                        }
+                     })
+                     
+
                      })
                   }
                },
@@ -89,8 +131,10 @@ export class NotiComponent implements OnInit {
 
       }else{
            
-         if( window.location.href.includes(`/boards/${boardId}`)){
+         if( window.location.href.includes(`/boards/${boardId}`)){         
             window.location.href = `/boards/${boardId}`;
+          
+                     
             return;
            }
            this.router.navigateByUrl(`/boards/${boardId}`);

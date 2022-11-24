@@ -1,5 +1,16 @@
 <div id="notifications-container">
-    <h5 class="mb-4  shadow-sm py-3 px-3 d-flex align-items-center"> <i class='bx bx-bell bx-sm bx-tada-hover  mx-1'></i>Notifications</h5>
+    <h6 class="mb-4  shadow-sm py-3 px-3 d-flex align-items-center justify-content-between">
+        <span style="font-size: 14px;">
+             <!-- <i class='bx bx-bell bx-sm bx-tada-hover  mx-1'></i> -->
+             <i class="fa-regular fa-bell bx-tada-hover  mx-1 fs-5"></i>
+             Notifications
+            
+        </span>
+    <span style="font-size: 14px;">
+        <i class="fa-solid fa-check-double bx-tada-hover  mx-1"></i>
+        Mark all read
+    </span>
+</h6>
     <div id="notifications" class="p-0 {{ notifications.length == 0 ? ' d-flex justify-content-center align-items-center' : ''}}" >
         <noti *ngFor="let noti of notifications" [noti]="noti"></noti>
         <div *ngIf="notifications.length == 0">
