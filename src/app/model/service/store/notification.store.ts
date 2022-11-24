@@ -8,11 +8,19 @@ import swal from "sweetalert";
   providedIn : 'root'
 })
 export class NotificationStore{
-
+ filterNoti: Notification[] = []
+  getNoti: Notification[] = []
+  notiCount : number = 0;
   constructor( private userStore : UserStore , 
-    private userService : UserService  ){
+    private userService: UserService) {
+    
+  //  setTimeout(() => {
+  //   this.getNotiCount(this.userStore.user.id);  
+  //   },1800)
       // if( this.userStore.user.id ) this.getNotifications(this.userStore.user.id);
   }
+ 
+ 
 
   public notifications : Notification [] = [];
 
@@ -34,5 +42,18 @@ export class NotificationStore{
   public reFetchNotis( userId : number ){
     this.getNotifications( userId );
   }
+  // getNotiCount(userId: number) {
+  
+    
+  //   this.getNoti = this.notifications.filter((res) => {
+  //     return res.sentUser.id !== userId;
+  //   })
+    
+  //   this.filterNoti = this.notifications.filter(res => {
+  //     return res.seenUsers.some(res => res.id == userId)
+  //   })
+  //   this.notiCount = this.getNoti.filter((res) => !this.filterNoti.includes(res)).length;
+    
+  // }
 
 }
