@@ -330,6 +330,7 @@ export class TaskOffCanvasComponent implements OnInit {
         this.comment.comment = '';
         this.handleListenOffCanvasClose();
 
+
         setTimeout(() => {
             this.members.unshift(this.board.user);
         } , 300 );
@@ -342,10 +343,12 @@ export class TaskOffCanvasComponent implements OnInit {
             $('#assign-members').val('Assign Members');
             // this.updateTask( false );
             this.showEmojis = false;
+            this.comment.comment = '';
         })
     }
 
     changeTab(tab: string) {
+        console.log(this.task.comments)
         this.tab = tab;
     }
 
@@ -542,9 +545,7 @@ export class TaskOffCanvasComponent implements OnInit {
 
         this.comment.user.id = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))).id;
         this.comment.taskCard.id = this.task.id;
-
-        //console.log(this.comment.taskCard.id);
-
+  
         this.commentService.createComment(this.comment)
             .subscribe({
                 next: res => {
