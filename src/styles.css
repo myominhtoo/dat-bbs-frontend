@@ -1483,7 +1483,24 @@ box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0p
           top: 60%;
           transform: translate(-30%,-50%);
         }
-        .fc-view-harness>* {
+
+        .fc-view-harness {
+          
           height: 591px!important;
           max-height: 591px!important;
+        }
+        .fc-view-harness-active{
+          
+          height: 500px !important;
+        }
+        .fc-col-header{
+          width: 100% !important;
+          height: 100%;
+        }
+        .fc-daygrid-body{
+          width: 100% !important;
+        }
+        .fc-scrollgrid-sync-table{
+          width: 100% !important; 
+          height: 468px !important;
         }
