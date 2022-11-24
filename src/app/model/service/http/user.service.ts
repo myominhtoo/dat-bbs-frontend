@@ -79,10 +79,15 @@ export class UserService {
         return this.httpClient.get<Notification[]>(`http://localhost:8080/api/users/${userId}/notifications`);
     }
 
-    seenNoti(noti:Notification):Observable<Notification>{
-        return this.httpClient.put<Notification>(`http://localhost:8080/api/users/seen`,noti)
+    seenNoti(noti:Notification,userId:number):Observable<Notification>{
+        return this.httpClient.put<Notification>(`http://localhost:8080/api/users/${userId}/noti/seen`,noti)
 
     }
+        markAllNoti(noti:Notification[],userId:number):Observable<Notification[]>{
+        return this.httpClient.put<Notification[]>(`http://localhost:8080/api/users/${userId}/noti/read-all`,noti)
+
+    }
+
     // reportUser(boardId: number ,filetype: string): Observable<Map<string,string>>{
     //   return this.httpClient.get<Map<string,string>>(`http://localhost:8080/api/boards/${boardId}/members/report?format=${filetype}`);
     // }

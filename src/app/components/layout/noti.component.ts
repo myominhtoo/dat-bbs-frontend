@@ -15,21 +15,23 @@ import swal from "sweetalert";
     template : `
         <div (click)="handleGoBoardFromNoti(noti.board!.id)" id="noti" class="row py-2 m-0 d-flex justify-content-center align-items-center ps-3 pe-0 mb-1" [style.borderLeft]="borderLeft" >
            <div id="noti-icon-container" class="col-2 p-0" >
-             <p id="icon" class="rounded-5 d-flex justify-content-center align-items-center " [style]="'width:48px;height:48px;'+'background:'+noti.board!.iconColor+';'">
+             <p id="icon" class="rounded-5 d-flex justify-content-center align-items-center " [style]="'width:48px;border:1px solid #424549;height:48px;'+'background:'+noti.board!.iconColor+';'" >
                 <img *ngIf="noti.sentUser.imageUrl != null" class="rounded-5" style="width:48px;height:48px;object-fit:cover;" [src]="'http://localhost:8080/img/'+noti.sentUser.imageUrl"/>
-                <span *ngIf="noti.sentUser.imageUrl == null" class="text-light fs-5">{{ noti.sentUser.username[0].toUpperCase() }}</span>
+                <span *ngIf="noti.sentUser.imageUrl == null" class="text-dark fs-5">{{ noti.sentUser.username[0].toUpperCase() }}</span>
              </p>
            </div>
-           <div id="noti-body" class="col-10 ps-2 pe-1 text-justify">
+           
+           <div id="noti-body" class="col-10 ps-2 pe-1 text-justify " [class.opacity-50]="isSeen()" >
               <h6 *ngIf="!noti.invitiation" class="p-0 m-0 d-flex justify-content-between align-items-center" style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">
               <span>{{  noti.content.length > 80 ? noti.content.substring(0,80)+'...' : noti.content }}</span>
-            <span *ngIf="!this.seenNoti" style="font-size: 8px;" class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
+            <span  [class.d-none]="isSeen()" style="font-size: 8px;" class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
             </h6>
               <h6 *ngIf="noti.invitiation" class="p-0 m-0 d-flex justify-content-between align-items-center" style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">
               <span>
               {{  noti.content }}
               </span>
-              <span *ngIf="!this.seenNoti"  style="font-size: 8px; "class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
+              
+              <span [class.d-none]="isSeen()"   style="font-size: 8px; "class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
             </h6>
               <small style="font-size:10px;" class="text-primary">
               {{ noti.createdDate | pentaDate }}
@@ -44,17 +46,15 @@ export class NotiComponent implements OnInit {
     borderLeft : string = 'none !important';
     stompClient : Client | undefined = undefined;
     board : Board = new Board();
-   seenNoti:User=new User();
-    @Input('noti') noti : Notification = new Notification();
-
-    constructor( private boardStore : BoardStore ,
+    @Input('noti') noti : Notification = new Notification();   
+    constructor( private boardStore : BoardStore,
       private boardService : BoardService,
       private userStore : UserStore ,
       private socketService : SocketService,
        private router : Router,
        private userService:UserService){}
 
-    ngOnInit() : void {
+   ngOnInit(): void {
       if(this.noti.invitiation){
          this.borderLeft = `3px solid ${this.noti.board?.iconColor} !important`;
       }else{
@@ -65,12 +65,11 @@ export class NotiComponent implements OnInit {
     handleGoBoardFromNoti( boardId : number ){      
       // new
       this.noti.seenUsers.push(this.userStore.user);
-      console.log(this.noti.seenUsers)
-      this.userService.seenNoti(this.noti).subscribe({
+      console.log("Noti seen user",this.noti.seenUsers)
+      this.userService.seenNoti(this.noti,this.userStore.user.id).subscribe({
          next:(res)=>{
             console.log("It's work!")
-            this.seenNoti=res.seenUsers[0];
-            console.log(res)
+            
             
          },error:(err)=>{
             console.log(err)
@@ -104,17 +103,7 @@ export class NotiComponent implements OnInit {
                      this.socketService.subscribeBoard( this.noti.board?.id! )                                         
                      this.router.navigateByUrl(`/boards/${boardId}`);
                      this.noti.seenUsers.push(this.userStore.user);
-                     console.log(this.noti.seenUsers)
-                     this.userService.seenNoti(this.noti).subscribe({
-                        next:(res)=>{
-                           console.log("It's work!")
-                           console.log(res)
-                           
-                        },error:(err)=>{
-                           console.log(err)
-                        }
-                     })
-                     
+                                       
 
                      })
                   }
@@ -141,6 +130,12 @@ export class NotiComponent implements OnInit {
            $('#noti-dropdown').click();
         }
 
-    }
+   }
+   
+   isSeen() {
+      return this.noti.seenUsers.some((res) => {            
+            return res.id==this.userStore.user.id
+      })
+   }
    
 }

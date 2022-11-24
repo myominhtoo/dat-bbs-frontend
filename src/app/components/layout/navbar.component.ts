@@ -8,19 +8,20 @@ import { NotificationStore } from 'src/app/model/service/store/notification.stor
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/model/service/http/auth.service';
 import { SocketService } from 'src/app/model/service/http/socket.service';
-
+import { Notification } from 'src/app/model/bean/notification';
 @Component({
     selector : 'navbar',
     templateUrl:"./navbar.components.html",
 })
 export class NavbarComponent implements OnInit {
-
+  filterNoti: Notification[] = []
+  getNoti: Notification[] =[]
     userInfo:User=new User();
     userPass ={
         changePassword:"",
         currentPassword:"",
         retypePassoword:""
-    }
+  }
 
     notiCount : number = 0;
       
@@ -51,7 +52,12 @@ export class NavbarComponent implements OnInit {
             if( this.userStore.user.id ) this.getUserData(this.userStore.user.id )
     }
 
-    ngOnInit(): void {}
+  ngOnInit(): void {
+    // setTimeout(() => {
+    // this.getNotiCount(this.userStore.user.id);  
+    // },1800)
+    
+    }
 
   
     toggleSidebar(){
@@ -136,7 +142,22 @@ export class NavbarComponent implements OnInit {
           this.router.navigateByUrl('/login');
         }
       });
-    }
+  }
+  
+  // getNotiCount(userId: number) {
+  
+    
+  //   this.getNoti =this.notificationStore.notifications.filter((res) => {
+  //      return res.sentUser.id !== userId;
+  //   })
+    
+  //   this.filterNoti = this.notificationStore.notifications.filter(res => {
+  //     return res.seenUsers.some(res=>res.id==userId)
+  //   })
+  //   this.notiCount = this.getNoti.filter((res) => !this.filterNoti.includes(res)).length;
+    
+    
+  // }
     
 
 }
