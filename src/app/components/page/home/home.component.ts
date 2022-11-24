@@ -166,8 +166,10 @@ export class HomeComponent implements OnInit {
         })
     }    
 
+
     getCollaborators(userId: number) {
         this.status.hasDoneFetching = false;
+
         this.userService.getCollaborators( userId )
         .subscribe({
             next : resUsers => {
@@ -178,56 +180,7 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    // public getAllMembers(userId: number) {
-    //     this.userService.getAllMembers(userId).subscribe({
-    //         next:(res)=>{                          
-    //             let prevUserId = 0;                
-    //             this.myBoardCollaborator = res.map( boardHasUser => boardHasUser.user )
-    //                                     .filter( user => {
-    //                                         if( prevUserId != user.id ){
-    //                                             prevUserId = user.id;                                                
-    //                                             return true;
-    //                                         }
-    //                                         return false;
-    //                                     } )        //filter duplicate value                        
-
-                            
-                
-    //         },error:(err)=>{
-    
-    //         }
-    //     })
-    //     this.userService.getAllJoinedMembers(userId).subscribe({
-    //         next:(res)=>{
-    //             let Userarr;
-    //             let prevUserId = 0;        
-    //             let prevAllUserId=0;        
-    //             this.joinCollaborator = res.map( boardHasUser => boardHasUser.board.user )
-    //                                     .filter( user => {
-    //                                         if( prevUserId != user.id ){
-    //                                             prevUserId = user.id;                                                
-    //                                             return true;
-    //                                         }
-    //                                         return false;
-    //                                     } )        //filter duplicate value                        
-
-                            
-    //                                     Userarr=[...this.myBoardCollaborator,...this.joinCollaborator]
-    //                                     let userSize=Userarr.length;
-    //                                 for(let i=0;i<userSize;i++){
-    //                                     if(prevAllUserId !=Userarr[i].id){
-    //                                         prevAllUserId=Userarr[i].id
-    //                                         this.homeCollaborator.push(Userarr[i])
-    //                                 }                                                                                                                        
-    //                             }
-    //         },
-    //         error:(err)=>{
-    
-    //         }
-    //     })                        
-        
-    // }
-
+  
 
     public getMyTasks(userId: number) {
         this.status.isLoading=true
@@ -275,17 +228,8 @@ export class HomeComponent implements OnInit {
             this.status.overDueTab = false
         }
     }
-    // duplicateValue(arr:Array<User>){
-    // console.log(arr)
-//     this.homeCollaborator=arr.filter( (user,i) => {
-//         console.log("Index of",arr.indexOf(user))
-//         console.log(i)
-//         return arr.indexOf(user)===i;
-//     } )        //filter duplicate value                        
-// console.log(this.homeCollaborator)
-//     }
-// 0==0 =>true 1==1 =>true 2==2 =>true
-// this.homeCollaborator=Array.from(new Set(arr));
+ 
+}
+}
 
-// }
 }

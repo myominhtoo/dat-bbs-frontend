@@ -71,7 +71,7 @@ export class BoardTasksCalendarComponent implements OnInit {
     }
 
     backToBoard(){
-        this.location.back();
+        this.location.back(); 
     }
 
     changeView( target : string ){

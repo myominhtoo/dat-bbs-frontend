@@ -23,6 +23,7 @@ import { CloseTaskComponent } from './components/page/mytasks/close-task.compone
 import { TestComponent } from './components/page/test.component';
 import { BoardTasksCalendarComponent } from './components/page/board/board-tasks-calendar.component';
 import { StageTasksChartComponent } from './components/page/mytasks/stage-tasks-chart.component';
+import { TasksCalenderComponent } from './components/page/mytasks/tasks-calender.component';
 
 
 
@@ -130,6 +131,12 @@ const routes: Routes = [
     component : StageTasksChartComponent,
     pathMatch : 'full',
     canActivate : [ AuthGuard ]
+  },
+  {
+  path : 'users/:id/mytasks-calender',
+  component : TasksCalenderComponent,
+  pathMatch : 'full',
+  canActivate : [ AuthGuard]
   },
   {
     path : '**',
