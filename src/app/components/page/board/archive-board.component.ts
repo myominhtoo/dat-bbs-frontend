@@ -28,6 +28,7 @@ export class ArchiveBoardComponent {
     status = {
         isLoading : false,
         hasDoneFetching : false,
+        isReporting : false
     }
 
     constructor(
@@ -48,7 +49,7 @@ export class ArchiveBoardComponent {
     exportArchiveBoardReport(path:string) {
 
       let id=this.userStore.user.id;
-
+        this.status.isReporting=true;
         this.boardService.exportArchiveBoardReport(id,path).subscribe((res)=>{
             const blob = new Blob([res.body], { type : 'application/octet-stream'});
             const a = document.createElement('a');
@@ -57,6 +58,7 @@ export class ArchiveBoardComponent {
             a.download = `archive-board.${path=='excel' ? 'xlsx' : path.toLowerCase()}`,
             a.click();
             URL.revokeObjectURL(objectUrl);
+            this.status.isReporting= false;
           swal({
             text : 'Successfully Exported!',
             icon : 'success'

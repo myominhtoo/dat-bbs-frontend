@@ -18,10 +18,11 @@
 
                 <div class="d-flex gap-1">
                     <span class="">
-                        <button class=" btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="dropdown"><i
+                        <button class=" btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="dropdown" [disabled]="status.isReporting"><i
                                 class="fa-solid fa-file-export mx-1"></i>
-                            Export
+                                {{status.isReporting ? 'Exporting...' : 'Export'}}
                         </button>
+                  
                         <ul class="dropdown-menu"> 
                             <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="HTML"
                                     (click)="exportTaskReport(html)" />
@@ -75,9 +76,9 @@
 
                         <span class="d-flex gap-2">
                             <button class=" btn btn-sm  btn-outline-secondary" data-bs-toggle="dropdown"
-                                style="font-size:13px !important;">
+                                style="font-size:13px !important;" [disabled]="status.isReporting">
                                 <i class="fa-solid fa-file-export mx-1"></i>
-                                Export
+                                {{status.isReporting ? 'Exporting...' : 'Export'}}
                             </button>
                             <button class="btn btn-sm  btn-outline-secondary " style="font-size:13px !important;"
                                 data-bs-toggle="modal" data-bs-target="#invite-modal">
