@@ -11,7 +11,7 @@
     <h2 class="pb-1">BookMarks</h2>
     <!-- report -->
             <div class="dropdown ">
-              <button class=" btn btn-outline-secondary btn-sm" data-bs-toggle="dropdown">
+              <button class=" btn btn-outline-secondary btn-sm py-2" data-bs-toggle="dropdown">
                   <i class="fa-solid fa-file-export mx-1"></i>
                   Export
               </button>
@@ -28,7 +28,7 @@
   <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="bookMarks" (cdkDropListDropped)="drop($event)"
     class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
     <boardBookmark cdkDrag *ngFor="let bookMark of bookMarks" [dataBookmark]="bookMark" [bookMarks]="bookMarks"
-      (toggle-bookmark)="toggleBookMark($event)" class="col-4 my-2"></boardBookmark>
+      (toggle-bookmark)="toggleBookMark($event)" class="col-3 my-1 "></boardBookmark>
   </div>
   <loading target="bookMark" [show]="status.isLoading"></loading>
 </div>

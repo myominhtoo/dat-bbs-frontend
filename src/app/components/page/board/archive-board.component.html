@@ -3,8 +3,11 @@
         <h2 class="pb-1">Archive Boards</h2>
 
         <span class="">
-            <button class=" btn btn-sm myboard-btn btn-outline-secondary"
-                data-bs-toggle="dropdown"><span>Export</span><i class="fa-solid fa-file-export"></i></button>
+            <button class=" btn btn-sm myboard-btn btn-outline-secondary py-2"
+                data-bs-toggle="dropdown">
+                <i class="fa-solid fa-file-export me-1"></i>
+                <span>Export</span>
+            </button>
             <ul class="dropdown-menu">
                 <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="HTML"
                         (click)="exportArchiveBoardReport(html)" />
@@ -18,7 +21,7 @@
     <div cdkDropList cdkDropListOrientation="vertical" (cdkDropListDropped)="drop($event)" [cdkDropListData]="boards"
         class="row  d-flex justify-content-start align-items-center m-0 p-0 flex-wrap">
 
-        <board cdkDrag *ngFor="let board of boards" (restore-board)="restoreBoard($event)" [data]="board" class="col-3">
+        <board cdkDrag *ngFor="let board of boards" (restore-board)="restoreBoard($event)" [data]="board" class="col-3 my-1">
         </board>
     </div>
 
