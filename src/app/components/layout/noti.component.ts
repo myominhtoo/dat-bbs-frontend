@@ -89,7 +89,6 @@ export class NotiComponent implements OnInit {
 
       }else{
            
-
          if( window.location.href.includes(`/boards/${boardId}`)){
             window.location.href = `/boards/${boardId}`;
             return;
@@ -98,6 +97,6 @@ export class NotiComponent implements OnInit {
            $('#noti-dropdown').click();
         }
 
-      }
+    }
    
 }

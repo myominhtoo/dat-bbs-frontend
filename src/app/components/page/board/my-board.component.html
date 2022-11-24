@@ -2,7 +2,7 @@
 <div class="w-100 p-4">
     <div class="container-fluid">
         <div class="row  w-100 ">
-            <div class="px-5 pe-0 col-12 d-flex justify-content-between border-board align-items-center">
+            <div class="pe-3 pe-0 col-12 d-flex justify-content-between border-board align-items-center">
                 <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->
                 <div class=" d-flex p-0 m-0">
                     <span class="iconBoard rounded-4 m-0 d-flex justify-content-center align-items-center">
@@ -10,13 +10,13 @@
                         <!-- (click)="handleBookMark($event,data)" [class.fw-bold]="isBookMark()" -->
                     </span>
                     <input (focus)="setupEditBoard()" type="text"
-                        class="text-dark-50 h2 mx-3 board-input w-100 my-2 shadow-none board-input"
+                        class="text-dark-50 h3 mx-3 board-input w-100 my-2 shadow-none board-input"
                         (keydown)="handleUpdateBoardName($event)" [class.form-control]="status.isEditBoardName"
                         placeholder="Enter board's name" [(ngModel)]="board.boardName">
                 </div>
 
 
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-1">
                     <span class="">
                         <button class=" btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="dropdown"><i
                                 class="fa-solid fa-file-export mx-1"></i>
@@ -54,6 +54,10 @@
                         data-bs-toggle="offcanvas" data-bs-target="#demo">
                         <i class="fa-solid fa-people-group"></i>
                         Members
+                    </button>
+                    <button routerLink="/create-board" class=" btn btn-outline-secondary btn-sm text-danger" >
+                        <i class="fa-solid fa-arrow-right-from-bracket mx-1"></i>
+                        Leave
                     </button>
                 </div>
 
