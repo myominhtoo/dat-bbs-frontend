@@ -6,7 +6,7 @@
                 <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->
                 <div class=" d-flex p-0 m-0">
                     <span class="iconBoard rounded-4 m-0 d-flex justify-content-center align-items-center">
-                        <i class="bookmark-icon fa-regular fa-2x fa-bookmark tw-color"></i>
+                        <i class="bookmark-icon fa-regular fa-2x fa-bookmark tw-color" [class.fw-bold]="isBookMark()" (click)="handleBookMark($event,data)"></i>
                         <!-- (click)="handleBookMark($event,data)" [class.fw-bold]="isBookMark()" -->
                     </span>
                     <input (focus)="setupEditBoard()" type="text"
