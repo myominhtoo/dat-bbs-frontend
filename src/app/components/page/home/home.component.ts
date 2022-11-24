@@ -166,10 +166,14 @@ export class HomeComponent implements OnInit {
     }    
 
     getCollaborators( userId : number ){
+        this.status.isLoading=true
+        this.status.hasDoneFetching=false
         this.userService.getCollaborators( userId )
         .subscribe({
             next : resUsers => {
                 this.collaborators = resUsers;
+                this.status.isLoading=false
+                this.status.hasDoneFetching=true
             } 
         });
     }
