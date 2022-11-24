@@ -29,6 +29,10 @@ export class WorkspaceComponent implements OnInit {
         path='';
         msg='';
         click!: boolean;
+        status = {
+            isReporting : false,
+        }
+       
     
     constructor(
         public toggleStore : ToggleStore ,
@@ -78,10 +82,11 @@ export class WorkspaceComponent implements OnInit {
     }
 
     exportBoardReport(path:string) {
-
-      let useridd = this.userStore.user.id;
+        this.status.isReporting=true;
+        let useridd = this.userStore.user.id;
 
         this.boardService.exportBoardReport(useridd,path).subscribe((res)=>{
+            this.status.isReporting=false;
             const blob = new Blob([res.body], { type : 'application/octet-stream'});
 
             const a = document.createElement('a');
@@ -94,6 +99,7 @@ export class WorkspaceComponent implements OnInit {
                 text : 'Successfully Exported!',
                 icon : 'success'
             });
+            
         })
 
       }

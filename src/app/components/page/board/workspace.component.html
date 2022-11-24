@@ -11,9 +11,10 @@
 
             <div *ngIf="boardStore.ownBoards.length!=0" class="d-flex justify-content-end gap-2">
                 <div class="dropdown ">
-                    <button class=" btn btn-outline-secondary btn-sm" data-bs-toggle="dropdown">
+                  
+                    <button class=" btn btn-outline-secondary btn-sm" data-bs-toggle="dropdown" [disabled]="status.isReporting">
                         <i class="fa-solid fa-file-export mx-1"></i>
-                        Export
+                        {{status.isReporting ? 'Exporting...' : 'Export'}}
                     </button>
                     <ul class="dropdown-menu">
                         <input type="button" name="textShow" id="btn" class="dropdown-item" value="HTML"
@@ -27,7 +28,7 @@
                 <button routerLink="/archive-boards" class=" btn btn-outline-secondary btn-sm" >
                     <i class="fas fa-solid fa-box-archive mx-1"></i>
                     Archive Boards
-                </button>>
+                </button>
             </div>
         </div>
         <div cdkDropList cdkDropListOrientation="vertical" [cdkDropListData]="boardStore.ownBoards"

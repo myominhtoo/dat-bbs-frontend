@@ -65,6 +65,7 @@ export class MyBoardComponent implements OnInit {
     // comments : Comment [] = [];
 
     status = {
+        isReporting : false,
         isLoading : false,
         isAddStage : false,
         isAddingStage : false,
@@ -569,8 +570,10 @@ export class MyBoardComponent implements OnInit {
    }
 
   exportMemberReport(path:string) {
+    this.status.isReporting=true;
     let boardId = this.route.snapshot.params['id'];
     this.userService.exportMember(boardId,path).subscribe((res) => {
+      this.status.isReporting=false;
       const blob = new Blob([res.body], { type : 'application/octet-stream'});
       const a = document.createElement('a');
       const objectUrl = URL.createObjectURL(blob);
@@ -586,11 +589,11 @@ export class MyBoardComponent implements OnInit {
   }
 
    exportTaskReport(path:string ) {
-
+    this.status.isReporting=true;
     let boardId = this.route.snapshot.params['id'];
 
       this.taskCardService.getTaskCards(boardId).subscribe(data=>{
-
+        this.status.isReporting=false;
         this.errorTaskCard=data;
         if(this.errorTaskCard.length==0){
 

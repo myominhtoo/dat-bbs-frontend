@@ -25,6 +25,7 @@ export class MyTaskComponent implements OnInit{
     status = {
         isLoading : false,
         hasDoneFetching : false,
+        isReporting : false,
     }
     pdf='pdf';
     excel='excel';
@@ -87,10 +88,11 @@ export class MyTaskComponent implements OnInit{
         }
 
         exportAssignedTasksReport(path:string) {
-
+            this.status.isReporting=true;
             let useridd=this.userStore.user.id;
     
               this.taskCardService.exportAssignedTasksReport(useridd,path).subscribe((res)=>{
+                this.status.isReporting=false;
                 const blob = new Blob([res.body], { type : 'application/octet-stream'});
                 const a = document.createElement('a');
                 const objectUrl = URL.createObjectURL(blob);

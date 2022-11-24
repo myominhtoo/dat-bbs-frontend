@@ -22,6 +22,7 @@ export class BoardMarkComponent{
     status = {
         isLoading : false,
         hasDoneFetching : false,
+        isReporting : false,
     }    
 
     constructor( public toggleStore : ToggleStore ,
@@ -57,10 +58,11 @@ export class BoardMarkComponent{
     }
 
     exportBookmarkReport(path:string) {
-
+         this.status.isReporting=true;
         let useridd=this.userStore.user.id;
 
           this.boardBoardmarkService.reportBookMark(useridd,path).subscribe((res)=>{
+            this.status.isReporting=false;
             const blob = new Blob([res.body], { type : 'application/octet-stream'});
             const a = document.createElement('a');
             const objectUrl = URL.createObjectURL(blob);
