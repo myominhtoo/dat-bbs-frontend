@@ -9,8 +9,8 @@
 
   <div class="d-flex justify-content-between align-items-center border-board px-3" *ngIf="taskCards.length!=0 ">
     <h3 class=""> Closed TaskCards </h3>
-    <button class=" btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="dropdown"><span>Export</span><i
-        class="fa-solid fa-file-export"></i></button>
+    <button class=" btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="dropdown" [disabled]="status.isReporting"><i
+        class="fa-solid fa-file-export"></i>{{status.isReporting?'Exporting':'Export'}}</button>
     <ul class="dropdown-menu">
       <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="HTML"
           (click)="exportArchiveTaskReport(html)" />

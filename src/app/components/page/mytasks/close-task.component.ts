@@ -27,6 +27,8 @@ export class CloseTaskComponent{
 status = {
         isLoading : false,
         hasDoneFetching : false,
+        isReporting : false,
+
     }
   path:string="";
 
@@ -70,6 +72,7 @@ drop( e : CdkDragDrop<TaskCard[]> ){
 
 
     restoreTask(task : TaskCard){
+     
       let tasksMap= this.taskCardMap.get(this.data.stageName);
       tasksMap?.push(task);
        this.taskCards=this.taskCards.filter(tsk => tsk.id != task.id);
@@ -78,7 +81,7 @@ drop( e : CdkDragDrop<TaskCard[]> ){
      }
 
      exportArchiveTaskReport(path:string ) {
-
+      this.status.isReporting=true;
       let boardId = this.route.snapshot.params['id'];
 
       // console.log("aaaaaaaaaaaaaaa");
@@ -91,6 +94,7 @@ drop( e : CdkDragDrop<TaskCard[]> ){
         a.download = `archive-tasks.${path=='excel' ? 'xlsx' : path.toLowerCase()}`,
         a.click();
         URL.revokeObjectURL(objectUrl);
+        this.status.isReporting=false;
           swal({
               text : 'Successfully Exported!',
               icon : 'success'

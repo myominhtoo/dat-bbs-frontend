@@ -50,7 +50,7 @@
                             <mat-autocomplete #emailAutoComplete="matAutocomplete" >
                                 <mat-option *ngFor="let email of filterEmails" [value]="email">
                                     {{ email }}
-                                </mat-option>
+                                </mat-option> 
                             </mat-autocomplete>
                     </div>
                     <small class="text-danger">{{ status.error.email.msg }}</small>
