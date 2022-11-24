@@ -1,58 +1,99 @@
-<section class="container-fluid py-5 ">
-  <div class="container">
-          <div class="row">
-              <!-- <div class="col-6"> -->
-                  <div class="row">
+<section class="container-fluid m-0 p-0">
+    <!-- <div class="container-fluid"> -->
+    <div class="row p-0 m-0" style="position: relative;">
 
-                      <div class="col-12 d-flex justify-content-center align-items-center">
-                          <div class="mb-3 mx-auto imgholder">
-
-                              <div *ngIf="user.imageUrl==null && this.imgValue==null" class="text-dark boardprofile d-flex justify-content-center align-items-center bg-secondary">
-                              <h1>{{ user.username &&  user.username[0].toUpperCase() }}</h1>
-                              </div>
-                              <img *ngIf="(user.imageUrl != null && this.imgValue==null)"  [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile" alt="Board-Img" loading="lazy" >
-                              <img *ngIf="this.imgValue!=null"  [src]="this.imgValue" class=" boardprofile" alt="Board-Img" loading="lazy" >
-
-
-
-                          </div>
-                      </div>
-
-
-                      <div class="col-3"></div>
-
-                      <div class="col-6">
-
-                      <div class="card my-2 ">
-                              <div class="card-body py-5 ">
-
-                                  <div class="row card-title" *ngIf="user.username">
-                                      <div class="form-label float-start col-6 ">Username :</div>
-                                      <div class="col-6">{{ user.username | titlecase }}</div>
-                                  </div>
-                                  <div class="row card-title" *ngIf="user.bio">
-                                      <div class="form-label float-start col-6">Bio :</div>
-                                      <div class="col-6">{{ user.bio | titlecase }}</div>
-                                  </div>
-                                  <div class="row card-title" *ngIf="user.email">
-                                      <div class="form-label float-start col-6">Email :</div>
-
-                                      <div class="col-6">{{ user.email }}</div>
-
-                                  </div>
-                                  <div class="row card-title" *ngIf="user.position">
-                                      <div class="form-label float-start col-6">Position :</div>
-
-                                      <div class="col-6">{{ user.position  | titlecase }}</div>
-                                  </div>
+        <div class="col-12 d-flex align-items-center justify-content-center profile-cover w-100"
+            style="min-height:20vh;">
+            <span style="width: 800px;">
+                <h3 class="mx-auto fw-bold">{{user.username}}'s Profile</h3>
+            </span>
+        </div>
+        <div class="col-12 m-0 p-0 w-100 " style="min-height: 72vh;">
+            <div class="row profile-card mx-auto" style="background-color: #F6F7F9;border-radius: 7px;">
+                <div class="col-5 h-100"
+                    style="border-bottom-left-radius: 7px;border-top-left-radius: 7px;position: relative;">
+                    <div class="p-2 pt-2 member-cover-img-holder w-100" style="height: 100%;">
+                        <!-- img -->
+                        <div class=" d-flex justify-content-center align-items-center member-cover-img">
+                            <div class="imgholder-member">
+                                <div *ngIf="user.imageUrl==null && this.imgValue==null"
+                                    class="text-dark boardprofile-member d-flex justify-content-center align-items-center pt-3"
+                                    [style]="'background:#fff!important'">
+                                    <h1 style="font-size:10rem !important;" class="text-dark mb-0 p-0 m-0">{{
+                                        user.username &&
+                                        user.username[0].toUpperCase() }}</h1>
                                 </div>
-                          </div>
-                      </div>
+                                <img *ngIf="(user.imageUrl != null && this.imgValue==null)"
+                                    [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile-member"
+                                    alt="Board-Img" loading="lazy">
+                                <img *ngIf="this.imgValue!=null" [src]="this.imgValue" class="boardprofile-member"
+                                    alt="Board-Img" loading="lazy">
+                                {{user.iconColor}}
+                            </div>
+                        </div>
+                        <!-- img -->
 
-                  <div class="col-3"></div>
 
-              </div>
-              </div>
-      </div>
-  <!-- </div> -->
+
+                    </div>
+                    <!-- </div> -->
+                </div>
+                <div class="col-7 h-100 d-flex justify-content-center align-items-center">
+
+                    <div class="w-100 d-flex justify-content-center align-items-center">
+
+                        <div class="row  px-4 pb-0 pt-4">
+
+                            <!-- <div class="col-12"> -->
+                            <div class="col-12" *ngIf="user.username">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label fw-bold text-muted h4 ">User name</label>
+                                    <h6>{{user.username }}</h6>
+                                </div>
+                            </div>
+                            <div class="col-12" *ngIf="user.email">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label fw-bold text-muted h4">Email</label>
+                                    <h6>{{user.email}}</h6>
+                                </div>
+                            </div>
+                            <div class="col-12 " *ngIf="user.phone">
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label fw-bold text-muted h4">Phone</label>
+                                    <h6>{{user.phone}}</h6>
+                                </div>
+                                <div class="col-12" *ngIf="user.position">
+                                    <div class="mb-3">
+                                        <label for="position" class="form-label fw-bold text-muted h4">Position</label>
+                                        <h6>{{user.position}}</h6>
+                                    </div>
+                                    <div class="col-12" *ngIf="user.gender">
+                                        <div class="mb-3">
+                                            <label for="exampleGender"
+                                                class="form-label fw-bold text-muted h4">Gender</label><br>
+                                            <h6>{{user.gender ==1 ?"male":"female"}}</h6>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12  " *ngIf="user.bio">
+                                        <div class="mb-5">
+                                            <label for="bio" class="form-label fw-bold text-muted h4">Bio </label>
+                                            <h6>{{user.bio}}</h6>
+                                            <!-- end modal box -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </section>

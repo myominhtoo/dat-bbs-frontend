@@ -1,41 +1,49 @@
-<header class="sticky-top position-fixed  w-100 bg-pale-dark d-flex px-5 pe-3 align-items-center justify-content-between gap-1" id="header">
-  
-    <div id="header-left" class=" gap-2 align-items-center px-5 w-25 d-flex justify-content-start gap-3" >
-        <i (click)="toggleSidebar()" class="fa-solid fa-bars pale-snow" id="menu-icon" style="font-size:20px;transform: translateX(-100%); cursor: pointer;" ></i>
-        <img routerLink="/home" src="/assets/icon.png" style="width:58px;cursor: pointer;" alt="icon">
-    </div>
+<header
+  class="sticky-top position-fixed  w-100 bg-pale-dark d-flex px-5 pe-3 align-items-center justify-content-between gap-1"
+  id="header">
 
-    <!-- <div id="header-center" class="gap-2 text-center px-2 w-50">
+  <div id="header-left" class=" gap-2 align-items-center px-5 w-25 d-flex justify-content-start gap-3">
+    <i (click)="toggleSidebar()" class="fa-solid fa-bars pale-snow" id="menu-icon"
+      style="font-size:20px;transform: translateX(-100%); cursor: pointer;"></i>
+    <img routerLink="/home" src="/assets/icon.png" style="width:58px;cursor: pointer;" alt="icon">
+  </div>
+
+  <!-- <div id="header-center" class="gap-2 text-center px-2 w-50">
         <i class="fa-solid fa-magnifying-glass" id="search-icon" style="cursor: pointer;"></i>
         <input type="search" id="search" placeholder="Search" />
     </div> -->
-    <div id="header-right" class="gap-2 px-5 w-25 d-flex justify-content-end align-items-center gap-4">
-        <div class="dropdown" id="notification-dropdown">
-          <span id="noti-dropdown" data-bs-toggle="dropdown" data-bs-target="#notification-dropdown" data-bs-auto-close="outside"  class="text-white-50 pt-2 " style="cursor: pointer;">
-            <i class='bx bx-bell bx-sm bx-tada-hover color-hover-white'></i>
-            <span *ngIf="notiCount > 0" class="badge text-white bg-danger noti-con fw-light p-1">{{ notiCount }}</span>
-          </span>
+  <div id="header-right" class="gap-2 px-5 w-25 d-flex justify-content-end align-items-center gap-4">
+    <div class="dropdown" id="notification-dropdown">
+      <span id="noti-dropdown" data-bs-toggle="dropdown" data-bs-target="#notification-dropdown"
+        data-bs-auto-close="outside" class="text-white-50 pt-2 " style="cursor: pointer;">
+        <i class='bx bx-bell bx-sm bx-tada-hover color-hover-white'></i>
+        <span *ngIf="notiCount > 0" class="badge text-white bg-danger noti-con fw-light p-1">{{ notiCount }}</span>
+      </span>
 
-          <div class="dropdown-menu p-0">
-            <notifications [notificaions]="notificationStore.notifications"></notifications>
-          </div>
-        </div>
-        
-        <div class="dropdown" style="cursor: pointer;">             
-            <div  class="bg-pale-snow p-0 d-flex justify-content-center align-items-center" data-bs-toggle="dropdown" id="profile" [style.background]="userStore.user.iconColor">
-                <span *ngIf="userStore.user.imageUrl == null && userStore.user.username != null" class="text-light fs-5" >{{ userStore.user.username[0].toUpperCase() }}</span>
-                <img  *ngIf="userStore.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;" [src]="'http://localhost:8080/img/'+userStore.user.imageUrl"  alt="">
-            </div>     
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-              <li><button class="dropdown-item" type="button" routerLink="/profile">Profile</button></li>
-              <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Change Password</button></li>              
-              <li><button (click)="handleLogout()" class="dropdown-item text-danger" type="button">Log Out</button></li>
-            </ul>
-            
-          </div>
-                        
+      <div class="dropdown-menu p-0">
+        <notifications [notificaions]="notificationStore.notifications"></notifications>
+      </div>
     </div>
-    <!--  -->
+
+    <div class="dropdown" style="cursor: pointer;">
+      <div class="bg-pale-snow p-0 d-flex justify-content-center align-items-center" data-bs-toggle="dropdown"
+        id="profile" [style.background]="userStore.user.iconColor">
+        <span *ngIf="userStore.user.imageUrl == null && userStore.user.username != null" class="text-dark fs-5 pt-1">{{
+          userStore.user.username[0].toUpperCase() }}</span>
+        <img *ngIf="userStore.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;"
+          [src]="'http://localhost:8080/img/'+userStore.user.imageUrl" alt="">
+      </div>
+      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+        <li><button class="dropdown-item" type="button" routerLink="/profile">Profile</button></li>
+        <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Change
+            Password</button></li>
+        <li><button (click)="handleLogout()" class="dropdown-item text-danger" type="button">Log Out</button></li>
+      </ul>
+
+    </div>
+
+  </div>
+  <!--  -->
 
 </header>
 <!-- start modal box -->
@@ -44,32 +52,40 @@
     <div class="modal-content p-2">
       <div class="modal-header border-0">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Change Your Password</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="change-password-close-btn"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          id="change-password-close-btn"></button>
       </div>
       <form #registerForm="ngForm">
-          <div class="modal-body">
-              <small class="text-danger m-2" *ngIf="this.status.changePassword.ok">{{this.status.changePassword.msg}}</small>
-              <div class="m-2 mt-0">
-                  <label for="currentpassword" class="form-label">Current Password</label>
-                <input type="password" class="form-control shadow-none" placeholder="Enter current password" id="currentpassword" name="userPass.currentPassword" [(ngModel)]="userPass.currentPassword"  ngModel required >                  
-                
-              </div>
-              <div class="m-2">
-                  <label for="changepassword" class="form-label">Change Password</label>
-                  <input type="password" class="form-control shadow-none" placeholder="Enter current change password" id="changepassword" name="userPass.changePassword" [(ngModel)]="userPass.changePassword" ngModel required >                   
-                  
-                </div>
-                <div class="m-2">
-                  <label for="confirmpassword" class="form-label">Confirm Password</label>
-                  <input type="password" class="form-control shadow-none" placeholder="Enter current confirm password" id="confirmpassword" name="userPass.retypePassoword" [(ngModel)]="userPass.retypePassoword" ngModel required>                  
-                  
-                </div>   
+        <div class="modal-body">
+          <small class="text-danger m-2"
+            *ngIf="this.status.changePassword.ok">{{this.status.changePassword.msg}}</small>
+          <div class="m-2 mt-0">
+            <label for="currentpassword" class="form-label">Current Password</label>
+            <input type="password" class="form-control shadow-none" placeholder="Enter current password"
+              id="currentpassword" name="userPass.currentPassword" [(ngModel)]="userPass.currentPassword" ngModel
+              required>
+
           </div>
-          <div class="modal-footer">                                              
-            <button type="button" class="btn btn-change" (click)="changePassword()" [disabled]="registerForm.invalid" >Change</button>
-          </div>   
+          <div class="m-2">
+            <label for="changepassword" class="form-label">Change Password</label>
+            <input type="password" class="form-control shadow-none" placeholder="Enter current change password"
+              id="changepassword" name="userPass.changePassword" [(ngModel)]="userPass.changePassword" ngModel required>
+
+          </div>
+          <div class="m-2">
+            <label for="confirmpassword" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control shadow-none" placeholder="Enter current confirm password"
+              id="confirmpassword" name="userPass.retypePassoword" [(ngModel)]="userPass.retypePassoword" ngModel
+              required>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-change" (click)="changePassword()"
+            [disabled]="registerForm.invalid">Change</button>
+        </div>
       </form>
-    </div>    
+    </div>
   </div>
-</div> 
+</div>
 <!-- end model box -->

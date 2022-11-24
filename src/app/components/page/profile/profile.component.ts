@@ -115,13 +115,18 @@ export class ProfileComponent{
                     console.log(this.userInfo);
                     this.user={...this.userInfo};
                   })
-
                 }
               }
             )
           })
+        } else {
+                    this.user={...this.userInfo};
         }
-      })
+      }
+      )
+  }
+  cencelProfile() {
+    this.user={...this.userInfo};
   }
 
   onFileChanged(event:any ){

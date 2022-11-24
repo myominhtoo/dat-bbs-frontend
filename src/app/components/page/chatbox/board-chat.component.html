@@ -1,82 +1,95 @@
-
-
 <!-- <div class="container-fluid" > -->
-        <div class="container-fluid p-0  w-auto mw-100 h-100 bg-chat-color" >
-            <!-- <div class="row">          -->
-                <div class="container">
-                    <div class="row chat__box__container px-4">
-                        <div class="col-12 chat__box__personName ps-0 p-3">
-                            <div class="chat__toName">
-                                <span class="opacity-50">To :</span>
-                                <span> {{this.saveBoard.boardName}}</span>
-                            </div>
-                        </div>
-                        <div class="col-12 chat__box__textContainer p-0 m-0"  >
-                            <div class="chat__text" id="chat-container"   >                                                            
-                                <loading target="Messages" [show]="this.status.messageLoad"></loading>
-                                <div class=" chat__message" *ngIf="!this.status.messageLoad">                                    
-                                    <!-- message -->
-                                    <div class="p-0 m-0" *ngFor="let message of messages" >
-                                        <!-- [class.from-user]="this.userStore.user.id == message.user.id" -->
-                                    <div class="d-flex p-3 pt-4 " [ngClass]="this.userStore.user.id == message.user.id ? 'justify-content-start flex-row-reverse':''">
-                                        
-                                        <div class="message__profile" *ngIf="this.userStore.user.id != message.user.id">
-                                            <img [src]="'http://localhost:8080/img/'+message.user.imageUrl" alt="" class="" style="object-fit:cover;">
-                                        </div>                                                                                
-                                        <div class="position-relative" >                                        
-                                            <small class="ps-2 username-chat p-0" *ngIf="this.userStore.user.id != message.user.id" style="font-size: 10px;">{{message.user.username}}
-                                            </small>    
-                                            <small class="ps-3 username-chat p-0" *ngIf="this.userStore.user.id == message.user.id" style="font-size: 10px;">Me
-                                            </small>    
-                                               <!--for message  -->
-                                        <div class=" text-message p-2" *ngIf="this.userStore.user.id != message.user.id" id="scroll-text">
-                                            <p class="p-0 m-0" id="message" style="color: #050505;">
-                                                {{message.content}}
-                                            </p>                                            
-                                        </div>
-                                        <div  class="text_user_meesage p-2" *ngIf="this.userStore.user.id == message.user.id" id="scroll-text">                                    
-                                            <p class="p-0 m-0" id="message">
-                                                {{message.content}}
-                                            </p>
-                                            
-                                        </div>
-                                        <!--for message  -->
-                                        <small class="username-time float-end pe-2" style="font-size: 10px;">
-                                            {{message.createdDate | pentaDate}} 
-                                        </small>   
-                                        </div>
-                                    </div>
-                                </div>
-                                    <!-- message -->                                    
-                                    
-                                </div>
-                                                                                                                                                                                                                                                     
-                            </div>
-                            <div class="chat__box__input">
-                                <form action="" (ngSubmit)="sentMessage(this.BoardMessage.content)">
-                                <div class="chat__box__input--padding">
-                                    <div class="input-group input-group-md chat__textbox me-2">                                        
-                                        <span class="input-group-text" id="emoji">
-                                            <i class='bx bx-sm bxs-file'></i>
-                                        </span>
-                                        <span class="input-group-text" id="emoji">
-                                            <i class='bx bx-sm bxs-image'></i>
-                                        </span>
-                                        <input type="text" class="form-control shadow-none rounded-3" placeholder="Chat Something..."  name="message" [(ngModel)]="this.BoardMessage.content"  autofocus autocomplete="off">
-                                        <span class="input-group-text border-0" id="emoji">
-                                            <i class='bx bx-sm bxs-smile'></i>
-                                        </span>
-                                        <button type="submit" class="input-group-text bg-transparent  border-0 " id="emoji" >
-                                            <i class="bx bx-sm bxs-send" [class.text-muted]="!this.BoardMessage.content" ></i>
-                                            
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                            </div>
-                        </div>
-                    </div>
+<div class="container-fluid p-0  w-auto mw-100 h-100 bg-chat-color">
+    <!-- <div class="row">          -->
+    <div class="container">
+        <div class="row chat__box__container px-4">
+            <div class="col-12 chat__box__personName ps-0 p-3">
+                <div class="chat__toName">
+                    <span class="opacity-50">To :</span>
+                    <span> {{this.saveBoard.boardName}}</span>
                 </div>
-            <!-- </div> -->
+            </div>
+            <div class="col-12 chat__box__textContainer p-0 m-0">
+                <div class="chat__text" id="chat-container">
+                    <loading target="Messages" [show]="this.status.messageLoad"></loading>
+                    <div class=" chat__message" *ngIf="!this.status.messageLoad">
+                        <!-- message -->
+                        <div class="p-0 m-0" *ngFor="let message of messages">
+                            <!-- [class.from-user]="this.userStore.user.id == message.user.id" -->
+                            <div class="d-flex p-3 pt-4 "
+                                [ngClass]="this.userStore.user.id == message.user.id ? 'justify-content-start flex-row-reverse':''">
+
+                                <div class="message__profile d-flex justify-content-center align-items-center"
+                                    *ngIf="this.userStore.user.id != message.user.id">
+                                    <h1 *ngIf="message.user.imageUrl ==null " style="font-size:15px !important;"
+                                        class="text-dark mb-0 p-0 m-0">{{
+                                        message.user.username && message.user.username[0].toUpperCase() }}</h1>
+                                    <img *ngIf="message.user.imageUrl!=null"
+                                        [src]="'http://localhost:8080/img/'+message.user.imageUrl" alt="" class=""
+                                        style="object-fit:cover;">
+                                </div>
+
+                                <div class="position-relative">
+                                    <small class="ps-2 username-chat p-0"
+                                        *ngIf="this.userStore.user.id != message.user.id"
+                                        style="font-size: 10px;">{{message.user.username}}
+                                    </small>
+                                    <small class="ps-3 username-chat p-0"
+                                        *ngIf="this.userStore.user.id == message.user.id" style="font-size: 10px;">Me
+                                    </small>
+                                    <!--for message  -->
+                                    <div class=" text-message p-2" *ngIf="this.userStore.user.id != message.user.id"
+                                        id="scroll-text">
+                                        <p class="p-0 m-0" id="message" style="color: #050505;">
+                                            {{message.content}}
+                                        </p>
+                                    </div>
+                                    <div class="text_user_meesage p-2" *ngIf="this.userStore.user.id == message.user.id"
+                                        id="scroll-text">
+                                        <p class="p-0 m-0" id="message">
+                                            {{message.content}}
+                                        </p>
+
+                                    </div>
+                                    <!--for message  -->
+                                    <small class="username-time float-end pe-2" style="font-size: 10px;">
+                                        {{message.createdDate | pentaDate}}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- message -->
+
+                    </div>
+
+                </div>
+                <div class="chat__box__input">
+                    <form action="" (ngSubmit)="sentMessage(this.BoardMessage.content)">
+                        <div class="chat__box__input--padding">
+                            <div class="input-group input-group-md chat__textbox me-2">
+                                <span class="input-group-text" id="emoji">
+                                    <i class='bx bx-sm bxs-file'></i>
+                                </span>
+                                <span class="input-group-text" id="emoji">
+                                    <i class='bx bx-sm bxs-image'></i>
+                                </span>
+                                <input type="text" class="form-control shadow-none rounded-3"
+                                    placeholder="Chat Something..." name="message"
+                                    [(ngModel)]="this.BoardMessage.content" autofocus autocomplete="off">
+                                <span class="input-group-text border-0" id="emoji">
+                                    <i class='bx bx-sm bxs-smile'></i>
+                                </span>
+                                <button type="submit" class="input-group-text bg-transparent  border-0 " id="emoji">
+                                    <i class="bx bx-sm bxs-send" [class.text-muted]="!this.BoardMessage.content"></i>
+
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+    </div>
     <!-- </div> -->
+</div>
+<!-- </div> -->
