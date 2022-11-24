@@ -166,21 +166,6 @@ export class HomeComponent implements OnInit {
         })
     }    
 
-<<<<<<< HEAD
-    public getAllMembers(userId: number) {
-        
-        this.userService.getAllMembers(userId).subscribe({
-            next:(res)=>{                          
-                let prevUserId = 0;                
-                this.myBoardCollaborator = res.map( boardHasUser => boardHasUser.user )
-                                        .filter( user => {
-                                            if( prevUserId != user.id ){
-                                                prevUserId = user.id;                                                
-                                                return true;
-                                            }
-                                            return false;
-                                        } )        //filter duplicate value                        
-=======
     getCollaborators( userId : number ){
         this.userService.getCollaborators( userId )
         .subscribe({
@@ -203,35 +188,11 @@ export class HomeComponent implements OnInit {
     //                                         }
     //                                         return false;
     //                                     } )        //filter duplicate value                        
->>>>>>> bde91281aa422bfaf74bf95edb29706e5c260388
 
                             
                 
     //         },error:(err)=>{
     
-<<<<<<< HEAD
-            }
-        })
-        this.userService.getAllJoinedMembers(userId).subscribe({
-            next:(res)=>{                
-                let prevUserId = 0;        
-                let prevAllUserId=0;        
-                this.joinCollaborator = res.map( boardHasUser => boardHasUser.board.user )
-                                        .filter( user => {
-                                            if( prevUserId != user.id ){
-                                                prevUserId = user.id;                                                
-                                                return true;
-                                            }
-                                            return false;
-                                        } )                                                                                                                 
-                let Userarr=[...this.myBoardCollaborator,...this.joinCollaborator];                                              
-                this.duplicateValue(Userarr)
-            },
-            error:(err)=>{
-                    console.log(err)
-            }
-        })                        
-=======
     //         }
     //     })
     //     this.userService.getAllJoinedMembers(userId).subscribe({
@@ -262,7 +223,6 @@ export class HomeComponent implements OnInit {
     
     //         }
     //     })                        
->>>>>>> bde91281aa422bfaf74bf95edb29706e5c260388
         
     // }
 
@@ -322,7 +282,7 @@ export class HomeComponent implements OnInit {
 // console.log(this.homeCollaborator)
 //     }
 // 0==0 =>true 1==1 =>true 2==2 =>true
-this.homeCollaborator=Array.from(new Set(arr));
+// this.homeCollaborator=Array.from(new Set(arr));
 
 }
 }
