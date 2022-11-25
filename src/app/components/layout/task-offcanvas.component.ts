@@ -66,11 +66,11 @@ import { SocketService } from "../../model/service/http/socket.service";
                         <div class="w-100 d-flex gap-2">
                            <div class="w-50">
                                 <small class="my-2">Start Date</small>
-                                <input type="date" class="form-control w-100 outlineBtn shadow-none "  [(ngModel)]="task.startedDate" [min]="task.startedDate" name="startedDate"  />
+                                <input type="datetime-local" class="form-control w-100 outlineBtn shadow-none "  [(ngModel)]="task.startedDate" [min]="task.startedDate" name="startedDate"  />
                            </div>
                             <div class="w-50">
                                 <small class="my-2">Due Date</small>
-                                <input type="date" class="form-control w-100 outlineBtn shadow-none" [(ngModel)]="task.endedDate" [min]="task.startedDate" name="endedDate" />
+                                <input type="datetime-local" class="form-control w-100 outlineBtn shadow-none" [(ngModel)]="task.endedDate" [min]="task.startedDate" name="endedDate" />
                             </div>
                         </div>
                       </li>
@@ -82,7 +82,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                       </li>
                       <li class="text-end">
                          <button (click)="updateTask( true )" class="btn btn-sm bg-thm px-4 text-light ">Update</button>
-                      </li>
+                      </li> 
                    </ul>
 
                     <!-- activites -->
