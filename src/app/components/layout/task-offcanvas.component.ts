@@ -60,7 +60,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                             <h5 class="fs-6">There is no member to assign! <span class="link text-primary" (click)="handleInviteMembers()" >Click Here</span> to invite!</h5>
                         </div>
                       </li>
-                
+
                       <li class="list-item">
                         <h6 class="h6 w-25 fs-6"></h6>
                         <div class="w-100 d-flex gap-2">
@@ -129,7 +129,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                                         <li (click)="deleteComment(comment)" class="dropdown-item">Delete</li>
                                     </ul>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
 
@@ -223,7 +223,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                             <div class="d-flex my-2 {{ totalPagesOfAttachments > 1 ? 'justify-content-between' : 'justify-content-end' }}">
                                 <div *ngIf="totalPagesOfAttachments > 1" class="d-flex align-items-center gap-2">
                                         <button [disabled]="(curPageOfAttachments == 1)" (click)="handleAssignPaginatedAttachments(curPageOfAttachments -1 )" class="fa-solid fa-chevron-left p-2 border-0 bg-transparent" [class.text-primary]="(curPageOfAttachments != 1)"></button>
-                                        <span>{{ curPageOfAttachments }}</span>  
+                                        <span>{{ curPageOfAttachments }}</span>
                                         <button [disabled]="curPageOfAttachments == totalPagesOfAttachments" (click)="handleAssignPaginatedAttachments(curPageOfAttachments + 1 )" class="fa-solid fa-chevron-right border-0 bg-transparent p-2 text-primary" [class.text-primary]="curPageOfAttachments < totalPagesOfAttachments" ></button>
                                 </div>
                             </div>
@@ -236,7 +236,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                 <loading [show]="isLoading" target="Datas..."></loading>
             </div>
         </div>
-        <!-- modal for add attachment  --> 
+        <!-- modal for add attachment  -->
         <div class="modal fade" data-bs-backdrop="static" data-bs-keyword="false" id="add-attachment-modal">
             <div class="modal-dialog modal-dialog-centered ">
                 <div class="modal-content p-3">
@@ -252,7 +252,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                         </div>
                         <div class="form-group my-2">
                             <label class="form-label">File</label>
-                            <input  id="attachment" name="file" type="file" class="form-control shadow-none" [class.is-invalid]="status.attachmentError" placeholder="Choose File" accept="image/jpg , image/png , image/jpeg , application/zip, .rar , application/pdf , 
+                            <input  id="attachment" name="file" type="file" class="form-control shadow-none" [class.is-invalid]="status.attachmentError" placeholder="Choose File" accept="image/jpg , image/png , image/jpeg , application/zip, .rar , application/pdf ,
                             application/vnd.openxmlformats-officedocument.wordprocessingml.document , application/vnd.openxmlformats-officedocument.presentationml.presentation , application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"   />
                             <span class="my-1 text-danger">{{ status.attachmentError }}</span>
                         </div>
@@ -387,7 +387,7 @@ export class TaskOffCanvasComponent implements OnInit {
     }
 
     setUpAddActivity() {
-        // activity id will be undefned if it hasn't been created yet 
+        // activity id will be undefned if it hasn't been created yet
         if( this.task.activities.some( activity => activity.id == undefined )){
             this.createActivity( 0 );
         }else{
@@ -399,8 +399,8 @@ export class TaskOffCanvasComponent implements OnInit {
     handleAddActivity(e: KeyboardEvent, targetIdx: number) {
         this.status.activityError = '';
         let curActivityName = this.task.activities[targetIdx].activityName;
-        
-        if (e.key === 'Enter') {
+
+        if (e.code === 'Enter') {
             if (curActivityName == '' || curActivityName == null) {
                 this.status.errorTargetIdx = targetIdx;
                 this.status.activityError = 'Acitiviy is required!';
@@ -430,7 +430,7 @@ export class TaskOffCanvasComponent implements OnInit {
             this.status.activityError = 'Acitiviy is required!';
             return;
         }
-        
+
         this.activityService
         .createActivity(newActivity)
         .subscribe({
@@ -590,7 +590,7 @@ export class TaskOffCanvasComponent implements OnInit {
                     noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
                     noti.sentUser = this.userStore.user;
                     noti.board = this.board;
-                    this.socketService.sentNotiToBoard(this.board.id, noti);  
+                    this.socketService.sentNotiToBoard(this.board.id, noti);
                     if(showStatus){
                         swal({
                             text: "successfully!",
@@ -737,7 +737,7 @@ export class TaskOffCanvasComponent implements OnInit {
     */
     handleChangeResultStage() {
 
-        let NEXT_STAGE_ID: number = 0;// for next stage id of task 
+        let NEXT_STAGE_ID: number = 0;// for next stage id of task
 
         if (this.task.activities.every((res) => res.status == true)) {
             NEXT_STAGE_ID = 3;
@@ -761,7 +761,7 @@ export class TaskOffCanvasComponent implements OnInit {
         // if( this.task.stage.id == NEXT_STAGE_ID ){
         //     const resultTasks = this.tasks.get(this.task.stage.stageName);
         //     resultTasks?.push(this.task);
-        //     this.tasks.set( this.task.stage.stageName , resultTasks! );    
+        //     this.tasks.set( this.task.stage.stageName , resultTasks! );
         //     return ;
         // }
 

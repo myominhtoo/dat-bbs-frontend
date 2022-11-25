@@ -1,6 +1,4 @@
-import { BoardBookMarkService } from './../../../model/service/http/boardBookmark.service';
-import { BoardBookMark } from './../../../model/bean/BoardBookMark';
-import { Component ,  EventEmitter,  Input,  OnInit, Output } from "@angular/core";
+import { Component ,  OnInit } from "@angular/core";
 import { ActivatedRoute , NavigationEnd, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
 import { Stage } from "src/app/model/bean/stage";
@@ -23,6 +21,8 @@ import { COLORS } from "src/app/model/constant/colors";
 import { BoardTasksStore } from "src/app/model/service/store/board-tasks.store";
 import { BoardStore } from "src/app/model/service/store/board.store";
 
+
+
 @Component({
     selector : 'my-board',
     templateUrl : './my-board.component.html'
@@ -35,9 +35,11 @@ export class MyBoardComponent implements OnInit {
 
     path:string="";
 
+    userId: number;
+
 
     errorTaskCard:TaskCard []=[];
-    @Input('data') data : Board = new Board();
+
     boardsHasUsers : BoardsHasUsers [] = [];
     members : User [] = [];
     public stages : Stage [] = [];
@@ -51,11 +53,11 @@ export class MyBoardComponent implements OnInit {
     tempComment : string ='';
     showEmojis : boolean = false;
     boardId : number | undefined;
-    boardBookMark:BoardBookMark=new BoardBookMark();
+
     registeredUsers : User [] = [];
-    @Output('toggle-bookmark') toggleBookMarkEmit=new EventEmitter<BoardBookMark>();
+
     stage  : Stage = new Stage();
-    @Input('bookMarks') bookMarks :BoardBookMark[]=[];
+
     msg:String="";
     click:boolean=false;
 
@@ -100,14 +102,13 @@ export class MyBoardComponent implements OnInit {
          private commentService : CommentService,
          private userService :UserService ,
          public userStore : UserStore ,
-         private boardBookmarkService : BoardBookMarkService,
          public socketService : SocketService ,
-         private boardTasksStore : BoardTasksStore , 
-         public usersStore : UserStore ,
+         private boardTasksStore : BoardTasksStore ,
          private boardStore : BoardStore  ){
           this.offCanvasTask.activities = [];
           this.offCanvasTask.comments = [];
           this.board.user = new User();
+          this.userId=userStore.user.id;
     }
 
     ngOnInit(): void {
@@ -262,7 +263,7 @@ export class MyBoardComponent implements OnInit {
         /*
           not to invite member again
         */
-       
+
 
         if( this.emails.length > 0 || this.email.length > 5 ){
           swal({
@@ -624,45 +625,25 @@ export class MyBoardComponent implements OnInit {
 
       })
 
-
  }
- isBookMark(){      
-  return this.bookMarks.some((res)=>{      
-        return res.board.id == this.data.id
-  })          
-}
 
-handleBookMark( e : Event,data:Board ){
-  e.stopPropagation();
-  this.usersStore.fetchUserData();
-  
-  this.boardBookMark.board = data;        
-  this.boardBookMark.user = this.usersStore.user;      
-  
-    //getting current board form book marks
-    const curBoardFromBookMarks = this.bookMarks.filter( bookMark => bookMark.board.id == data.id );
-    
-   // will enter if cur board has been book mark        
-    swal({
-      text:curBoardFromBookMarks.length > 0 ? "Are you sure to remove?" : "Are you sure to bookmark?",
-      icon:"warning",
-      buttons : [ 'No' , 'Yes' ]
-    }).then(isYes=>{
-      if(isYes){
-        if( curBoardFromBookMarks.length > 0 ){
-          this.boardBookMark.id = curBoardFromBookMarks[0].id;
-        }            
-        this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
-        next:(res)=>{          
-          if(res.ok){
-            console.log(res.data)
-            this.toggleBookMarkEmit.emit( res.data );
-          }
-        },error:(err)=>{
-            console.log(err)
-        }
-    })              
-  }
-})     
-}
+
+
+       leaveBoard(){
+
+        let boardId = this.route.snapshot.params['id'];
+
+        swal({
+          text : 'Are You Sure to Leave ?',
+          icon : 'warning',
+          buttons : ['No' , 'Yes']
+        }).then(isYes=>{
+
+          this.boardService.leaveFromJoinBoard(boardId,this.userId).subscribe(data=>{
+            this.router.navigateByUrl(`/boards`)
+          })
+        })
+
+      }
+
 }
