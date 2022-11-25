@@ -14,7 +14,8 @@
                     <loading target="Messages" [show]="this.status.messageLoad"></loading>
                     <div class=" chat__message" *ngIf="!this.status.messageLoad">
                         <!-- message -->
-                        <div class="p-0 m-0" *ngFor="let message of messages">
+                        <div class="p-0 m-0" *ngFor="let message of boardChatStore.boardMap.get(profileId)">
+                            
                             <!-- [class.from-user]="this.userStore.user.id == message.user.id" -->
                             <div class="d-flex p-3 pt-4 "
                                 [ngClass]="this.userStore.user.id == message.user.id ? 'justify-content-start flex-row-reverse':''">

@@ -1,3 +1,4 @@
+
 import { User } from './../../../model/bean/user';
 import { UserService } from './../../../model/service/http/user.service';
 import { Component } from  "@angular/core";
@@ -35,7 +36,7 @@ export class LoginComponent {
          private authService : AuthService,
          public boardStore : BoardStore , 
          private notiStore : NotificationStore,
-         private socketService : SocketService,
+         private socketService : SocketService,        
         ){}
      
     ngOnInit(): void {
@@ -55,9 +56,10 @@ export class LoginComponent {
 
                         this.userStore.saveUserData(res.body.data);
                         this.boardStore.refetchBoardsByUserId(res.body.data.id);
-                        this.notiStore.reFetchNotis( res.body.data.id );
+                        this.notiStore.reFetchNotis( res.body.data.id );                                                
                         setTimeout(() => {
                            this.socketService.subscribeNotis();
+                           this.socketService.subscribeBoardsMessageSocket();
                         } , 1000 );
                         swal({
                             text : res.body.message,

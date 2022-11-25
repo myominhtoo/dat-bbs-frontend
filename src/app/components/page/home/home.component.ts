@@ -225,9 +225,7 @@ export class HomeComponent implements OnInit {
             this.status.overDueTab = false
         }
     }
-        duplicateValue(arr:Array<User>){
-
-    }
+        
 }
 
 
