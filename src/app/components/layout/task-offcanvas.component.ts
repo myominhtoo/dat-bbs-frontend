@@ -282,8 +282,6 @@ export class TaskOffCanvasComponent implements OnInit {
     @Input('tasks') tasks: Map<string, TaskCard[]> = new Map();
     @Input('tab') tab: string = 'activity';
 
-    @Output('deleteComment') emitDeleteComment = new EventEmitter<Comment>();
-    @Output('updateComment') emitUpdateComment = new EventEmitter<Comment>();
 
     detailActivity: Activity = new Activity();
     comment: Comment = new Comment();
@@ -632,10 +630,6 @@ export class TaskOffCanvasComponent implements OnInit {
         })
     }
 
-    updateComment(comment: Comment) {
-        this.emitUpdateComment.emit(comment);
-        $("#editComment").click();
-    }
 
     handleAddAttachment() {
         const inputFiles = ($('#attachment')[0] as HTMLInputElement).files;

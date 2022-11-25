@@ -538,33 +538,33 @@ export class MyBoardComponent implements OnInit {
       }
    }
 
-   setupUpdateComment( cmt : Comment ){
-     this.comment = cmt;
-     this.tempComment=this.comment.comment;
-     this.commentService.updateComment(this.comment).subscribe({
-       next : res =>{
-          cmt=res.data;
-          this.showEmojis = false;
-          $("#cmt-modal .btn-close").click();
-       },
-       error : err =>{
-        console.log(err);
-       }
-     })
-   }
+  //  setupUpdateComment( cmt : Comment ){
+  //    this.comment = cmt;
+  //    this.tempComment=this.comment.comment;
+  //    this.commentService.updateComment(this.comment).subscribe({
+  //      next : res =>{
+  //         cmt=res.data;
+  //         this.showEmojis = false;
+  //         $("#cmt-modal .btn-close").click();
+  //      },
+  //      error : err =>{
+  //       console.log(err);
+  //      }
+  //    })
+  //  }
 
-   handleCancel(){
-    $("#cmt-modal .btn-close").click();
-    this.comment.comment=this.tempComment;
-   }
+  //  handleCancel(){
+  //   $("#cmt-modal .btn-close").click();
+  //   this.comment.comment=this.tempComment;
+  //  }
 
-   toggleEmojis(){
-    this.showEmojis = !this.showEmojis;
-   }
+  //  toggleEmojis(){
+  //   this.showEmojis = !this.showEmojis;
+  //  }
 
-   addEmojiToComment( event : any ){
-    this.comment.comment += event.emoji.native;
-   }
+  //  addEmojiToComment( event : any ){
+  //   this.comment.comment += event.emoji.native;
+  //  }
 
   exportMemberReport(path:string) {
     let boardId = this.route.snapshot.params['id'];

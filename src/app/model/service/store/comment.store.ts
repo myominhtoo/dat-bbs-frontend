@@ -6,4 +6,5 @@ import { Comment } from "../../bean/comment";
 })
 export class CommentStore{
     commentsMap : Map<number,Map<number,Comment[]>>  = new Map();
+    canEdit : boolean = true;
 }

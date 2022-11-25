@@ -1,8 +1,17 @@
-<div id="comment-container" class="w-100">
+<div id="comment-container">
     <div id="comment-icon">
         <h6 class=" mx-2" style="font-size:12px !important;">{{ comment.user.id == userStore.user.id  ? 'Me' : comment.user.username && comment.user.username | titlecase }}<small *ngIf="comment.parentComment != null" > : <span class="fw-bold"> to {{ comment.user.id == comment.parentComment.user.id ? 'Self' : comment.parentComment.user.username | titlecase }}</span></small><small class="text-muted mx-2 text-primary" style="font-size:10px;">{{ comment.createdDate | pentaDate }}</small></h6>
     </div>
-    <div id="comment">
+    <form *ngIf="isEditing" (ngSubmit)="handleUpdateComment()" class=" form w-75">
+       <div class="form-group my-1">
+            <input type="text" class="form-control" [(ngModel)]="comment.comment" name="comment" placeholder="Edit comment" />
+       </div>
+       <div class="form-group d-flex justify-content-end align-items-center gap-1 my-2">
+          <button type="button" (click)="controlEditing(false)" class="btn btn-sm px-3">Cancel</button>
+          <button type="submit" [disabled]="comment.comment == ''" class="btn btn-sm bg-thm text-light px-3">Edit</button>
+       </div>
+    </form>
+    <div *ngIf="!isEditing" id="comment">
         {{ comment.comment }}
         <!-- <div *ngIf="comment.user.id == userStore.user.id" id="comment-control" class="d-flex gap-3 text-muted"> -->
             <!-- <i class="fa-solid fa-ellipsis-vertical p-2" data-bs-toggle="dropdown" data-bs-target="#cmt-control-dropdown" ></i> -->
@@ -15,11 +24,11 @@
     </div>        
     <div class=" pe-5 text-muted d-flex align-items-center {{ comment.childComments.length > 0 ? 'justify-content-between' : 'justify-content-end' }} ps-1 py-1 gap-2"  style="font-size:12px !important;width:80% !important;">
         <small (click)="toggleShowChilds()" class="d-flex align-items-center" *ngIf="comment.childComments.length > 0 " style="cursor:pointer;"><i class="fa-solid {{ showChilds ? 'fa-caret-down' : 'fa-caret-right'  }} mx-1" style="font-size:18px;"></i>{{ comment.childComments.length }}  Replies</small>
-        <div class="d-flex gap-2 align-items-center pe-3">
+        <div *ngIf="!isEditing" class="d-flex gap-2 align-items-center pe-3">
             <small *ngIf="!isReplying" (click)="controlReplying(true)" style="cursor:pointer;">Reply</small>
             <div *ngIf="comment.user.id == userStore.user.id" class="d-flex align-items-center gap-2">
-                <small (click)="handleEditClick()" >Edit</small>
-                <small (click)="handleDeleteClick()" class="text-danger">Delete</small>
+                <small (click)="controlEditing(true)" style="cursor:pointer;" >Edit</small>
+                <small (click)="handleDeleteClick()" class="text-danger" style="cursor:pointer;">Delete</small>
             </div>
         </div>
     </div>          
@@ -29,10 +38,11 @@
         </div>
         <div class="form-group w-100 d-flex gap-2 justify-content-end  my-2" style="font-size:13px !important;">
             <button (click)="controlReplying(false)" type="button" class="btn btn-sm">Cancel</button>
-            <button type="submit" class="btn btn-sm bg-thm px-3 text-light">Reply</button>
+            <button type="submit" [disabled]="newComment.comment == ''" class="btn btn-sm bg-thm px-3 text-light">Reply</button>
         </div>
     </form>
     <div *ngIf="showChilds && comment.childComments.length > 0"style="width:100%;border-left:1px solid rgba(0,0,0,0.3);border-radius:5px;height:auto;" class=" ps-2">
-        <comment *ngFor="let comment of comment.childComments" [comment]="comment"  [task]="task"></comment>
+        <comment  *ngFor="let comment of comment.childComments" [comment]="comment" (leave-family)="handleLeaveFamily($event)" [task]="task"></comment>
     </div>          
 </div>
+
