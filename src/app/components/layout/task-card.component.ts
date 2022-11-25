@@ -7,6 +7,8 @@ import { ActivityService } from 'src/app/model/service/http/activity.service';
 import { CommentService } from 'src/app/model/service/http/comment.service';
 import swal from 'sweetalert';
 import { ActivatedRoute } from '@angular/router';
+import { Comment } from 'src/app/model/bean/comment';
+import { CommentStore } from 'src/app/model/service/store/comment.store';
 
 
 @Component({
@@ -73,6 +75,8 @@ export class TaskCardComponent implements OnInit {
     donePercent : number = 0;
     showDonePercent : boolean = true;
 
+    childCommentsMap : Map<number,Comment[]> = new Map();
+
     PERIOD_STATUS  = {
         OVER : 'Overdue',
         CLOSE : 'Very Close',
@@ -87,7 +91,9 @@ export class TaskCardComponent implements OnInit {
         private taskCardService : TaskCardService ,
         public route : ActivatedRoute ,
         private activityService : ActivityService ,
-        private commentService : CommentService ){}
+        private commentService : CommentService , 
+        private commentStore : CommentStore ){
+        }
 
     ngOnInit(): void {
         /*
@@ -146,7 +152,33 @@ export class TaskCardComponent implements OnInit {
         this.commentService.getComments( this.task.id )
         .subscribe({
             next : resComments => {
-                this.task.comments = resComments;
+       
+              const childComments: Comment[] = [];
+              this.task.comments = resComments.filter( comment => {
+                 if( comment.parentComment != null ){
+                    comment.childComments = [];
+                    childComments.push(comment);
+                    return false;
+                 }
+                 comment.childComments = [];
+                 return true;
+              });
+
+              childComments.forEach( childComment => {
+                const parentId = childComment.parentComment.id;
+                const parentData = this.childCommentsMap.get(parentId)!;
+                childComment.childComments = [];
+                
+                if( parentData == undefined ){
+                    this.childCommentsMap.set( parentId , [childComment]);
+                    return;
+                }
+                parentData.push(childComment);
+                this.childCommentsMap.set( parentId , parentData );
+              });
+
+              this.commentStore.commentsMap.set( this.task.id , this.childCommentsMap! );
+
             },
             error : err => {
                 console.log(err);

@@ -9,5 +9,9 @@ export class Comment{
     taskCard ! : TaskCard;
 
     parentComment ! : Comment;
+
+    /*
+    for ui 
+    */
     childComments ! : Comment[];
 }

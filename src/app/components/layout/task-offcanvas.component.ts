@@ -32,7 +32,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                     <span id="tab" (click)="changeTab('comment')" [class.thm]="tab == 'comment'" class="fw-bold"><i class="fa-solid fa-comment-dots mx-1"></i>Comments</span>
                 </div>
             </div>
-            <div class=" offcanvas-body overflow-scroll py-1 px-0 ps-2">
+            <div class=" offcanvas-body overflow-scroll  px-0 ps-1">
                 <div *ngIf="tab == 'activity' && !isLoading" class="container py-3">
                    <h6 class="text-center tex">Task's Info</h6>
                    <ul class="list-group list-unstyled text-muted gap-3">
@@ -114,25 +114,12 @@ import { SocketService } from "../../model/service/http/socket.service";
                 </div>
 
                 <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" >
-                    <div id="comments">
-                        <div *ngFor="let comment of task.comments" id="comment-container" class="w-100 my-3 px-3 ">
-                            <div id="comment-icon">
-                                <h6 class="h6 mx-2" style="font-size:14px !important;">{{ comment.user.username && comment.user.username | titlecase }}<small class="text-muted mx-2 text-primary" style="font-size:10px;">{{ comment.createdDate | pentaDate }}</small></h6>
-                            </div>
-                            <div id="comment">
-                                {{ comment.comment }}
-                                <div *ngIf="comment.user.id == userStore.user.id" id="comment-control" class="d-flex gap-3 text-muted">
-                                    <i class="fa-solid fa-ellipsis-vertical p-2" data-bs-toggle="dropdown" data-bs-target="#cmt-control-dropdown" ></i>
-                                    <ul class="dropdown-menu" id="cmt-control-dropdown" style="cursor:pointer;" >
-                                        <span class="d-none" data-bs-toggle="modal" id="editComment" data-bs-target="#cmt-modal"></span>
-                                        <li (click)="updateComment(comment)" class="dropdown-item">Edit</li>
-                                        <li (click)="deleteComment(comment)" class="dropdown-item">Delete</li>
-                                    </ul>
-                                </div>
-                            </div>                            
+                   
+                    <div class="w-100 h-100 p-0 m-0">
+                        <div id="comments" style="height:auto;" class="ps-3 m-0 " >
+                            <comment *ngFor="let comment of task.comments" [comment]="comment" [task]="task" ></comment>
                         </div>
                     </div>
-
 
                     <emoji-mart *ngIf="showEmojis" (emojiSelect)="addEmojiToComment($event)" id="emoji-mart"></emoji-mart>
 
@@ -230,7 +217,6 @@ import { SocketService } from "../../model/service/http/socket.service";
                         </div>
                     </div>
 
-
                 </div>
 
                 <loading [show]="isLoading" target="Datas..."></loading>
@@ -271,12 +257,9 @@ export class TaskOffCanvasComponent implements OnInit {
 
     MAX_ITEM_PER_PAGE: number = 5;
 
-    showtime: Comment[] = [];
     boardId !: number;
     taskCardId !: number;
     activity: Activity = new Activity();
-    startedDate !: Date;
-    endedDate !: Date;
     description !: string;
     changeStage: Stage = new Stage();
     changeTask: TaskCard = new TaskCard();
@@ -327,6 +310,8 @@ export class TaskOffCanvasComponent implements OnInit {
 
     ngOnInit(): void {
         this.task.users = [];
+    
+
         this.comment.comment = '';
         this.handleListenOffCanvasClose();
 
@@ -348,7 +333,6 @@ export class TaskOffCanvasComponent implements OnInit {
     }
 
     changeTab(tab: string) {
-        console.log(this.task.comments)
         this.tab = tab;
     }
 
@@ -543,9 +527,10 @@ export class TaskOffCanvasComponent implements OnInit {
         this.comment.user = new User();
         this.comment.taskCard = new TaskCard();
 
-        this.comment.user.id = JSON.parse(decodeURIComponent(escape(window.atob(`${localStorage.getItem(window.btoa(('user')))}`)))).id;
+        this.userStore.fetchUserData();
+        this.comment.user.id = this.userStore.user.id;
         this.comment.taskCard.id = this.task.id;
-  
+
         this.commentService.createComment(this.comment)
             .subscribe({
                 next: res => {
@@ -558,7 +543,7 @@ export class TaskOffCanvasComponent implements OnInit {
                 error: err => {
                     console.log(err);
                 }
-            })
+        })
     }
 
     handleAssignTask(e: any) {
@@ -606,12 +591,10 @@ export class TaskOffCanvasComponent implements OnInit {
     }
 
     handleInviteMembers() {
-        console.log('hi')
         $('#invite-members').click();
     }
 
     deleteComment(cmt: Comment) {
-
         swal({
             text: 'Are you sure to Delete ?',
             icon: 'warning',

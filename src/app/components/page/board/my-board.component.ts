@@ -1,4 +1,4 @@
-import { BoardBookMarkService } from './../../../model/service/http/boardBookmark.service';
+
 import { BoardBookMark } from './../../../model/bean/BoardBookMark';
 import { Component ,  EventEmitter,  Input,  OnInit, Output } from "@angular/core";
 import { ActivatedRoute , NavigationEnd, Router } from "@angular/router";
@@ -61,9 +61,7 @@ export class MyBoardComponent implements OnInit {
 
     offCanvasTask : TaskCard = new TaskCard();
     offCanvasTab : string = "";
-    // activities : Activity [] = [];
-    // comments : Comment [] = [];
-
+   
     status = {
         isLoading : false,
         isAddStage : false,
@@ -99,7 +97,6 @@ export class MyBoardComponent implements OnInit {
          private commentService : CommentService,
          private userService :UserService ,
          public userStore : UserStore ,
-         private boardBookmarkService : BoardBookMarkService,
          public socketService : SocketService ,
          private boardTasksStore : BoardTasksStore , 
          public usersStore : UserStore ,
@@ -163,6 +160,7 @@ export class MyBoardComponent implements OnInit {
                 this.board = board;
                 this.boardTasksStore.board  = board; // for calendar
                 this.getTaskCards( boardId );
+
             },
             error : err  => {
                 // window.history.back();
