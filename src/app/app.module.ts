@@ -40,6 +40,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import listWeek from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 import { TasksCalenderComponent } from './components/page/mytasks/tasks-calender.component';
+import { ResourcesAttachmentComponent } from './components/page/resources/resources-attachment'
 
 
 
@@ -74,8 +75,9 @@ FullCalendarModule.registerPlugins([
     TestComponent,
     BoardTasksCalendarComponent,
     StageTasksChartComponent,
-    TasksCalenderComponent
-  
+    TasksCalenderComponent,
+    ResourcesAttachmentComponent
+
   ],
   imports: [
     BrowserModule,
@@ -90,7 +92,7 @@ FullCalendarModule.registerPlugins([
     PickerModule,
     CarouselModule,
     FullCalendarModule,
-    
+
   ],
   providers: [{ provide : HTTP_INTERCEPTORS , useClass : AuthInterceptor , multi : true }],
   bootstrap: [AppComponent]

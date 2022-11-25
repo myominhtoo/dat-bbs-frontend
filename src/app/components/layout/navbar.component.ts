@@ -8,21 +8,19 @@ import { NotificationStore } from 'src/app/model/service/store/notification.stor
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/model/service/http/auth.service';
 import { SocketService } from 'src/app/model/service/http/socket.service';
-
+import { Notification } from 'src/app/model/bean/notification';
 @Component({
     selector : 'navbar',
     templateUrl:"./navbar.components.html",
 })
-export class NavbarComponent implements OnInit {
-
+export class NavbarComponent implements OnInit {  
     userInfo:User=new User();
     userPass ={
         changePassword:"",
         currentPassword:"",
         retypePassoword:""
-    }
-
-    notiCount : number = 0;
+  }
+    
       
       status = {
         preview:{
@@ -51,7 +49,9 @@ export class NavbarComponent implements OnInit {
             if( this.userStore.user.id ) this.getUserData(this.userStore.user.id )
     }
 
-    ngOnInit(): void {}
+  ngOnInit(): void { 
+    
+    }
 
   
     toggleSidebar(){
@@ -136,7 +136,9 @@ export class NavbarComponent implements OnInit {
           this.router.navigateByUrl('/login');
         }
       });
-    }
+  }
+  
+
     
 
 }

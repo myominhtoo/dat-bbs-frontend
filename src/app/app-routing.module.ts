@@ -24,6 +24,7 @@ import { TestComponent } from './components/page/test.component';
 import { BoardTasksCalendarComponent } from './components/page/board/board-tasks-calendar.component';
 import { StageTasksChartComponent } from './components/page/mytasks/stage-tasks-chart.component';
 import { TasksCalenderComponent } from './components/page/mytasks/tasks-calender.component';
+import { ResourcesAttachmentComponent } from './components/page/resources/resources-attachment';
 
 
 
@@ -137,6 +138,11 @@ const routes: Routes = [
   component : TasksCalenderComponent,
   pathMatch : 'full',
   canActivate : [ AuthGuard]
+  },
+  {
+    path:"boards/:id/resources",
+    component : ResourcesAttachmentComponent,
+    canActivate : [ AuthGuard ]
   },
   {
     path : '**',

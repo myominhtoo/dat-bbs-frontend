@@ -23,6 +23,8 @@ import { COLORS } from "src/app/model/constant/colors";
 import { BoardTasksStore } from "src/app/model/service/store/board-tasks.store";
 import { BoardStore } from "src/app/model/service/store/board.store";
 
+
+
 @Component({
     selector : 'my-board',
     templateUrl : './my-board.component.html'
@@ -35,9 +37,11 @@ export class MyBoardComponent implements OnInit {
 
     path:string="";
 
+    userId: number;
+
 
     errorTaskCard:TaskCard []=[];
-    @Input('data') data : Board = new Board();
+
     boardsHasUsers : BoardsHasUsers [] = [];
     members : User [] = [];
     public stages : Stage [] = [];
@@ -51,11 +55,11 @@ export class MyBoardComponent implements OnInit {
     tempComment : string ='';
     showEmojis : boolean = false;
     boardId : number | undefined;
-    boardBookMark:BoardBookMark=new BoardBookMark();
+
     registeredUsers : User [] = [];
-    @Output('toggle-bookmark') toggleBookMarkEmit=new EventEmitter<BoardBookMark>();
+
     stage  : Stage = new Stage();
-    @Input('bookMarks') bookMarks :BoardBookMark[]=[];
+
     msg:String="";
     click:boolean=false;
 
@@ -63,6 +67,7 @@ export class MyBoardComponent implements OnInit {
     offCanvasTab : string = "";
    
     status = {
+        isReporting : false,
         isLoading : false,
         isAddStage : false,
         isAddingStage : false,
@@ -98,12 +103,12 @@ export class MyBoardComponent implements OnInit {
          private userService :UserService ,
          public userStore : UserStore ,
          public socketService : SocketService ,
-         private boardTasksStore : BoardTasksStore , 
-         public usersStore : UserStore ,
+         private boardTasksStore : BoardTasksStore ,
          private boardStore : BoardStore  ){
           this.offCanvasTask.activities = [];
           this.offCanvasTask.comments = [];
           this.board.user = new User();
+          this.userId=userStore.user.id;
     }
 
     ngOnInit(): void {
@@ -259,7 +264,7 @@ export class MyBoardComponent implements OnInit {
         /*
           not to invite member again
         */
-       
+
 
         if( this.emails.length > 0 || this.email.length > 5 ){
           swal({
@@ -567,8 +572,10 @@ export class MyBoardComponent implements OnInit {
   //  }
 
   exportMemberReport(path:string) {
+    this.status.isReporting=true;
     let boardId = this.route.snapshot.params['id'];
     this.userService.exportMember(boardId,path).subscribe((res) => {
+      this.status.isReporting=false;
       const blob = new Blob([res.body], { type : 'application/octet-stream'});
       const a = document.createElement('a');
       const objectUrl = URL.createObjectURL(blob);
@@ -584,20 +591,21 @@ export class MyBoardComponent implements OnInit {
   }
 
    exportTaskReport(path:string ) {
-
+    this.status.isReporting=true;
     let boardId = this.route.snapshot.params['id'];
 
       this.taskCardService.getTaskCards(boardId).subscribe(data=>{
-
+        
         this.errorTaskCard=data;
         if(this.errorTaskCard.length==0){
-
+          
           swal({
             text : 'TaskCard is not avaliable!',
             icon : 'warning'
         });
         }
         else{
+          
           this.taskCardService.exportTaskReport(boardId,path).subscribe((res)=>{
             const blob = new Blob([res.body], { type : 'application/octet-stream'});
             const a = document.createElement('a');
@@ -606,7 +614,7 @@ export class MyBoardComponent implements OnInit {
             a.download = `taskCards.${path=='excel' ? 'xlsx' : path.toLowerCase()}`,
             a.click();
             URL.revokeObjectURL(objectUrl);
-
+            this.status.isReporting=false;
             swal({
                 text : 'Successfully Exported!',
                 icon : 'success'
@@ -618,45 +626,25 @@ export class MyBoardComponent implements OnInit {
 
       })
 
-
  }
- isBookMark(){      
-  return this.bookMarks.some((res)=>{      
-        return res.board.id == this.data.id
-  })          
-}
 
-handleBookMark( e : Event,data:Board ){
-  e.stopPropagation();
-  this.usersStore.fetchUserData();
-  
-  this.boardBookMark.board = data;        
-  this.boardBookMark.user = this.usersStore.user;      
-  
-    //getting current board form book marks
-    const curBoardFromBookMarks = this.bookMarks.filter( bookMark => bookMark.board.id == data.id );
-    
-   // will enter if cur board has been book mark        
-    swal({
-      text:curBoardFromBookMarks.length > 0 ? "Are you sure to remove?" : "Are you sure to bookmark?",
-      icon:"warning",
-      buttons : [ 'No' , 'Yes' ]
-    }).then(isYes=>{
-      if(isYes){
-        if( curBoardFromBookMarks.length > 0 ){
-          this.boardBookMark.id = curBoardFromBookMarks[0].id;
-        }            
-        this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
-        next:(res)=>{          
-          if(res.ok){
-            console.log(res.data)
-            this.toggleBookMarkEmit.emit( res.data );
-          }
-        },error:(err)=>{
-            console.log(err)
-        }
-    })              
-  }
-})     
-}
+
+
+       leaveBoard(){
+
+        let boardId = this.route.snapshot.params['id'];
+
+        swal({
+          text : 'Are You Sure to Leave ?',
+          icon : 'warning',
+          buttons : ['No' , 'Yes']
+        }).then(isYes=>{
+
+          this.boardService.leaveFromJoinBoard(boardId,this.userId).subscribe(data=>{
+            this.router.navigateByUrl(`/boards`)
+          })
+        })
+
+      }
+
 }

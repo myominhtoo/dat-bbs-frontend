@@ -1349,7 +1349,7 @@ color: black;
   background: #f2f2f2;
 }
 .wrapper i:first-child{
-  left: -22px;
+  left: -22px;  
 }
 .wrapper i:last-child{
   right: -22px;
