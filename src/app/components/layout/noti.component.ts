@@ -21,7 +21,7 @@ import swal from "sweetalert";
              </p>
            </div>
            
-           <div id="noti-body" class="col-10 ps-2 pe-1 text-justify " [class.opacity-50]="isSeen()" >
+           <div id="noti-body" class="col-10 ps-2 pe-1 text-justify " >
               <h6 *ngIf="!noti.invitiation" class="p-0 m-0 d-flex justify-content-between align-items-center" style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">
               <span>{{  noti.content.length > 80 ? noti.content.substring(0,80)+'...' : noti.content }}</span>
             <span  [class.d-none]="isSeen()" style="font-size: 8px;" class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>

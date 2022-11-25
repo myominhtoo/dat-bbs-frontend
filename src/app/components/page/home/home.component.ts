@@ -227,19 +227,7 @@ export class HomeComponent implements OnInit {
             this.status.overDueTab = false
         }
     }
-    duplicateValue(arr:Array<User>){
-    console.log(arr)
-//     this.homeCollaborator=arr.filter( (user,i) => {
-//         console.log("Index of",arr.indexOf(user))
-//         console.log(i)
-//         return arr.indexOf(user)===i;
-//     } )        //filter duplicate value
-// console.log(this.homeCollaborator)
-//     }
-// 0==0 =>true 1==1 =>true 2==2 =>true
-//this.homeCollaborator=Array.from(new Set(arr));
 
-    }
 }
 
 

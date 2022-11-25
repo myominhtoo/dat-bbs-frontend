@@ -1,3 +1,5 @@
+import { BoardChatStore } from './../store/board-chat.store';
+import { BoardChatComponent } from './../../../components/page/chatbox/board-chat.component';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,18 +23,19 @@ import { BoardService } from './board.service';
     providedIn : 'root'
 })
 export class SocketService{
-
+    
     board : Board = new Board();
     stompClient : Client | undefined = undefined;
     boardNotisSubscriptions : Subscription [] = [];
     privateNotiSubscription : Subscription | undefined;
-
+    boardMessageSubscriptions : Subscription [] = [];    
+    public messages:BoardMessage[]=[];
     status = {
         hadGotVerification : false,
         hadError : false
     }
 
-    constructor( 
+    constructor(         
         public boardStore : BoardStore , 
         private httpClient : HttpClient ,
         private notiStore : NotificationStore,
@@ -41,15 +44,16 @@ export class SocketService{
         private route : ActivatedRoute ,
         private router : Router,
         private boardService : BoardService,
+        private boardChatStore:BoardChatStore
     ){  
-        if( authService.isAuth() ) {
+        if( this.authService.isAuth() ) {
            this.getSocketClient();
            this.userStore.fetchUserData();
         }
     }
 
     subscribeNotis(){
-       this.getSocketClient();
+       this.getSocketClient()
         if(this.stompClient){
             this.stompClient.connect( {} ,
                 () => {
@@ -75,7 +79,7 @@ export class SocketService{
             });
         }
     }
-
+  
     private showNoti( payload : Message ){
         const newNoti = JSON.parse(payload.body) as Notification;
         if( newNoti.sentUser.id != this.boardStore.userStore.user.id ){
@@ -180,16 +184,7 @@ export class SocketService{
         }
     }
 
-    sentMeesageToGroupChat( boardId : number , message : BoardMessage  ){
-        if( this.stompClient ){
-            this.stompClient.send( `/app/boards/${boardId}/send-message` , {} , JSON.stringify(message) );
-        }else{
-            swal({
-                text : 'Invalid Socket Client!',
-                icon : 'warning'
-            });
-        }
-    }
+    
 
 
     public getBoardMessageList(id:number):Observable<BoardMessage[]>{
@@ -245,12 +240,70 @@ export class SocketService{
                 subscription.unsubscribe();
             })
 
-            this.privateNotiSubscription?.unsubscribe();
+            this.privateNotiSubscription?.unsubscribe();            
+
+            this.boardMessageSubscriptions.forEach(subscription=>{
+                subscription.unsubscribe();
+            })
+            
+
+            
         }
     }
 
 
 
-    
+    subscribeBoardsMessageSocket(){
+  
+        if(this.stompClient){
+          this.stompClient.connect( {} ,
+                () => {
+                  console.warn("BoardMessage Sock is start working")
+                    //subscribing boards channel
+                    this.boardStore.boards.forEach( board => {
+                      const subscription=  this.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
+                        console.warn("BoardMessage Sock is running")
+                        const boardNoti = JSON.parse(payload.body) as BoardMessage;                        
+                        console.log("Outter GLobal Object",this.boardChatStore.boardMap.get(boardNoti.board.id))                        
+                        this.messages.push(boardNoti)
+                        this.boardChatStore.boardMap.set(boardNoti.board.id,this.messages);                        
+                        if( boardNoti.user.id != this.boardStore.userStore.user.id ){                                                    
+                            console.log("Inner GLobal Object ",this.boardChatStore.boardMap.get(boardNoti.board.id));                            
+                            ($('#chat-noti')[0] as HTMLAudioElement).play();                              
+                            
+                            }
+                        });       
+                        subscription!.id = `board-${board.id}`;
+                        this.boardMessageSubscriptions.push(subscription!);                        
+                    });
+                }, 
+                () => {
+                    swal({
+                        text : 'Failed to connect to socket!',
+                        icon : 'warning'
+                    });
+                });
+                
+        }else{
+            swal({
+                text : 'Invalid Socket Connection!',
+                icon : 'warning'
+            });
+        }
+      }
+      
+      
+    //   get
+
+      sentMeesageToGroupChat( boardId : number , message : BoardMessage  ){
+        if( this.stompClient ){
+            this.stompClient.send( `/app/boards/${boardId}/send-message` , {} , JSON.stringify(message) );
+        }else{
+            swal({
+                text : 'Invalid Socket Client!',
+                icon : 'warning'
+            });
+        }
+    }
 
 }

@@ -13,17 +13,14 @@ import { Notification } from 'src/app/model/bean/notification';
     selector : 'navbar',
     templateUrl:"./navbar.components.html",
 })
-export class NavbarComponent implements OnInit {
-  filterNoti: Notification[] = []
-  getNoti: Notification[] =[]
+export class NavbarComponent implements OnInit {  
     userInfo:User=new User();
     userPass ={
         changePassword:"",
         currentPassword:"",
         retypePassoword:""
   }
-
-    notiCount : number = 0;
+    
       
       status = {
         preview:{
@@ -52,10 +49,7 @@ export class NavbarComponent implements OnInit {
             if( this.userStore.user.id ) this.getUserData(this.userStore.user.id )
     }
 
-  ngOnInit(): void {
-    // setTimeout(() => {
-    // this.getNotiCount(this.userStore.user.id);  
-    // },1800)
+  ngOnInit(): void { 
     
     }
 
@@ -144,20 +138,7 @@ export class NavbarComponent implements OnInit {
       });
   }
   
-  // getNotiCount(userId: number) {
-  
-    
-  //   this.getNoti =this.notificationStore.notifications.filter((res) => {
-  //      return res.sentUser.id !== userId;
-  //   })
-    
-  //   this.filterNoti = this.notificationStore.notifications.filter(res => {
-  //     return res.seenUsers.some(res=>res.id==userId)
-  //   })
-  //   this.notiCount = this.getNoti.filter((res) => !this.filterNoti.includes(res)).length;
-    
-    
-  // }
+
     
 
 }
