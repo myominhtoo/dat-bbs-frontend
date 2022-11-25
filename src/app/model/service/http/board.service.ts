@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders , HttpResponseBase} from "@angular/common/http"
 import { Board } from "../../bean/board";
 import { HttpResponse } from "../../bean/httpResponse";
 import { Observable } from "rxjs";
+import { BoardsHasUsers } from "../../bean/BoardsHasUser";
 
 @Injectable({
     providedIn  : 'root'
@@ -47,7 +48,7 @@ export class BoardService{
     // exportReport(filetype: string): Observable<Map<string,string>>{
     //   return this.httpClient.get<Map<string,string>>(`http://locahost:8080/api/reportBoard/${filetype}`);
     // }
- 
+
     exportArchiveBoardReport(id : number ,filetype : string){
       const headers = new HttpHeaders();
       headers.set('Accept','application/octet-stream');
@@ -56,6 +57,10 @@ export class BoardService{
 
     joinBoard( email: string, code : number, boardId : number){
       return this.httpClient.get<any>(`http://localhost:8080/api/accept-join-board?email=${email}&code=${code}&boardId=${boardId}`);
+    }
+
+    leaveFromJoinBoard(boardId : number , userId : number): Observable<HttpResponse<BoardsHasUsers>>{
+      return this.httpClient.delete<HttpResponse<BoardsHasUsers>>(`http://localhost:8080/api/boards/${boardId}/leave?userId=${userId}`);
     }
 
 

@@ -24,16 +24,16 @@ export class HomeComponent implements OnInit {
     scrollWidthDiv: any;
         dragStatus={
             isDragStart : false,
-            isDragging : false,            
-        }        
+            isDragging : false,
+        }
         prevPageX!:number;
         prevScrollLeft!:number;
         positionDiff!:number;
-    
+
     username : string = '';
     period : string = 'Good Morning';
     dateObj = new Date();
-   
+
     user=new User();
     homeBoards:Board[]=[];
     allTaskCardList:TaskCard[]=[]
@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
 
     OverdueTaskList:TaskCard[]=[]
     CompletedTaskList: TaskCard[] = []
- 
+
     status = {
         isLoading : false,
         hasDoneFetching: false,
@@ -52,31 +52,31 @@ export class HomeComponent implements OnInit {
         overDueTab: false,
         completedTab: false
 
-    }    
-    
+    }
+
     constructor(public toggleStore: ToggleStore,
         public userStore: UserStore, public userService: UserService,
         public boardStore: BoardStore, private taskCardService: TaskCardService
         ){
         document.title = "BBMS | Home";
         this.username = this.userStore.user.username;
-        this.typeAnimate();      
+        this.typeAnimate();
     }
 
-    ngOnInit(): void {       
+    ngOnInit(): void {
         this.calculatePeriod();
         setTimeout(()=>{
-            this.countUp()  
-            this.userStore.fetchUserData();  
+            this.countUp()
+            this.userStore.fetchUserData();
             this.user = this.userStore.user;
-            this.homeBoards = this.boardStore.ownBoards;            
+            this.homeBoards = this.boardStore.ownBoards;
             if (this.user) {
                 this.getCollaborators( this.user.id );
-                this.getMyTasks(this.user.id)           
-            }        
-        },500)  
+                this.getMyTasks(this.user.id)
+            }
+        },500)
     }
-    
+
 
     typeAnimate(){
         let lastIdx = 0;
@@ -99,13 +99,13 @@ export class HomeComponent implements OnInit {
 
 
     private calculatePeriod(){
-        const hour = this.dateObj.getHours();   
-    
+        const hour = this.dateObj.getHours();
+
         switch( true ){
-            case hour <= 12 : 
+            case hour <= 12 :
                 this.period = "Good Morning";
                 break;
-            case hour > 12 && hour <= 15 : 
+            case hour > 12 && hour <= 15 :
                 this.period = "Good Afternoon";
                 break;
             case hour > 15 && hour <= 19:
@@ -115,55 +115,56 @@ export class HomeComponent implements OnInit {
                 this.period = "Good Night";
                 break;
         }
-        
+
     }
 
-    showHideIcons() {   
+    showHideIcons() {
         const carousel =  document.getElementById('carousel') ! ;
-        let scrollWidth=carousel.scrollWidth - carousel.clientWidth;    
-        this.scrollWidthDiv = scrollWidth;           
-        
+        let scrollWidth=carousel.scrollWidth - carousel.clientWidth;
+        this.scrollWidthDiv = scrollWidth;
+
     }
-    
+
     iconClick(id:string){
         const carousel =  document.getElementById('carousel') ! ;
         const firstDiv =  document.getElementById('firstDiv') !;
         const firstImgWidth = firstDiv.clientWidth +14;
-        carousel.scrollLeft += id == "left" ? -firstImgWidth : firstImgWidth;    
-        this.carouselDiv=carousel.scrollLeft;      
+        carousel.scrollLeft += id == "left" ? -firstImgWidth : firstImgWidth;
+        this.carouselDiv=carousel.scrollLeft;
+        console.log(this.carouselDiv)
         setTimeout(() => this.showHideIcons(), 60);
     }
-    
+
 
     countUp(){
-        
-        let valueInfo = document.querySelectorAll("#count");    
+
+        let valueInfo = document.querySelectorAll("#count");
         let interval = 50
-        
+
         valueInfo.forEach((value)=>{
-            let initialValue=0          
+            let initialValue=0
             setTimeout(()=>{
-                let end= Number(value.getAttribute("data-count"));;                        
-    
+                let end= Number(value.getAttribute("data-count"));;
+
                 let counter=setInterval(()=>{
-                    initialValue +=1                
+                    initialValue +=1
                     value.innerHTML = `${initialValue}`;
                     if (end == 0) {
                         value.innerHTML = `0`;
                         clearInterval(counter);
-                        
+
                     } else {
-                        
+
                     if(initialValue === end){
                         clearInterval(counter);
-                    }    
-                    }                  
+                    }
+                    }
                 },interval)
             },500)
-            
-          
+
+
         })
-    }    
+    }
 
     getCollaborators( userId : number ){
         this.status.isLoading=true
@@ -172,38 +173,39 @@ export class HomeComponent implements OnInit {
         .subscribe({
             next : resUsers => {
                 this.collaborators = resUsers;
-                this.status.isLoading=false
-                this.status.hasDoneFetching=true
-            } 
+                console.log(resUsers)
+            }
         });
     }
+
+
+
 
     public getMyTasks(userId: number) {
         this.status.isLoading=true
         this.status.hasTaskFetching=false
-            
+
         this.taskCardService.showMyTasks(userId).subscribe({
             next:(res)=>{
-    
+
                 this.allTaskCardList = res.filter((res)=> {
                     return res.board.deleteStatus==false && res.deleteStatus==false;
-                });               
-                console.log(this.allTaskCardList)
+                });
                 this.status.isLoading=false
-            this.status.hasTaskFetching=true
-               
+            this.status.hasDoneFetching=true
+
             }, error: (err) => {
-    
+
             }
         })
-        
+
     }
-    
+
     myPriorities(title: String) {
-           
+
         if (title == "Upcoming") {
             this.status.upComingTab = true
-            // this.upComingtaskCardList=this.allTaskCardList.filter((res)=>{    
+            // this.upComingtaskCardList=this.allTaskCardList.filter((res)=>{
             //     return res.stage.id==1;
             // })
             this.status.completedTab = false
@@ -217,7 +219,7 @@ export class HomeComponent implements OnInit {
             this.status.upComingTab = false
             this.status.completedTab=false
         } else if (title == "Completed") {
-            this.status.completedTab = true   
+            this.status.completedTab = true
             this.CompletedTaskList = this.allTaskCardList.filter((res) => {
                 return res.stage.id == 3;
             })
@@ -225,7 +227,17 @@ export class HomeComponent implements OnInit {
             this.status.overDueTab = false
         }
     }
-        duplicateValue(arr:Array<User>){
+    duplicateValue(arr:Array<User>){
+    console.log(arr)
+//     this.homeCollaborator=arr.filter( (user,i) => {
+//         console.log("Index of",arr.indexOf(user))
+//         console.log(i)
+//         return arr.indexOf(user)===i;
+//     } )        //filter duplicate value
+// console.log(this.homeCollaborator)
+//     }
+// 0==0 =>true 1==1 =>true 2==2 =>true
+//this.homeCollaborator=Array.from(new Set(arr));
 
     }
 }

@@ -2,28 +2,27 @@
 <div class="w-100 p-4">
     <div class="container-fluid">
         <div class="row  w-100 ">
-            <div class="pe-3 pe-0 col-12 d-flex justify-content-between border-board align-items-center">
+            <div class="px-5 pe-0 col-12 d-flex justify-content-between border-board align-items-center">
                 <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->
                 <div class=" d-flex p-0 m-0">
                     <span class="iconBoard rounded-4 m-0 d-flex justify-content-center align-items-center">
-                        <i class="bookmark-icon fa-regular fa-2x fa-bookmark tw-color" [class.fw-bold]="isBookMark()" (click)="handleBookMark($event,data)"></i>
+                        <i class="bookmark-icon fa-regular fa-2x fa-bookmark tw-color"></i>
                         <!-- (click)="handleBookMark($event,data)" [class.fw-bold]="isBookMark()" -->
                     </span>
                     <input (focus)="setupEditBoard()" type="text"
-                        class="text-dark-50 h3 mx-3 board-input w-100 my-2 shadow-none board-input"
+                        class="text-dark-50 h2 mx-3 board-input w-100 my-2 shadow-none board-input"
                         (keydown)="handleUpdateBoardName($event)" [class.form-control]="status.isEditBoardName"
                         placeholder="Enter board's name" [(ngModel)]="board.boardName">
                 </div>
 
 
-                <div class="d-flex gap-1">
+                <div class="d-flex gap-2">
                     <span class="">
                         <button class=" btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="dropdown" [disabled]="status.isReporting"><i
                                 class="fa-solid fa-file-export mx-1"></i>
                                 {{status.isReporting ? 'Exporting...' : 'Export'}}
                         </button>
-                  
-                        <ul class="dropdown-menu"> 
+                        <ul class="dropdown-menu">
                             <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="HTML"
                                     (click)="exportTaskReport(html)" />
                             <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="PDF"
@@ -34,7 +33,7 @@
                     </span>
 
                     <button class="btn btn-sm myboard-btn btn-outline-secondary" routerLink="/boards/{{board.id}}/tasks-calendar">
-                        <i class="fa-solid fa-calendar-days"></i>                        
+                        <i class="fa-solid fa-calendar-days"></i>
                          Calendar
                     </button>
 
@@ -56,11 +55,18 @@
                         <i class="fa-solid fa-people-group"></i>
                         Members
                     </button>
-                    <button routerLink="/create-board" class=" btn btn-outline-secondary btn-sm text-danger" >
-                        <i class="fa-solid fa-arrow-right-from-bracket mx-1"></i>
-                        Leave
-                    </button>
+
+
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary" type="button" (click)="leaveBoard()" >
+
+                       Leave
+                  </button>
                 </div>
+
+                <button class="btn btn-sm myboard-btn btn-outline-secondary" routerLink="/boards/{{board.id}}/resources">
+                  <i class="fa-sharp fa-solid fa-download"></i>
+                  Resources
+              </button>
 
                 <!-- Show offcanvas bar -->
 
@@ -171,7 +177,7 @@
                                 <form (ngSubmit)="inviteMembers()" class="form">
                                     <div>
                                         <label for="invite-email" class="text-muted">Invited Members</label>
-                                 
+
                                         <div class="d-flex gap-1  p-0 justify-content-start align-items-center my-1">
                                             <p *ngFor="let idx of emails.length > 0 ? [0] : []" (click)="updateEmail(idx)" class="fw-light me-1 text-light " id="mail-capsule" style="padding:5px 20px !important;">
                                                 {{ emails[idx] }}
@@ -194,7 +200,7 @@
                                                 {{ email }}
                                             </mat-option>
                                         </mat-autocomplete> -->
-                                      
+
                                         <input type="text" id="invite-emails" class=" py-1 form-control shadow-none"
                                             placeholder="member@gmail.com" name="email" [(ngModel)]="email"
                                             (keyup)="onChange($event)" [class.is-invalid]="status.error.email.hasError"
