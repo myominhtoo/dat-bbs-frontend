@@ -1,5 +1,3 @@
-
-import { BoardBookMark } from './../../../model/bean/BoardBookMark';
 import { Component ,  EventEmitter,  Input,  OnInit, Output } from "@angular/core";
 import { ActivatedRoute , NavigationEnd, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
@@ -543,34 +541,6 @@ export class MyBoardComponent implements OnInit {
       }
    }
 
-  //  setupUpdateComment( cmt : Comment ){
-  //    this.comment = cmt;
-  //    this.tempComment=this.comment.comment;
-  //    this.commentService.updateComment(this.comment).subscribe({
-  //      next : res =>{
-  //         cmt=res.data;
-  //         this.showEmojis = false;
-  //         $("#cmt-modal .btn-close").click();
-  //      },
-  //      error : err =>{
-  //       console.log(err);
-  //      }
-  //    })
-  //  }
-
-  //  handleCancel(){
-  //   $("#cmt-modal .btn-close").click();
-  //   this.comment.comment=this.tempComment;
-  //  }
-
-  //  toggleEmojis(){
-  //   this.showEmojis = !this.showEmojis;
-  //  }
-
-  //  addEmojiToComment( event : any ){
-  //   this.comment.comment += event.emoji.native;
-  //  }
-
   exportMemberReport(path:string) {
     this.status.isReporting=true;
     let boardId = this.route.snapshot.params['id'];
@@ -622,29 +592,32 @@ export class MyBoardComponent implements OnInit {
         })
 
         }
-
-
       })
-
- }
-
+    }
 
 
-       leaveBoard(){
-
-        let boardId = this.route.snapshot.params['id'];
-
-        swal({
-          text : 'Are You Sure to Leave ?',
-          icon : 'warning',
-          buttons : ['No' , 'Yes']
-        }).then(isYes=>{
-
-          this.boardService.leaveFromJoinBoard(boardId,this.userId).subscribe(data=>{
-            this.router.navigateByUrl(`/boards`)
+    leaveBoard(){
+      const boardId = this.route.snapshot.params['id'];
+      swal({
+        text : 'Are You Sure to Leave ?',
+        icon : 'warning',
+        buttons : ['No' , 'Yes']
+      }).then(isYes=>{
+        if(isYes){
+          this.boardService.leaveFromJoinBoard( boardId , this.userId ).subscribe( data =>{
+            this.router.navigateByUrl(`/boards`);
+            setTimeout(() => {
+              const isMyBoard = this.board.user.id == this.userStore.user.id;
+              this.boardStore.boards = this.boardStore.boards.filter( board => board.id != boardId ); 
+              if(isMyBoard){
+                this.boardStore.ownBoards = this.boardStore.ownBoards.filter( board => board.id != boardId );
+              }else{
+                this.boardStore.joinedBoards = this.boardStore.joinedBoards.filter( board => board.id != boardId );
+              }
+            }, 1000 );
           })
-        })
-
-      }
+        }
+      })
+    }
 
 }

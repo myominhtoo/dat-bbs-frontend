@@ -2,9 +2,9 @@
 <div class="w-100 p-4">
     <div class="container-fluid">
         <div class="row  w-100 ">
-            <div class="px-5 pe-0 col-12 d-flex justify-content-between border-board align-items-center">
+            <div class="ps-3 pe-0 w-100 col-12 d-flex justify-content-between border-board align-items-center">
                 <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->
-                <div class=" d-flex p-0 m-0">
+                <div class=" d-flex p-0 m-0 col-3">
                     <span class="iconBoard rounded-4 m-0 d-flex justify-content-center align-items-center">
                         <i class="bookmark-icon fa-regular fa-2x fa-bookmark tw-color"></i>
                         <!-- (click)="handleBookMark($event,data)" [class.fw-bold]="isBookMark()" -->
@@ -16,7 +16,7 @@
                 </div>
 
 
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-1 align-items-center col-9 justify-content-end">
                     <span class="">
                         <button class=" btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="dropdown" [disabled]="status.isReporting"><i
                                 class="fa-solid fa-file-export mx-1"></i>
@@ -56,17 +56,15 @@
                         Members
                     </button>
 
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary" routerLink="/boards/{{board.id}}/resources">
+                        <i class="fa-sharp fa-solid fa-download mx-1"></i>
+                        Resources
+                    </button>      
 
-                    <button class="btn btn-sm myboard-btn btn-outline-secondary" type="button" (click)="leaveBoard()" >
-
-                       Leave
-                  </button>
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary text-danger" type="button" (click)="leaveBoard()" >
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>Leave
+                    </button>
                 </div>
-
-                <button class="btn btn-sm myboard-btn btn-outline-secondary" routerLink="/boards/{{board.id}}/resources">
-                  <i class="fa-sharp fa-solid fa-download"></i>
-                  Resources
-              </button>
 
                 <!-- Show offcanvas bar -->
 
@@ -258,39 +256,3 @@
                 <loading [show]="status.isLoading" target="Tasks"></loading>
             </div>
         </div>
-
-
-
-        <!-- modal for updateComment -->
-        <!-- <div class="modal fade" id="cmt-modal" data-bs-backdrop="static" data-bs-keyword="false">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="model-title h4 text-muted">
-                            Edit Comment
-                        </div>
-                        <button class="btn-close" data-bs-dismiss="modal" data-bs-target="#cmt-modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form" (ngSubmit)="setupUpdateComment(comment)">
-                            <div id="edit-cmt">
-                                <emoji-mart *ngIf="showEmojis" (emojiSelect)="addEmojiToComment($event)"
-                                    id="emoji-mart">
-                                </emoji-mart>
-                                <i (click)="toggleEmojis()" class="fa-regular fa-face-smile" id="smile"></i>
-                                <input type=text name="comment" id="comment" class="form-control"
-                                    [(ngModel)]="comment.comment" placeholder="Enter Comment">
-                            
-                            </div>
-                            <div class="d-flex justify-content-end gap-1 my-0 mt-2">
-                                <button (click)="handleCancel()" class="btn btn-sm">Cancel</button>
-                                <button type="submit" [disabled]="comment.comment == '' "
-                                    class="btn text-light bg-thm btn-sm">Update</button>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div> -->

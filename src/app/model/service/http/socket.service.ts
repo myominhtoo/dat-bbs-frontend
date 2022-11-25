@@ -64,6 +64,8 @@ export class SocketService{
                         });       
                         subscription!.id = `board-${board.id}`;
                         this.boardNotisSubscriptions.push(subscription!);
+
+                        this.subscribeBoardsMessageSocket( board );
                     });
                 }, 
                 () => {
@@ -83,10 +85,9 @@ export class SocketService{
     private showNoti( payload : Message ){
         const newNoti = JSON.parse(payload.body) as Notification;
         if( newNoti.sentUser.id != this.boardStore.userStore.user.id ){
-        ($('#noti-ring')[0] as HTMLAudioElement).play();
+            ($('#noti-ring')[0] as HTMLAudioElement).play();
             let currentUrl = window.location.href;
             currentUrl = currentUrl.replace('http://localhost:4200','');
-            console.log(newNoti)
              Toastify({
                 text : newNoti.content,
                 close : true,
@@ -142,7 +143,7 @@ export class SocketService{
                     }
                 }
             }).showToast();     
-                this.notiStore.notifications.unshift( newNoti );
+            this.notiStore.notifications.unshift( newNoti );
         }        
     }
     
@@ -185,8 +186,6 @@ export class SocketService{
     }
 
     
-
-
     public getBoardMessageList(id:number):Observable<BoardMessage[]>{
         return this.httpClient.get<BoardMessage[]>(`http://localhost:8080/api/boards/${id}/messages`);
     }     
@@ -244,56 +243,25 @@ export class SocketService{
 
             this.boardMessageSubscriptions.forEach(subscription=>{
                 subscription.unsubscribe();
-            })
-            
-
-            
+            })        
         }
     }
 
-
-
-    subscribeBoardsMessageSocket(){
-  
-        if(this.stompClient){
-          this.stompClient.connect( {} ,
-                () => {
-                  console.warn("BoardMessage Sock is start working")
-                    //subscribing boards channel
-                    this.boardStore.boards.forEach( board => {
-                      const subscription=  this.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
-                        console.warn("BoardMessage Sock is running")
-                        const boardNoti = JSON.parse(payload.body) as BoardMessage;                        
-                        console.log("Outter GLobal Object",this.boardChatStore.boardMap.get(boardNoti.board.id))                        
-                        this.messages.push(boardNoti)
-                        this.boardChatStore.boardMap.set(boardNoti.board.id,this.messages);                        
-                        if( boardNoti.user.id != this.boardStore.userStore.user.id ){                                                    
-                            console.log("Inner GLobal Object ",this.boardChatStore.boardMap.get(boardNoti.board.id));                            
-                            ($('#chat-noti')[0] as HTMLAudioElement).play();                              
-                            
-                            }
-                        });       
-                        subscription!.id = `board-${board.id}`;
-                        this.boardMessageSubscriptions.push(subscription!);                        
-                    });
-                }, 
-                () => {
-                    swal({
-                        text : 'Failed to connect to socket!',
-                        icon : 'warning'
-                    });
-                });
-                
-        }else{
-            swal({
-                text : 'Invalid Socket Connection!',
-                icon : 'warning'
-            });
-        }
-      }
+    subscribeBoardsMessageSocket( board  : Board ){
+        const subscription=  this.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
+        console.warn("BoardMessage Sock is running")
+        const boardNoti = JSON.parse(payload.body) as BoardMessage;                        
+        console.log("Outter GLobal Object",this.boardChatStore.boardMap.get(boardNoti.board.id))                        
+        this.messages.push(boardNoti)
+        this.boardChatStore.boardMap.set(boardNoti.board.id,this.messages);                        
+            if( boardNoti.user.id != this.boardStore.userStore.user.id ){                                                    
+                console.log("Inner GLobal Object ",this.boardChatStore.boardMap.get(boardNoti.board.id));                            
+            }
+        });       
+        subscription!.id = `board-${board.id}`;
+        this.boardMessageSubscriptions.push(subscription!);                        
+    }
       
-      
-    //   get
 
       sentMeesageToGroupChat( boardId : number , message : BoardMessage  ){
         if( this.stompClient ){
