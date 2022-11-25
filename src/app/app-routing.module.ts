@@ -20,7 +20,6 @@ import { BoardBookmarkComponent } from './components/layout/boardBookmark.compon
 
 import { AuthGuard } from './model/service/guard/auth.guard';
 import { CloseTaskComponent } from './components/page/mytasks/close-task.component';
-import { TestComponent } from './components/page/test.component';
 import { BoardTasksCalendarComponent } from './components/page/board/board-tasks-calendar.component';
 import { StageTasksChartComponent } from './components/page/mytasks/stage-tasks-chart.component';
 import { TasksCalenderComponent } from './components/page/mytasks/tasks-calender.component';

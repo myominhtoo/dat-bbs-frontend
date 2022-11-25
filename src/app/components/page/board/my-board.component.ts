@@ -360,6 +360,7 @@ export class MyBoardComponent implements OnInit {
       removeEmail( index : number ){
         if(!this.status.isLoading) this.emails.splice(index,1);
       }
+
       updateEmail( index : number ){
         this.email = this.emails [index];
         this.status.update = { idx : index , willUpdate : true }
@@ -445,7 +446,7 @@ export class MyBoardComponent implements OnInit {
         next : boards => {
           const isMyBoard = boards.some( board => board.id == this.boardId );
           if( !isMyBoard ){
-            window.history.back();
+            // window.history.back();
           }
         },
         error : err => {
@@ -574,8 +575,7 @@ export class MyBoardComponent implements OnInit {
             icon : 'warning'
         });
         }
-        else{
-          
+        else{         
           this.taskCardService.exportTaskReport(boardId,path).subscribe((res)=>{
             const blob = new Blob([res.body], { type : 'application/octet-stream'});
             const a = document.createElement('a');
@@ -589,8 +589,7 @@ export class MyBoardComponent implements OnInit {
                 text : 'Successfully Exported!',
                 icon : 'success'
             });
-        })
-
+          })
         }
       })
     }
@@ -606,9 +605,9 @@ export class MyBoardComponent implements OnInit {
         if(isYes){
           this.boardService.leaveFromJoinBoard( boardId , this.userId ).subscribe( data =>{
             this.router.navigateByUrl(`/boards`);
+            this.socketService.unsubscribeBoard( boardId );
             setTimeout(() => {
               const isMyBoard = this.board.user.id == this.userStore.user.id;
-              this.boardStore.boards = this.boardStore.boards.filter( board => board.id != boardId ); 
               if(isMyBoard){
                 this.boardStore.ownBoards = this.boardStore.ownBoards.filter( board => board.id != boardId );
               }else{
