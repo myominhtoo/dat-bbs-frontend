@@ -7,7 +7,7 @@ import { HttpResponse } from '../../bean/httpResponse';
 @Injectable({
     providedIn : 'root'
 })
-export class AttachmentService{ 
+export class AttachmentService{
 
     constructor( private httpClient : HttpClient ){}
 
@@ -35,5 +35,9 @@ export class AttachmentService{
 
     public deleteAttachment ( attachmentId : number ) : Observable<HttpResponse<Attachment>> {
         return this.httpClient.delete<HttpResponse<Attachment>>(`http://localhost:8080/api/attachments/${attachmentId}`);
+    }
+
+    public getAttachmentList(boardId : number):Observable<Attachment[]>{
+return this.httpClient.get<Attachment[]>(`http://localhost:8080/api/boards/${boardId}/attachment-list`);
     }
 }

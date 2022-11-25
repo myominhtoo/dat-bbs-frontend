@@ -39,13 +39,13 @@ import { ActivatedRoute } from '@angular/router';
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             <div class="w-100 d-flex  gap-2 align-items-end justify-content-between " >
                 <div class="d-flex gap-2 align-items-end {{ taskStatus == PERIOD_STATUS.OVER && taskColor }} " [style]="'color:'+taskColor +'!important'">
-                    <span style="font-size:13px;">{{ task.startedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
+                    <span style="font-size:13px;">{{ task.startedDate.toString().replaceAll('-','/').replace('T',' ') | date : 'dd/MM/yyyy' }}</span>
                     <span *ngIf="task.startedDate != task.endedDate"><i class="fa-solid fa-right-long" style="font-size:12px;"></i></span>
-                    <span *ngIf="task.startedDate != task.endedDate" style="font-size:13px;">{{ task.endedDate.toString().replaceAll('-','/') | date : 'dd/MM/yyyy' }}</span>
+                    <span *ngIf="task.startedDate != task.endedDate" style="font-size:13px;">{{ task.endedDate.toString().replaceAll('-','/').replace('T',' ') | date : 'dd/MM/yyyy' }}</span>
                 </div>
                 <div *ngIf="!task.deleteStatus" class="text-end d-flex flex-column" style="width:35%;" >
                     <!-- <small *ngIf="taskStatus != PERIOD_STATUS.OK" style="font-size:10px;">{{ taskStatus }}</small> -->
@@ -103,6 +103,9 @@ export class TaskCardComponent implements OnInit {
         setTimeout(() => {
             this.getActivityDonePercent();
         } , 500 );
+
+        console.log(this.task.startedDate);
+        // console.log(this.task.startedDate);
     }
 
     handleShowOffCanvas( task : TaskCard ){
@@ -152,6 +155,7 @@ export class TaskCardComponent implements OnInit {
                 console.log(err);
             }
         })
+    
     }
 
     getActivityDonePercent(){
@@ -171,6 +175,10 @@ export class TaskCardComponent implements OnInit {
 
     removeTask(e : Event , id : number){
         e.stopPropagation();
+        // test
+        let date =this.task.startedDate.toString().replaceAll('T','');
+        console.log(date);
+     
        let boardId = this.route.snapshot.params['boardId'];
 
         swal({
