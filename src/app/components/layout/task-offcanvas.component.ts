@@ -158,11 +158,11 @@ import { SocketService } from "../../model/service/http/socket.service";
                         <div class="w-100 text-muted d-flex gap-2">
                             <div class="w-50">
                                 <small class="my-2">Start Date</small>
-                                <input type="datetime-local" [(ngModel)]="detailActivity.startedDate" class="form-control text-muted w-100" [min]="detailActivity.startedDate" />
+                                <input type="datetime-local" [(ngModel)]="detailActivity.startedDate" class="form-control text-muted w-100" [min]="detailActivity.startedDate" [max]="task.endedDate" />
                            </div>
                             <div class="w-50">
                                 <small class="my-2">Due Date</small>
-                                <input type="datetime-local" [(ngModel)]="detailActivity.endedDate" class="form-control text-muted w-100" [min]="detailActivity.startedDate" >
+                                <input type="datetime-local" [(ngModel)]="detailActivity.endedDate" class="form-control text-muted w-100" [min]="detailActivity.startedDate" [max]="task.endedDate" />
                             </div>
                         </div>
                     </div>

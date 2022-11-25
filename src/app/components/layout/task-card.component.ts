@@ -39,7 +39,7 @@ import { ActivatedRoute } from '@angular/router';
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             <div class="w-100 d-flex  gap-2 align-items-end justify-content-between " >
                 <div class="d-flex gap-2 align-items-end {{ taskStatus == PERIOD_STATUS.OVER && taskColor }} " [style]="'color:'+taskColor +'!important'">
