@@ -79,7 +79,8 @@
                                 <emoji-mart *ngIf="showEmojis" (emojiSelect)="addEmojiToComment($event)"
                                     id="board_chat_emoji">
                                 </emoji-mart>
-                                <span class="input-group-text border-0" id="emoji" (click)="toggleEmojis()">
+                                <span class="input-group-text border-0" id="emoji" (click)="toggleEmojis()" style="cursor: pointer
+                                ;">
                                     <i class='bx bx-sm bxs-smile'></i>
                                 </span>
                                 <input type="text" class="form-control shadow-none rounded-3"

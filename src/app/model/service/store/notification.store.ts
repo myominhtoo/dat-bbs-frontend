@@ -10,14 +10,17 @@ import swal from "sweetalert";
 export class NotificationStore{
  filterNoti: Notification[] = []
   getNoti: Notification[] = []
-  notiCount : number = 0;
+  notiCount !: number;
   constructor( private userStore : UserStore , 
     private userService: UserService) {
+      
+  
+    if (this.userStore.user.id) {
+      this.getNotifications(this.userStore.user.id);
       setTimeout(() => {
         this.getNotiCount(this.userStore.user.id);  
-        },1800)  
-  
-      // if( this.userStore.user.id ) this.getNotifications(this.userStore.user.id);
+        },1000)  
+    }
   }
  
   
@@ -42,6 +45,8 @@ export class NotificationStore{
   public reFetchNotis( userId : number ){
     this.getNotifications( userId );
   }
+
+
   getNotiCount(userId: number) {
   
     

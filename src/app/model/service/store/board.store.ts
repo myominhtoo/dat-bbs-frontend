@@ -64,20 +64,13 @@ export class BoardStore{
                 board.color = this.randomNumberBoard();
                 return board.user.id != this.userStore.user.id;
             });
-
             this.archivedBoards  = archivedBoards;
-
             this.status.isLoading = false;
             this.status.hasDoneFetching = true;
-
         })
-
     }
- 
     public refetchBoardsByUserId( userId : number ){
         this.boards = [];
         this.getBoardsByUserId( userId );
     }
-   
-
 }

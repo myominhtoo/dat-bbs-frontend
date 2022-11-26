@@ -1515,8 +1515,10 @@ box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0p
               
 #input_text_holder {
   position: relative;
+  
 }
 #board_chat_emoji{
+  cursor: pointer;
   position: absolute;
   bottom: 40px;
 
@@ -1526,7 +1528,7 @@ color: #6D6E6F;
 font-size: 13px;
 background-color: #fff !important;
 }
-#emoji-mart .emoji-mart-emoji>span {
+#board_chat_emoji .emoji-mart-emoji>span {
   background-color: transparent !important;
 }
 
