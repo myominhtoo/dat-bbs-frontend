@@ -397,7 +397,10 @@ export class MyBoardComponent implements OnInit {
 
     handleAddTask( taskCard : TaskCard ){
       let prevTasks = this.taskCardsMap.get(taskCard.stage.id.toString());
-      prevTasks?.push(taskCard);
+      /*
+      changed unshif from push for Kyaw Gyi req
+      */
+      prevTasks?.unshift(taskCard); 
 
       //for calendar view
       if( taskCard.stage.id != 3 ){
