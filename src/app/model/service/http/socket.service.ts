@@ -246,72 +246,33 @@ export class SocketService{
         }
     }
 
-<<<<<<< HEAD
 
 
-    subscribeBoardsMessageSocket(){
-
-        if(this.stompClient){
-        this.stompClient.connect( {} ,
-                () => {
-                console.warn("BoardMessage Sock is start working")
-                    //subscribing boards channel
-                    this.boardStore.boards.forEach( board => {
-                    const subscription=  this.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
-                        console.warn("BoardMessage Sock is running")
-                        
-                        const boardNoti = JSON.parse(payload.body) as BoardMessage;//new message
-                        this.messages = this.boardChatStore.boardMap.get(boardNoti.board.id);
-                        this.messages?.push(boardNoti)                        
-                        // console.log("Get First Time Gloabl map",)                            
-                        
-                        this.boardChatStore.boardMap.set(boardNoti.board.id,this.messages!);
-                        
-                        // console.log("Get Second Time Gloabl map",this.boardChatStore.boardMap.get(boardNoti.board.id))                            
-                        
-                        if( boardNoti.user.id != this.boardStore.userStore.user.id ){                                                    
-                            // console.log("Get Third Object ",this.boardChatStore.boardMap.get(boardNoti.board.id));                            
-                            ($('#chat-noti')[0] as HTMLAudioElement).play();                              
-                            
-                            }
-                        });       
-                        subscription!.id = `board-${board.id}`;
-                        this.boardMessageSubscriptions.push(subscription!);                        
-                    });
-                }, 
-                () => {
-                    swal({
-                        text : 'Failed to connect to socket!',
-                        icon : 'warning'
-                    });
-                });
-                
-        }else{
-            swal({
-                text : 'Invalid Socket Connection!',
-                icon : 'warning'
-            });
-        }
-      }
-=======
-    subscribeBoardsMessageSocket( board  : Board ){
+    subscribeBoardsMessageSocket( board : Board ){
         const subscription=  this.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
         console.warn("BoardMessage Sock is running")
-        const boardNoti = JSON.parse(payload.body) as BoardMessage;                        
-        console.log("Outter GLobal Object",this.boardChatStore.boardMap.get(boardNoti.board.id))                        
-        this.messages.push(boardNoti)
-        this.boardChatStore.boardMap.set(boardNoti.board.id,this.messages);                        
-            if( boardNoti.user.id != this.boardStore.userStore.user.id ){                                                    
-                console.log("Inner GLobal Object ",this.boardChatStore.boardMap.get(boardNoti.board.id));                            
-            }
+            
+        const boardNoti = JSON.parse(payload.body) as BoardMessage;//new message
+        this.messages = this.boardChatStore.boardMap.get(boardNoti.board.id);
+        this.messages?.push(boardNoti)                        
+            // console.log("Get First Time Gloabl map",)                            
+            
+        this.boardChatStore.boardMap.set(boardNoti.board.id,this.messages!);
+            
+            // console.log("Get Second Time Gloabl map",this.boardChatStore.boardMap.get(boardNoti.board.id))                            
+            
+        if( boardNoti.user.id != this.boardStore.userStore.user.id ){                                                    
+            // console.log("Get Third Object ",this.boardChatStore.boardMap.get(boardNoti.board.id));                            
+            ($('#chat-noti')[0] as HTMLAudioElement).play();                              
+                
+        }
         });       
         subscription!.id = `board-${board.id}`;
-        this.boardMessageSubscriptions.push(subscription!);                        
+        this.boardMessageSubscriptions.push(subscription!);    
     }
->>>>>>> e3c538d09a54154ca466f9209f4612fa9b477e0f
       
 
-      sentMeesageToGroupChat( boardId : number , message : BoardMessage  ){
+    sentMeesageToGroupChat( boardId : number , message : BoardMessage  ){
         if( this.stompClient ){
             this.stompClient.send( `/app/boards/${boardId}/send-message` , {} , JSON.stringify(message) );
         }else{
@@ -321,6 +282,7 @@ export class SocketService{
             });
         }
     }
+
     getMessage(boardId:number){  
     this.getBoardMessageList(boardId).subscribe({
       next:(res)=>{
