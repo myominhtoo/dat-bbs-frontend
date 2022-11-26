@@ -32,6 +32,11 @@
                         </ul>
                     </span>
 
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary" routerLink="/boards/{{board.id}}/resources">
+                        <i class="fa-sharp fa-solid fa-download mx-1"></i>
+                        Resources
+                    </button>     
+
                     <button class="btn btn-sm myboard-btn btn-outline-secondary" routerLink="/boards/{{board.id}}/tasks-calendar">
                         <i class="fa-solid fa-calendar-days"></i>
                          Calendar
@@ -54,12 +59,7 @@
                         data-bs-toggle="offcanvas" data-bs-target="#demo">
                         <i class="fa-solid fa-people-group"></i>
                         Members
-                    </button>
-
-                    <button class="btn btn-sm myboard-btn btn-outline-secondary" routerLink="/boards/{{board.id}}/resources">
-                        <i class="fa-sharp fa-solid fa-download mx-1"></i>
-                        Resources
-                    </button>      
+                    </button> 
 
                     <button class="btn btn-sm myboard-btn btn-outline-secondary text-danger" type="button" (click)="leaveBoard()" >
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>Leave

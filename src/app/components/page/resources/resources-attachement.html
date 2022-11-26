@@ -1,28 +1,38 @@
 
 
 <div class="boards-not-have " *ngIf="attachment.length==0 && status.hasDoneFetching">
-
-<img class="mb-4 opacity-75" src="assets\img\3D\undraw_text_files_au1q.svg" alt="" width="25%"
-  style="max-width: 250px;">
-<h3 class="fw-bold opacity-75">No Resources Yet</h3>
+  <img class="mb-4 opacity-75" src="assets\img\3D\undraw_text_files_au1q.svg" alt="" width="25%"
+    style="max-width: 250px;">
+  <h3 class="fw-bold opacity-75">No Resources Yet</h3>
 </div>
 
-<table class="table" style="margin-left:auto;margin-right:auto;width: 50%;margin-top: 10%;">
-  <thead >
-    <tr  *ngIf="attachment.length>1">
-      <th scope="col">Name</th>
-      <th scope="col">Uploaded By</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor = "let lista of attachment">
-       <td>{{ lista.name}} </td>
-      <td> {{ lista.user.username}} </td>
-      <td>
-        <a class="link " [href]="'http://localhost:8080/attachments/'+lista.fileUrl"  ><i class="fa-solid fa-download"></i></a>
-     </td>
-    </tr>
-  </tbody>
-</table>
+<div style="margin-left:auto;margin-right:auto;width: 50%;margin-top: 15%;" >
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h3 class="text-center ">Resources</h3>
+    <button (click)="location.back()" class="btn btn-sm btn-outline-secondary py-1 myboard-btn">
+        <i class="fa-solid fa-square-caret-left"></i>
+        Back To Board
+    </button>
+  </div>
+  <table *ngIf="attachment.length > 0 && status.hasDoneFetching" class="table  table-light table-striped table-bordered">
+    <thead >
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Uploaded By</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor = "let lista of attachment">
+        <td>{{ lista.name }} </td>
+        <td> {{ lista.user.username}} </td>
+        <td>
+          <a class="link" [href]="'http://localhost:8080/attachments/'+lista.fileUrl"  ><i class="fa-solid fa-download"></i></a>
+      </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<loading [show]="status.isLoading" target="resources..."></loading>
 

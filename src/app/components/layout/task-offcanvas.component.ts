@@ -124,10 +124,14 @@ import { SocketService } from "../../model/service/http/socket.service";
                     <emoji-mart *ngIf="showEmojis" (emojiSelect)="addEmojiToComment($event)" id="emoji-mart"></emoji-mart>
 
                     <div id="comment-send-box">
-                        <form (ngSubmit)="handleComment()" class="w-100 d-flex gap-2">
-                            <i (click)="toggleEmojis()" class="fa-regular fa-face-smile" id="smile"></i>
-                            <input [(ngModel)]="comment.comment" name="comment" id="cmt-input" type="text" class="form-control w-75" placeholder="Comment Here" />
-                            <button type="submit" [disabled]="!comment.comment" class="btn btn-sm w-25 bg-thm text-light"><i class="fa-solid fa-paper-plane mx-1"></i>Send</button>
+                        <form (ngSubmit)="handleComment()" class="w-100 d-flex gap-2 align-items-center">
+                            <!-- <i (click)="toggleEmojis()" class="fa-regular fa-face-smile" id="smile"></i> -->
+                            <input [(ngModel)]="comment.comment" name="comment" id="cmt-input" type="text" class="form-control" style="width:82% !important;" placeholder="Comment Here" />
+                            <i (click)="toggleEmojis()" class='bx bx-sm bxs-smile text-muted' style="font-sizse:18px !important;"></i>
+                            <button type="submit" [disabled]="!comment.comment" class="bg-transparent border-0 d-flex align-items-center" style="width:10% !important;">
+                                <!-- Send -->
+                                <i  class="bx bx-sm bxs-send text-dark my-auto" [class.text-muted]="!comment.comment" style="font-size:23px !important;"></i>
+                            </button>
                         </form>
                     </div>
 
@@ -423,6 +427,7 @@ export class TaskOffCanvasComponent implements OnInit {
                 noti.content = `${this.userStore.user.username} created activity in ${this.board.boardName} Board `;
                 noti.sentUser = this.userStore.user;
                 noti.board = this.board;
+                noti.seenUsers = [];
 
                 this.handleChangeResultStage();
 
@@ -452,6 +457,7 @@ export class TaskOffCanvasComponent implements OnInit {
                 noti.content = `${this.userStore.user.username} updated activity in ${this.board.boardName} Board `;
                 noti.sentUser = this.userStore.user;
                 noti.board = this.board;
+                noti.seenUsers = [];
 
                 this.socketService.sentNotiToBoard(this.board.id, noti);
 
@@ -510,6 +516,7 @@ export class TaskOffCanvasComponent implements OnInit {
                         noti.content = `${this.userStore.user.username} Updated Task \n in ${this.board.boardName} Board `;
                         noti.sentUser = this.userStore.user;
                         noti.board = this.board;
+                        noti.seenUsers = [];
 
                         this.socketService.sentNotiToBoard(this.board.id, noti);
                         // console.log(res);
@@ -573,6 +580,7 @@ export class TaskOffCanvasComponent implements OnInit {
                     noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
                     noti.sentUser = this.userStore.user;
                     noti.board = this.board;
+                    noti.seenUsers = [];
                     this.socketService.sentNotiToBoard(this.board.id, noti);
                     if(showStatus){
                         swal({
@@ -622,6 +630,7 @@ export class TaskOffCanvasComponent implements OnInit {
                     noti.content = `${this.userStore.user.username} deleted attachment in \n ${this.detailActivity.activityName} activity of ${this.detailActivity.activityName} Task Card in ${this.board.boardName} Board `;
                     noti.sentUser = this.userStore.user;
                     noti.board = this.board;
+                    noti.seenUsers = [];
 
                     this.socketService.sentNotiToBoard(this.board.id, noti);
 
@@ -664,6 +673,7 @@ export class TaskOffCanvasComponent implements OnInit {
                                 noti.content = `${this.userStore.user.username} uploaded attachment in \n ${this.detailActivity.activityName}  Activity of ${this.detailActivity.taskCard.taskName} Task in ${this.board.boardName} Board `;
                                 noti.sentUser = this.userStore.user;
                                 noti.board = this.board;
+                                noti.seenUsers = [];
 
                                 this.socketService.sentNotiToBoard(this.board.id, noti);
 

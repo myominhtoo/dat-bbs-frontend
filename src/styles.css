@@ -776,7 +776,7 @@ body{
  #emoji-mart{
     position:absolute;
     left:3%;
-    top:35%;
+    top:40%;
  }
 
  #emoji-mart * {
@@ -785,12 +785,12 @@ body{
 
  #emoji-mart .emoji-mart{
     width:70%  !important;
-    background:#161b22;
+    /* background:#161b22; */
  }
 
  #emoji-mart .emoji-mart-bar{
     display: none;
-    background-color: #161b22 !important;
+    /* background-color: #161b22 !important; */
  }
 
  #comment{

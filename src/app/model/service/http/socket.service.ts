@@ -88,7 +88,7 @@ export class SocketService{
             let currentUrl = window.location.href;
             currentUrl = currentUrl.replace('http://localhost:4200','');
              Toastify({
-                text : newNoti.content,
+                text : newNoti.content.length > 70 ? newNoti.content.substring(0,70) + '...' : newNoti.content,
                 close : true,
                 duration : 10000,
                 gravity : 'bottom',

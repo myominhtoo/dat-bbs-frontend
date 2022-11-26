@@ -239,6 +239,7 @@ export class MyBoardComponent implements OnInit {
                     noti.content =  `${this.userStore.user.username.toLocaleUpperCase()} created New Stage in ${this.board.boardName} Board!`;
                     noti.sentUser = this.userStore.user;
                     noti.board = this.board;
+                    noti.seenUsers = [];
                     this.socketService.sentNotiToBoard( this.board.id , noti );
 
                     this.status.isAddStage = false;
@@ -284,6 +285,7 @@ export class MyBoardComponent implements OnInit {
                     const noti = new Notification();
                     noti.content = `${this.userStore.user.username} invited new members in ${this.board.boardName} Board `;
                     noti.sentUser = this.userStore.user;
+                    noti.seenUsers = [];
                     noti.board = this.board;
 
                     this.socketService.sentNotiToBoard( this.board.id , noti);
@@ -430,6 +432,7 @@ export class MyBoardComponent implements OnInit {
           noti.content = `${this.userStore.user.username} changed ${payload.task.taskName} Task's stage \n  from '${prevStage}' to '${targetStage.stageName}' in ${this.board.boardName} Board `;
           noti.sentUser = this.userStore.user;
           noti.board = this.board;
+          noti.seenUsers = [];
 
           this.socketService.sentNotiToBoard( this.board.id , noti);
         },
