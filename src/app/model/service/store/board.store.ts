@@ -5,6 +5,7 @@ import { BoardService } from "../http/board.service";
 import { UserStore } from "./user.store";
 import { UserService } from '../http/user.service';
 import { forkJoin } from 'rxjs';
+
 @Injectable({
     providedIn : 'root'
 })
@@ -21,6 +22,8 @@ export class BoardStore{
     public status = {
         isLoading : true,
         hasDoneFetching : false,
+        removedBoardId : null,
+        isRemovedMyBoard : false,
     }
 
     constructor( 

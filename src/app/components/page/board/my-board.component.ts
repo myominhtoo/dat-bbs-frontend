@@ -97,7 +97,6 @@ export class MyBoardComponent implements OnInit {
          private stageService : StageService ,
          private boardService : BoardService ,
          private taskCardService : TaskCardService,
-         private commentService : CommentService,
          private userService :UserService ,
          public userStore : UserStore ,
          public socketService : SocketService ,
@@ -598,7 +597,7 @@ export class MyBoardComponent implements OnInit {
     leaveBoard(){
       const boardId = this.route.snapshot.params['id'];
       swal({
-        text : 'Are You Sure to Leave ?',
+        text : 'Are you sure to leave?',
         icon : 'warning',
         buttons : ['No' , 'Yes']
       }).then(isYes=>{
@@ -606,14 +605,17 @@ export class MyBoardComponent implements OnInit {
           this.boardService.leaveFromJoinBoard( boardId , this.userId ).subscribe( data =>{
             this.router.navigateByUrl(`/boards`);
             this.socketService.unsubscribeBoard( boardId );
-            setTimeout(() => {
-              const isMyBoard = this.board.user.id == this.userStore.user.id;
-              if(isMyBoard){
-                this.boardStore.ownBoards = this.boardStore.ownBoards.filter( board => board.id != boardId );
-              }else{
-                this.boardStore.joinedBoards = this.boardStore.joinedBoards.filter( board => board.id != boardId );
-              }
-            }, 1000 );
+            this.boardStore.status.removedBoardId = boardId;
+            this.boardStore.status.isRemovedMyBoard = this.board.user.id == this.userStore.user.id;
+            
+            const noti = new Notification();
+            noti.board = this.board;
+            noti.sentUser = this.userStore.user;
+            noti.invitiation = false;
+            noti.seenUsers = [];
+            noti.content = `${this.userStore.user.username}(${this.board.user.id == this.userStore.user.id ? 'Admin' : 'Member' }) left \n ${this.board.boardName} board!`;
+
+            this.socketService.sentNotiToBoard( noti.board.id , noti );
           })
         }
       })

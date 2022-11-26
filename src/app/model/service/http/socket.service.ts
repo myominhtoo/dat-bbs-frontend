@@ -41,7 +41,6 @@ export class SocketService{
         private notiStore : NotificationStore,
         private authService : AuthService,
         private userStore : UserStore ,
-        private route : ActivatedRoute ,
         private router : Router,
         private boardService : BoardService,
         private boardChatStore:BoardChatStore

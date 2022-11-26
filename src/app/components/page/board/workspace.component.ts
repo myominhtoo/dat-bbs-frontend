@@ -47,6 +47,7 @@ export class WorkspaceComponent implements OnInit {
     ngOnInit(): void {
         document.title = "BBMS | My Workspace";
         this.userStore.fetchUserData();
+        this.removeLeaveBoard();
         this.getBookMarks( this.userStore.user.id );
     }
 
@@ -122,6 +123,18 @@ export class WorkspaceComponent implements OnInit {
               }
            }
         });
+    }
+
+    removeLeaveBoard(){
+       const removedBoardId = this.boardStore.status.removedBoardId;
+       if( removedBoardId != null ){
+         this.boardStore.boards = this.boardStore.boards.filter( board => board.id != Number(removedBoardId) );
+         if( this.boardStore.status.isRemovedMyBoard ){
+            this.boardStore.ownBoards = this.boardStore.ownBoards.filter( board => board.id != Number(removedBoardId) );
+         }else{
+            this.boardStore.joinedBoards = this.boardStore.joinedBoards.filter( board => board.id != Number(removedBoardId) );
+         }
+       }
     }
 }
 
