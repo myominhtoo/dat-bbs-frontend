@@ -41,7 +41,6 @@ export class SocketService{
         private notiStore : NotificationStore,
         private authService : AuthService,
         private userStore : UserStore ,
-        private route : ActivatedRoute ,
         private router : Router,
         private boardService : BoardService,
         private boardChatStore:BoardChatStore
@@ -64,6 +63,8 @@ export class SocketService{
                         });       
                         subscription!.id = `board-${board.id}`;
                         this.boardNotisSubscriptions.push(subscription!);
+
+                        this.subscribeBoardsMessageSocket( board );
                     });
                 }, 
                 () => {
@@ -83,12 +84,11 @@ export class SocketService{
     private showNoti( payload : Message ){
         const newNoti = JSON.parse(payload.body) as Notification;
         if( newNoti.sentUser.id != this.boardStore.userStore.user.id ){
-        ($('#noti-ring')[0] as HTMLAudioElement).play();
+            ($('#noti-ring')[0] as HTMLAudioElement).play();
             let currentUrl = window.location.href;
             currentUrl = currentUrl.replace('http://localhost:4200','');
-            console.log(newNoti)
              Toastify({
-                text : newNoti.content,
+                text : newNoti.content.length > 70 ? newNoti.content.substring(0,70) + '...' : newNoti.content,
                 close : true,
                 duration : 10000,
                 gravity : 'bottom',
@@ -142,7 +142,7 @@ export class SocketService{
                     }
                 }
             }).showToast();     
-                this.notiStore.notifications.unshift( newNoti );
+            this.notiStore.notifications.unshift( newNoti );
         }        
     }
     
@@ -185,8 +185,6 @@ export class SocketService{
     }
 
     
-
-
     public getBoardMessageList(id:number):Observable<BoardMessage[]>{
         return this.httpClient.get<BoardMessage[]>(`http://localhost:8080/api/boards/${id}/messages`);
     }     
@@ -244,13 +242,11 @@ export class SocketService{
 
             this.boardMessageSubscriptions.forEach(subscription=>{
                 subscription.unsubscribe();
-            })
-            
-
-            
+            })        
         }
     }
 
+<<<<<<< HEAD
 
 
     subscribeBoardsMessageSocket(){
@@ -297,9 +293,23 @@ export class SocketService{
             });
         }
       }
+=======
+    subscribeBoardsMessageSocket( board  : Board ){
+        const subscription=  this.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
+        console.warn("BoardMessage Sock is running")
+        const boardNoti = JSON.parse(payload.body) as BoardMessage;                        
+        console.log("Outter GLobal Object",this.boardChatStore.boardMap.get(boardNoti.board.id))                        
+        this.messages.push(boardNoti)
+        this.boardChatStore.boardMap.set(boardNoti.board.id,this.messages);                        
+            if( boardNoti.user.id != this.boardStore.userStore.user.id ){                                                    
+                console.log("Inner GLobal Object ",this.boardChatStore.boardMap.get(boardNoti.board.id));                            
+            }
+        });       
+        subscription!.id = `board-${board.id}`;
+        this.boardMessageSubscriptions.push(subscription!);                        
+    }
+>>>>>>> e3c538d09a54154ca466f9209f4612fa9b477e0f
       
-      
-    //   get
 
       sentMeesageToGroupChat( boardId : number , message : BoardMessage  ){
         if( this.stompClient ){

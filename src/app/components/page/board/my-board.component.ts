@@ -1,5 +1,3 @@
-
-import { BoardBookMark } from './../../../model/bean/BoardBookMark';
 import { Component ,  EventEmitter,  Input,  OnInit, Output } from "@angular/core";
 import { ActivatedRoute , NavigationEnd, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
@@ -99,7 +97,6 @@ export class MyBoardComponent implements OnInit {
          private stageService : StageService ,
          private boardService : BoardService ,
          private taskCardService : TaskCardService,
-         private commentService : CommentService,
          private userService :UserService ,
          public userStore : UserStore ,
          public socketService : SocketService ,
@@ -242,6 +239,7 @@ export class MyBoardComponent implements OnInit {
                     noti.content =  `${this.userStore.user.username.toLocaleUpperCase()} created New Stage in ${this.board.boardName} Board!`;
                     noti.sentUser = this.userStore.user;
                     noti.board = this.board;
+                    noti.seenUsers = [];
                     this.socketService.sentNotiToBoard( this.board.id , noti );
 
                     this.status.isAddStage = false;
@@ -287,6 +285,7 @@ export class MyBoardComponent implements OnInit {
                     const noti = new Notification();
                     noti.content = `${this.userStore.user.username} invited new members in ${this.board.boardName} Board `;
                     noti.sentUser = this.userStore.user;
+                    noti.seenUsers = [];
                     noti.board = this.board;
 
                     this.socketService.sentNotiToBoard( this.board.id , noti);
@@ -362,6 +361,7 @@ export class MyBoardComponent implements OnInit {
       removeEmail( index : number ){
         if(!this.status.isLoading) this.emails.splice(index,1);
       }
+
       updateEmail( index : number ){
         this.email = this.emails [index];
         this.status.update = { idx : index , willUpdate : true }
@@ -432,6 +432,7 @@ export class MyBoardComponent implements OnInit {
           noti.content = `${this.userStore.user.username} changed ${payload.task.taskName} Task's stage \n  from '${prevStage}' to '${targetStage.stageName}' in ${this.board.boardName} Board `;
           noti.sentUser = this.userStore.user;
           noti.board = this.board;
+          noti.seenUsers = [];
 
           this.socketService.sentNotiToBoard( this.board.id , noti);
         },
@@ -447,7 +448,7 @@ export class MyBoardComponent implements OnInit {
         next : boards => {
           const isMyBoard = boards.some( board => board.id == this.boardId );
           if( !isMyBoard ){
-            window.history.back();
+            // window.history.back();
           }
         },
         error : err => {
@@ -543,34 +544,6 @@ export class MyBoardComponent implements OnInit {
       }
    }
 
-  //  setupUpdateComment( cmt : Comment ){
-  //    this.comment = cmt;
-  //    this.tempComment=this.comment.comment;
-  //    this.commentService.updateComment(this.comment).subscribe({
-  //      next : res =>{
-  //         cmt=res.data;
-  //         this.showEmojis = false;
-  //         $("#cmt-modal .btn-close").click();
-  //      },
-  //      error : err =>{
-  //       console.log(err);
-  //      }
-  //    })
-  //  }
-
-  //  handleCancel(){
-  //   $("#cmt-modal .btn-close").click();
-  //   this.comment.comment=this.tempComment;
-  //  }
-
-  //  toggleEmojis(){
-  //   this.showEmojis = !this.showEmojis;
-  //  }
-
-  //  addEmojiToComment( event : any ){
-  //   this.comment.comment += event.emoji.native;
-  //  }
-
   exportMemberReport(path:string) {
     this.status.isReporting=true;
     let boardId = this.route.snapshot.params['id'];
@@ -604,8 +577,7 @@ export class MyBoardComponent implements OnInit {
             icon : 'warning'
         });
         }
-        else{
-          
+        else{         
           this.taskCardService.exportTaskReport(boardId,path).subscribe((res)=>{
             const blob = new Blob([res.body], { type : 'application/octet-stream'});
             const a = document.createElement('a');
@@ -619,32 +591,37 @@ export class MyBoardComponent implements OnInit {
                 text : 'Successfully Exported!',
                 icon : 'success'
             });
-        })
-
-        }
-
-
-      })
-
- }
-
-
-
-       leaveBoard(){
-
-        let boardId = this.route.snapshot.params['id'];
-
-        swal({
-          text : 'Are You Sure to Leave ?',
-          icon : 'warning',
-          buttons : ['No' , 'Yes']
-        }).then(isYes=>{
-
-          this.boardService.leaveFromJoinBoard(boardId,this.userId).subscribe(data=>{
-            this.router.navigateByUrl(`/boards`)
           })
-        })
+        }
+      })
+    }
 
-      }
+
+    leaveBoard(){
+      const boardId = this.route.snapshot.params['id'];
+      swal({
+        text : 'Are you sure to leave?',
+        icon : 'warning',
+        buttons : ['No' , 'Yes']
+      }).then(isYes=>{
+        if(isYes){
+          this.boardService.leaveFromJoinBoard( boardId , this.userId ).subscribe( data =>{
+            this.router.navigateByUrl(`/boards`);
+            this.socketService.unsubscribeBoard( boardId );
+            this.boardStore.status.removedBoardId = boardId;
+            this.boardStore.status.isRemovedMyBoard = this.board.user.id == this.userStore.user.id;
+            
+            const noti = new Notification();
+            noti.board = this.board;
+            noti.sentUser = this.userStore.user;
+            noti.invitiation = false;
+            noti.seenUsers = [];
+            noti.content = `${this.userStore.user.username}(${this.board.user.id == this.userStore.user.id ? 'Admin' : 'Member' }) left \n ${this.board.boardName} board!`;
+
+            this.socketService.sentNotiToBoard( noti.board.id , noti );
+          })
+        }
+      })
+    }
 
 }

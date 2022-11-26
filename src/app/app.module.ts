@@ -30,7 +30,6 @@ import { BoardBookmarkComponent } from './components/layout/boardBookmark.compon
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { CloseTaskComponent } from './components/page/mytasks/close-task.component';
-import { TestComponent } from './components/page/test.component';
 import { BoardTasksCalendarComponent  } from './components/page/board/board-tasks-calendar.component';
 import { StageTasksChartComponent} from './components/page/mytasks/stage-tasks-chart.component';
 import { AuthInterceptor } from './model/service/interceptor/auth.interceptor';
@@ -72,7 +71,6 @@ FullCalendarModule.registerPlugins([
     BoardBookmarkComponent,
     BoardChatComponent,
     CloseTaskComponent,
-    TestComponent,
     BoardTasksCalendarComponent,
     StageTasksChartComponent,
     TasksCalenderComponent,

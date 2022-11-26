@@ -103,13 +103,15 @@ export class NotiComponent implements OnInit {
                      this.socketService.subscribeBoard( this.noti.board?.id! )                                         
                      this.router.navigateByUrl(`/boards/${boardId}`);
                      this.noti.seenUsers.push(this.userStore.user);
-                                       
-
+               
                      })
                   }
                },
                error : err => {
-                   console.log(err);
+                   swal({
+                     text : 'Unable to Join!',
+                     icon : 'warning'
+                   })
                }
             })
             }

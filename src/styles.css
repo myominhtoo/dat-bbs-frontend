@@ -776,8 +776,12 @@ body{
  #emoji-mart{
     position:absolute;
     left:3%;
+<<<<<<< HEAD
     top:45%;
     
+=======
+    top:40%;
+>>>>>>> e3c538d09a54154ca466f9209f4612fa9b477e0f
  }
 
  #emoji-mart * {
@@ -789,6 +793,7 @@ body{
 
  #emoji-mart .emoji-mart{
     width:70%  !important;
+<<<<<<< HEAD
     background:#fff;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
  }
@@ -796,11 +801,18 @@ body{
  
  #emoji-mart .emoji-mart-emoji >span{
   background-color:transparent !important;
+=======
+    /* background:#161b22; */
+>>>>>>> e3c538d09a54154ca466f9209f4612fa9b477e0f
  }
  #emoji-mart .emoji-mart-bar{
     display: none;
+<<<<<<< HEAD
     background-color:#fff !important;
     /* #161b22 */
+=======
+    /* background-color: #161b22 !important; */
+>>>>>>> e3c538d09a54154ca466f9209f4612fa9b477e0f
  }
 
  #comment{

@@ -173,7 +173,6 @@ export class HomeComponent implements OnInit {
         .subscribe({
             next : resUsers => {
                 this.collaborators = resUsers;
-                console.log(resUsers)
             }
         });
     }

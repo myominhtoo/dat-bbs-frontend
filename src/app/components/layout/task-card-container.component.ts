@@ -139,6 +139,7 @@ export class TaskCardContainerComponent {
               noti.content =  `${this.userStore.user.username.toLocaleUpperCase()}  Updated Stage in ${this.board.boardName} Board!`;
               noti.sentUser = this.userStore.user;
               noti.board = this.board;
+              noti.seenUsers = [];
               this.socketService.sentNotiToBoard( this.board.id , noti );
 
               this.status.isEditStage = false;
@@ -181,6 +182,7 @@ export class TaskCardContainerComponent {
             this.status.isAddTask = false;
             this.addTask.emit( res.data );
             const noti = new Notification();
+            noti.seenUsers = [];
             noti.sentUser = this.userStore.user;
             noti.content = `${this.userStore.user.username } Created Task Card \n In ${this.board.boardName} Board!`;
             noti.board = this.board;

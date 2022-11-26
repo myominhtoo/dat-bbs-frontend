@@ -40,9 +40,7 @@ export class AppComponent implements OnInit {
        this.userStore.fetchUserData();
        setTimeout(() => {
         this.socketService.subscribeNotis();
-        this.notiStore.reFetchNotis( this.userStore.user.id );
-        this.socketService.subscribeBoardsMessageSocket();        
-
+        this.notiStore.reFetchNotis( this.userStore.user.id );   
        }, 1500 );
     }
   }

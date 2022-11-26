@@ -59,7 +59,7 @@ export class LoginComponent {
                         this.notiStore.reFetchNotis( res.body.data.id );                                                
                         setTimeout(() => {
                            this.socketService.subscribeNotis();
-                           this.socketService.subscribeBoardsMessageSocket();
+                        //    this.socketService.subscribeBoardsMessageSocket();
                         } , 1000 );
                         swal({
                             text : res.body.message,
