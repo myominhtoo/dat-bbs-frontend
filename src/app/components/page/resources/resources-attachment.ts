@@ -12,6 +12,11 @@ import { AttachmentService } from "src/app/model/service/http/attachment.service
 export class ResourcesAttachmentComponent{
 
   attachment: Attachment[]=[];
+  status = {
+
+    hasDoneFetching : false,
+
+}
 
 
 
@@ -34,6 +39,8 @@ export class ResourcesAttachmentComponent{
 
     this.attachmentService.getAttachmentList(boardId).subscribe(data=>{
             this.attachment=data;
+
+            this.status.hasDoneFetching = true;
     })
 
 
