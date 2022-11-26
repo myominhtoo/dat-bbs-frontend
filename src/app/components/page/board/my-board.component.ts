@@ -22,6 +22,7 @@ import { Notification } from 'src/app/model/bean/notification';
 import { COLORS } from "src/app/model/constant/colors";
 import { BoardTasksStore } from "src/app/model/service/store/board-tasks.store";
 import { BoardStore } from "src/app/model/service/store/board.store";
+import { CommentStore } from "src/app/model/service/store/comment.store";
 
 
 
@@ -290,7 +291,9 @@ export class MyBoardComponent implements OnInit {
                   this.status.isInviting = false;
 
                   if( !this.members.some( member => this.board.invitedEmails.includes(member.email)) ){
-                    const invitedUsers = this.registeredUsers.filter( user => this.board.invitedEmails.includes(user.email) );
+                    const invitedUsers = this.registeredUsers.filter( user => {
+                      return this.board.invitedEmails.includes(user.email);
+                    });
                     this.socketService.sendBoardInvitiationNotiToUsers( this.board , invitedUsers );
 
                     const noti = new Notification();
@@ -361,13 +364,11 @@ export class MyBoardComponent implements OnInit {
         }
       }
       filterAutoCompleteEmails(  filterEmail : string ){
-        console.log(filterEmail);
         this.filterEmails =  this.storedEmails.filter(
           ( email )=>{
             return email.toLocaleLowerCase().includes( filterEmail.toLocaleLowerCase());
           }
         )
-        console.log(this.filterEmails)
       }
       removeEmail( index : number ){
         if(!this.status.isLoading) this.emails.splice(index,1);
@@ -376,7 +377,6 @@ export class MyBoardComponent implements OnInit {
       updateEmail( index : number ){
         this.email = this.emails [index];
         this.status.update = { idx : index , willUpdate : true }
-        console.log(index)
       }
 
 
@@ -611,29 +611,14 @@ export class MyBoardComponent implements OnInit {
     }
 
 
-    leaveBoard(){
-      const boardId = this.route.snapshot.params['id'];
+    leaveFromCurrentBoard(){
       swal({
-        text : 'Are you sure to leave?',
+        text : 'Are you sure to leave from this board?',
         icon : 'warning',
-        buttons : ['No' , 'Yes']
-      }).then(isYes=>{
+        buttons : [ 'No' , 'Yes' ]
+      }).then( isYes => {
         if(isYes){
-          this.boardService.leaveFromJoinBoard( boardId , this.userId ).subscribe( data =>{
-            this.router.navigateByUrl(`/boards`);
-            this.socketService.unsubscribeBoard( boardId );
-            this.boardStore.status.removedBoardId = boardId;
-            this.boardStore.status.isRemovedMyBoard = this.board.user.id == this.userStore.user.id;
-            
-            const noti = new Notification();
-            noti.board = this.board;
-            noti.sentUser = this.userStore.user;
-            noti.invitiation = false;
-            noti.seenUsers = [];
-            noti.content = `${this.userStore.user.username}(${this.board.user.id == this.userStore.user.id ? 'Admin' : 'Member' }) left \n ${this.board.boardName} board!`;
-
-            this.socketService.sentNotiToBoard( noti.board.id , noti );
-          })
+          this.boardStore.leaveBoard( this.board );
         }
       })
     }

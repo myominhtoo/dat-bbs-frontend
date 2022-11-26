@@ -6,7 +6,7 @@
   <h3 class="fw-bold opacity-75">No Resources Yet</h3>
 </div>
 
-<div style="margin-left:auto;margin-right:auto;width: 50%;margin-top: 15%;" >
+<div *ngIf="attachment.length > 0 && status.hasDoneFetching" style="margin-left:auto;margin-right:auto;width: 50%;margin-top: 15%;" >
   <div class="d-flex justify-content-between align-items-center mb-2">
     <h3 class="text-center ">Resources</h3>
     <button (click)="location.back()" class="btn btn-sm btn-outline-secondary py-1 myboard-btn">
@@ -14,7 +14,7 @@
         Back To Board
     </button>
   </div>
-  <table *ngIf="attachment.length > 0 && status.hasDoneFetching" class="table  table-light table-striped table-bordered">
+  <table  class="table  table-light table-striped table-bordered">
     <thead >
       <tr>
         <th scope="col">Name</th>

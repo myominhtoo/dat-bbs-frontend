@@ -25,7 +25,7 @@ import { UserStore } from 'src/app/model/service/store/user.store';
 
             <h1 *ngIf="!status.isEditStage" class="stage-title text-white p-2 h5 mx-1 m-0 ">
               {{ data.stageName | titlecase }} 
-              <span class=" p-2 mx-2 badge bg-danger">{{ taskCards.get(data.id.toString())?.length  }}</span>
+              <span class=" p-1 mx-2 badge bg-danger">{{ taskCards.get(data.id.toString())?.length  }}</span>
             </h1>
             <input *ngIf="status.isEditStage" [(ngModel)]="data.stageName" type="text" (keydown)="handleUpdateStage($event)"  class="form-control mx-2 text-capitalize rounded-0" style="box-shadow:none;" >
             <span *ngIf="status.stageError"  style="font-size:14px;" class="text-danger fw-bold mx-2">{{ status.stageError }}</span>
@@ -46,7 +46,7 @@ import { UserStore } from 'src/app/model/service/store/user.store';
                     </ul>
                   </div>
             <div class="me-2">
-            <i *ngIf="!status.isEditStage" class="fas fa-solid fa-plus text-white" (click)="handleSetUpAddTask()"></i>
+            <i *ngIf="!status.isEditStage" class="fas fa-solid fa-plus text-white" (click)="handleAddTaskClick()"></i>
         </div>
             </div>
           </div>
@@ -61,7 +61,7 @@ import { UserStore } from 'src/app/model/service/store/user.store';
           <span class="text-danger fs-6">{{ status.addTaskError }}</span>
         </div>
         <div *ngIf="status.isAddTask" class="my-1">
-          <input  [(ngModel)]="tempTask" name="tempTask" (keydown)="handleAddTask($event)"type="text" [class.is-invalid]="status.addTaskError" class="form-control shadow-none" placeholder="Enter Task" />
+          <input  [(ngModel)]="tempTask" name="tempTask" (keydown)="handleListenCreateTaskKeyInput($event)" type="text" [class.is-invalid]="status.addTaskError" class="form-control shadow-none" placeholder="Enter Task" />
         </div>
         <div cdkDropList [cdkDropListData]="taskCards.get(data.id.toString())" [id]="''+data.id+''" [cdkDropListConnectedTo]="relationContainers" class="w-100 py-2 d-flex flex-column" style="min-height:700px !important;">
             <task-card  cdkDrag (cdkDragMoved)="handleDragging($event)" (cdkDragDropped)="drop($event)" (show-task)="handleShowTaskOffcanvas($event)" (delete-task)="removeTask($event)"  (show-comment)="showCommentEmitter.emit($event)"  *ngFor="let task of taskCards.get(data.id.toString())" [task]="task"></task-card>
@@ -155,44 +155,53 @@ export class TaskCardContainerComponent {
     }
   }
 
-  handleSetUpAddTask(){
-    this.status.isAddTask = true;
+  handleAddTaskClick(){
+    if(this.status.isAddTask){
+      this.handleCreateTask();
+    }else{
+      this.status.isAddTask = true;
+    }
+  }
+  
+  handleCreateTask(){
+    const taskCard = new TaskCard();
+    taskCard.taskName = this.tempTask.trim();// setting taskName from tempTask
+    taskCard.stage = this.data;
+    taskCard.board = this.board;
+    taskCard.users = [];
+
+    if( taskCard.taskName == '' ){
+      this.status.addTaskError = "Task must not be empty!";
+    }else{
+      this.taskService.createTaskCard( taskCard )
+      .subscribe({
+        next : res => {
+          this.tempTask = '';
+          this.status.isAddTask = false;
+          this.addTask.emit( res.data );
+          const noti = new Notification();
+          noti.seenUsers = [];
+          noti.sentUser = this.userStore.user;
+          noti.content = `${this.userStore.user.username } Created Task Card \n In ${this.board.boardName} Board!`;
+          noti.board = this.board;
+          this.socketService.sentNotiToBoard( this.board.id , noti );
+        },
+        error : err => {
+          this.status.addTaskError = err.error.message;
+        }
+      })
+    }
   }
 
-  handleAddTask( e : KeyboardEvent ){
+  handleListenCreateTaskKeyInput( e : KeyboardEvent ){
     this.status.addTaskError = '';
-    if( e.key === "Escape" ){
+    if( e.key == "Escape" ){
       this.status.isAddTask = false;
+      this.tempTask = '';
     }
 
     if( e.key === "Enter" ){
-      const taskCard = new TaskCard();
-      taskCard.taskName = this.tempTask.trim();// setting taskName from tempTask
-      taskCard.stage = this.data;
-      taskCard.board = this.board;
-      taskCard.users = [];
-
-      if(taskCard.taskName==''){
-        this.status.addTaskError = "TaskCard Name cannot be null";
-      }else{
-        this.taskService.createTaskCard( taskCard )
-        .subscribe({
-          next : res => {
-            this.tempTask = '';
-            this.status.isAddTask = false;
-            this.addTask.emit( res.data );
-            const noti = new Notification();
-            noti.seenUsers = [];
-            noti.sentUser = this.userStore.user;
-            noti.content = `${this.userStore.user.username } Created Task Card \n In ${this.board.boardName} Board!`;
-            noti.board = this.board;
-            this.socketService.sentNotiToBoard( this.board.id , noti );
-          },
-          error : err => {
-            this.status.addTaskError = err.error.message;
-          }
-        })
-      }
+     this.handleCreateTask();
     }
 
   }

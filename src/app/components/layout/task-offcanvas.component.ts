@@ -66,11 +66,11 @@ import { SocketService } from "../../model/service/http/socket.service";
                         <div class="w-100 d-flex gap-2">
                            <div class="w-50">
                                 <small class="my-2">Start Date</small>
-                                <input type="datetime-local" class="form-control w-100 outlineBtn shadow-none "  [(ngModel)]="task.startedDate" [min]="task.startedDate" name="startedDate"  />
+                                <input type="datetime-local" class="form-control w-100 outlineBtn shadow-none "  [(ngModel)]="task.startedDate" [min]="task.startedDate.toString().replace('T',' ')" name="startedDate"  />
                            </div>
                             <div class="w-50">
                                 <small class="my-2">Due Date</small>
-                                <input type="datetime-local" class="form-control w-100 outlineBtn shadow-none" [(ngModel)]="task.endedDate" [min]="task.startedDate" name="endedDate" />
+                                <input type="datetime-local" class="form-control w-100 outlineBtn shadow-none" [(ngModel)]="task.endedDate" [min]="task.startedDate.toString().replace('T',' ')" name="endedDate" />
                             </div>
                         </div>
                       </li>
@@ -584,7 +584,7 @@ export class TaskOffCanvasComponent implements OnInit {
                     this.socketService.sentNotiToBoard(this.board.id, noti);
                     if(showStatus){
                         swal({
-                            text: "successfully!",
+                            text: "Successfully Updated!",
                             icon: 'success'
                         })
                     }

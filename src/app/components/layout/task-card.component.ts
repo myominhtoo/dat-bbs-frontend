@@ -110,8 +110,6 @@ export class TaskCardComponent implements OnInit {
             this.getActivityDonePercent();
         } , 500 );
 
-        console.log(this.task.startedDate);
-        // console.log(this.task.startedDate);
     }
 
     handleShowOffCanvas( task : TaskCard ){
@@ -265,10 +263,10 @@ export class TaskCardComponent implements OnInit {
 
         const remainPercent = (remainPeriod/realPeriod) * 100;
 
-        if( remainPercent >= 80 && remainPercent > 20  ){
+        if( remainPercent >= 80 && remainPercent > 50  ){
             return this.PERIOD_STATUS.FAR;
         }
-        else if( remainPercent <= 20 && remainPercent > 0 ){
+        else if( remainPercent <= 50 && remainPercent > 0 ){
             return this.PERIOD_STATUS.CLOSE;
         }else if( remainPercent < 0 ){
             return this.PERIOD_STATUS.OVER;

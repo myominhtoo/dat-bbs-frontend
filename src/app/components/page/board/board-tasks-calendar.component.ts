@@ -151,13 +151,12 @@ export class BoardTasksCalendarComponent implements OnInit {
 
                     const newTask = new TaskCard();
                     newTask.taskName = taskName;
-                    newTask.startedDate = selectInfo.startStr as any as Date;
-                    newTask.endedDate = selectInfo.endStr as any as Date;
+                    newTask.startedDate = `${selectInfo.startStr}T00:00` as any as Date;
+                    newTask.endedDate = `${selectInfo.endStr}T00:00` as any as Date;
                     const stage = new Stage();
                     stage.id = 1;
                     newTask.stage = stage;
                     newTask.board = this.boardTasksStore.board;
-
 
                     this.taskCardService.createTaskCard( newTask )
                     .subscribe({ 
