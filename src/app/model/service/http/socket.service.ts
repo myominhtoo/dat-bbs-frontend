@@ -29,7 +29,7 @@ export class SocketService{
     boardNotisSubscriptions : Subscription [] = [];
     privateNotiSubscription : Subscription | undefined;
     boardMessageSubscriptions : Subscription [] = [];    
-    public messages:BoardMessage[]=[];
+    public messages:BoardMessage[] | undefined=[];
     status = {
         hadGotVerification : false,
         hadError : false
@@ -254,21 +254,27 @@ export class SocketService{
 
 
     subscribeBoardsMessageSocket(){
-  
+
         if(this.stompClient){
-          this.stompClient.connect( {} ,
+        this.stompClient.connect( {} ,
                 () => {
-                  console.warn("BoardMessage Sock is start working")
+                console.warn("BoardMessage Sock is start working")
                     //subscribing boards channel
                     this.boardStore.boards.forEach( board => {
-                      const subscription=  this.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
+                    const subscription=  this.stompClient?.subscribe( `/boards/${board.id}/messages` , ( payload ) => {
                         console.warn("BoardMessage Sock is running")
-                        const boardNoti = JSON.parse(payload.body) as BoardMessage;                        
-                        console.log("Outter GLobal Object",this.boardChatStore.boardMap.get(boardNoti.board.id))                        
-                        this.messages.push(boardNoti)
-                        this.boardChatStore.boardMap.set(boardNoti.board.id,this.messages);                        
+                        
+                        const boardNoti = JSON.parse(payload.body) as BoardMessage;//new message
+                        this.messages = this.boardChatStore.boardMap.get(boardNoti.board.id);
+                        this.messages?.push(boardNoti)                        
+                        // console.log("Get First Time Gloabl map",)                            
+                        
+                        this.boardChatStore.boardMap.set(boardNoti.board.id,this.messages!);
+                        
+                        // console.log("Get Second Time Gloabl map",this.boardChatStore.boardMap.get(boardNoti.board.id))                            
+                        
                         if( boardNoti.user.id != this.boardStore.userStore.user.id ){                                                    
-                            console.log("Inner GLobal Object ",this.boardChatStore.boardMap.get(boardNoti.board.id));                            
+                            // console.log("Get Third Object ",this.boardChatStore.boardMap.get(boardNoti.board.id));                            
                             ($('#chat-noti')[0] as HTMLAudioElement).play();                              
                             
                             }
@@ -305,5 +311,24 @@ export class SocketService{
             });
         }
     }
+    getMessage(boardId:number){  
+    this.getBoardMessageList(boardId).subscribe({
+      next:(res)=>{
+            this.messages = res
+            this.boardChatStore.boardMap.get(boardId)
+            this.boardChatStore.boardMap.set(boardId, this.messages)
+            console.log(this.boardChatStore.boardMap.get(boardId))            
 
+      },error:(err)=>{
+      console.log(err)
+      swal({
+        text:"Fail To Fetch BoardMessage",
+        icon:"fail"
+      }
+        
+      )
+      }
+  })    
+      
+    }
 }
