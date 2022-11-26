@@ -117,11 +117,11 @@ export class MyBoardComponent implements OnInit {
     ngOnInit(): void {
         //listening route
       this.handleRouteChange();
-    
+    //ပြင်ရန်
       setTimeout(() => {
         this.getAllBookMarks(this.userStore.user.id) 
         this.status.isBoardBookMark = this.isBookMark()
-      },1000) 
+      },2000) 
 
         this.getUsers();
         this.boardId = this.route.snapshot.params['id'];
