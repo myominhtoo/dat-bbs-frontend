@@ -17,7 +17,7 @@ import swal from "sweetalert";
 
 export class BoardChatComponent implements OnInit{
   public profileId=Number(this.route.snapshot.params['id']);
-  
+   showEmojis: boolean = false;
   saveBoard=new Board();   
   BoardMessage=new BoardMessage();  
   messages:BoardMessage[]| undefined=[];
@@ -40,11 +40,9 @@ export class BoardChatComponent implements OnInit{
       this.scrollBottom();        
       this.getMessage(this.profileId);
        if(this.profileId) this.getBoardWithBoardId(this.profileId);    
-       
     }
     
-   ngAfterContentChecked():void{
-    
+   ngAfterViewChecked():void{
       this.scrollBottom();            
    }
 
@@ -67,11 +65,12 @@ export class BoardChatComponent implements OnInit{
         this.BoardMessage.user=this.userStore.user;
         this.socket.sentMeesageToGroupChat(this.saveBoard.id,this.BoardMessage)           
         this.BoardMessage.content=""      
-        console.log("Profile Id",typeof this.profileId)
-        console.log("Get Value",this.boardChatStore.boardMap.get(this.profileId))                 
-        // this.boardChatStore.boardMap.get(this.profileId)?.map((res)=>{
-        //   this.messages?.push(res);
-        // })
+        
+        this.scrollBottom()
+        
+        
+        
+        
         
 
       }else{   
@@ -91,7 +90,10 @@ export class BoardChatComponent implements OnInit{
     getMessage(boardId:number){  
     this.socket.getBoardMessageList(boardId).subscribe({
       next:(res)=>{
-          this.messages=res
+        this.messages = res
+        this.boardChatStore.boardMap.get(boardId)
+        this.boardChatStore.boardMap.set(boardId, this.messages)
+        console.log(this.boardChatStore.boardMap.get(boardId))
       },error:(err)=>{
       console.log(err)
       swal({
@@ -102,7 +104,17 @@ export class BoardChatComponent implements OnInit{
       )
       }
   })    
-      
+ 
+  
+  }
+  
+     toggleEmojis() {
+        this.showEmojis = !this.showEmojis;
     }
+
+    addEmojiToComment(e: any) {
+       this.BoardMessage.content += e.emoji.native;
+    }
+
   }
 

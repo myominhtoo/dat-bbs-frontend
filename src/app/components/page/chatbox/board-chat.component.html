@@ -15,7 +15,7 @@
                     <div class=" chat__message" *ngIf="!this.status.messageLoad">
                         <!-- message -->
                         <div class="p-0 m-0" *ngFor="let message of boardChatStore.boardMap.get(profileId)">
-                            
+
                             <!-- [class.from-user]="this.userStore.user.id == message.user.id" -->
                             <div class="d-flex p-3 pt-4 "
                                 [ngClass]="this.userStore.user.id == message.user.id ? 'justify-content-start flex-row-reverse':''">
@@ -66,22 +66,36 @@
                 </div>
                 <div class="chat__box__input">
                     <form action="" (ngSubmit)="sentMessage(this.BoardMessage.content)">
+
                         <div class="chat__box__input--padding">
-                            <div class="input-group input-group-md chat__textbox me-2">
-                                <span class="input-group-text" id="emoji">
+                            <div class="input-group input-group-md chat__textbox me-2" id="input_text_holder">
+                                <!-- <span class="input-group-text" id="emoji">
                                     <i class='bx bx-sm bxs-file'></i>
                                 </span>
                                 <span class="input-group-text" id="emoji">
                                     <i class='bx bx-sm bxs-image'></i>
+                                </span> -->
+
+                                <emoji-mart *ngIf="showEmojis" (emojiSelect)="addEmojiToComment($event)"
+                                    id="board_chat_emoji">
+                                </emoji-mart>
+                                <span class="input-group-text border-0" id="emoji" (click)="toggleEmojis()">
+                                    <i class='bx bx-sm bxs-smile'></i>
                                 </span>
                                 <input type="text" class="form-control shadow-none rounded-3"
                                     placeholder="Chat Something..." name="message"
                                     [(ngModel)]="this.BoardMessage.content" autofocus autocomplete="off">
-                                <span class="input-group-text border-0" id="emoji">
-                                    <i class='bx bx-sm bxs-smile'></i>
-                                </span>
+
                                 <button type="submit" class="input-group-text bg-transparent  border-0 " id="emoji">
                                     <i class="bx bx-sm bxs-send" [class.text-muted]="!this.BoardMessage.content"></i>
+<<<<<<< HEAD
+
+                                    <!-- <div id="comment-send-box">
+                                        <form (ngSubmit)="handleComment()" class="w-100 d-flex gap-2">
+                                            <i (click)="toggleEmojis()" class="fa-regular fa-face-smile" id="smile"></i> -->
+
+=======
+>>>>>>> e3c538d09a54154ca466f9209f4612fa9b477e0f
                                 </button>
                             </div>
                         </div>
