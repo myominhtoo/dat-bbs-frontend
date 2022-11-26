@@ -59,8 +59,8 @@ export class BoardService{
       return this.httpClient.get<any>(`http://localhost:8080/api/accept-join-board?email=${email}&code=${code}&boardId=${boardId}`);
     }
 
-    leaveFromJoinBoard(boardId : number , userId : number): Observable<HttpResponse<BoardsHasUsers>>{
-      return this.httpClient.delete<HttpResponse<BoardsHasUsers>>(`http://localhost:8080/api/boards/${boardId}/leave?userId=${userId}`);
+    leaveFromBoard(boardId : number , userId : number): Observable<HttpResponse<Board>>{
+      return this.httpClient.delete<HttpResponse<Board>>(`http://localhost:8080/api/boards/${boardId}/leave?userId=${userId}`);
     }
 
 

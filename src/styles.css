@@ -919,7 +919,8 @@ color: rgba(255, 255, 255, 0.863) !important;
  display: flex !important;
  justify-content: space-between !important;
  align-items: center !important;
- 
+ white-space: break-spaces !important;
+ text-align: start;
     max-width: 300px !important;
    
  /* padding: 5px 20px !important; */

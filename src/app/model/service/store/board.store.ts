@@ -1,10 +1,14 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Injector } from "@angular/core";
 import { Board } from "../../bean/board";
 import { AuthService } from "../http/auth.service";
 import { BoardService } from "../http/board.service";
 import { UserStore } from "./user.store";
 import { UserService } from '../http/user.service';
 import { forkJoin } from 'rxjs';
+import swal from 'sweetalert';
+import { ActivatedRoute, Route, Router } from "@angular/router";
+import { SocketService } from "../http/socket.service";
+import { Notification } from "../../bean/notification";
 
 @Injectable({
     providedIn : 'root'
@@ -22,15 +26,19 @@ export class BoardStore{
     public status = {
         isLoading : true,
         hasDoneFetching : false,
-        removedBoardId : null,
+        removedBoardId : 0,
         isRemovedMyBoard : false,
     }
 
     constructor( 
-        private boaredService : BoardService , 
+        private boardService : BoardService , 
         public userStore : UserStore ,
         private authService : AuthService ,
-        private userService : UserService ){
+        private userService : UserService ,
+        private router : Router ,
+        private route : ActivatedRoute,
+        private injector : Injector
+        ){
         if( authService.isAuth() ){
             this.userStore.fetchUserData();
             if( this.userStore.user.id )  this.getBoardsByUserId( userStore.user.id ); 
@@ -46,7 +54,7 @@ export class BoardStore{
         this.status.isLoading = true;
 
         forkJoin([
-            this.boaredService.getBoardsForUser( userId ),
+            this.boardService.getBoardsForUser( userId ),
             this.userService.getArchiveBoards( userId )            
         ]).subscribe( ([ allBoards , archivedBoards ]) => {
             this.boards = allBoards.filter( board => {
@@ -79,5 +87,43 @@ export class BoardStore{
         this.getBoardsByUserId( userId );
     }
    
+    public leaveBoard( board : Board ){
+        this.userStore.fetchUserData();
+       
+        this.boardService.leaveFromBoard( board.id , this.userStore.user.id ).subscribe( res => {
+               if( res.ok ){
+                const isMyBoard = board.user.id == this.userStore.user.id;
+                const nextOwner = res.data.user;
+
+                const socketService = this.injector.get(SocketService);
+                socketService.unsubscribeBoard( board.id );
+                this.status.removedBoardId = board.id;
+                this.status.isRemovedMyBoard = board.user.id == this.userStore.user.id;
+
+                const noti = new Notification();
+                noti.board = board;
+                noti.sentUser = this.userStore.user;
+                noti.invitiation = false;
+                noti.seenUsers = [];
+
+                // for giving admin to other member
+                if( isMyBoard && nextOwner != null ){
+                    noti.content = `${this.userStore.user.username}(Admin) left ${board.boardName} Board and ${nextOwner.username} is ADMIN Now!`
+                }else{
+                    noti.content = `${this.userStore.user.username}(${board.user.id == this.userStore.user.id ? 'Admin' : 'Member' }) left \n ${board.boardName} board!`;
+                }
+            
+                socketService.sentNotiToBoard( noti.board.id , noti );
+            
+                const currentUrl = window.location.href.split('/');
+
+                if( currentUrl[currentUrl.length - 1] == 'boards' ){
+                    window.location.href = `/boards`
+                }else{
+                    this.router.navigateByUrl(`/boards`);
+                }          
+            }
+         })
+    }
 
 }

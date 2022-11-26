@@ -163,8 +163,7 @@ export class BoardComponent implements OnInit {
     }
 
     archiveBoard( event : Event ){
-      event.stopPropagation();
-      
+      event.stopPropagation();      
       swal({
         text : 'Are you sure to archive this board?',
         icon : 'warning',
@@ -199,4 +198,19 @@ export class BoardComponent implements OnInit {
     isBoardArchive(){
       this.data.isArchive =  this.boardStore.archivedBoards.some( board => board.id == this.data.id );
     }
+
+    leaveFromCurrentBoard( event : Event ){
+      event.stopPropagation();
+      swal({
+        text : 'Are you sure to leave from this board?',
+        icon : 'warning',
+        buttons : [ 'No' , 'Yes' ]
+      }).then( isYes => {
+        if(isYes){
+          this.boardStore.leaveBoard( this.data );
+        }
+        $(`#board-dropdown${this.data.id} #dropdown-btn`).click();
+      });
+    }
+
 }

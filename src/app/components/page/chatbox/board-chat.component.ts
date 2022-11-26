@@ -16,14 +16,16 @@ import swal from "sweetalert";
   
 
 export class BoardChatComponent implements OnInit{
+
   public profileId=Number(this.route.snapshot.params['id']);
-   showEmojis: boolean = false;
+  showEmojis: boolean = false;
   saveBoard=new Board();   
   BoardMessage=new BoardMessage();  
   messages:BoardMessage[]| undefined=[];
   status={
     messageLoad:false
-   }  
+  }  
+  
     constructor(
       public userStore:UserStore,
         private socket:SocketService,

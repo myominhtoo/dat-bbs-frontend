@@ -1,8 +1,8 @@
 <!-- container-fluid -> w-100 some changes -->
 <div class="w-100 p-4">
     <div class="container-fluid">
-        <div class="row  w-100 ">
-            <div class="ps-3 pe-0 w-100 col-12 d-flex justify-content-between border-board align-items-center">
+        <div class=" row  w-100 ">
+            <div  *ngIf="!status.isLoading" class="ps-3 pe-0 w-100 col-12 d-flex justify-content-between border-board align-items-center">
                 <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->
                 <div class=" d-flex p-0 m-0 col-3">
                     <span class="iconBoard rounded-4 m-0 d-flex justify-content-center align-items-center">
@@ -61,7 +61,7 @@
                         Members
                     </button> 
 
-                    <button class="btn btn-sm myboard-btn btn-outline-secondary text-danger" type="button" (click)="leaveBoard()" >
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary text-danger" type="button" (click)="leaveFromCurrentBoard()" >
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>Leave
                     </button>
                 </div>
@@ -110,7 +110,7 @@
                                     [routerLink]="board.user.id == userStore.user.id ? '/profile' : '/users/'+ board.user.id +'/profile'">
                                     <div class="d-inline-block mx-2 " id="profile-member">
                                         <span *ngIf="board.user.imageUrl == null && board.user.username != null"
-                                            class="text-light d-flex justify-content-center align-items-center bg-dark opacity-50"
+                                            class="text-light d-flex justify-content-center align-items-center bg-dark fs-4  opacity-50"
                                             id="profile-member">{{ board.user.username[0].toUpperCase() }}</span>
                                         <img *ngIf="board.user.imageUrl != null" class="w-100 h-100"
                                             style="border-radius: 100%;object-fit: cover;"
