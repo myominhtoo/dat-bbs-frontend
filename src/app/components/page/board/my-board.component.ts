@@ -1,3 +1,5 @@
+import { BoardBookMarkService } from 'src/app/model/service/http/boardBookmark.service';
+import { BoardBookMark } from 'src/app/model/bean/BoardBookMark';
 import { Component ,  EventEmitter,  Input,  OnInit, Output } from "@angular/core";
 import { ActivatedRoute , NavigationEnd, Router } from "@angular/router";
 import { Board } from "src/app/model/bean/board";
@@ -62,9 +64,12 @@ export class MyBoardComponent implements OnInit {
     click:boolean=false;
 
     offCanvasTask : TaskCard = new TaskCard();
-    offCanvasTab : string = "";
-   
-    status = {
+  offCanvasTab: string = "";
+  bookMarks :BoardBookMark[]=[];
+  boardBookMark:BoardBookMark=new BoardBookMark();
+    // @Output('toggle-bookmark') toggleBookMarkEmit=new EventEmitter<BoardBookMark>();
+  status = {
+    isBoardBookMark: false,
         isReporting : false,
         isLoading : false,
         isAddStage : false,
@@ -101,7 +106,8 @@ export class MyBoardComponent implements OnInit {
          public userStore : UserStore ,
          public socketService : SocketService ,
          private boardTasksStore : BoardTasksStore ,
-         private boardStore : BoardStore  ){
+      private boardStore: BoardStore,
+    private boardBookMarkService:BoardBookMarkService) {
           this.offCanvasTask.activities = [];
           this.offCanvasTask.comments = [];
           this.board.user = new User();
@@ -110,7 +116,12 @@ export class MyBoardComponent implements OnInit {
 
     ngOnInit(): void {
         //listening route
-        this.handleRouteChange();
+      this.handleRouteChange();
+    
+      setTimeout(() => {
+        this.getAllBookMarks(this.userStore.user.id) 
+        this.status.isBoardBookMark = this.isBookMark()
+      },1000) 
 
         this.getUsers();
         this.boardId = this.route.snapshot.params['id'];
@@ -626,5 +637,55 @@ export class MyBoardComponent implements OnInit {
         }
       })
     }
+      handleBookMark( e : Event,data:Board ){
+          e.stopPropagation();
+          if( !this.board.isArchive ){
+                this.userStore.fetchUserData();
+          
+                this.boardBookMark.board = data;        
+                this.boardBookMark.user = this.userStore.user;      
+                
+                  //getting current board form book marks
+                  const curBoardFromBookMarks = this.bookMarks.filter( bookMark => bookMark.board.id == data.id );
+                  
+                // will enter if cur board has been book mark        
+                  swal({
+                    text:curBoardFromBookMarks.length > 0 ? "Are you sure to remove?" : "Are you sure to bookmark?",
+                    icon:"warning",
+                    buttons : [ 'No' , 'Yes' ]
+                  }).then(isYes=>{
+                    if(isYes){
+                      if( curBoardFromBookMarks.length > 0 ){
+                        this.boardBookMark.id = curBoardFromBookMarks[0].id;
+                      }            
+                      this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
+                      next:(res)=>{          
+                        if(res.ok){
+                          console.log(res.data)
+                          // this.toggleBookMarkEmit.emit( res.data );
+                        }
+                      },error:(err)=>{
+                          console.log(err)
+                      }
+                  })              
+                }
+              })     
+          }
+    }
 
+  isBookMark() { 
+    console.log("isBookMark is working")
+      return this.bookMarks.some((res)=>{      
+            return res.board.id == this.board.id
+      })          
+  }
+  getAllBookMarks(userId:number) {
+    this.boardBookMarkService.showBookmarks(userId).subscribe({
+      next: (res) => {
+        this.bookMarks=res
+      }, error: (err) => {
+        console.log(err)
+      }
+    })
+  }
 }
