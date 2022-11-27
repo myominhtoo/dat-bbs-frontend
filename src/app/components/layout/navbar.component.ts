@@ -35,7 +35,10 @@ export class NavbarComponent implements OnInit {
         changePassword:{
           msg:"",
           ok:false
-        }
+        },
+          toggleconfirmpass: false,
+        togglepass: false,
+      currentpass:false
       }
 
     constructor( private toggleStore : ToggleStore , 
@@ -137,5 +140,13 @@ export class NavbarComponent implements OnInit {
         }
       });
   }
-
+  togglePassword() {
+    this.status.togglepass=!this.status.togglepass
+  }
+   currentPassword() {
+    this.status.currentpass=!this.status.currentpass
+  }
+  toggleConPassword() {
+    this.status.toggleconfirmpass = !this.status.toggleconfirmpass;
+  }
 }

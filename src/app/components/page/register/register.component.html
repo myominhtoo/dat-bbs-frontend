@@ -1,63 +1,77 @@
 <div class="container-fluid  px-5" id="form-page">
 
-    <section class="w-100 r-test d-flex justify-content-center align-items-center  ">
-        <div class="register-form shadow-sm">
-        <div class="row d-flex justify-content-sm-center h-auto">
+  <section class="w-100 r-test d-flex justify-content-center align-items-center  ">
+    <div class="register-form shadow-sm">
+      <div class="row d-flex justify-content-sm-center h-auto">
         <div class="col-6 d-none d-md-block register-bg register-rounded-icon d-md-flex justify-content-center p-0">
-            <img src="assets/img/register.jpg" alt="" class="register-icon w-100 register-rounded-icon" style="object-fit: cover;">
+          <img src="assets/img/register.jpg" alt="" class="register-icon w-100 register-rounded-icon"
+            style="object-fit: cover;">
         </div>
         <div class=" col-md-6 register-rounded-form bg-light col-12 ">
-            <form  #registerForm="ngForm" (ngSubmit)="onSubmit()">
-                <div class="text-center m-0 p-0 mt-3">
-                  <a class="navbar-brand" routerLink="/login">
-                    <img src="/assets/img/download-removebg-preview.png" alt="Logo" width="70px" class="d-inline-block align-text-top">
-                  </a>
-                </div>
-                <div class="text-center">
-                  <small class="text-center">Create your account :</small>
-                </div>
-                <div class="mx-4 my-3">
-                    <label for="username" class="form-label">Username</label>
-
-                    <input type="text" placeholder="Enter Your Name" class="form-control shadow-none" id="username" [(ngModel)]="user.username" name="username" #username="ngModel"   autofocus required>
-                    <!-- [class.is-invalid]="username.touched && username.invalid " -->
-                  </div>
-                <div class="mx-4 my-3 ">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" placeholder="Enter email address" class="form-control shadow-none" id="email" value="company@gmail.com" [(ngModel)]="user.email" name="email" [class.is-invalid]="email" required />
-                    
-                  </div>
-                <div class="mx-4 my-3">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="input-group">
-                    <input [type]="this.userStore.togglepass?'text':'password'"  style="border-right: none;" placeholder="Enter password" #password="ngModel" class="form-control shadow-none" id="password" [(ngModel)]="user.password" name="password"  required>
-                    <div class="input-group-text pw-show-hide text-muted">
-                      <i [ngClass]="this.userStore.togglepass?'fa-solid fa-eye-slash':' fa-solid fa-eye'"  (click)="this.userStore.togglePassword()"></i>
-                          
-                  </div>
-                  </div>
-                  </div>
-                <div class="mx-4 my-3">
-                    <label for="code" class="form-label">Verification Code</label>
-                    <!-- [class.is-invalid]="code.touched && code.invalid" required -->
-                    <input type="text" placeholder="Enter verification code" class="form-control shadow-none" #code="ngModel" id="code" [(ngModel)]="user.code" name="code" required>
-                  </div>
-                <div class="mx-4 my-3">
-                <div class="d-grid">
-                    <input type="submit" [disabled]="registerForm.invalid" class="btn signup-btn" value="Create Account">
-                </div>
-                <div class="text-center mt-2 p-0 d-flex justify-content-center">
-                  Already have an account?
-                   <a routerLink="/login" class="fw-bold  nav-link text-decoration-underline">Login here</a></div>
-                <div class="text-center my-0 p-0">
-                  <small routerLink="/verify-email" class="text-danger text-decoration-underline" style="cursor:pointer;">Get Verification Code?</small>
-                </div>
+          <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+            <div class="text-center m-0 p-0 mt-3">
+              <a class="navbar-brand" routerLink="/login">
+                <img src="/assets/img/download-removebg-preview.png" alt="Logo" width="70px"
+                  class="d-inline-block align-text-top">
+              </a>
             </div>
-            </form>
+            <div class="text-center">
+              <small class="text-center">Create your account :</small>
+            </div>
+            <div class="mx-4 my-3">
+              <label for="username" class="form-label">Username</label>
+
+              <input type="text" placeholder="Enter Your Name" class="form-control shadow-none" id="username"
+                [(ngModel)]="user.username" name="username" #username="ngModel" autofocus required>
+              <!-- [class.is-invalid]="username.touched && username.invalid " -->
+            </div>
+            <div class="mx-4 my-3 ">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" placeholder="Enter email address" class="form-control shadow-none" id="email"
+                value="company@gmail.com" [(ngModel)]="user.email" name="email" [class.is-invalid]="email" required />
+
+            </div>
+            <div class="mx-4 my-3">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group">
+                <input [type]="this.userStore.togglepass?'text':'password'" (keyup)="validPassword(user.password)"
+                  style="border-right: none;" placeholder="Enter password" #password="ngModel"
+                  class="form-control shadow-none" id="password" [(ngModel)]="user.password" name="password" required>
+                <div class="input-group-text pw-show-hide text-muted">
+                  <i [ngClass]="this.userStore.togglepass?'fa-solid fa-eye-slash':' fa-solid fa-eye'"
+                    (click)="this.userStore.togglePassword()"></i>
+
+                </div>
+              </div>
+              <span class="text-danger" *ngIf="status.passValid">
+                <p>Your password must be at least 7 characters.</p>
+              </span>
+            </div>
+            <div class="mx-4 my-3">
+              <label for="code" class="form-label">Verification Code</label>
+              <!-- [class.is-invalid]="code.touched && code.invalid" required -->
+              <input type="number" placeholder="Enter verification code" class="
+                form-control shadow-none" #code="ngModel" id="code" [(ngModel)]="user.code" name="code" required>
+
+            </div>
+            <div class="mx-4 my-3">
+              <div class="d-grid">
+                <input type="submit" [disabled]="(registerForm.invalid && status.passRegister)" class="btn signup-btn"
+                  value="Create Account">
+              </div>
+              <div class="text-center mt-2 p-0 d-flex justify-content-center">
+                Already have an account?
+                <a routerLink="/login" class="fw-bold  nav-link text-decoration-underline">Login here</a>
+              </div>
+              <div class="text-center my-0 p-0">
+                <small routerLink="/verify-email" class="text-danger text-decoration-underline"
+                  style="cursor:pointer;">Get Verification Code?</small>
+              </div>
+            </div>
+          </form>
         </div>
 
+      </div>
     </div>
-</div>
-    </section>
-
+  </section>
 </div>

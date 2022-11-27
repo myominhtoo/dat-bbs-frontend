@@ -143,10 +143,11 @@
                                     </div>
                                 </div>
                                 <div class="mb-3 mt-3 text-end">
-                                    <button type="submit" class="btn btn-primary me-2"
-                                        [class.disabled]="!user.username || !user.email">Save </button>
+
                                     <button (click)="cencelProfile()" type="button" class="btn"
                                         style="background-color: #6c757d50 !important;color: black;">Cancel</button>
+                                    <button type="submit" class="btn btn-primary ms-2"
+                                        [class.disabled]="!user.username || !user.email">Save </button>
 
                                 </div>
 

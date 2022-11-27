@@ -1,3 +1,4 @@
+import { tap } from 'rxjs';
 import { UserStore } from 'src/app/model/service/store/user.store';
 import { Component, OnInit } from  "@angular/core";
 import { User } from "src/app/model/bean/user";
@@ -5,6 +6,7 @@ import { UserService } from "src/app/model/service/http/user.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import swal from 'sweetalert';
 import { decode, encode } from 'src/app/util/encoder';
+import { E } from 'chart.js/dist/chunks/helpers.core';
 
 @Component({
     selector : 'register',
@@ -20,12 +22,15 @@ export class RegisterComponent implements OnInit{
     email:string;
     password:string;
     code:string;
-
+  status = {
+    passValid: false,
+    passRegister: true,
+  };
     constructor(private userService : UserService,
       public route : ActivatedRoute ,
       public userStore : UserStore,
       private router:Router){
-
+        
      this.user=new User();
      this.emptyErrorMessage="";
      this.username="";
@@ -45,8 +50,11 @@ export class RegisterComponent implements OnInit{
     }
 
 
-    onSubmit(){
+  onSubmit() {
+  
       this.savedUser();
+        
+      
     }
 
     savedUser(){
@@ -72,5 +80,18 @@ export class RegisterComponent implements OnInit{
       })
 
     }
-  
+  validPassword(pass: string) {
+    console.log(pass.length)
+    if (pass.length  == 0) {
+      this.status.passValid = false
+      this.status.passRegister=true
+    } else if (pass.length  >= 7) {
+      this.status.passValid=false
+      this.status.passRegister=false
+    } else {
+      this.status.passRegister=true
+      this.status.passValid=true
+    }
+  }
+
 }
