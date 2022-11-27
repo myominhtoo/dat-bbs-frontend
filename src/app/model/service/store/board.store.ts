@@ -88,8 +88,7 @@ export class BoardStore{
     }
    
     public leaveBoard( board : Board ){
-        this.userStore.fetchUserData();
-       
+        this.userStore.fetchUserData();     
         this.boardService.leaveFromBoard( board.id , this.userStore.user.id ).subscribe( res => {
                if( res.ok ){
                 const isMyBoard = board.user.id == this.userStore.user.id;
