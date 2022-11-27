@@ -1,3 +1,4 @@
+import { NotificationStore } from 'src/app/model/service/store/notification.store';
 import { UserStore } from './../../model/service/store/user.store';
 import { UserService } from './../../model/service/http/user.service';
 import { Component, Input } from "@angular/core";
@@ -13,7 +14,7 @@ export class Notifications {
     @Input('notificaions') notifications: Notification[] = [];
     
   
-    constructor(private userStore: UserStore,private userService:UserService) {
+    constructor(private userStore: UserStore,private userService:UserService,private notiStore : NotificationStore) {
     
 }
 
@@ -26,22 +27,14 @@ export class Notifications {
         }
         this.userService.markAllNoti(this.readAllNoti,this.userStore.user.id).subscribe({
             next: (res) => {
-                console.log("It's working")
+                // setTimeout(() => {
+                this.notiStore.getNotiCount(this.userStore.user.id)    
+                // }, 1000);
+                
             },
             error: (err) => {
                 console.log()
             }
         })
-    //       this.notifications.seenUsers.push(this.userStore.user);
-    //   console.log("Noti seen user",this.noti.seenUsers)
-    //   this.userService.seenNoti(this.noti).subscribe({
-    //      next:(res)=>{
-    //         console.log("It's work!")
-            
-            
-    //      },error:(err)=>{
-    //         console.log(err)
-    //      }
-    //   })
     }
 }

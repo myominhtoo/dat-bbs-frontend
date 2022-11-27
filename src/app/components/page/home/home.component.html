@@ -48,7 +48,7 @@
         </div>
         <div class="w-100 pt-2">
             <loading target="Home..." [show]="status.isLoading"></loading>
-            <div class="container" *ngIf="status.hasDoneFetching">
+            <div class="container" *ngIf="!status.isLoading">
                 <div class="container-fluid d-flex justify-content-center w-100 mb-3">
                     <div class="w-50 user-info-cards mx-1">
                         <div class="w-100 text-start">

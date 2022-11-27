@@ -51,20 +51,25 @@ export class SocketService{
         }
     }
 
-    subscribeNotis(){
-       this.getSocketClient()
+    subscribeNotis() {
+        this.notiStore.getNotiCount(this.userStore.user.id)    
+        this.getSocketClient()
+
         if(this.stompClient){
             this.stompClient.connect( {} ,
                 () => {
-                    this.subscribeToPrivateNoti();
+                    this.subscribeToPrivateNoti();                    
                     this.boardStore.boards.forEach( board => {
-                        const subscription =  this.stompClient?.subscribe( `/boards/${board.id}/notifications` , ( payload ) => {
+                        const subscription = this.stompClient?.subscribe(`/boards/${board.id}/notifications`, (payload) => {
+                            setTimeout(() => {
+                            this.notiStore.getNotiCount(this.userStore.user.id)    
+                            },1000)
+                            
                             this.showNoti( payload );
                         });       
                         subscription!.id = `board-${board.id}`;
                         this.boardNotisSubscriptions.push(subscription!);
-
-                        this.subscribeBoardsMessageSocket( board );
+                        this.subscribeBoardsMessageSocket( board );//get Message Socket
                     });
                 }, 
                 () => {
@@ -81,7 +86,8 @@ export class SocketService{
         }
     }
   
-    private showNoti( payload : Message ){
+    private showNoti(payload: Message) {
+        
         const newNoti = JSON.parse(payload.body) as Notification;
         if( newNoti.sentUser.id != this.boardStore.userStore.user.id ){
             ($('#noti-ring')[0] as HTMLAudioElement).play();
@@ -94,7 +100,8 @@ export class SocketService{
                 gravity : 'bottom',
                 className : 'noti__toast',
                 position : 'right',
-                onClick : () => {
+                 onClick: () => {
+                    
                     if( newNoti.invitiation ){
                         if(!this.boardStore.joinedBoards.some(board=> board.id == newNoti.board?.id)){
                             swal({
@@ -150,7 +157,10 @@ export class SocketService{
         // this.getSocketClient();
         if(this.stompClient){
             const subscription = this.stompClient.subscribe( `/boards/${boardId}/notifications` , 
-                ( payload ) => {
+                (payload) => {
+                    setTimeout(() => {
+                            this.notiStore.getNotiCount(this.userStore.user.id)    
+                            },1000)
                     this.showNoti(payload);
                 },
                 () => {
@@ -222,7 +232,10 @@ export class SocketService{
     */
     private subscribeToPrivateNoti(){
             this.privateNotiSubscription = this.stompClient?.subscribe( `/users/${this.userStore.user.id}/notifications` , 
-            ( payload ) => {
+                (payload) => {
+                setTimeout(() => {
+                            this.notiStore.getNotiCount(this.userStore.user.id)    
+                            },1000)
                 this.showNoti(payload);
             });               
     }
