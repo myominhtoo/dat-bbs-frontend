@@ -527,7 +527,6 @@ export class TaskOffCanvasComponent implements OnInit {
                         noti.seenUsers = [];
 
                         this.socketService.sentNotiToBoard(this.board.id, noti);
-                        // console.log(res);
                     },
                     error: err => {
                         this.status.errorTask = err.error.message;

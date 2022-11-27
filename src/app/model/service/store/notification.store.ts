@@ -36,10 +36,10 @@ export class NotificationStore{
         this.notifications = resNotis;
       },
       error : err => {
-        swal({
-          text : 'Failed to fetch notificaions!',
-          icon : 'warning'
-        });
+        // swal({
+        //   text : 'Failed to fetch notificaions!',
+        //   icon : 'warning'
+        // });
       }
     });
   }
