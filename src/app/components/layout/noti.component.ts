@@ -24,14 +24,14 @@ import swal from "sweetalert";
            <div id="noti-body" class="col-10 ps-2 pe-1 text-justify " >
               <h6 *ngIf="!noti.invitiation" class="p-0 m-0 d-flex justify-content-between align-items-center" style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">
               <span>{{  noti.content.length > 80 ? noti.content.substring(0,80)+'...' : noti.content }}</span>
-            <span  [class.d-none]="isSeen()" style="font-size: 8px;" class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
+            <span  [class.d-none]="isSeenNoti" style="font-size: 8px;" class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
             </h6>
               <h6 *ngIf="noti.invitiation" class="p-0 m-0 d-flex justify-content-between align-items-center" style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">
               <span>
               {{  noti.content }}
               </span>
               
-              <span [class.d-none]="isSeen()"   style="font-size: 8px; "class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
+              <span [class.d-none]="isSeenNoti"   style="font-size: 8px; "class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
             </h6>
               <small style="font-size:10px;" class="text-primary">
               {{ noti.createdDate | pentaDate }}
@@ -42,7 +42,8 @@ import swal from "sweetalert";
     `
 })
 export class NotiComponent implements OnInit {
-
+   isSeenNoti!: boolean;
+   
     borderLeft : string = 'none !important';
     stompClient : Client | undefined = undefined;
     board : Board = new Board();
@@ -56,25 +57,31 @@ export class NotiComponent implements OnInit {
        private userService:UserService){}
 
    ngOnInit(): void {
+      this.isSeenNoti = this.isSeen();
       if(this.noti.invitiation){
          this.borderLeft = `3px solid ${this.noti.board?.iconColor} !important`;
       }else{
          this.borderLeft = `3px solid none`;
       }
       this.noti.seenUsers = [];
+     
     }
 
     handleGoBoardFromNoti( boardId : number ){      
       // new
-      this.noti.seenUsers.push(this.userStore.user);      
+       
+       if (!this.noti.seenUsers.some((res) => res.id == this.userStore.user.id)) {
+          this.noti.seenUsers.push(this.userStore.user);
       this.userService.seenNoti(this.noti,this.userStore.user.id).subscribe({
-         next:(res)=>{            
-            this.notiStore.getNotiCount(this.userStore.user.id)
-            
+         next: (res) => {            
+            this.notiStore.seenNotis.push(this.noti)
+            this.isSeenNoti = true;
          },error:(err)=>{
             console.log(err)
          }
-      })
+      })    
+       }
+      
 // new
 
       if(this.noti.invitiation==true)

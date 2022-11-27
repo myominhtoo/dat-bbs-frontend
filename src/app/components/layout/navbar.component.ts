@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit {
         togglepass: false,
         currentpass: false,
       }
-
+notiCount!:number
     constructor( private toggleStore : ToggleStore , 
         public userStore : UserStore,
         public userService:UserService , 
@@ -51,7 +51,12 @@ export class NavbarComponent implements OnInit {
     }
 
   ngOnInit(): void { 
-
+    setTimeout(() => {
+      this.notiCount = this.notificationStore.notifications.length - this.notificationStore.seenNotis.length;
+      
+    },1000)
+    
+    
     }
 
   

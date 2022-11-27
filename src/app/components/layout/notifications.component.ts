@@ -10,22 +10,20 @@ import { Notification } from 'src/app/model/bean/notification';
     templateUrl : './notifications.component.html'
 })
 export class Notifications {
-    readAllNoti:Notification[]=[]
+   
     @Input('notificaions') notifications: Notification[] = [];
     
     constructor(private userStore: UserStore,private userService:UserService,private notiStore : NotificationStore) {}
 
     markAllRead() {
-
+        let readAllNoti:Notification[]=[]
         for (let notis of this.notifications) {            
             notis.seenUsers.push(this.userStore.user);
-            this.readAllNoti.push(notis);
+            readAllNoti.push(notis);
         }
-        this.userService.markAllNoti(this.readAllNoti,this.userStore.user.id).subscribe({
+        this.userService.markAllNoti(readAllNoti,this.userStore.user.id).subscribe({
             next: (res) => {
-                // setTimeout(() => {
-                this.notiStore.getNotiCount(this.userStore.user.id)    
-                // }, 1000);
+                this.notiStore.seenNotis = this.notiStore.notifications;
                 
             },
             error: (err) => {
