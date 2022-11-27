@@ -64,5 +64,10 @@ export class BoardService{
     }
 
 
+    updateDeleteStatus(boardId: number , board :Board) : Observable<HttpResponse<Board>>{
+      return this.httpClient.put<HttpResponse<Board>>(`http://localhost:8080/api/boards/${boardId}/delete-board`,board)
+    }
+
+
 }
 

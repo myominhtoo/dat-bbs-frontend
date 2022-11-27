@@ -24,7 +24,6 @@ import { BoardService } from './board.service';
     providedIn : 'root'
 })
 export class SocketService{
-    noti : Notification = new Notification();   
     board : Board = new Board();
     stompClient : Client | undefined = undefined;
     boardNotisSubscriptions : Subscription [] = [];
@@ -103,9 +102,10 @@ export class SocketService{
                 className : 'noti__toast',
                 position : 'right',
                  onClick: () => {  
-      this.noti.seenUsers.push(this.userStore.user);
-      console.log("Noti seen user",this.noti.seenUsers)
-      this.userService.seenNoti(this.noti,this.userStore.user.id).subscribe({
+                    //  new 
+      newNoti.seenUsers.push(this.userStore.user);
+      
+      this.userService.seenNoti(newNoti,this.userStore.user.id).subscribe({
          next:(res)=>{            
             this.notiStore.getNotiCount(this.userStore.user.id)
             
@@ -113,6 +113,7 @@ export class SocketService{
             console.log(err)
          }
       }) 
+                    //  new
                     console.error("Toasting clik is working")                 
                     if( newNoti.invitiation ){
                         if(!this.boardStore.joinedBoards.some(board=> board.id == newNoti.board?.id)){

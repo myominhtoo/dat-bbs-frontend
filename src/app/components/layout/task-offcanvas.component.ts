@@ -787,11 +787,15 @@ export class TaskOffCanvasComponent implements OnInit {
              this.activityService.deleteActivity(activity.id).subscribe(
               data =>{
 
+                if(data.ok){
 
-                  swal({
+                  this.task.activities=this.task.activities.filter(act => act.id!=activity.id);
+
+               swal({
                       text: 'Successfully Deleted!',
                       icon: 'success'
                   })
+                }
               }
              )
           }

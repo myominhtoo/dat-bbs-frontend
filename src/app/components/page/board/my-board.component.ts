@@ -118,12 +118,10 @@ export class MyBoardComponent implements OnInit {
     ngOnInit(): void {
         //listening route
       this.handleRouteChange();
-    //ပြင်ရန်
       setTimeout(() => {
+        
+      },1000) 
         this.getAllBookMarks(this.userStore.user.id) 
-        this.status.isBoardBookMark = this.isBookMark()
-      },2000) 
-
         this.getUsers();
         this.boardId = this.route.snapshot.params['id'];
         this.doActionForCurrentBoard(  this.boardId );
@@ -647,7 +645,7 @@ export class MyBoardComponent implements OnInit {
                       next:(res)=>{          
                         if(res.ok){
                           console.log(res.data)
-                          // this.toggleBookMarkEmit.emit( res.data );
+                          this.getAllBookMarks(data.user.id) 
                         }
                       },error:(err)=>{
                           console.log(err)
@@ -658,16 +656,18 @@ export class MyBoardComponent implements OnInit {
           }
     }
 
-  isBookMark() { 
-    console.log("isBookMark is working")
-      return this.bookMarks.some((res)=>{      
-            return res.board.id == this.board.id
-      })          
-  }
   getAllBookMarks(userId:number) {
     this.boardBookMarkService.showBookmarks(userId).subscribe({
       next: (res) => {
-        this.bookMarks=res
+        this.bookMarks = res
+        console.log("It's is working")
+        setTimeout(() => {
+        this.status.isBoardBookMark = this.bookMarks.some((res) => {      
+            return res.board.id == this.board.id
+      })            
+        },350)
+        
+        
       }, error: (err) => {
         console.log(err)
       }

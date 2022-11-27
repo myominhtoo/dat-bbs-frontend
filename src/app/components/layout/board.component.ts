@@ -21,6 +21,8 @@ export class BoardComponent implements OnInit {
     ownerBoards:Board[]=[];
     assignBoards:Board[]=[];
 
+
+
     @Input('data') data : Board = new Board();
     @Input('target') target : number = 0;
     @Input('bookMarks') bookMarks :BoardBookMark[]=[];
@@ -31,15 +33,15 @@ export class BoardComponent implements OnInit {
     @Output('restore-board') emitRestoreBoard =new EventEmitter<Board>();
     @Output('archive') archiveBoardEmit = new EventEmitter<Board>();
     @Output('unarchive') unarchiveBoardEmit = new EventEmitter<Board>();
- 
+
 
     constructor(
         private userService : UserService ,
         private taskCardService : TaskCardService,
         public boardStore : BoardStore ,
         private boardServie : BoardService,
-        public usersStore : UserStore 
-    ){    
+        public usersStore : UserStore
+    ){
         this.data.members = [];
         this.data.tasks = [];
     }
@@ -50,7 +52,7 @@ export class BoardComponent implements OnInit {
 
     ngOnInit(): void {
       this.fetchRequiredDatas();
-    
+
         this.isBoardArchive();
     }
 
@@ -58,7 +60,7 @@ export class BoardComponent implements OnInit {
       e.stopPropagation();
 
       swal({
-        text : 'Are you sure to archive board?',
+        text : 'Are you sure to delete this board?',
         icon : 'warning',
         buttons : [ 'No' , 'Yes' ]
       }).then(isYes=>{
@@ -71,7 +73,7 @@ export class BoardComponent implements OnInit {
             this.emitBoard.emit(this.data);
             },
             error : err => {
-              console.log(err) 
+              console.log(err)
             }
           });
         }
@@ -87,21 +89,21 @@ export class BoardComponent implements OnInit {
           this.data.members = boardHasUsers.map( boardHasUser => boardHasUser.members );
           this.data.tasks = taskCards;
        });
-    
+
     }
 
     handleBookMark( e : Event,data:Board ){
           e.stopPropagation();
           if( !this.data.isArchive ){
                 this.usersStore.fetchUserData();
-          
-                this.boardBookMark.board = data;        
-                this.boardBookMark.user = this.usersStore.user;      
-                
+
+                this.boardBookMark.board = data;
+                this.boardBookMark.user = this.usersStore.user;
+
                   //getting current board form book marks
                   const curBoardFromBookMarks = this.bookMarks.filter( bookMark => bookMark.board.id == data.id );
-                  
-                // will enter if cur board has been book mark        
+
+                // will enter if cur board has been book mark
                   swal({
                     text:curBoardFromBookMarks.length > 0 ? "Are you sure to remove?" : "Are you sure to bookmark?",
                     icon:"warning",
@@ -110,9 +112,9 @@ export class BoardComponent implements OnInit {
                     if(isYes){
                       if( curBoardFromBookMarks.length > 0 ){
                         this.boardBookMark.id = curBoardFromBookMarks[0].id;
-                      }            
+                      }
                       this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
-                      next:(res)=>{          
+                      next:(res)=>{
                         if(res.ok){
                           console.log(res.data)
                           this.toggleBookMarkEmit.emit( res.data );
@@ -120,16 +122,16 @@ export class BoardComponent implements OnInit {
                       },error:(err)=>{
                           console.log(err)
                       }
-                  })              
+                  })
                 }
-              })     
+              })
           }
     }
 
-    isBookMark(){      
-      return this.bookMarks.some((res)=>{      
+    isBookMark(){
+      return this.bookMarks.some((res)=>{
             return res.board.id == this.data.id
-      })          
+      })
     }
 
     // restoreBoard(e : Event){
@@ -154,7 +156,7 @@ export class BoardComponent implements OnInit {
     //         });
     //       }
     //       // this.data.deleteStatus=true;
-    //     }) 
+    //     })
     // }
 
     handleClickMenu( event : Event ){
@@ -164,7 +166,7 @@ export class BoardComponent implements OnInit {
     }
 
     archiveBoard( event : Event ){
-      event.stopPropagation();      
+      event.stopPropagation();
       swal({
         text : 'Are you sure to archive this board?',
         icon : 'warning',
@@ -195,7 +197,7 @@ export class BoardComponent implements OnInit {
         }
       })
     }
-    
+
     isBoardArchive(){
       this.data.isArchive =  this.boardStore.archivedBoards.some( board => board.id == this.data.id );
     }
@@ -214,4 +216,35 @@ export class BoardComponent implements OnInit {
       });
     }
 
-}
+
+    // deleteBoard(event : Event){
+    //   event.stopPropagation();
+
+    //   swal({
+    //     text : 'Are you sure to delete this board?',
+    //     icon : 'warning',
+    //     buttons : [ 'No' , 'Yes' ]
+    //   }).then( isYes => {
+    //     if(isYes){
+    //       this.boardServie.updateDeleteStatus(this.data.id,this.data).subscribe(datts=>{
+
+    //         console.log(datts);
+
+
+    //         $(`#board-dropdown${this.data.id} #dropdown-btn`).click();
+
+    //       })
+
+
+    //     }
+
+    //   });
+    // }
+
+
+
+      }
+
+
+
+
