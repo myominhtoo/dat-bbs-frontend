@@ -137,9 +137,9 @@
                                                 </span>
                                             </h6>
                                             <span style="font-size: 12px;">
-                                                {{taskList.startedDate}} <i class="fa-solid fa-right-long"
-                                                    style="font-size:12px;"></i>
-                                                {{taskList.endedDate}}
+                                                {{taskList.startedDate | date :"shortDate"}} <i
+                                                    class="fa-solid fa-right-long" style="font-size:12px;"></i>
+                                                {{taskList.endedDate | date: "shortDate"}}
                                             </span>
                                         </div>
                                     </li>
@@ -293,7 +293,7 @@
                 <div class="container">
                     <div class="mx-1 user-info-people w-100" style="height: auto;">
                         <div class="p-2">
-                            <h4 class="m-0">Collaborators</h4>
+                            <h4 class="m-0"> Collaborators</h4>
 
                         </div>
                         <div class="p-2 px-4 wrapper ">
@@ -307,9 +307,9 @@
                                 <div class="container-fluid text-start " style="height: 280px;" #firstDiv id="firstDiv">
                                     <!-- start  -->
                                     <!-- start no collaborators -->
-                                    <div class="container-fluid text-center"
-                                        *ngIf="collaborators.length==0 && status.hasDoneFetching">
+                                    <div class="container-fluid text-center" *ngIf="collaborators.length==0">
                                         <div class="pt-4">
+
                                             <img class="mb-4 opacity-75"
                                                 src="assets/img/3D/undraw_collaboration_re_vyau.svg" alt="" width="25%"
                                                 style="max-width: 200px;">
@@ -331,6 +331,7 @@
                                                                 collaborator.username[0].toUpperCase() }}
                                                             </h3>
                                                         </div>
+
                                                         <div *ngIf="collaborator.imageUrl != null" class=" p-0 "
                                                             style="width: 90px;height: 90px; border-radius: 50%; ">
                                                             <img *ngIf="collaborator.imageUrl != null"
