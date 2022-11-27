@@ -98,7 +98,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                                 <input *ngIf="activity.id" type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none my-0" name="{{activity.activityName}}" (change)="changeChecked(activity.status,idx)" />
                                 <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-primary" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" placeholder="Click enter to create"/>
                                 <i *ngIf="!activity.id" (click)="handleRemoveTempActivity()" class="fa-regular fa-rectangle-xmark text-danger"></i>
-                                <i class="fa-solid fa-circle-minus text-danger" (click)="deleteActivity(activity)"></i>
+                                <i *ngIf="activity.id" class="fa-solid fa-circle-minus text-danger" (click)="deleteActivity(activity)"></i>
                               </div>
 
 
@@ -786,7 +786,7 @@ export class TaskOffCanvasComponent implements OnInit {
 
                   swal({
                       text: 'Successfully Deleted!',
-                      icon: 'successful'
+                      icon: 'success'
                   })
               }
              )
