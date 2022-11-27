@@ -32,7 +32,9 @@ export class ForgetPasswordComponent implements OnInit {
         sendEmail : false ,
         isLoading : false,
         // isConfirm : false,
-        hasError : false
+      hasError: false,
+      toggleconfirmpass: false,
+      togglepass:false
     }
 
     sendCode(email : string){
@@ -102,6 +104,12 @@ export class ForgetPasswordComponent implements OnInit {
           })
         
         }
-      }
+  }
+  togglePassword() {
+    this.status.togglepass=!this.status.togglepass
+  }
+  toggleConPassword() {
+    this.status.toggleconfirmpass = !this.status.toggleconfirmpass;
+  }
 }
 

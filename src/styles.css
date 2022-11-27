@@ -1226,7 +1226,7 @@ color: black;
 
 
   .pw-show-hide{
-    background-color: transparent !important;
+    background-color: white !important;
     border-left:none !important;
   }
   #password:focus{
@@ -1545,8 +1545,14 @@ background-color: #fff !important;
 }
 
 
+input[type=number] {
+  -webkit-appearance: textfield;
+}
 
-
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 
