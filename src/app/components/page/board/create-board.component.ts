@@ -73,7 +73,6 @@ export class CreateBoardComponent implements OnInit {
       ? this.filterEmails = []
       : this.filterAutoCompleteEmails( this.emailStr);
 
-
       let emailStr = this.emailStr; // this ko ma thone chin loh
       let lastChar = emailStr[emailStr.length - 1];
       this.status.error.email = { hasError : false , msg : ''}
@@ -117,16 +116,9 @@ export class CreateBoardComponent implements OnInit {
       this.board.user = this.userStore.user;
       this.board.invitedEmails = this.emails;
 
-      console.log(this.board.user)
-
       this.board.boardName == null || this.board.boardName == ''
       ? this.status.error.boardName = { hasError : true , msg : 'Board Name is required!'}
       : this.status.error.boardName = { hasError : false , msg : '' };
-
-      // this.board.description == null || this.board.description == ''
-      // ? this.status.error.description = { hasError : true , msg : 'Description is required!'}
-      // : this.status.error.description = { hasError : false , msg : '' };
-
 
       if( !this.status.error.boardName.hasError ){
         swal({

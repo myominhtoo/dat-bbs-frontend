@@ -12,7 +12,7 @@
                     Enter email to send verification 
                 </h2>
                 <h2 *ngIf="status.hasError" class="text-danger ">
-                    This email has already been used!
+                    {{ status.errorMsg }}
                 </h2>
             </div>
         <div class="col-10 mx-auto">

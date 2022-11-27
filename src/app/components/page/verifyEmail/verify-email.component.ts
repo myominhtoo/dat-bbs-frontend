@@ -12,7 +12,8 @@ export class VerifyEmailComponent implements OnInit{
     status = {
         hasError : false,
         isLoading : false,
-        hasGotVerification : false
+        hasGotVerification : false,
+        errorMsg : '',
     }
 
 
@@ -24,8 +25,18 @@ export class VerifyEmailComponent implements OnInit{
     }
 
     onSubmit(verifyemail:NgForm){
+       const email = verifyemail.value.email as string;
+       if( !email.includes('@') && !email.includes('.')){
+         this.status.hasError = true;
+         this.status.errorMsg = 'Invalid Email Format!';
+         return;
+       }
+
+       this.status.hasError = false;
+       this.status.errorMsg = '';
+
        this.status.isLoading = true;
-       this.userService.sendVerification( verifyemail.value.email).subscribe({
+       this.userService.sendVerification( email ).subscribe({
         next : (res) => {
             this.status.hasError = !res.ok;
             if( res.ok ) {
@@ -37,6 +48,7 @@ export class VerifyEmailComponent implements OnInit{
         },
         error : err => {
             this.status.hasError=true;
+            this.status.errorMsg = 'This email has been used!'
             this.status.isLoading = false;
         }
        })

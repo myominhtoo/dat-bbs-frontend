@@ -64,11 +64,10 @@ export class RegisterComponent implements OnInit{
           }
         },
         error : err => {
-  
-          // swal({
-          //   text : err.error.message,
-          //   icon : 'warning'
-          // });
+          swal({
+            text : err.error.message,
+            icon : 'warning'
+          })
         }
       })
 
