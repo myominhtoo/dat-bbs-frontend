@@ -56,7 +56,8 @@ export class LoginComponent {
 
                         this.userStore.saveUserData(res.body.data);
                         this.boardStore.refetchBoardsByUserId(res.body.data.id);
-                        this.notiStore.reFetchNotis( res.body.data.id );                                                
+                        this.notiStore.reFetchNotis( res.body.data.id );   
+                        this.socketService.unsubscribeAllChannels();                                             
                         setTimeout(() => {
                         this.socketService.subscribeNotis();
                         } , 1000 );

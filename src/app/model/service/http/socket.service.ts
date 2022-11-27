@@ -1,3 +1,4 @@
+import { UserService } from './user.service';
 import { BoardChatStore } from './../store/board-chat.store';
 import { BoardChatComponent } from './../../../components/page/chatbox/board-chat.component';
 import { HttpClient } from '@angular/common/http';
@@ -23,7 +24,7 @@ import { BoardService } from './board.service';
     providedIn : 'root'
 })
 export class SocketService{
-    
+    noti : Notification = new Notification();   
     board : Board = new Board();
     stompClient : Client | undefined = undefined;
     boardNotisSubscriptions : Subscription [] = [];
@@ -41,6 +42,7 @@ export class SocketService{
         private notiStore : NotificationStore,
         private authService : AuthService,
         private userStore : UserStore ,
+        private userService:UserService,
         private router : Router,
         private boardService : BoardService,
         private boardChatStore:BoardChatStore
@@ -100,8 +102,18 @@ export class SocketService{
                 gravity : 'bottom',
                 className : 'noti__toast',
                 position : 'right',
-                 onClick: () => {
-                    
+                 onClick: () => {  
+      this.noti.seenUsers.push(this.userStore.user);
+      console.log("Noti seen user",this.noti.seenUsers)
+      this.userService.seenNoti(this.noti,this.userStore.user.id).subscribe({
+         next:(res)=>{            
+            this.notiStore.getNotiCount(this.userStore.user.id)
+            
+         },error:(err)=>{
+            console.log(err)
+         }
+      }) 
+                    console.error("Toasting clik is working")                 
                     if( newNoti.invitiation ){
                         if(!this.boardStore.joinedBoards.some(board=> board.id == newNoti.board?.id)){
                             swal({
