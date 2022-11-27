@@ -512,7 +512,10 @@ export class TaskOffCanvasComponent implements OnInit {
     handleUpdateTaskName(e: KeyboardEvent) {
         this.status.errorTask = '';
         if (e.key === 'Enter') {
-            this.taskCardService.updateTaskCard(this.task)
+           if( this.task.taskName == '' || this.task.taskName == null ){
+            this.status.errorTask = 'Task Name must not be empty!'
+           }else{
+                this.taskCardService.updateTaskCard(this.task)
                 .subscribe({
                     next: res => {
                         this.task = res.data;
@@ -530,6 +533,7 @@ export class TaskOffCanvasComponent implements OnInit {
                         this.status.errorTask = err.error.message;
                     }
                 });
+           }
         }
     }
 

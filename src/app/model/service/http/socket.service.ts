@@ -75,16 +75,16 @@ export class SocketService{
                     });
                 }, 
                 () => {
-                    swal({
-                        text : 'Failed to connect to socket!',
-                        icon : 'warning'
-                    });
+                    // swal({
+                    //     text : 'Failed to connect to socket!',
+                    //     icon : 'warning'
+                    // });
                 });
         }else{
-            swal({
-                text : 'Invalid Socket Connection!',
-                icon : 'warning'
-            });
+            // swal({
+            //     text : 'Invalid Socket Connection!',
+            //     icon : 'warning'
+            // });
         }
     }
   
@@ -199,10 +199,10 @@ export class SocketService{
         if( this.stompClient ){
             this.stompClient.send( `/app/boards/${boardId}/send-notification` , {} , JSON.stringify(noti) );
         }else{
-            swal({
-                text : 'Invalid Socket Client!',
-                icon : 'warning'
-            });
+            // swal({
+            //     text : 'Invalid Socket Client!',
+            //     icon : 'warning'
+            // });
         }
     }
 
@@ -301,31 +301,31 @@ export class SocketService{
         if( this.stompClient ){
             this.stompClient.send( `/app/boards/${boardId}/send-message` , {} , JSON.stringify(message) );
         }else{
-            swal({
-                text : 'Invalid Socket Client!',
-                icon : 'warning'
-            });
+            // swal({
+            //     text : 'Invalid Socket Client!',
+            //     icon : 'warning'
+            // });
         }
     }
 
     getMessage(boardId:number){  
-    this.getBoardMessageList(boardId).subscribe({
-      next:(res)=>{
-            this.messages = res
-            this.boardChatStore.boardMap.get(boardId)
-            this.boardChatStore.boardMap.set(boardId, this.messages)
-            console.log(this.boardChatStore.boardMap.get(boardId))            
+        this.getBoardMessageList(boardId).subscribe({
+        next:(res)=>{
+                this.messages = res
+                this.boardChatStore.boardMap.get(boardId)
+                this.boardChatStore.boardMap.set(boardId, this.messages)
+                console.log(this.boardChatStore.boardMap.get(boardId))            
 
-      },error:(err)=>{
-      console.log(err)
-      swal({
-        text:"Fail To Fetch BoardMessage",
-        icon:"fail"
-      }
-        
-      )
-      }
-  })    
+        },error:(err)=>{
+            // console.log(err)
+            // swal({
+            //     text:"Fail To Fetch BoardMessage",
+            //     icon:"fail"
+            // }
+            
+            // )
+        }
+    })    
       
     }
 }

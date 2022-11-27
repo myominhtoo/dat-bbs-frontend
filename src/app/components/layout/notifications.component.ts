@@ -13,11 +13,7 @@ export class Notifications {
     readAllNoti:Notification[]=[]
     @Input('notificaions') notifications: Notification[] = [];
     
-  
-    constructor(private userStore: UserStore,private userService:UserService,private notiStore : NotificationStore) {
-    
-}
-
+    constructor(private userStore: UserStore,private userService:UserService,private notiStore : NotificationStore) {}
 
     markAllRead() {
 

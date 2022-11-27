@@ -39,8 +39,10 @@ export class AppComponent implements OnInit {
     if(this.authService.isAuth()){
        this.userStore.fetchUserData();
        setTimeout(() => {
-        this.socketService.subscribeNotis();
-        this.notiStore.reFetchNotis( this.userStore.user.id );   
+        if( !this.isExceptionPage ){
+          this.socketService.subscribeNotis();
+          this.notiStore.reFetchNotis( this.userStore.user.id );  
+        } 
        }, 1500 );
     }
   }

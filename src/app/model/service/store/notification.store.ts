@@ -3,6 +3,7 @@ import { Notification } from '../../bean/notification';
 import { UserService } from "../http/user.service";
 import { UserStore } from "./user.store";
 import swal from "sweetalert";
+import { AuthService } from "../http/auth.service";
 
 @Injectable({
   providedIn : 'root'
@@ -11,15 +12,16 @@ export class NotificationStore{
  filterNoti: Notification[] = []
   getNoti: Notification[] = []
   notiCount !: number;
-  constructor( private userStore : UserStore , 
-    private userService: UserService) {
+  constructor( 
+    private userStore : UserStore , 
+    private userService: UserService , 
+    private authService : AuthService ) {
       
-  
-    if (this.userStore.user.id) {
+    if (this.authService.isAuth()) {
       this.getNotifications(this.userStore.user.id);
       setTimeout(() => {
         this.getNotiCount(this.userStore.user.id);  
-        },1000)  
+        },1000) ;
     }
   }
  

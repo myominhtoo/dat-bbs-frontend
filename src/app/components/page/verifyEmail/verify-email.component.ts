@@ -16,7 +16,6 @@ export class VerifyEmailComponent implements OnInit{
         errorMsg : '',
     }
 
-
     constructor(private userService : UserService ){}
 
     ngOnInit(): void {

@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit{
         //this.user.email= storedData ==null ? '' : decode(storedData);
         document.title = "BBMS | Register";
         const { email , code } = this.route.snapshot.queryParams;
-        console.log(email,code);
+
         this.user.email= email;
         this.user.code=code;
     }

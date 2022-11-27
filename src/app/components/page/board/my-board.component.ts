@@ -290,7 +290,7 @@ export class MyBoardComponent implements OnInit {
                 next : data => {
                   this.status.isInviting = false;
 
-                  if( !this.members.some( member => this.board.invitedEmails.includes(member.email)) ){
+                  // if( !this.members.some( member => (this.board.invitedEmails.includes(member.email))) ){
                     const invitedUsers = this.registeredUsers.filter( user => {
                       return this.board.invitedEmails.includes(user.email);
                     });
@@ -303,7 +303,7 @@ export class MyBoardComponent implements OnInit {
                     noti.board = this.board;
 
                     this.socketService.sentNotiToBoard( this.board.id , noti);
-                  }
+                  // }
 
                   swal({
                     text : 'Successfully Invited !',
@@ -443,7 +443,7 @@ export class MyBoardComponent implements OnInit {
        .subscribe({
         next : res => {
           const noti = new Notification();
-          noti.content = `${this.userStore.user.username} changed ${payload.task.taskName} Task's stage \n  from '${prevStage}' to '${targetStage.stageName}' in ${this.board.boardName} Board `;
+          noti.content = `${this.userStore.user.username} changed ${payload.task.taskName} Task's stage from '${prevStage}' to '${targetStage.stageName}' in ${this.board.boardName} Board `;
           noti.sentUser = this.userStore.user;
           noti.board = this.board;
           noti.seenUsers = [];

@@ -61,6 +61,7 @@ export class NotiComponent implements OnInit {
       }else{
          this.borderLeft = `3px solid none`;
       }
+      this.noti.seenUsers = [];
     }
 
     handleGoBoardFromNoti( boardId : number ){      
