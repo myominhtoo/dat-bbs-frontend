@@ -82,7 +82,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                       </li>
                       <li class="text-end">
                          <button (click)="updateTask( true )" class="btn btn-sm bg-thm px-4 text-light ">Update</button>
-                      </li> 
+                      </li>
                    </ul>
 
                     <!-- activites -->
@@ -98,7 +98,11 @@ import { SocketService } from "../../model/service/http/socket.service";
                                 <input *ngIf="activity.id" type="checkbox" [checked]="activity.status" [(ngModel)]="activity.status" id=""class="form-check-input shadow-none my-0" name="{{activity.activityName}}" (change)="changeChecked(activity.status,idx)" />
                                 <input (keydown)="handleAddActivity( $event , idx )" id="activity"  [(ngModel)]="activity.activityName" class="text-primary" [class.is-invalid]="status.errorTargetIdx == idx && status.activityError" placeholder="Click enter to create"/>
                                 <i *ngIf="!activity.id" (click)="handleRemoveTempActivity()" class="fa-regular fa-rectangle-xmark text-danger"></i>
-                            </div>
+                                <i class="fa-solid fa-circle-minus text-danger" (click)="deleteActivity(activity)"></i>
+                              </div>
+
+
+
                             <small class="mx-2 text-danger" *ngIf="status.errorTargetIdx === idx && status.activityError">{{ status.activityError }}</small>
                             <div class=" position-absolute d-flex gap-2" style="right:30px;top:10px;">
                                 <i *ngIf="activity.id" (click)="handleShowDetailActivity( activity.id )" class="fa-solid fa-eye"></i>
@@ -114,7 +118,7 @@ import { SocketService } from "../../model/service/http/socket.service";
                 </div>
 
                 <div *ngIf="tab == 'comment' && !isLoading " id="comments-container" >
-                   
+
                     <div class="w-100 h-100 p-0 m-0">
                         <div id="comments" style="height:auto;" class="ps-3 m-0 " >
                             <comment *ngFor="let comment of task.comments" [comment]="comment" [task]="task" ></comment>
@@ -287,6 +291,7 @@ export class TaskOffCanvasComponent implements OnInit {
     @Input('tab') tab: string = 'activity';
 
 
+
     detailActivity: Activity = new Activity();
     comment: Comment = new Comment();
 
@@ -312,7 +317,7 @@ export class TaskOffCanvasComponent implements OnInit {
 
     ngOnInit(): void {
         this.task.users = [];
-    
+
 
         this.comment.comment = '';
         this.handleListenOffCanvasClose();
@@ -767,4 +772,25 @@ export class TaskOffCanvasComponent implements OnInit {
             }
         });
     }
+
+    deleteActivity ( activity : Activity) {
+      swal({
+          text: 'Are you sure to Delete?',
+          icon: 'warning',
+          buttons: ['No', 'Yes ']
+      }).then ( isYes => {
+          if (isYes){
+             this.activityService.deleteActivity(activity.id).subscribe(
+              data =>{
+
+
+                  swal({
+                      text: 'Successfully Deleted!',
+                      icon: 'successful'
+                  })
+              }
+             )
+          }
+      })
+  }
 }

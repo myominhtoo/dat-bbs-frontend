@@ -22,5 +22,9 @@ export class ActivityService{
         return this.httpClient.put<HttpResponse<Activity>>(`http://localhost:8080/api/update-activity`, activity);
     }
 
-  
+    deleteActivity ( id : Number):Observable<HttpResponse<boolean>>{
+      return this.httpClient.delete<HttpResponse<boolean>> (`http://localhost:8080/api/activities/delete-activity?id=${id}`);
+  }
+
+
 }
