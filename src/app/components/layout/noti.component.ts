@@ -1,3 +1,4 @@
+import { NotificationStore } from 'src/app/model/service/store/notification.store';
 import { UserService } from 'src/app/model/service/http/user.service';
 import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
@@ -50,7 +51,8 @@ export class NotiComponent implements OnInit {
     constructor( private boardStore : BoardStore,
       private boardService : BoardService,
       private userStore : UserStore ,
-      private socketService : SocketService,
+       private socketService: SocketService,
+      private notiStore:NotificationStore,
        private router : Router,
        private userService:UserService){}
 
@@ -69,7 +71,7 @@ export class NotiComponent implements OnInit {
       this.userService.seenNoti(this.noti,this.userStore.user.id).subscribe({
          next:(res)=>{
             console.log("It's work!")
-            
+            this.notiStore.getNotiCount(this.userStore.user.id)
             
          },error:(err)=>{
             console.log(err)
@@ -103,7 +105,7 @@ export class NotiComponent implements OnInit {
                      this.socketService.subscribeBoard( this.noti.board?.id! )                                         
                      this.router.navigateByUrl(`/boards/${boardId}`);
                      this.noti.seenUsers.push(this.userStore.user);
-               
+                     
                      })
                   }
                },

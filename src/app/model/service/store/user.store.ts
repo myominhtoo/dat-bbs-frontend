@@ -9,7 +9,6 @@ import { COLORS } from "../../constant/colors";
 export class UserStore{
     user : User = new User();
     togglepass!:boolean;
-    
     constructor(){}
 
     fetchUserData(){

@@ -25,20 +25,20 @@ export class LoginComponent {
     }
 
     error = {
-       hasError : false,
-       msg : '',
+    hasError : false,
+    msg : '',
     }
 
     user : User = new User ();
     constructor(private userService : UserService ,
-         private router : Router , 
-         public userStore : UserStore , 
-         private authService : AuthService,
-         public boardStore : BoardStore , 
-         private notiStore : NotificationStore,
-         private socketService : SocketService,        
+        private router : Router , 
+        public userStore : UserStore , 
+        private authService : AuthService,
+        public boardStore : BoardStore , 
+        private notiStore : NotificationStore,
+        private socketService : SocketService,        
         ){}
-     
+    
     ngOnInit(): void {
         let storeUser = localStorage.getItem(window.btoa(('user')));
         document.title = "BBMS | Login";
@@ -46,7 +46,7 @@ export class LoginComponent {
 
     onSubmit(userForm:NgForm){
         this.userService.LoginUser(this.user).subscribe({
-         next : (res) => {
+        next : (res) => {
                 if(res.body.ok){
                         this.error = { hasError : false , msg : '' }
                         this.authService.saveToken(res.headers.get('Authorization')!)
@@ -58,8 +58,7 @@ export class LoginComponent {
                         this.boardStore.refetchBoardsByUserId(res.body.data.id);
                         this.notiStore.reFetchNotis( res.body.data.id );                                                
                         setTimeout(() => {
-                           this.socketService.subscribeNotis();
-                        //    this.socketService.subscribeBoardsMessageSocket();
+                        this.socketService.subscribeNotis();
                         } , 1000 );
                         swal({
                             text : res.body.message,
@@ -75,6 +74,5 @@ export class LoginComponent {
             
             }
         )
-     }
-   
+    }
 }

@@ -2,12 +2,14 @@
 <div class="w-100 p-4">
     <div class="container-fluid">
         <div class=" row  w-100 ">
-            <div  *ngIf="!status.isLoading" class="ps-3 pe-0 w-100 col-12 d-flex justify-content-between border-board align-items-center">
+            <div *ngIf="!status.isLoading"
+                class="ps-3 pe-0 w-100 col-12 d-flex justify-content-between border-board align-items-center">
                 <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->
                 <div class=" d-flex p-0 m-0 col-3">
                     <span class="iconBoard rounded-4 m-0 d-flex justify-content-center align-items-center">
-                        <i class="bookmark-icon fa-regular fa-2x fa-bookmark tw-color"></i>
-                        <!-- (click)="handleBookMark($event,data)" [class.fw-bold]="isBookMark()" -->
+                        <i class="bookmark-icon fa-regular fa-2x fa-bookmark tw-color "
+                            (click)="handleBookMark($event,board)" [class.fw-bold]="status.isBoardBookMark"></i>
+
                     </span>
                     <input (focus)="setupEditBoard()" type="text"
                         class="text-dark-50 h2 mx-3 board-input w-100 my-2 shadow-none board-input"
@@ -18,9 +20,9 @@
 
                 <div class="d-flex gap-1 align-items-center col-9 justify-content-end">
                     <span class="">
-                        <button class=" btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="dropdown" [disabled]="status.isReporting"><i
-                                class="fa-solid fa-file-export mx-1"></i>
-                                {{status.isReporting ? 'Exporting...' : 'Export'}}
+                        <button class=" btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="dropdown"
+                            [disabled]="status.isReporting"><i class="fa-solid fa-file-export mx-1"></i>
+                            {{status.isReporting ? 'Exporting...' : 'Export'}}
                         </button>
                         <ul class="dropdown-menu">
                             <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="HTML"
@@ -32,22 +34,26 @@
                         </ul>
                     </span>
 
-                    <button class="btn btn-sm myboard-btn btn-outline-secondary" routerLink="/boards/{{board.id}}/resources">
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary"
+                        routerLink="/boards/{{board.id}}/resources">
                         <i class="fa-sharp fa-solid fa-download mx-1"></i>
                         Resources
-                    </button>     
+                    </button>
 
-                    <button class="btn btn-sm myboard-btn btn-outline-secondary" routerLink="/boards/{{board.id}}/tasks-calendar">
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary"
+                        routerLink="/boards/{{board.id}}/tasks-calendar">
                         <i class="fa-solid fa-calendar-days"></i>
-                         Calendar
+                        Calendar
                     </button>
 
-                    <button class="btn btn-sm myboard-btn btn-outline-secondary" routerLink="/boards/{{board.id}}/tasks-chart">
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary"
+                        routerLink="/boards/{{board.id}}/tasks-chart">
                         <i class="fa-solid fa-chart-simple"></i>
-                         Charts
+                        Charts
                     </button>
 
-                    <button class="btn btn-sm myboard-btn btn-outline-secondary" routerLink="/boards/{{board.id}}/close-task">
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary"
+                        routerLink="/boards/{{board.id}}/close-task">
                         <i class="fas fa-solid fa-box-archive mx-1"></i>
                         Archive Tasks
                     </button>
@@ -59,9 +65,10 @@
                         data-bs-toggle="offcanvas" data-bs-target="#demo">
                         <i class="fa-solid fa-people-group"></i>
                         Members
-                    </button> 
+                    </button>
 
-                    <button class="btn btn-sm myboard-btn btn-outline-secondary text-danger" type="button" (click)="leaveFromCurrentBoard()" >
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary text-danger" type="button"
+                        (click)="leaveFromCurrentBoard()">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>Leave
                     </button>
                 </div>
@@ -74,7 +81,8 @@
                             <div class="position-relative">
                                 <i class="fa-solid fa-users mx-1" style="font-size:18px;"></i>
                                 Members
-                                <span class="badge rounded-pill bg-danger top-25 start-100">{{ boardsHasUsers.length + 1  }}</span>
+                                <span class="badge rounded-pill bg-danger top-25 start-100">{{ boardsHasUsers.length + 1
+                                    }}</span>
                             </div>
                         </h5>
 
@@ -105,7 +113,8 @@
 
                         <!-- Showing views -->
                         <div class="container-fluid p-0 m-0">
-                            <div class="hover-member p-2 mb-1 d-flex align-items-center justify-content-between m-0  member-container w-100 card row ">
+                            <div
+                                class="hover-member p-2 mb-1 d-flex align-items-center justify-content-between m-0  member-container w-100 card row ">
                                 <div class="m-0 p-0 "
                                     [routerLink]="board.user.id == userStore.user.id ? '/profile' : '/users/'+ board.user.id +'/profile'">
                                     <div class="d-inline-block mx-2 " id="profile-member">
@@ -132,7 +141,7 @@
                                     class="hover-member p-2 mb-1  d-flex align-items-center justify-content-between p-0 m-0  card row w-100">
 
                                     <div class="m-0 p-0 d-flex ">
-                                        <div id="profile-member" class=" mx-2" >
+                                        <div id="profile-member" class=" mx-2">
                                             <span
                                                 *ngIf="boardHasUser.user.imageUrl == null && boardHasUser.user.username != null"
                                                 class=" d-flex justify-content-center align-items-center fs-4 text-light "
@@ -143,9 +152,12 @@
                                                 style="border-radius: 100%;object-fit: cover;"
                                                 [src]="'http://localhost:8080/img/'+boardHasUser.user.imageUrl" alt="">
                                         </div>
-                                        <div class="d-flex justify-content-between align-items-center ps-1 fw-light text-muted w-75" style="font-size:16px;">
+                                        <div class="d-flex justify-content-between align-items-center ps-1 fw-light text-muted w-75"
+                                            style="font-size:16px;">
                                             <span>{{ boardHasUser.user.username | titlecase }}</span>
-                                            <div *ngIf="!boardHasUser.joinedStatus" class="d-flex align-items-center text-dark text-muted" style="font-size:10px;">
+                                            <div *ngIf="!boardHasUser.joinedStatus"
+                                                class="d-flex align-items-center text-dark text-muted"
+                                                style="font-size:10px;">
                                                 <i class='bx bx-pulse bx-sm my-1' style="font-size:10px;"></i>
                                                 <span class="pt-2 fw-light">pending</span>
                                             </div>
@@ -177,21 +189,27 @@
                                         <label for="invite-email" class="text-muted">Invited Members</label>
 
                                         <div class="d-flex gap-1  p-0 justify-content-start align-items-center my-1">
-                                            <p *ngFor="let idx of emails.length > 0 ? [0] : []" (click)="updateEmail(idx)" class="fw-light me-1 text-light " id="mail-capsule" style="padding:5px 20px !important;">
+                                            <p *ngFor="let idx of emails.length > 0 ? [0] : []"
+                                                (click)="updateEmail(idx)" class="fw-light me-1 text-light "
+                                                id="mail-capsule" style="padding:5px 20px !important;">
                                                 {{ emails[idx] }}
                                                 <span (click)="removeEmail(idx)" class="mx-1 fas fa-close"></span>
                                             </p>
                                             <div *ngIf="emails.length > 1" class="dropdown" id="mails-dropdown">
-                                                <div data-bs-toggle="dropdown" data-bs-target="#mails-dropdown" class="p-1 d-flex justify-content-center align-items-center" style="width:25px;height:25px;background:#eee;border-radius: 100%;">
-                                                  <span>{{ emails.length - 1}}+</span>
+                                                <div data-bs-toggle="dropdown" data-bs-target="#mails-dropdown"
+                                                    class="p-1 d-flex justify-content-center align-items-center"
+                                                    style="width:25px;height:25px;background:#eee;border-radius: 100%;">
+                                                    <span>{{ emails.length - 1}}+</span>
                                                 </div>
-                                                <ul   class="dropdown-menu">
-                                                  <li *ngFor="let email of emails;let idx = index;" class="dropdown-item d-flex justify-content-between align-items-center">
-                                                      <span (click)="updateEmail(idx)" >{{ email }}</span>
-                                                      <span (click)="removeEmail(idx)" class="mx-1 fs-6 fas fa-close"></span>
-                                                  </li>
+                                                <ul class="dropdown-menu">
+                                                    <li *ngFor="let email of emails;let idx = index;"
+                                                        class="dropdown-item d-flex justify-content-between align-items-center">
+                                                        <span (click)="updateEmail(idx)">{{ email }}</span>
+                                                        <span (click)="removeEmail(idx)"
+                                                            class="mx-1 fs-6 fas fa-close"></span>
+                                                    </li>
                                                 </ul>
-                                              </div>
+                                            </div>
                                         </div>
                                         <!-- <mat-autocomplete style="z-index:-1000 !important;" #emailAutoComplete="matAutocomplete"  >
                                             <mat-option *ngFor="let email of filterEmails" [value]="email">
@@ -202,7 +220,7 @@
                                         <input type="text" id="invite-emails" class=" py-1 form-control shadow-none"
                                             placeholder="member@gmail.com" name="email" [(ngModel)]="email"
                                             (keyup)="onChange($event)" [class.is-invalid]="status.error.email.hasError"
-                                            [value]="email" [autocomplete]="filterEmails" >
+                                            [value]="email" [autocomplete]="filterEmails">
                                     </div>
                                     <small class="text-danger">{{ status.error.email.msg }}</small>
                                     <div class="form-group my-2 d-flex justify-content-end gap-1 my-2">
@@ -240,15 +258,16 @@
                                 style="font-size:11px !important;">{{ status.addingStageError.msg }}</span>
                             <div class="d-flex justify-content-end gap-1 my-0">
                                 <button (click)="toggleIsAddStage()" class="btn  btn-sm my-1">Cancel</button>
-                                <button type="submit" (click)="handleAddStage()" class="btn bg-thm px-3 text-light btn-sm my-1"
-                                    [disabled]="status.isAddingStage">{{ status.isAddingStage ? 'Adding' : 'Add'
+                                <button type="submit" (click)="handleAddStage()"
+                                    class="btn bg-thm px-3 text-light btn-sm my-1" [disabled]="status.isAddingStage">{{
+                                    status.isAddingStage ? 'Adding' : 'Add'
                                     }}</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <task-offcanvas  [task]="offCanvasTask" [tab]="offCanvasTab"
-                    [tasks]="taskCardsMap" [board]="board" [members]="members" [isLoading]="status.isLoadingOffcanvas">
+                <task-offcanvas [task]="offCanvasTask" [tab]="offCanvasTab" [tasks]="taskCardsMap" [board]="board"
+                    [members]="members" [isLoading]="status.isLoadingOffcanvas">
                 </task-offcanvas>
                 <span data-bs-toggle="offcanvas" data-bs-target="#task-offcanvas" id="task-offcanvas-btn"
                     class="d-none">clone</span>

@@ -182,7 +182,7 @@ export class HomeComponent implements OnInit {
 
     public getMyTasks(userId: number) {
         this.status.isLoading=true
-        this.status.hasTaskFetching=false
+        this.status.hasTaskFetching=true
 
         this.taskCardService.showMyTasks(userId).subscribe({
             next:(res)=>{
@@ -191,7 +191,7 @@ export class HomeComponent implements OnInit {
                     return res.board.deleteStatus==false && res.deleteStatus==false;
                 });
                 this.status.isLoading=false
-            this.status.hasDoneFetching=true
+            this.status.hasDoneFetching=false
 
             }, error: (err) => {
 
