@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/model/service/http/auth.service';
 import { SocketService } from 'src/app/model/service/http/socket.service';
 import { Notification } from 'src/app/model/bean/notification';
+import { E } from 'chart.js/dist/chunks/helpers.core';
 @Component({
     selector : 'navbar',
     templateUrl:"./navbar.components.html",
@@ -32,13 +33,10 @@ export class NavbarComponent implements OnInit {
           willUpdate : false
         },
         isLoading : false,
-        changePassword:{
-          msg:"",
-          ok:false
-        },
+
           toggleconfirmpass: false,
         togglepass: false,
-      currentpass:false
+        currentpass: false,
       }
 
     constructor( private toggleStore : ToggleStore , 
@@ -77,52 +75,72 @@ export class NavbarComponent implements OnInit {
       }
   
 
-    changePassword(){
-      if(this.userPass.changePassword ==this.userPass.retypePassoword){
-        this.userInfo.password=this.userPass.changePassword;
-        this.userInfo.confirmpassword=this.userPass.currentPassword;
+  changePassword() {
+    if (this.userPass.currentPassword != this.userPass.changePassword && this.userPass.retypePassoword != this.userPass.currentPassword) {
+        
+    
+    if (this.userPass.changePassword == this.userPass.retypePassoword) {
+      if (this.userPass.changePassword.length >= 7) {
+          
+        
+        this.userInfo.password = this.userPass.changePassword;
+        this.userInfo.confirmpassword = this.userPass.currentPassword;
         this.userService.updateUser(this.userInfo).subscribe(
           {
-          next:(res)=>
-          {
-            if( res.ok ){
+            next: (res) => {
+              if (res.ok) {
               
-              this.userStore.saveUserData( res.body.data );
-              this.authService.saveToken( res.headers.get('Authorization')! );
+                this.userStore.saveUserData(res.body.data);
+                this.authService.saveToken(res.headers.get('Authorization')!);
 
-              this.userPass.changePassword = "";
-              this.userPass.currentPassword = "";
-              this.userPass.retypePassoword = "";
-              $("#change-password-close-btn").click();
+                this.userPass.changePassword = "";
+                this.userPass.currentPassword = "";
+                this.userPass.retypePassoword = "";
+                $("#change-password-close-btn").click();
 
-              swal({
-                text:"Successfully Changed",
-                icon:"success"
-              })
+                swal({
+                  text: "Successfully Changed",
+                  icon: "success"
+                })
+              }
+            },
+            error: (err) => {          
+               swal({
+          text: "Current Passoword is worng",
+          icon: "warning"
+        })
+              // this.status.changePassword.ok = true;
+              // this.userPass.changePassword = ""
+              // this.userPass.currentPassword = ""
+              // this.userPass.retypePassoword = ""
+              // setTimeout(() => this.status.changePassword.msg = "", 1000);
             }
-          },
-          error:(err)=>
-          {
-            this.status.changePassword.msg="Current Passoword is worng"
-            this.status.changePassword.ok=true;
-            this.userPass.changePassword=""
-            this.userPass.currentPassword=""
-            this.userPass.retypePassoword=""
-            setTimeout(()=>this.status.changePassword.msg="",1000);
-          }
       
-        }
+          }
         )
+      } else {
+      
+        swal({
+          text: "Passwords must be at least 7 characters",
+          icon: "warning"
+        })
       }
-      else
-      {
-        this.userPass.changePassword=""
-            this.userPass.currentPassword=""
-            this.userPass.retypePassoword=""
-            this.status.changePassword.ok=true;
-            this.status.changePassword.msg="Password Not Match"
-            setTimeout(()=>this.status.changePassword.msg="",1000);
-      }
+      
+    } else {
+      
+      swal({
+          text: "Password Not Match",
+          icon: "warning"
+        })
+      
+    }
+    } else {
+    
+        swal({
+          text: "New password should not be same as old password ",
+          icon: "warning"
+        })
+  }
   
     }
   
@@ -149,4 +167,5 @@ export class NavbarComponent implements OnInit {
   toggleConPassword() {
     this.status.toggleconfirmpass = !this.status.toggleconfirmpass;
   }
+
 }
