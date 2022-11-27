@@ -39,10 +39,12 @@ export class BoardChatComponent implements OnInit{
       }
 
     ngOnInit(): void {              
+      this.BoardMessage.content=''
       this.scrollBottom();        
       this.getMessage(this.profileId);
        if(this.profileId) this.getBoardWithBoardId(this.profileId);    
-    }
+
+    }  
     
    ngAfterViewChecked():void{
       this.scrollBottom();            
@@ -67,7 +69,7 @@ export class BoardChatComponent implements OnInit{
         this.BoardMessage.user=this.userStore.user;
         this.socket.sentMeesageToGroupChat(this.saveBoard.id,this.BoardMessage)           
         this.BoardMessage.content=""      
-        
+        this.showEmojis=false;
         this.scrollBottom()
         
         

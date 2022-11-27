@@ -21,7 +21,6 @@ import swal from "sweetalert";
                 <span *ngIf="noti.sentUser.imageUrl == null" class="text-dark fs-5">{{ noti.sentUser.username[0].toUpperCase() }}</span>
              </p>
            </div>
-           
            <div id="noti-body" class="col-10 ps-2 pe-1 text-justify " >
               <h6 *ngIf="!noti.invitiation" class="p-0 m-0 d-flex justify-content-between align-items-center" style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">
               <span>{{  noti.content.length > 80 ? noti.content.substring(0,80)+'...' : noti.content }}</span>
@@ -66,11 +65,9 @@ export class NotiComponent implements OnInit {
 
     handleGoBoardFromNoti( boardId : number ){      
       // new
-      this.noti.seenUsers.push(this.userStore.user);
-      console.log("Noti seen user",this.noti.seenUsers)
+      this.noti.seenUsers.push(this.userStore.user);      
       this.userService.seenNoti(this.noti,this.userStore.user.id).subscribe({
-         next:(res)=>{
-            console.log("It's work!")
+         next:(res)=>{            
             this.notiStore.getNotiCount(this.userStore.user.id)
             
          },error:(err)=>{
