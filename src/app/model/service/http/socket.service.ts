@@ -53,7 +53,7 @@ export class SocketService{
     }
 
     subscribeNotis() {
-        this.notiStore.getNotiCount(this.userStore.user.id)    
+        // this.notiStore.getNotiCount(this.userStore.user.id)    
         this.getSocketClient()
 
         if(this.stompClient){
@@ -63,7 +63,7 @@ export class SocketService{
                     this.boardStore.boards.forEach( board => {
                         const subscription = this.stompClient?.subscribe(`/boards/${board.id}/notifications`, (payload) => {
                             setTimeout(() => {
-                            this.notiStore.getNotiCount(this.userStore.user.id)    
+                            // this.notiStore.getNotiCount(this.userStore.user.id)    
                             },1000)
                             
                             this.showNoti( payload );
@@ -102,12 +102,13 @@ export class SocketService{
                 className : 'noti__toast',
                 position : 'right',
                  onClick: () => {  
+                     
                     //  new 
       newNoti.seenUsers.push(this.userStore.user);
       
       this.userService.seenNoti(newNoti,this.userStore.user.id).subscribe({
          next:(res)=>{            
-            this.notiStore.getNotiCount(this.userStore.user.id)
+            this.notiStore.seenNotis.push(newNoti)
             
          },error:(err)=>{
             console.log(err)
@@ -171,9 +172,7 @@ export class SocketService{
         if(this.stompClient){
             const subscription = this.stompClient.subscribe( `/boards/${boardId}/notifications` , 
                 (payload) => {
-                    setTimeout(() => {
-                            this.notiStore.getNotiCount(this.userStore.user.id)    
-                            },1000)
+                    
                     this.showNoti(payload);
                 },
                 () => {
@@ -246,9 +245,6 @@ export class SocketService{
     private subscribeToPrivateNoti(){
             this.privateNotiSubscription = this.stompClient?.subscribe( `/users/${this.userStore.user.id}/notifications` , 
                 (payload) => {
-                setTimeout(() => {
-                            this.notiStore.getNotiCount(this.userStore.user.id)    
-                            },1000)
                 this.showNoti(payload);
             });               
     }

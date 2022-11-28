@@ -83,9 +83,14 @@ export class UserService {
         return this.httpClient.put<Notification>(`http://localhost:8080/api/users/${userId}/noti/seen`,noti)
 
     }
+
         markAllNoti(noti:Notification[],userId:number):Observable<Notification[]>{
         return this.httpClient.put<Notification[]>(`http://localhost:8080/api/users/${userId}/noti/read-all`,noti)
 
+    }
+
+    seenNotiByUserId(userId: number): Observable<Notification[]>{
+        return this.httpClient.get<Notification[]>(`http://localhost:8080/api/users/${userId}/seen-notis`);
     }
 
     // reportUser(boardId: number ,filetype: string): Observable<Map<string,string>>{
