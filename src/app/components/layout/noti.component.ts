@@ -72,14 +72,15 @@ export class NotiComponent implements OnInit {
        
        if (!this.noti.seenUsers.some((res) => res.id == this.userStore.user.id)) {
           this.noti.seenUsers.push(this.userStore.user);
-      this.userService.seenNoti(this.noti,this.userStore.user.id).subscribe({
-         next: (res) => {            
-            this.notiStore.seenNotis.push(this.noti)
-            this.isSeenNoti = true;
-         },error:(err)=>{
-            console.log(err)
-         }
-      })    
+         this.userService.seenNoti(this.noti,this.userStore.user.id).subscribe({
+            next: (res) => {            
+               this.notiStore.seenNotis.push(this.noti)
+               this.isSeenNoti = true;
+               this.notiStore.calculateNotiCount();
+            },error:(err)=>{
+               console.log(err)
+            }
+         })    
        }
       
 // new

@@ -18,12 +18,11 @@
         data-bs-auto-close="outside" class="text-white-50 pt-2 " style="cursor: pointer;">
         <i class='bx bxs-bell bx-sm bx-tada-hover color-hover-white'></i>
         <!-- <span *ngIf="notiCount > 0" class="badge text-white bg-danger noti-con fw-light p-1">{{ notiCount }}</span> -->
-        {{notiCount}}
-        <span *ngIf="notiCount>0 && notiCount <=9"
-          class="badge text-white bg-danger noti-con fw-light p-1 pb-0">{{notiCount
-          }}</span>
+        {{ notificationStore.notiCount }}
+        <span *ngIf=" notificationStore.notiCount >0 && notificationStore.notiCount <= 9"
+          class="badge text-white bg-danger noti-con fw-light p-1 pb-0">{{ notificationStore.notiCount }}</span>
         <!-- under 1 to 9 ဆိုပြမယ် -->
-        <span *ngIf="notiCount>9" class="badge text-white bg-danger noti-con fw-light p-1 pb-0">{{9}}+</span>
+        <span *ngIf="notificationStore.notiCount > 9" class="badge text-white bg-danger noti-con fw-light p-1 pb-0">{{9}}+</span>
         <!-- over 10 ဆိုပြမယ် -->
       </span>
 

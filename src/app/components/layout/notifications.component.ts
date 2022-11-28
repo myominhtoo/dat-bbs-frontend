@@ -18,13 +18,15 @@ export class Notifications {
     markAllRead() {
         let readAllNoti:Notification[]=[]
         for (let notis of this.notifications) {            
+           if(!this.notiStore.seenNotis.some( noti => notis.id == noti.id )){
             notis.seenUsers.push(this.userStore.user);
             readAllNoti.push(notis);
+           }
         }
         this.userService.markAllNoti(readAllNoti,this.userStore.user.id).subscribe({
             next: (res) => {
                 this.notiStore.seenNotis = this.notiStore.notifications;
-                
+                this.notiStore.calculateNotiCount();
             },
             error: (err) => {
                 console.log()

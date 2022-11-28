@@ -93,6 +93,7 @@ export class SocketService{
         if( newNoti.sentUser.id != this.boardStore.userStore.user.id ){
             ($('#noti-ring')[0] as HTMLAudioElement).play();
             let currentUrl = window.location.href;
+        
             currentUrl = currentUrl.replace('http://localhost:4200','');
              Toastify({
                 text : newNoti.content.length > 80 ? newNoti.content.substring(0,80) + '...' : newNoti.content,
@@ -104,18 +105,18 @@ export class SocketService{
                  onClick: () => {  
                      
                     //  new 
-      newNoti.seenUsers.push(this.userStore.user);
-      
-      this.userService.seenNoti(newNoti,this.userStore.user.id).subscribe({
-         next:(res)=>{            
-            this.notiStore.seenNotis.push(newNoti)
-            
-         },error:(err)=>{
-            console.log(err)
-         }
-      }) 
-                    //  new
-                    console.error("Toasting clik is working")                 
+                    newNoti.seenUsers.push(this.userStore.user);
+                    this.notiStore.calculateNotiCount();
+                    
+                    this.userService.seenNoti(newNoti,this.userStore.user.id).subscribe({
+                        next:(res)=>{            
+                            this.notiStore.seenNotis.push(newNoti)
+                            
+                        },error:(err)=>{
+                            console.log(err)
+                        }
+                    }) 
+                           
                     if( newNoti.invitiation ){
                         if(!this.boardStore.joinedBoards.some(board=> board.id == newNoti.board?.id)){
                             swal({
@@ -164,6 +165,7 @@ export class SocketService{
                 }
             }).showToast();     
             this.notiStore.notifications.unshift( newNoti );
+            this.notiStore.calculateNotiCount();
         }        
     }
     

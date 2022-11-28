@@ -10,7 +10,9 @@ import { AuthService } from "../http/auth.service";
   providedIn : 'root'
 })
 export class NotificationStore{
-  public seenNotis: Notification[] = []
+
+    public notiCount : number = 0;
+    public seenNotis: Notification[] = []
     public notifications : Notification [] = [];
   constructor( 
     private userStore : UserStore , 
@@ -19,15 +21,8 @@ export class NotificationStore{
       
     if (this.authService.isAuth()) {
       this.getNotifications(this.userStore.user.id);
-      setTimeout(() => {        
-        
-        },1000) ;
     }
   }
- 
-  
- 
-
   
   private getNotifications(userId: number) {
     forkJoin([
@@ -35,16 +30,19 @@ export class NotificationStore{
       this.userService.seenNotiByUserId(userId)])
       .subscribe(([notis, seen]) => {
         this.notifications = notis
-        this.seenNotis = seen
+        this.seenNotis = seen;
+        this.notiCount = this.notifications.length - this.seenNotis.length;
     })
-  
-    
+
   }
 
   public reFetchNotis( userId : number ){
     this.getNotifications( userId );
   }
 
+  public calculateNotiCount(){
+    this.notiCount = this.notifications.length - this.seenNotis.length;
+  }
 
   
 }
