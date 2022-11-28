@@ -407,6 +407,7 @@ export class TaskOffCanvasComponent implements OnInit {
     }
 
     handleRemoveTempActivity(){
+        this.status.activityError = '';
         this.task.activities.shift();
     }
 
@@ -551,6 +552,17 @@ export class TaskOffCanvasComponent implements OnInit {
                         this.comment.comment = '';
                         this.task.comments.unshift(res.data);
                         this.showEmojis = false;
+
+                        this.userStore.fetchUserData();
+
+                        const noti = new Notification();
+                        noti.sentUser = this.userStore.user;
+                        noti.board = this.board;
+                        noti.content = `${this.userStore.user.username} commented in ${this.task.taskName} Task in ${this.board.boardName} Board`;
+                        noti.invitiation = false;
+
+                        this.socketService.sentNotiToBoard( this.board.id , noti );
+
                     }
                 },
                 error: err => {

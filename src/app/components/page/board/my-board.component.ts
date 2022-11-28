@@ -22,9 +22,6 @@ import { Notification } from 'src/app/model/bean/notification';
 import { COLORS } from "src/app/model/constant/colors";
 import { BoardTasksStore } from "src/app/model/service/store/board-tasks.store";
 import { BoardStore } from "src/app/model/service/store/board.store";
-import { CommentStore } from "src/app/model/service/store/comment.store";
-
-
 
 @Component({
     selector : 'my-board',
@@ -94,7 +91,8 @@ export class MyBoardComponent implements OnInit {
         addBoardError : '',
         isLoadingOffcanvas : false,
         isEditBoardName : false,
-        tempBoardName : ''
+        tempBoardName : '',
+        boardNameError: '',
     }
 
     constructor( public toggleStore : ToggleStore ,
@@ -107,8 +105,8 @@ export class MyBoardComponent implements OnInit {
          public userStore : UserStore ,
          public socketService : SocketService ,
          private boardTasksStore : BoardTasksStore ,
-      private boardStore: BoardStore,
-    private boardBookMarkService:BoardBookMarkService) {
+         private boardStore: BoardStore,
+         private boardBookMarkService:BoardBookMarkService) {
           this.offCanvasTask.activities = [];
           this.offCanvasTask.comments = [];
           this.board.user = new User();
@@ -501,9 +499,16 @@ export class MyBoardComponent implements OnInit {
       if( e.key === "Escape" ){
         this.status.isEditBoardName= false;
         this.board.boardName=this.status.tempBoardName;
+        this.status.addBoardError = '';
         input.blur();
       }
       if( e.key === 'Enter' ){
+          this.status.boardNameError = '';
+          if( this.board.boardName == '' || this.board.boardName == null ){
+            this.status.boardNameError = 'Board name must not be empty!';
+            return;
+          }
+
            this.boardService.updateBoard( this.board )
            .subscribe({
                next : res => {

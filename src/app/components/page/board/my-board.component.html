@@ -11,10 +11,13 @@
                             (click)="handleBookMark($event,board)" [class.fw-bold]="status.isBoardBookMark"></i>
 
                     </span>
-                    <input (focus)="setupEditBoard()" type="text"
+                   <div class="d-flex flex-column">
+                        <input (focus)="setupEditBoard()" type="text"
                         class="text-dark-50 h2 mx-3 board-input w-100 my-2 shadow-none board-input"
                         (keydown)="handleUpdateBoardName($event)" [class.form-control]="status.isEditBoardName"
-                        placeholder="Enter board's name" [(ngModel)]="board.boardName">
+                        placeholder="Enter board's name" [(ngModel)]="board.boardName"  />
+                        <small class="text-danger mx-3" style="font-size:10px !important;">{{ status.boardNameError  }}</small>
+                   </div>
                 </div>
 
 
