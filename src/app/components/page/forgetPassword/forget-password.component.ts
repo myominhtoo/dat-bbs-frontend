@@ -34,7 +34,9 @@ export class ForgetPasswordComponent implements OnInit {
         // isConfirm : false,
       hasError: false,
       toggleconfirmpass: false,
-      togglepass:false
+      togglepass:false,
+      passNew: false,
+      passCon: false,
     }
 
     sendCode(email : string){
@@ -66,8 +68,11 @@ export class ForgetPasswordComponent implements OnInit {
        }
        
        this.status.hasError = false;
+ 
+  
 
-        if ( this.user.password == this.user.confirmpassword){
+  if(this.user.password == this.user.confirmpassword  ) {
+       if (this.user.password.length >= 7) {
           swal({
             text : 'Are you sure to reset your password?',
             icon : 'warning',
@@ -97,6 +102,12 @@ export class ForgetPasswordComponent implements OnInit {
               })
             }
           })
+       } else {
+          swal ({
+            text : 'Passwords must be at least 7 characters',
+            icon : 'warning'
+          })
+         }
          }else{
           swal ({
             text : 'Two passwords must be match!',
@@ -110,6 +121,27 @@ export class ForgetPasswordComponent implements OnInit {
   }
   toggleConPassword() {
     this.status.toggleconfirmpass = !this.status.toggleconfirmpass;
+  }
+    
+  validPassword(pass: string) {
+
+    if (pass.length  == 0) {
+      this.status.passNew = false
+    } else if (pass.length  >= 7) {
+      this.status.passNew=false
+    } else {
+      this.status.passNew=true
+      
+    }
+  }
+  validConPassword(pass: string) {
+    if (pass.length  == 0) {
+      this.status.passCon=false
+    } else if (pass.length  >= 7) {
+      this.status.passCon=false
+    } else {
+      this.status.passCon=true
+    }
   }
 }
 

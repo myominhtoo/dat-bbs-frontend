@@ -57,7 +57,8 @@ export class RegisterComponent implements OnInit{
       
     }
 
-    savedUser(){
+  savedUser() {
+    if (this.user.password.length >= 7) {
       this.userService.sendRegisteration(this.user).subscribe({
         next : res => {
           if( res.ok ){
@@ -67,6 +68,7 @@ export class RegisterComponent implements OnInit{
               text : res.message,
               icon : 'success'
             }).then(() => {
+              this.status.passValid=false
               this.router.navigateByUrl('/login');
             });
           }
@@ -79,6 +81,13 @@ export class RegisterComponent implements OnInit{
         }
       })
 
+    } else {
+      swal({
+            text : "Password must be at least 7 characters",
+            icon : 'warning'
+          })
+    }
+      
     }
   validPassword(pass: string) {
     console.log(pass.length)

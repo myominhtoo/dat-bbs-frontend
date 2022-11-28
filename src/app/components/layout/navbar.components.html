@@ -18,12 +18,12 @@
         data-bs-auto-close="outside" class="text-white-50 pt-2 " style="cursor: pointer;">
         <i class='bx bxs-bell bx-sm bx-tada-hover color-hover-white'></i>
         <!-- <span *ngIf="notiCount > 0" class="badge text-white bg-danger noti-con fw-light p-1">{{ notiCount }}</span> -->
-
-        <span *ngIf="notificationStore.notiCount!=0 && notificationStore.notiCount <=9"
-          class="badge text-white bg-danger noti-con fw-light p-1 pb-0">{{notificationStore.notiCount}}</span>
+        {{notiCount}}
+        <span *ngIf="notiCount>0 && notiCount <=9"
+          class="badge text-white bg-danger noti-con fw-light p-1 pb-0">{{notiCount
+          }}</span>
         <!-- under 1 to 9 ဆိုပြမယ် -->
-        <span *ngIf="notificationStore.notiCount>9"
-          class="badge text-white bg-danger noti-con fw-light p-1 pb-0">{{9}}+</span>
+        <span *ngIf="notiCount>9" class="badge text-white bg-danger noti-con fw-light p-1 pb-0">{{9}}+</span>
         <!-- over 10 ဆိုပြမယ် -->
       </span>
 
@@ -66,13 +66,12 @@
       </div>
       <form #registerForm="ngForm">
         <div class="modal-body">
-          <small class="text-danger m-2"
-            *ngIf="this.status.changePassword.ok">{{this.status.changePassword.msg}}</small>
+
           <div class="m-2 mt-0">
             <label for="currentpassword" class="form-label">Current Password</label>
             <div class="input-group">
               <input [type]="status.currentpass?'text':'password'" style="border-right: none;"
-                class="form-control shadow-none" placeholder="Enter current password" id="password"
+                class="form-control shadow-none" placeholder="Enter old password" id="password"
                 name="userPass.currentPassword" [(ngModel)]="userPass.currentPassword" ngModel required>
               <div class="input-group-text pw-show-hide text-muted">
                 <i [ngClass]="status.currentpass?'fa-solid fa-eye-slash':' fa-solid fa-eye'"
@@ -84,19 +83,20 @@
             <label for="changepassword" class="form-label">Change Password</label>
             <div class="input-group">
               <input [type]="status.togglepass?'text':'password'" style="border-right: none;"
-                class="form-control shadow-none" placeholder="Enter current change password" id="password"
+                class="form-control shadow-none" placeholder="Enter new password" id="password"
                 name="userPass.changePassword" [(ngModel)]="userPass.changePassword" ngModel required>
               <div class="input-group-text pw-show-hide text-muted">
                 <i [ngClass]="status.togglepass?'fa-solid fa-eye-slash':' fa-solid fa-eye'"
                   (click)="togglePassword()"></i>
               </div>
             </div>
+
           </div>
           <div class="m-2">
             <label for="confirmpassword" class="form-label">Confirm Password</label>
             <div class="input-group">
               <input [type]="status.toggleconfirmpass?'text':'password'" style="border-right: none;"
-                class="form-control shadow-none" placeholder="Enter current confirm password" id="password"
+                class="form-control shadow-none" placeholder="Enter confirm password" id="password"
                 name="userPass.retypePassoword" [(ngModel)]="userPass.retypePassoword" ngModel required>
               <div class="input-group-text pw-show-hide text-muted">
                 <i [ngClass]="status.toggleconfirmpass?'fa-solid fa-eye-slash':' fa-solid fa-eye'"
@@ -104,6 +104,7 @@
 
               </div>
             </div>
+
           </div>
         </div>
         <div class="modal-footer">
