@@ -32,8 +32,8 @@ export class WorkspaceComponent implements OnInit {
         status = {
             isReporting : false,
         }
-       
-    
+
+
     constructor(
         public toggleStore : ToggleStore ,
         public route : ActivatedRoute ,
@@ -41,7 +41,7 @@ export class WorkspaceComponent implements OnInit {
         public userService :UserService  ,
         public boardService : BoardService,
         private userStore : UserStore,
-        private socketService : SocketService , 
+        private socketService : SocketService ,
      ){}
 
     ngOnInit(): void {
@@ -56,7 +56,7 @@ export class WorkspaceComponent implements OnInit {
      removeBoard(board : Board){
          this.boardStore.ownBoards = this.boardStore.ownBoards.filter( boarding=> boarding.id!=board.id );
          this.socketService.unsubscribeBoard( board.id ); // to unsubscribe removed boards
-        ($('#delete-track')[0] as any).play();
+        // ($('#delete-track')[0] as any).play();
     }
 
 
@@ -100,7 +100,7 @@ export class WorkspaceComponent implements OnInit {
                 text : 'Successfully Exported!',
                 icon : 'success'
             });
-            
+
         })
 
       }
