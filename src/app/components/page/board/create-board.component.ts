@@ -112,6 +112,9 @@ export class CreateBoardComponent implements OnInit {
     }
 
     createBoard(){
+
+      if( this.emails.length == 0 && this.emailStr.includes('@') && this.emailStr.includes('.')  ) this.emails.push(this.emailStr);
+
       this.userStore.fetchUserData();
       this.board.user = this.userStore.user;
       this.board.invitedEmails = this.emails;

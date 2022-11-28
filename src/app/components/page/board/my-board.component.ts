@@ -264,7 +264,7 @@ export class MyBoardComponent implements OnInit {
     }
 
     inviteMembers(){
-        if( this.emails.length == 0 && this.email.length > 5 ) this.emails.push(this.email);
+        if( (this.emails.length == 0 && this.email.length > 5) && (this.email.includes('@') && this.email.includes('.')) ) this.emails.push(this.email);
         this.board.invitedEmails = this.emails;
 
         /*
