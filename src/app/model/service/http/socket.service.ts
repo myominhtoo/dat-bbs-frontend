@@ -152,6 +152,13 @@ export class SocketService{
                                      })
                                 }
                             })
+                        }else{
+                            if( window.location.href.includes(`/boards/${newNoti.board?.id}`)){         
+                                window.location.href = `/boards/${newNoti.board?.id}`;                     
+                                return;
+                               }
+                               this.router.navigateByUrl(`/boards/${newNoti.board?.id}`);
+                               $('#noti-dropdown').click();
                         }
                       
                     }else{
@@ -336,6 +343,13 @@ export class SocketService{
                 noti.targetUser = user;
                 this.stompClient?.send( `/app/users/${user.id}/send-notification` , {} , JSON.stringify(noti));
             })
+        }
+    }
+
+    public sentAssignNotiToUser( noti : Notification , user : User ){
+        if( this.stompClient ){
+            noti.targetUser = user;
+            this.stompClient.send(`/app/users/${user.id}/send-notification` , {} , JSON.stringify(noti));
         }
     }
 }

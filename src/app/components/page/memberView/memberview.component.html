@@ -18,17 +18,16 @@
                             <div class="imgholder-member">
                                 <div *ngIf="user.imageUrl==null && this.imgValue==null"
                                     class="text-dark boardprofile-member d-flex justify-content-center align-items-center pt-3"
-                                    [style]="'background:#fff!important'">
-                                    <h1 style="font-size:10rem !important;" class="text-dark mb-0 p-0 m-0">{{
+                                    [style.background]="user.iconColor +'!important'">
+                                    <span style="font-size:10rem !important;" class="mb-0 p-0 m-0 text-light">{{
                                         user.username &&
-                                        user.username[0].toUpperCase() }}</h1>
+                                        user.username[0].toUpperCase() }}</span>
                                 </div>
                                 <img *ngIf="(user.imageUrl != null && this.imgValue==null)"
                                     [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile-member"
                                     alt="Board-Img" loading="lazy">
                                 <img *ngIf="this.imgValue!=null" [src]="this.imgValue" class="boardprofile-member"
                                     alt="Board-Img" loading="lazy">
-                                {{user.iconColor}}
                             </div>
                         </div>
                         <!-- img -->

@@ -84,8 +84,8 @@ export class UserService {
 
     }
 
-        markAllNoti(noti:Notification[],userId:number):Observable<Notification[]>{
-        return this.httpClient.put<Notification[]>(`http://localhost:8080/api/users/${userId}/noti/read-all`,noti)
+    markAllNoti(noti:Notification[],userId:number):Observable<HttpResponse<boolean>>{
+        return this.httpClient.put<HttpResponse<boolean>>(`http://localhost:8080/api/users/${userId}/noti/read-all`,noti)
 
     }
 

@@ -29,8 +29,10 @@ export class Notifications {
         }
         this.userService.markAllNoti(readAllNoti,this.userStore.user.id).subscribe({
             next: (res) => {
+               if( res.ok ){
                 this.notiStore.seenNotis = this.notiStore.notifications;
                 this.notiStore.calculateNotiCount();
+               }
             },
             error: (err) => {
                 console.log()

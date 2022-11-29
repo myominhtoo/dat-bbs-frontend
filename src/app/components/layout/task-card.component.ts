@@ -14,7 +14,7 @@ import { CommentStore } from 'src/app/model/service/store/comment.store';
 @Component({
     selector : 'task-card',
     template : `
-     <div (click)="handleShowOffCanvas( task)" class="d-flex task-cards my-0 p-2 gap-2 text-muted shadow-sm bg-pale-snow" style="padding-right:10px;" [style.borderLeft]="task.markColor == null || task.markColor == ''  ? '0.5px solid rgb(206, 202, 202)' : '4px solid '+task.markColor +'!important'  " >
+     <div (click)="handleShowOffCanvas( task)" id="task-card" class="d-flex task-cards my-0 p-2 gap-2 text-muted shadow-sm bg-pale-snow" style="padding-right:10px;" [style.borderLeft]="task.markColor == null || task.markColor == ''  ? '0.5px solid rgb(206, 202, 202)' : '4px solid '+task.markColor +'!important'  " >
         <div class="d-flex flex-column align-items-star gap-3 w-100 " >
             <div class="d-flex justify-content-between w-100">
                     <div class="w-75">

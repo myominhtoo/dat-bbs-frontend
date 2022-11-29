@@ -63,6 +63,7 @@ export class MyBoardComponent implements OnInit {
   msg:String="";
   click:boolean=false;
 
+  offCanvasTempTask : TaskCard = new TaskCard();
   offCanvasTask : TaskCard = new TaskCard();
   offCanvasTab: string = "";
   bookMarks :BoardBookMark[]=[];
