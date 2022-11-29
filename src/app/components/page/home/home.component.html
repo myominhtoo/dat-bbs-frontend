@@ -125,20 +125,20 @@
                                         </div>
                                         <div>
                                             <h6 class="d-inline-block" style="font-size: 14px;"><span
-                                                    class="badge  fw-light" style="background-color: #3e3636;"
+                                                    class="badge me-3 fw-light" style="background-color: #3e3636;"
                                                     *ngIf="taskList.board.boardName.length>10">
                                                     {{taskList.board.boardName.substring(0,10)}}...
                                                 </span></h6>
                                             <h6 class="d-inline-block" style="font-size: 14px;"><span
-                                                    class="badge  fw-light"
+                                                    class="badge me-3  fw-light"
                                                     style="background-color: #3e3636;padding: 8px 8px;"
                                                     *ngIf="taskList.board.boardName.length<=10">
                                                     {{taskList.board.boardName.substring(0,10)}}
                                                 </span>
                                             </h6>
-                                            <span style="font-size: 12px;">
+                                            <span class="me-2" style="font-size: 12px;">
                                                 {{taskList.startedDate | date :"shortDate"}} <i
-                                                    class="fa-solid fa-right-long" style="font-size:12px;"></i>
+                                                    class="fa-solid  fa-right-long" style="font-size:12px;"></i>
                                                 {{taskList.endedDate | date: "shortDate"}}
                                             </span>
                                         </div>

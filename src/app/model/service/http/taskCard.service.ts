@@ -72,5 +72,8 @@ export class TaskCardService {
     headers.set('Accept', 'application/octet-stream');
     return this.httpClient.get<any> (`http://localhost:8080/api/users/${id}/reportAssignedTasks?format=${format}`,{ responseType : 'blob' as 'json', observe : 'response'});
   }
-
+  getTaskCardByBoardIdAndTaskCardId(boardId: number, taskCardId: number):Observable<TaskCard> {
+    return this.httpClient.get<TaskCard>(`http://localhost:8080/api/boards/${boardId}/task-cards?id=${taskCardId}`);
+}
+  
 }

@@ -76,4 +76,7 @@ export class LoginComponent {
             }
         )
     }
+      togglePassword(){       
+        this.togglepass=!this.togglepass;
+     }
 }

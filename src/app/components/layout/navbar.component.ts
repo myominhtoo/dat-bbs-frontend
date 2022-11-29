@@ -85,7 +85,7 @@ notiCount!:number
         
     
     if (this.userPass.changePassword == this.userPass.retypePassoword) {
-      if (this.userPass.changePassword.length >= 7) {
+      if (this.userPass.changePassword.length >= 6) {
           
         
         this.userInfo.password = this.userPass.changePassword;
@@ -126,7 +126,7 @@ notiCount!:number
       } else {
       
         swal({
-          text: "Passwords must be at least 7 characters",
+          text: "Passwords must be at least 6 characters",
           icon: "warning"
         })
       }

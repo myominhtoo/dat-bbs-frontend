@@ -10,9 +10,9 @@
                 <span style="font-size: 16px;">{{ data.boardName | titlecase }}</span>
             </div>
 
-            <div class="dropdown" [id]="'board-dropdown'+data.id">
+            <div class="dropdown" id="board-dropdown">
                 <i (click)="handleClickMenu($event)" class="fa-solid fa-ellipsis-vertical text-muted p-1"
-                    data-bs-toggle="dropdown" data-bs-target="#"></i>
+                    aria-expanded="true" data-bs-toggle="dropdown"></i>
                 <!-- <button (click)="removeBoard($event)" style="padding: 0; border: 0; background: none;">
                     <i *ngIf="data.user.id==usersStore.user.id && !data.deleteStatus"
                         class="fa-sharp fa-solid fa-trash text-muted"> </i>
@@ -20,10 +20,12 @@
                 <i *ngIf="data.user.id == usersStore.user.id && data.deleteStatus" (click)="restoreBoard($event)"
                     class="fa-solid fa-rotate-left text-muted"></i> -->
                 <ul class="dropdown-menu py-0" style="font-size:13px !important;">
-                    <li *ngIf="!data.isArchive" (click)="archiveBoard($event)" class="dropdown-item fw-bold">Archive</li>
+                    <li *ngIf="!data.isArchive" (click)="archiveBoard($event)" class="dropdown-item fw-bold">Archive
+                    </li>
                     <li *ngIf="data.isArchive" (click)="unarchiveBoard()" class="dropdown-item fw-bold ">Unarchive</li>
                     <li (click)="leaveFromCurrentBoard($event)" class="dropdown-item text-danger fw-bold">Leave</li>
-                    <li *ngIf="data.user.id == usersStore.user.id" (click)="removeBoard($event)"     class="dropdown-item text-danger fw-bold ">Delete</li>
+                    <li *ngIf="data.user.id == usersStore.user.id" (click)="removeBoard($event)"
+                        class="dropdown-item text-danger fw-bold ">Delete</li>
                 </ul>
             </div>
         </div>

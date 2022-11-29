@@ -1,52 +1,65 @@
 <div class="container-fluid px-5" id="form-page">
     <section class="d-flex justify-content-center align-items-center container-fluid">
         <div class="register-form shadowm-sm">
-        <div class="row h-test">
-        <div class="col-6 d-none d-md-block card-body register-bg register-rounded-icon d-md-flex justify-content-center align-bottom">
-            <img src="assets/img/login.jpg" alt="" class="register-icon w-100 register-rounded-icon" style="object-fit:cover;">
-        </div>
-        <div class="col-6 card-body register-rounded-form bg-light">
-            <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)"  novalidate>
-                <div class="text-center m-0 p-0 mt-3">
-                  <a class="navbar-brand" routerLink="/login">
-                  <img src="/assets/img/download-removebg-preview.png" alt="Logo" width="70px" class="d-inline-block align-text-top">
-                  </a>
+            <div class="row h-test">
+                <div
+                    class="col-6 d-none d-md-block card-body register-bg register-rounded-icon d-md-flex justify-content-center align-bottom">
+                    <img src="assets/img/login.jpg" alt="" class="register-icon w-100 register-rounded-icon"
+                        style="object-fit:cover;">
                 </div>
-                <div class="text-center">
-                  <small class="text-center mx-auto">Log in to continue :</small>
-                </div>
-                <!--<h6 class="text-center">Bulleting Boards Management System</h6>-->
-                <div class="mx-4 my-4">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" placeholder="Enter user email..." class="form-control shadow-none" id="email" name="email" [(ngModel)]="user.email" [class.is-invalid]="error.hasError" required>
-                    <small *ngIf="error.hasError" class="text-danger">{{error.msg}}</small>
-                </div>
-                <div class="mx-4 my-4">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="input-group">
-                    <input [type]="this.userStore.togglepass?'text':'password'" placeholder="Enter user password..." style="border-right: none;" class="form-control shadow-none" id="password" name="password" [(ngModel)]="user.password" [class.error-pass]="error.hasError" required>
-                        <div class="input-group-text pw-show-hide text-muted" [class.error-pass]="error.hasError">
-                    <i [ngClass]="this.userStore.togglepass?'fa-solid fa-eye-slash':' fa-solid fa-eye'"   (click)="this.userStore.togglePassword()"></i>
-                        
-                </div>
-                    </div>
-                    <small *ngIf="error.hasError" class="text-danger">{{error.msg}}</small>
-                    
-                </div>
-                <div class="mx-4 my-4">
-                <div class="d-grid">
-                    <input type="submit" class="btn signup-btn" value="Login" [disabled]="userForm.invalid">
-                </div>
-                <p class="text-center mt-4 mb-0 fw-light">Don't have an account? <a routerLink="/verify-email" class="nav-link d-inline-block fw-bold text-decoration-underline">Sign up</a></p>
-                <div class="text-center m-0 p-0">
-                  <small routerLink="/forget-password"  class="text-danger text-decoration-underline " style="cursor:pointer;" >Forget Password?</small>
-                </div>
-            </div>
-            </form>
-        </div>
+                <div class="col-6 card-body register-rounded-form bg-light">
+                    <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)" novalidate>
+                        <div class="text-center m-0 p-0 mt-3">
+                            <a class="navbar-brand" routerLink="/login">
+                                <img src="/assets/img/download-removebg-preview.png" alt="Logo" width="70px"
+                                    class="d-inline-block align-text-top">
+                            </a>
+                        </div>
+                        <div class="text-center">
+                            <small class="text-center mx-auto">Log in to continue :</small>
+                        </div>
+                        <!--<h6 class="text-center">Bulleting Boards Management System</h6>-->
+                        <div class="mx-4 my-4">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" placeholder="Enter user email..." class="form-control shadow-none"
+                                id="email" name="email" [(ngModel)]="user.email" [class.is-invalid]="error.hasError"
+                                required>
+                            <small *ngIf="error.hasError" class="text-danger">{{error.msg}}</small>
+                        </div>
+                        <div class="mx-4 my-4">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <input [type]="togglepass?'text':'password'" placeholder="Enter user password..."
+                                    style="border-right: none;" class="form-control shadow-none" id="password"
+                                    name="password" [(ngModel)]="user.password" [class.error-pass]="error.hasError"
+                                    required>
+                                <div class="input-group-text pw-show-hide text-muted"
+                                    [class.error-pass]="error.hasError">
+                                    <i [ngClass]="togglepass?'fa-solid fa-eye-slash':' fa-solid fa-eye'"
+                                        (click)="togglePassword()"></i>
 
-    </div>
-    </div>
+                                </div>
+                            </div>
+                            <small *ngIf="error.hasError" class="text-danger">{{error.msg}}</small>
+
+                        </div>
+                        <div class="mx-4 my-4">
+                            <div class="d-grid">
+                                <input type="submit" class="btn signup-btn" value="Login" [disabled]="userForm.invalid">
+                            </div>
+                            <p class="text-center mt-4 mb-0 fw-light">Don't have an account? <a
+                                    routerLink="/verify-email"
+                                    class="nav-link d-inline-block fw-bold text-decoration-underline">Sign up</a></p>
+                            <div class="text-center m-0 p-0">
+                                <small routerLink="/forget-password" class="text-danger text-decoration-underline "
+                                    style="cursor:pointer;">Forget Password?</small>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
     </section>
 
-    </div>
+</div>
