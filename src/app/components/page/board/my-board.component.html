@@ -24,8 +24,8 @@
                 <div class="d-flex gap-1 align-items-center col-9 justify-content-end">
                     <span class="">
                         <button class=" btn btn-sm myboard-btn btn-outline-secondary" data-bs-toggle="dropdown"
-                            [disabled]="status.isReporting"><i class="fa-solid fa-file-export mx-1"></i>
-                            {{status.isReporting ? 'Exporting...' : 'Export'}}
+                            [disabled]="status.isReportingFor"><i class="fa-solid fa-file-export mx-1"></i>
+                            {{status.isReportingFor ? 'Exporting...' : 'Export'}}
                         </button>
                         <ul class="dropdown-menu">
                             <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="HTML"
