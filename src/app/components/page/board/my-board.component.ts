@@ -53,15 +53,17 @@ export class MyBoardComponent implements OnInit {
     tempComment : string ='';
     showEmojis : boolean = false;
     boardId : number | undefined;
+    
+    tempBoardName : string = ''
 
     registeredUsers : User [] = [];
 
     stage  : Stage = new Stage();
 
-    msg:String="";
-    click:boolean=false;
+  msg:String="";
+  click:boolean=false;
 
-    offCanvasTask : TaskCard = new TaskCard();
+  offCanvasTask : TaskCard = new TaskCard();
   offCanvasTab: string = "";
   bookMarks :BoardBookMark[]=[];
   boardBookMark:BoardBookMark=new BoardBookMark();
@@ -167,7 +169,7 @@ export class MyBoardComponent implements OnInit {
         this.boardService.getBoardWithBoardId( boardId )
         .subscribe({
             next : board => {
-                this.status.isLoading = false;
+                this.tempBoardName = board.boardName;
                 this.board = board;
                 this.boardTasksStore.board  = board; // for calendar
                 this.getTaskCards( boardId );
@@ -382,6 +384,7 @@ export class MyBoardComponent implements OnInit {
       .subscribe({
         next : tasks => {
             this.createTaskCardsWithStageMap( this.stages ,  tasks );
+            this.status.isLoading = false;
             this.boardTasksStore.taskCards = tasks;
             this.boardTasksStore.hasGotData = true;
         },
@@ -526,6 +529,18 @@ export class MyBoardComponent implements OnInit {
                       return board;
                     })
                    }
+
+                   const targetUsers = this.members.filter( member => member.id != this.userStore.user.id );
+
+                   const noti = new Notification();
+                   noti.board = this.board;
+                   noti.sentUser = this.userStore.user;
+                   noti.invitiation = false;
+                   noti.content  = `${this.userStore.user.username} changed ${this.tempBoardName} Board'name from ${this.tempBoardName} to ${this.board.boardName}!`;
+
+
+                  this.socketService.sentNotiToBoard( this.board.id , noti );
+                   this.tempBoardName = this.board.boardName;
 
                    this.status.isEditBoardName=false;
                    input.blur();
