@@ -69,6 +69,7 @@ export class MyBoardComponent implements OnInit {
   status = {
     isBoardBookMark: false,
         isReporting : false,
+        isReportingFor : false,
         isLoading : false,
         isAddStage : false,
         isAddingStage : false,
@@ -581,7 +582,7 @@ export class MyBoardComponent implements OnInit {
   }
 
    exportTaskReport(path:string ) {
-    this.status.isReporting=true;
+    this.status.isReportingFor=true;
     let boardId = this.route.snapshot.params['id'];
 
       this.taskCardService.getTaskCards(boardId).subscribe(data=>{
@@ -603,7 +604,7 @@ export class MyBoardComponent implements OnInit {
             a.download = `taskCards.${path=='excel' ? 'xlsx' : path.toLowerCase()}`,
             a.click();
             URL.revokeObjectURL(objectUrl);
-            this.status.isReporting=false;
+            this.status.isReportingFor=false;
             swal({
                 text : 'Successfully Exported!',
                 icon : 'success'
