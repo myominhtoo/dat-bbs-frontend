@@ -37,8 +37,11 @@ export class NavbarComponent implements OnInit {
           toggleconfirmpass: false,
         togglepass: false,
         currentpass: false,
+        isChanging : false,
       }
-notiCount!:number
+    notiCount!:number
+
+
     constructor( private toggleStore : ToggleStore , 
         public userStore : UserStore,
         public userService:UserService , 
@@ -52,12 +55,9 @@ notiCount!:number
 
   ngOnInit(): void { 
     setTimeout(() => {
-      this.notiCount = this.notificationStore.notifications.length - this.notificationStore.seenNotis.length;
-      
+      this.notiCount = this.notificationStore.notifications.length - this.notificationStore.seenNotis.length;     
     },1000)
-    
-    
-    }
+  }
 
   
     toggleSidebar(){
@@ -84,70 +84,75 @@ notiCount!:number
     if (this.userPass.currentPassword != this.userPass.changePassword && this.userPass.retypePassoword != this.userPass.currentPassword) {
         
     
-    if (this.userPass.changePassword == this.userPass.retypePassoword) {
-      if (this.userPass.changePassword.length >= 6) {
+      if (this.userPass.changePassword == this.userPass.retypePassoword) {
+        if (this.userPass.changePassword.length >= 6) {
           
-        
-        this.userInfo.password = this.userPass.changePassword;
-        this.userInfo.confirmpassword = this.userPass.currentPassword;
-        this.userService.updateUser(this.userInfo).subscribe(
-          {
-            next: (res) => {
-              if (res.ok) {
-              
-                this.userStore.saveUserData(res.body.data);
-                this.authService.saveToken(res.headers.get('Authorization')!);
+          if (this.userPass.changePassword == this.userPass.retypePassoword) {
+            if (this.userPass.changePassword.length >= 7) {
+              this.userInfo.password = this.userPass.changePassword;
+              this.userInfo.confirmpassword = this.userPass.currentPassword;
+              this.status.isChanging = true;
+              this.userService.updateUser(this.userInfo).subscribe(
+                {
+                  next: (res) => {
+                    if (res.ok) {
+                      this.status.isChanging = false;
+                      this.userStore.saveUserData(res.body.data);
+                      this.authService.saveToken(res.headers.get('Authorization')!);
 
-                this.userPass.changePassword = "";
-                this.userPass.currentPassword = "";
-                this.userPass.retypePassoword = "";
-                $("#change-password-close-btn").click();
+                      this.userPass.changePassword = "";
+                      this.userPass.currentPassword = "";
+                      this.userPass.retypePassoword = "";
+                      $("#change-password-close-btn").click();
 
-                swal({
-                  text: "Successfully Changed",
-                  icon: "success"
-                })
-              }
-            },
-            error: (err) => {          
-               swal({
-          text: "Current Passoword is worng",
-          icon: "warning"
-        })
-              // this.status.changePassword.ok = true;
-              // this.userPass.changePassword = ""
-              // this.userPass.currentPassword = ""
-              // this.userPass.retypePassoword = ""
-              // setTimeout(() => this.status.changePassword.msg = "", 1000);
+                      swal({
+                        text: "Successfully Changed",
+                        icon: "success"
+                      })
+                    }
+                  },
+                  error: (err) => {
+                    swal({
+                      text: "Current Passoword is worng",
+                      icon: "warning"
+                    }).then(() => {
+                      this.status.isChanging = false;
+                    })
+                    // this.status.changePassword.ok = true;
+                    // this.userPass.changePassword = ""
+                    // this.userPass.currentPassword = ""
+                    // this.userPass.retypePassoword = ""
+                    // setTimeout(() => this.status.changePassword.msg = "", 1000);
+                  }
+      
+                }
+              )
+            } else {
+              swal({
+                text: "Passwords must be at least 6 characters",
+                icon: "warning"
+              })
             }
       
+          } else {
+      
+            swal({
+              text: "Password Not Match",
+              icon: "warning"
+            })
+      
           }
-        )
-      } else {
-      
-        swal({
-          text: "Passwords must be at least 6 characters",
-          icon: "warning"
-        })
-      }
-      
-    } else {
-      
-      swal({
-          text: "Password Not Match",
-          icon: "warning"
-        })
-      
-    }
-    } else {
+        } else {
     
-        swal({
-          text: "New password should not be same as old password ",
-          icon: "warning"
-        })
-  }
+          swal({
+            text: "New password should not be same as old password ",
+            icon: "warning"
+          })
+        }
   
+      }
     }
+  }
   
     handleLogout(){
       swal({
@@ -157,7 +162,8 @@ notiCount!:number
       }).then( isYes => {
         if(isYes){
           localStorage.removeItem(window.btoa('user'));   
-          localStorage.removeItem(window.btoa('token'));   
+          localStorage.removeItem(window.btoa('token'));  
+          localStorage.removeItem(window.btoa('email')); 
           this.socketService.unsubscribeAllChannels();
           this.router.navigateByUrl('/login');
         }

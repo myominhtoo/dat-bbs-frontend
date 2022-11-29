@@ -9,5 +9,6 @@ export class Notification {
     sentUser !: User;
     seenUsers !:User[];
     invitiation : boolean | undefined | null ;
+    targetUser !: User;
     
 }
