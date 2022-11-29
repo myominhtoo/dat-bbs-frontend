@@ -143,9 +143,14 @@ export class NotiComponent implements OnInit {
    }
    
    isSeen() {
-      return this.noti.seenUsers.some((res) => {            
-            return res.id==this.userStore.user.id
-      })
+      if( this.noti.seenUsers == null ){
+         this.noti.seenUsers = [];
+         return false;
+      }
+      const isSeen =  this.noti.seenUsers.some((res) => {            
+         return res.id==this.userStore.user.id
+      });
+      return isSeen;
    }
    
 }

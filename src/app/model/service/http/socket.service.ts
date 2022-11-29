@@ -223,6 +223,7 @@ export class SocketService{
                 noti.content = `${this.userStore.user.username} invited you to join \n "${board.boardName} Board" \n Click Here to Join!`;
                 noti.sentUser = this.userStore.user;
                 noti.board = board;
+                noti.targetUser = user;
                 noti.invitiation = true;
                 
                 this.stompClient?.send( `/app/users/${user.id}/send-notification` , {} , JSON.stringify(noti) );
@@ -236,7 +237,8 @@ export class SocketService{
             noti.content = `${this.userStore.user.username} accepted your Invitation to join \n "${board.boardName} Board" `;
             noti.sentUser = this.userStore.user;
             noti.board = board;
-            noti.invitiation = false;
+            noti.invitiation = true;
+            noti.targetUser = user;
             this.stompClient?.send( `/app/users/${user.id}/send-notification` , {} , JSON.stringify(noti) );
         }
     }

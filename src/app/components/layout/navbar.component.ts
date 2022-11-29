@@ -157,7 +157,8 @@ notiCount!:number
       }).then( isYes => {
         if(isYes){
           localStorage.removeItem(window.btoa('user'));   
-          localStorage.removeItem(window.btoa('token'));   
+          localStorage.removeItem(window.btoa('token'));  
+          localStorage.removeItem(window.btoa('email')); 
           this.socketService.unsubscribeAllChannels();
           this.router.navigateByUrl('/login');
         }
