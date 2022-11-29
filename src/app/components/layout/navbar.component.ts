@@ -37,8 +37,11 @@ export class NavbarComponent implements OnInit {
           toggleconfirmpass: false,
         togglepass: false,
         currentpass: false,
+        isChanging : false,
       }
-notiCount!:number
+    notiCount!:number
+
+
     constructor( private toggleStore : ToggleStore , 
         public userStore : UserStore,
         public userService:UserService , 
@@ -52,12 +55,9 @@ notiCount!:number
 
   ngOnInit(): void { 
     setTimeout(() => {
-      this.notiCount = this.notificationStore.notifications.length - this.notificationStore.seenNotis.length;
-      
+      this.notiCount = this.notificationStore.notifications.length - this.notificationStore.seenNotis.length;     
     },1000)
-    
-    
-    }
+  }
 
   
     toggleSidebar(){
@@ -82,19 +82,17 @@ notiCount!:number
 
   changePassword() {
     if (this.userPass.currentPassword != this.userPass.changePassword && this.userPass.retypePassoword != this.userPass.currentPassword) {
-        
-    
-    if (this.userPass.changePassword == this.userPass.retypePassoword) {
-      if (this.userPass.changePassword.length >= 7) {
           
-        
+    if (this.userPass.changePassword == this.userPass.retypePassoword) {
+      if (this.userPass.changePassword.length >= 7) {    
         this.userInfo.password = this.userPass.changePassword;
         this.userInfo.confirmpassword = this.userPass.currentPassword;
+        this.status.isChanging = true;
         this.userService.updateUser(this.userInfo).subscribe(
           {
             next: (res) => {
               if (res.ok) {
-              
+                this.status.isChanging = false;
                 this.userStore.saveUserData(res.body.data);
                 this.authService.saveToken(res.headers.get('Authorization')!);
 
@@ -111,9 +109,11 @@ notiCount!:number
             },
             error: (err) => {          
                swal({
-          text: "Current Passoword is worng",
-          icon: "warning"
-        })
+                text: "Current Passoword is worng",
+                icon: "warning"
+              }).then( () =>{
+                this.status.isChanging = false;
+              })
               // this.status.changePassword.ok = true;
               // this.userPass.changePassword = ""
               // this.userPass.currentPassword = ""
@@ -123,8 +123,7 @@ notiCount!:number
       
           }
         )
-      } else {
-      
+      } else {    
         swal({
           text: "Passwords must be at least 7 characters",
           icon: "warning"

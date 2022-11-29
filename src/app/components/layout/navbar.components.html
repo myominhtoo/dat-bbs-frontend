@@ -103,8 +103,9 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-change" (click)="changePassword()"
-            [disabled]="registerForm.invalid">Change</button>
+          <button type="reset" data-bs-dismiss="modal"  class="btn btn-sm bg-transparent">Cancel</button>
+          <button type="button" class="btn btn-sm bg-thm text-light" (click)="changePassword()"
+            [disabled]="registerForm.invalid || status.isChanging">{{ status.isChanging ? "Changing" : "Change"}}</button>
         </div>
       </form>
     </div>
