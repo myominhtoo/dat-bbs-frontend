@@ -34,7 +34,6 @@ import swal from "sweetalert";
             </h6>
               <small style="font-size:10px;" class="text-primary">
               {{ noti.createdDate | pentaDate }}
-              
             </small>
            </div>
         </div>

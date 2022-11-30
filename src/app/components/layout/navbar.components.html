@@ -18,7 +18,6 @@
         data-bs-auto-close="outside" class="text-white-50 pt-2 " style="cursor: pointer;">
         <i class='bx bxs-bell bx-sm bx-tada-hover color-hover-white'></i>
         <!-- <span *ngIf="notiCount > 0" class="badge text-white bg-danger noti-con fw-light p-1">{{ notiCount }}</span> -->
-        {{ notificationStore.notiCount }}
         <span *ngIf=" notificationStore.notiCount >0 && notificationStore.notiCount <= 9"
           class="badge text-white bg-danger noti-con fw-light p-1 pb-0">{{ notificationStore.notiCount }}</span>
         <!-- under 1 to 9 ဆိုပြမယ် -->
@@ -33,7 +32,7 @@
 
     <div class="dropdown" style="cursor: pointer;">
       <div class=" p-0 d-flex justify-content-center align-items-center " data-bs-toggle="dropdown"
-        id="profile" [style.background]="userStore.user.iconColor" style="border:1px solid rgba(255,255,255,0.15) !important;">
+        id="profile" [style.background]="userStore.user.iconColor" >
         <span *ngIf="userStore.user.imageUrl == null && userStore.user.username != null" class="text-light  fs-4 ">{{
           userStore.user.username[0].toUpperCase() }}</span>
         <img *ngIf="userStore.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;"

@@ -18,7 +18,7 @@
         <div class="col-10 mx-auto">
             <form  #emailverify="ngForm" (ngSubmit)="onSubmit(emailverify)">
                 <div class="d-grid">
-                    <input type="email" class="form-control shadow-none signup-text" name="email" placeholder="name@company.com" #email="ngModel" ngModel [class.is-invalid]="email.touched && email.invalid" required>
+                    <input type="email" class="form-control shadow-none signup-text" name="email" placeholder="name@company.com" #email="ngModel" ngModel [class.is-invalid]="email.touched && email.invalid" required [readOnly]="status.isLoading">
                     <input [disabled]="status.isLoading || emailverify.invalid"  mat-button  type="submit" class="btn  signup-btn" [value]="status.isLoading ? 'Sending...' : 'Send'">
                 </div>
             </form>

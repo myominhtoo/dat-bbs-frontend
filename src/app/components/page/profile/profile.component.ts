@@ -41,7 +41,8 @@ export class ProfileComponent{
         changePassword:{
           msg:"",
           ok:false
-        }
+        },
+        isUploading : false,
       }
 
   ngOnInit(): void {
@@ -57,7 +58,7 @@ export class ProfileComponent{
         next : resUser => {
           this.user = resUser;
           this.user.iconColor = this.userStore.user.iconColor;
-          this.userInfo={...this.user};
+          this.userInfo= {...this.user };
         },
         error : err => {
           console.log(err);
@@ -130,8 +131,6 @@ export class ProfileComponent{
   }
 
   onFileChanged(event:any ){
-       //Select File
-      console.log("It working onFile")
       this.user.image =  event.target.files[0];
       if (event.target.files && event.target.files[0]) {
         const reader = new FileReader();
@@ -145,21 +144,18 @@ export class ProfileComponent{
 
   previewImg(bol: boolean) {
     
-    if (bol) {
-        
+    if (bol) {   
         this.status.preview.textShow = false;
+        this.status.isUploading = true;
         this.userService.uploadPhoto( this.user.image! ,this.user.id).subscribe({
           next: (res) => {
           this.status.preview.ok=true      
             setTimeout(() => {
-           
-                  this.status.preview.ok=true      
-                  this.imgValue = null;
-                  this.user.imageUrl = res.data.imageUrl;
-                  this.userInfo.imageUrl = res.data.imageUrl;
-              this.userStore.saveUserData(res.data);              
-       
-                     
+              this.status.isUploading = false;
+              this.imgValue = null;
+              this.user.imageUrl = res.data.imageUrl;
+              this.userInfo.imageUrl = res.data.imageUrl;
+              this.userStore.saveUserData(res.data);                   
             }, 2000);                  
   
           },

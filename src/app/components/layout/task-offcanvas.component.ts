@@ -549,6 +549,10 @@ export class TaskOffCanvasComponent implements OnInit {
 
     handleUpdateTaskName(e: KeyboardEvent) {
         this.status.errorTask = '';
+        if( this.task.taskName.length > 50 ){
+            this.status.errorTask = 'Must not include more than 50 characters!'
+            return;
+        }
         if (e.key === 'Enter') {
            if( this.task.taskName == '' || this.task.taskName == null ){
             this.status.errorTask = 'Task Name must not be empty!'
@@ -556,8 +560,6 @@ export class TaskOffCanvasComponent implements OnInit {
                 this.taskCardService.updateTaskCard(this.task)
                 .subscribe({
                     next: res => {
-                        this.task = res.data;
-
                         const noti = new Notification();
                         noti.content = `${this.userStore.user.username} Updated Task \n in ${this.board.boardName} Board `;
                         noti.sentUser = this.userStore.user;

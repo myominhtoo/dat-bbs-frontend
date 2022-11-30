@@ -170,6 +170,11 @@ export class TaskCardContainerComponent {
     taskCard.board = this.board;
     taskCard.users = [];
 
+    if( taskCard.taskName.length > 50 ){
+      this.status.addTaskError = 'Task name must not include more than 50 characters!';
+      return;
+    }
+
     if( taskCard.taskName == '' ){
       this.status.addTaskError = "Task must not be empty!";
     }else{

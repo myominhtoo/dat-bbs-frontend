@@ -19,21 +19,20 @@
                                     class="text-dark boardprofile d-flex justify-content-center align-items-center pt-3"
                                     [style]="'background:'+user.iconColor +'!important'">
                                     <h1 style="font-size:70px !important;" class="text-light mb-0 p-0 m-0">{{
-                                        user.username &&
-                                        user.username[0].toUpperCase() }}</h1>
+                                       userStore.user.username[0] }}</h1>
                                 </div>
                                 <img *ngIf="(user.imageUrl != null && imgValue==null)"
                                     [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile"
                                     alt="Board-Img" loading="lazy">
                                 <img *ngIf="imgValue!=null" [src]="imgValue" class="boardprofile" alt="Board-Img"
                                     loading="lazy">
-
-                                <span class="imgedit badge">
-                                    <span class="fw-light" type="button" data-bs-toggle="dropdown">
+                                    
+                                <span class="imgedit badge" *ngIf="!status.isUploading">
+                                    <span *ngIf="imgValue == null " class="fw-light" type="button" data-bs-toggle="dropdown">
                                         <i class="fas fa-edit"></i>
                                         Edit
                                     </span>
-                                    <ul class="dropdown-menu p-1" style="font-size:14px !important;">
+                                    <ul  *ngIf="imgValue == null " class="dropdown-menu p-1" style="font-size:14px !important;">
                                         <li class="mb-1">
                                             <input type="file" (change)="onFileChanged($event)" name="file" id="file"
                                                 class="dropdown-item inputfile" value="Upload Image"
@@ -60,16 +59,13 @@
                                     <br>
                                     <input type="button" [disabled]="status.preview.ok"
                                         class="btn btn-primary btn-sm me-1 my-2  m-0" id="profile-btn"
-                                        (click)=" previewImg(true)" [value]="status.preview.ok?'Loading...':'Upload'">
-                                    <input type="button" class="btn btn-primary btn-sm  my-2  m-0" id="profile-btn"
+                                        (click)=" previewImg(true)" [value]="status.isUploading ? 'Uploading...':'Upload'">
+                                    <input [disabled]="status.isUploading" type="button" class="btn btn-primary btn-sm  my-2  m-0" id="profile-btn"
                                         (click)=" previewImg(false)" value="Cancel" />
                                 </div>
                             </div>
                             <h4>{{ userInfo.username | titlecase }}</h4>
                         </div>
-
-
-
 
                     </div>
                     <!-- </div> -->
@@ -99,7 +95,7 @@
                                         <input type="text" class="form-control shadow-none"
                                             placeholder="Enter your email" name=email #email="ngModel" id="email"
                                             [(ngModel)]="user.email" [class.is-invalid]="email.touched && email.invalid"
-                                            required />
+                                            required readonly />
                                         <small *ngIf="!user.email && email.touched" class="text-danger">Email is
                                             required</small>
                                     </div>
