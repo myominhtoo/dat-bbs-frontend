@@ -95,7 +95,7 @@
                                         <input type="text" class="form-control shadow-none"
                                             placeholder="Enter your email" name=email #email="ngModel" id="email"
                                             [(ngModel)]="user.email" [class.is-invalid]="email.touched && email.invalid"
-                                            required readonly />
+                                            required disabled />
                                         <small *ngIf="!user.email && email.touched" class="text-danger">Email is
                                             required</small>
                                     </div>
