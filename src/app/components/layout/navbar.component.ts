@@ -81,76 +81,59 @@ export class NavbarComponent implements OnInit {
   
 
   changePassword() {
-    if (this.userPass.currentPassword != this.userPass.changePassword && this.userPass.retypePassoword != this.userPass.currentPassword) {
-        
-    
+    if (this.userPass.currentPassword != this.userPass.changePassword && this.userPass.retypePassoword != this.userPass.currentPassword) {   
       if (this.userPass.changePassword == this.userPass.retypePassoword) {
         if (this.userPass.changePassword.length >= 6) {
-          
-          if (this.userPass.changePassword == this.userPass.retypePassoword) {
-            if (this.userPass.changePassword.length >= 7) {
-              this.userInfo.password = this.userPass.changePassword;
-              this.userInfo.confirmpassword = this.userPass.currentPassword;
-              this.status.isChanging = true;
-              this.userService.updateUser(this.userInfo).subscribe(
-                {
-                  next: (res) => {
-                    if (res.ok) {
-                      this.status.isChanging = false;
-                      this.userStore.saveUserData(res.body.data);
-                      this.authService.saveToken(res.headers.get('Authorization')!);
+          this.userInfo.password = this.userPass.changePassword;
+          this.userInfo.confirmpassword = this.userPass.currentPassword;
+          this.status.isChanging = true;
+          this.userService.updateUser(this.userInfo).subscribe(
+            {
+              next: (res) => {
+                if (res.ok) {
+                  this.status.isChanging = false;
+                  this.userStore.saveUserData(res.body.data);
+                  this.authService.saveToken(res.headers.get('Authorization')!);
 
-                      this.userPass.changePassword = "";
-                      this.userPass.currentPassword = "";
-                      this.userPass.retypePassoword = "";
-                      $("#change-password-close-btn").click();
+                  this.userPass.changePassword = "";
+                  this.userPass.currentPassword = "";
+                  this.userPass.retypePassoword = "";
+                  $("#change-password-close-btn").click();
 
-                      swal({
-                        text: "Successfully Changed",
-                        icon: "success"
-                      })
-                    }
-                  },
-                  error: (err) => {
-                    swal({
-                      text: "Current Passoword is worng",
-                      icon: "warning"
-                    }).then(() => {
-                      this.status.isChanging = false;
-                    })
-                    // this.status.changePassword.ok = true;
-                    // this.userPass.changePassword = ""
-                    // this.userPass.currentPassword = ""
-                    // this.userPass.retypePassoword = ""
-                    // setTimeout(() => this.status.changePassword.msg = "", 1000);
-                  }
-      
+                  swal({
+                    text: "Successfully Changed",
+                    icon: "success"
+                  })
                 }
-              )
-            } else {
-              swal({
-                text: "Passwords must be at least 6 characters",
-                icon: "warning"
-              })
+              },
+              error: (err) => {
+                swal({
+                  text: "Current Passoword is wrogg",
+                  icon: "warning"
+                }).then(() => {
+                  this.status.isChanging = false;
+                })
+              }
             }
-      
-          } else {
-      
-            swal({
-              text: "Password Not Match",
-              icon: "warning"
-            })
-      
-          }
+          )
         } else {
-    
           swal({
-            text: "New password should not be same as old password ",
+            text: "Passwords must be at least 6 characters",
             icon: "warning"
           })
         }
   
+      } else {
+        swal({
+          text: "Password Not Match",
+          icon: "warning"
+        })
       }
+    }else {
+      swal({
+        text: "New password should not be same as old password ",
+        icon: "warning"
+      })
     }
   }
   

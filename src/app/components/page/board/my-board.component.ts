@@ -666,7 +666,7 @@ export class MyBoardComponent implements OnInit {
                       this.userService.toggleBookMark(data.user.id,this.boardBookMark).subscribe({
                       next:(res)=>{          
                         if(res.ok){
-                          console.log(res.data)
+                          // console.log(res.data)
                           this.getAllBookMarks(data.user.id) 
                         }
                       },error:(err)=>{
@@ -682,7 +682,7 @@ export class MyBoardComponent implements OnInit {
     this.boardBookMarkService.showBookmarks(userId).subscribe({
       next: (res) => {
         this.bookMarks = res
-        console.log("It's is working")
+        // console.log("It's is working")
         setTimeout(() => {
         this.status.isBoardBookMark = this.bookMarks.some((res) => {      
             return res.board.id == this.board.id

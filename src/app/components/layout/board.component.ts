@@ -52,7 +52,6 @@ export class BoardComponent implements OnInit {
 
     ngOnInit(): void {
       this.fetchRequiredDatas();
-        console.log(this.data)
         this.isBoardArchive();
     }
 
