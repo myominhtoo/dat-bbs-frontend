@@ -15,6 +15,7 @@ import { Attachment } from "src/app/model/bean/attachment";
 import { AttachmentService } from "src/app/model/service/http/attachment.service";
 import { Notification } from "../../model/bean/notification";
 import { SocketService } from "../../model/service/http/socket.service";
+import { E } from "chart.js/dist/chunks/helpers.core";
 
 @Component({
     selector: 'task-offcanvas',
@@ -635,7 +636,10 @@ export class TaskOffCanvasComponent implements OnInit {
         }
     }
 
-    updateTask( showStatus : boolean ) {
+    updateTask(showStatus: boolean) {
+        if( this.task.taskName == '' || this.task.taskName == null ){
+            this.status.errorTask = 'Task Name must not be empty!'            
+        } else {
         this.taskCardService.updateTaskCard(this.task).subscribe({
             next: res => {
                 if (res) {
@@ -657,7 +661,9 @@ export class TaskOffCanvasComponent implements OnInit {
             error: err => {
                 console.log(err);
             }
-        });
+        });    
+           }
+        
     }
 
     handleInviteMembers() {

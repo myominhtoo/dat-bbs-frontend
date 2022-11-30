@@ -131,6 +131,7 @@ export class ProfileComponent{
 
   onFileChanged(event:any ){
        //Select File
+      console.log("It working onFile")
       this.user.image =  event.target.files[0];
       if (event.target.files && event.target.files[0]) {
         const reader = new FileReader();
@@ -139,31 +140,45 @@ export class ProfileComponent{
          this.imgValue= reader.result as string;
          this.status.preview.textShow=false;
         };
-      }
+    }
   }
 
-  previewImg(bol:boolean){
-      this.status.preview.ok = bol;
-      if( this.status.preview.ok){
+  previewImg(bol: boolean) {
+    
+    if (bol) {
+        
         this.status.preview.textShow = false;
         this.userService.uploadPhoto( this.user.image! ,this.user.id).subscribe({
-          next:(res)=>{
-                setTimeout(() => {
+          next: (res) => {
+          this.status.preview.ok=true      
+            setTimeout(() => {
+           
+                  this.status.preview.ok=true      
                   this.imgValue = null;
                   this.user.imageUrl = res.data.imageUrl;
                   this.userInfo.imageUrl = res.data.imageUrl;
-                  this.userStore.saveUserData( res.data );
-                } , 2000 );
+              this.userStore.saveUserData(res.data);              
+       
+                     
+            }, 2000);                  
+  
           },
           error:(err)=>{
             console.log(err)
           }
+                            
         })
+      
       }else{
         this.imgValue = null
         this.status.preview.textShow=false;
         $('#file').val('');
-      }
+    }
+    
+    setTimeout(() => {
+              this.status.preview.ok=false      
+    },3000);
+    
   }
 
   textImg(){
