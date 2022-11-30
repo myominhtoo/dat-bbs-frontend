@@ -151,6 +151,8 @@ export class CreateBoardComponent implements OnInit {
                   const invitedUsers = this.registeredUsers.filter( user => this.board.invitedEmails.includes(user.email));
                   this.socketService.sendBoardInvitiationNotiToUsers( createdBoard , invitedUsers );
 
+                  createdBoard.archivedUsers = [];// edited for nullable
+
                   this.boardStore.boards.push( createdBoard );
                   this.boardStore.ownBoards.push( createdBoard );
 

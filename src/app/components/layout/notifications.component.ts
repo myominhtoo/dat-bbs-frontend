@@ -13,7 +13,11 @@ export class Notifications {
    
     @Input('notificaions') notifications: Notification[] = [];
     
-    constructor(private userStore: UserStore,private userService:UserService,private notiStore : NotificationStore) {}
+    constructor( 
+        private userStore: UserStore , 
+        private userService:UserService ,
+        public notiStore : NotificationStore
+    ) {}
 
     markAllRead() {
         let readAllNoti:Notification[]=[]
