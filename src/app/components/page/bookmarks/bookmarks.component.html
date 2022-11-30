@@ -11,10 +11,10 @@
     <h2 class="pb-1">Bookmarks</h2>
     <!-- report -->
             <div class="dropdown ">
-              <button class=" btn btn-outline-secondary btn-sm py-2" data-bs-toggle="dropdown">
-                  <i class="fa-solid fa-file-export mx-1"></i>
-                  Export
-              </button>
+              <button class=" btn btn-outline-secondary btn-sm" data-bs-toggle="dropdown" [disabled]="status.isReporting">
+                <i class="fa-solid fa-file-export mx-1"></i>
+                {{status.isReporting ? 'Exporting...' : 'Export'}}
+            </button>
               <ul class="dropdown-menu">
                   <li><input type="button" name="textShow" id="btn" class="dropdown-item" value="HTML"
                       (click)="exportBookmarkReport(html)" />
