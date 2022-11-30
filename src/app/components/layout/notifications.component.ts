@@ -1,23 +1,32 @@
 import { NotificationStore } from 'src/app/model/service/store/notification.store';
 import { UserStore } from './../../model/service/store/user.store';
 import { UserService } from './../../model/service/http/user.service';
-import { Component, Input } from "@angular/core";
-import { M } from 'chart.js/dist/chunks/helpers.core';
+import { Component, Input, OnInit } from "@angular/core";
 import { Notification } from 'src/app/model/bean/notification';
 
 @Component({
     selector : 'notifications',
     templateUrl : './notifications.component.html'
 })
-export class Notifications {
+export class Notifications implements OnInit {
    
     @Input('notificaions') notifications: Notification[] = [];
+    // allSeen : boolean = false;
     
     constructor( 
         private userStore: UserStore , 
         private userService:UserService ,
         public notiStore : NotificationStore
     ) {}
+
+    ngOnInit(): void {
+       setTimeout(() => {
+        if(this.notiStore.notifications.length == this.notiStore.seenNotis.length ){
+            // this.allSeen = true;
+            this.notiStore.allSeen = true;
+        }
+       } , 500 );
+    }
 
     markAllRead() {
         let readAllNoti:Notification[]=[]
@@ -32,6 +41,7 @@ export class Notifications {
                if( res.ok ){
                 this.notiStore.seenNotis = this.notiStore.notifications;
                 this.notiStore.calculateNotiCount();
+                this.notiStore.allSeen = true;
                }
             },
             error: (err) => {

@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { Notification } from '../../bean/notification';
 import { UserService } from "../http/user.service";
 import { UserStore } from "./user.store";
-import swal from "sweetalert";
 import { AuthService } from "../http/auth.service";
 
 @Injectable({
@@ -14,6 +13,8 @@ export class NotificationStore{
     public notiCount : number = 0;
     public seenNotis: Notification[] = []
     public notifications : Notification [] = [];
+    public allSeen : boolean = false;
+  
   constructor( 
     private userStore : UserStore , 
     private userService: UserService , 

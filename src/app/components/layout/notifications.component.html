@@ -3,7 +3,7 @@
         <span style="font-size: 20px;">
             Notifications
         </span>
-        <span *ngIf="notiStore.notiCount > 0" class="btn btn-outline-secondary btn-sm d-flex justify-content-center align-items-center"
+        <span  *ngIf="notiStore.notiCount > 0 || !notiStore.allSeen" class="btn btn-outline-secondary btn-sm d-flex justify-content-center align-items-center"
             (click)="markAllRead()" style="font-size: 13px;">
             <i class="fa-solid fa-check bx-tada-hover  mx-1"></i>
             <span class="pt-1">Mark all as read</span>
@@ -11,7 +11,7 @@
     </h6>
     <div id="notifications"
         class="p-0 {{ notifications.length == 0 ? ' d-flex justify-content-center align-items-center' : ''}}">
-        <noti *ngFor="let noti of notifications" [noti]="noti"></noti>
+        <noti *ngFor="let noti of notifications" [noti]="noti" ></noti>
         <div *ngIf="notifications.length == 0">
             There is no notification yet!
         </div>

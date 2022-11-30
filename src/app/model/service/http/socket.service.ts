@@ -90,6 +90,9 @@ export class SocketService{
     private showNoti(payload: Message) {
         
         const newNoti = JSON.parse(payload.body) as Notification;
+        newNoti.seenUsers = [];
+
+        this.notiStore.allSeen = false;
         if( newNoti.sentUser.id != this.boardStore.userStore.user.id ){
             ($('#noti-ring')[0] as HTMLAudioElement).play();
             let currentUrl = window.location.href;
@@ -172,7 +175,9 @@ export class SocketService{
                 }
             }).showToast();     
             this.notiStore.notifications.unshift( newNoti );
+           setTimeout(() => {
             this.notiStore.calculateNotiCount();
+           }, 300);
         }        
     }
     

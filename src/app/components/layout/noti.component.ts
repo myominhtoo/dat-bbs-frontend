@@ -24,14 +24,13 @@ import swal from "sweetalert";
            <div id="noti-body" class="col-10 ps-2 pe-1 text-justify " >
               <h6 *ngIf="!noti.invitiation" class="p-0 m-0 d-flex justify-content-between align-items-center" style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">
               <span>{{  noti.content.length > 80 ? noti.content.substring(0,80)+'...' : noti.content }}</span>
-            <span  [class.d-none]="isSeenNoti" style="font-size: 8px;" class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
+            <span  [class.d-none]="isSeenNoti || notiStore.allSeen" style="font-size: 8px;" class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
             </h6>
               <h6 *ngIf="noti.invitiation" class="p-0 m-0 d-flex justify-content-between align-items-center" style="font-size:13px !important;letter-spacing:0.4px;line-height:1.3;">
               <span>
               {{  noti.content }}
               </span>
-              
-              <span [class.d-none]="isSeenNoti"   style="font-size: 8px; "class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
+              <span [class.d-none]="isSeenNoti || notiStore.allSeen"   style="font-size: 8px; "class="align-self-end"><i class="fa-solid fa-circle text-primary"></i></span>
             </h6>
               <small style="font-size:10px;" class="text-primary">
               {{ noti.createdDate | pentaDate }}
@@ -42,17 +41,19 @@ import swal from "sweetalert";
     `
 })
 export class NotiComponent implements OnInit {
-   isSeenNoti!: boolean;
+      
    
     borderLeft : string = 'none !important';
     stompClient : Client | undefined = undefined;
     board : Board = new Board();
-    @Input('noti') noti : Notification = new Notification();   
+    @Input('noti') noti : Notification = new Notification(); 
+    isSeenNoti : boolean = false;
+    
     constructor( private boardStore : BoardStore,
       private boardService : BoardService,
       private userStore : UserStore ,
        private socketService: SocketService,
-      private notiStore:NotificationStore,
+       public notiStore:NotificationStore,
        private router : Router,
        private userService:UserService){}
 

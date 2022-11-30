@@ -5,6 +5,8 @@ import { CommentService } from "src/app/model/service/http/comment.service";
 import { CommentStore } from "src/app/model/service/store/comment.store";
 import { UserStore } from "src/app/model/service/store/user.store";
 import swal from "sweetalert";
+import { Notification } from "src/app/model/bean/notification";
+import { SocketService } from "src/app/model/service/http/socket.service";
 
 @Component({
     selector : 'comment',
@@ -27,7 +29,8 @@ export class CommentComponent implements OnInit {
     constructor( 
          public userStore : UserStore ,
          private commentService : CommentService ,
-         public commentStore : CommentStore
+         public commentStore : CommentStore , 
+         private socketService : SocketService,
     ){
         this.userStore.fetchUserData();
     }
@@ -61,6 +64,17 @@ export class CommentComponent implements OnInit {
         .subscribe({
             next : res => {
                if( res.ok ){
+
+
+                const noti = new Notification();
+                noti.board = this.task.board;
+                noti.sentUser = this.userStore.user;
+                noti.content = `${this.userStore.user.username} replied ${this.comment.user.id == this.userStore.user.id ? 'Self' : this.comment.user.username } in ${this.task.taskName} Task in ${this.task.board.boardName} Board!`;
+                noti.invitiation = false;
+                
+                this.socketService.sentNotiToBoard( this.task.board.id , noti );
+                
+
                 this.isReplying = false;
                 res.data.childComments = [];
                 this.comment.childComments.unshift(res.data);
