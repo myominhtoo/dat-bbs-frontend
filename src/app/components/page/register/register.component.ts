@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit{
 
   
   emptyErrorMessage:String;
-
+togglepass!:boolean;
     user : User;
     username:string;
     email:string;
@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit{
       public route : ActivatedRoute ,
       public userStore : UserStore,
       private router:Router){
-        
+    
      this.user=new User();
      this.emptyErrorMessage="";
      this.username="";
@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit{
     }
 
   savedUser() {
-    if (this.user.password.length >= 7) {
+    if (this.user.password.length >= 6) {
       this.userService.sendRegisteration(this.user).subscribe({
         next : res => {
           if( res.ok ){
@@ -83,24 +83,15 @@ export class RegisterComponent implements OnInit{
 
     } else {
       swal({
-            text : "Password must be at least 7 characters",
+            text : "Password must be at least 6 characters",
             icon : 'warning'
           })
     }
       
     }
-  validPassword(pass: string) {
-    console.log(pass.length)
-    if (pass.length  == 0) {
-      this.status.passValid = false
-      this.status.passRegister=true
-    } else if (pass.length  >= 7) {
-      this.status.passValid=false
-      this.status.passRegister=false
-    } else {
-      this.status.passRegister=true
-      this.status.passValid=true
-    }
-  }
+ 
+     togglePassword(){       
+        this.togglepass=!this.togglepass;
+     }
 
 }

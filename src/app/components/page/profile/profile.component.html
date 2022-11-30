@@ -15,18 +15,18 @@
                     <div class="row flex-column p-2 pt-2" style="height: 100%;">
                         <div class="col-12 d-flex justify-content-center align-items-center" style="height: 160px;">
                             <div class="imgholder">
-                                <div *ngIf="user.imageUrl==null && this.imgValue==null"
+                                <div *ngIf="user.imageUrl==null && imgValue==null"
                                     class="text-dark boardprofile d-flex justify-content-center align-items-center pt-3"
                                     [style]="'background:'+user.iconColor +'!important'">
                                     <h1 style="font-size:70px !important;" class="text-light mb-0 p-0 m-0">{{
                                         user.username &&
                                         user.username[0].toUpperCase() }}</h1>
                                 </div>
-                                <img *ngIf="(user.imageUrl != null && this.imgValue==null)"
+                                <img *ngIf="(user.imageUrl != null && imgValue==null)"
                                     [src]="'http://localhost:8080/img/'+user.imageUrl" class=" boardprofile"
                                     alt="Board-Img" loading="lazy">
-                                <img *ngIf="this.imgValue!=null" [src]="this.imgValue" class="boardprofile"
-                                    alt="Board-Img" loading="lazy">
+                                <img *ngIf="imgValue!=null" [src]="imgValue" class="boardprofile" alt="Board-Img"
+                                    loading="lazy">
 
                                 <span class="imgedit badge">
                                     <span class="fw-light" type="button" data-bs-toggle="dropdown">
@@ -55,13 +55,14 @@
                             class="col-12 text-center my-2 d-flex flex-column justify-content-center algin-item-center">
 
                             <div class="">
-                                <div class="ask-container " *ngIf="this.imgValue!=null">
+                                <div class=" ask-container " *ngIf=" imgValue!=null">
                                     <small class="text-start">Are you sure?</small>
                                     <br>
-                                    <button class="btn btn-primary btn-sm me-1 my-2  m-0"
-                                        (click)="previewImg(true)">Yes</button>
-                                    <button class="btn btn-primary btn-sm  my-2  m-0"
-                                        (click)="previewImg(false)">No</button>
+                                    <input type="button" [disabled]="status.preview.ok"
+                                        class="btn btn-primary btn-sm me-1 my-2  m-0" id="profile-btn"
+                                        (click)=" previewImg(true)" [value]="status.preview.ok?'Loading...':'Upload'">
+                                    <input type="button" class="btn btn-primary btn-sm  my-2  m-0" id="profile-btn"
+                                        (click)=" previewImg(false)" value="Cancel" />
                                 </div>
                             </div>
                             <h4>{{ userInfo.username | titlecase }}</h4>
@@ -73,7 +74,7 @@
                     </div>
                     <!-- </div> -->
                 </div>
-                <div class="col-9 h-100">
+                <div class=" col-9 h-100">
 
                     <div class="w-100">
                         <form #profile="ngForm" (ngSubmit)="saveProfile(profile)">
@@ -82,7 +83,8 @@
                                 <!-- <div class="col-12"> -->
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label for="username" class="form-label fw-bold text-muted">User name</label>
+                                        <label for="username" class="form-label fw-bold text-muted">User
+                                            name</label>
                                         <input type="text" class="form-control shadow-none text-capitalize"
                                             placeholder="Enter your name" id="username" name=username
                                             #username="ngModel" [(ngModel)]="user.username"
@@ -134,7 +136,8 @@
 
                                 <div class="col-6 ">
                                     <div class="mb-5">
-                                        <label for="bio" class="form-label fw-bold text-muted">Bio </label>
+                                        <label for="bio" class="form-label fw-bold text-muted">Bio
+                                        </label>
                                         <textarea class="form-control shadow-none textarea-box text-capitalize" id="bio"
                                             rows="3" placeholder="Write something about your bio..." name=bio
                                             [(ngModel)]="user.bio"></textarea>

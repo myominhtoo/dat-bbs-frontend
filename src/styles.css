@@ -1229,7 +1229,7 @@ color: black;
     background-color: white !important;
     border-left:none !important;
   }
-  #password:focus{
+  #password,#changepassword,#retypepassword:focus{
     outline: none;
     border-color:#CED4DA;
     
