@@ -8,6 +8,7 @@ import { BoardStore } from 'src/app/model/service/store/board.store';
 import { ActivatedRoute } from '@angular/router';
 import {  Component, OnInit, } from "@angular/core";
 import swal from "sweetalert";
+import { Location } from '@angular/common';
 @Component({
     selector:"board-chat",
     templateUrl:"./board-chat.component.html"
@@ -32,7 +33,8 @@ export class BoardChatComponent implements OnInit{
         public route : ActivatedRoute,
         public boardStore:BoardStore,        
         public boaredService:BoardService,
-        public boardChatStore:BoardChatStore
+        public boardChatStore:BoardChatStore,
+        private location : Location,
       ){
         this.status.messageLoad = false;
         document.title="BBMS | Chat"      
@@ -118,6 +120,10 @@ export class BoardChatComponent implements OnInit{
 
     addEmojiToComment(e: any) {
        this.BoardMessage.content += e.emoji.native;
+    }
+
+     backToBoard(){
+        this.location.back();
     }
 
   }

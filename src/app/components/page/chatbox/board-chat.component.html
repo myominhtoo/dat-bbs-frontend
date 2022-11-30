@@ -3,10 +3,18 @@
     <!-- <div class="row">          -->
     <div class="container">
         <div class="row chat__box__container px-4">
-            <div class="col-12 chat__box__personName ps-0 p-3">
+            <div class="col-12 chat__box__personName d-flex justify-content-between ps-0 p-3">
                 <div class="chat__toName">
                     <span class="opacity-50">To :</span>
                     <span> {{this.saveBoard.boardName}}</span>
+                </div>
+                <div class="chat__Back">
+                    <div>
+                        <button (click)="backToBoard()" class="btn btn-sm btn-outline-secondary py-1 myboard-btn">
+                            <i class="fa-solid fa-square-caret-left"></i>
+                            Back To Board
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="col-12 chat__box__textContainer p-0 m-0">
