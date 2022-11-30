@@ -55,15 +55,15 @@
                             <div class="w-100 row p-2 d-flex justify-content-center align-items-center pb-1 m-0"
                                 style="border-bottom: 1px solid #6d6e6f65;">
                                 <!-- img holder -->
-                                <div class="col-2 bg-red px-0" id="user-profile-img ">
+                                <div class="col-2 px-0" id="user-profile-img ">
                                     <div class="w-75 mx-auto pb-2">
                                         <div *ngIf="userStore.user.imageUrl == null && userStore.user.username != null"
-                                            class="text-light d-flex justify-content-center align-items-center "
-                                            style="width: 50px;height: 50px; border-radius: 50%;padding-top: 7px;"
+                                            class="text-light d-flex justify-content-center align-items-center p-0"
+                                            style="width: 50px;height: 50px; border-radius: 50%;"
                                             [style.background]="userStore.user.iconColor + '!important'">
-                                            <h4 class="text-dark pt-2">{{ user.username &&
+                                            <span class="text-light fs-4">{{ user.username &&
                                                 user.username[0].toUpperCase() }}
-                                            </h4>
+                                            </span>
                                         </div>
                                         <div *ngIf="userStore.user.imageUrl != null"
                                             class="d-flex justify-content-center align-items-center "
@@ -325,11 +325,11 @@
                                                     <div class="m-0 p-0 d-flex justify-content-center align-items-center"
                                                         style="width: 100%;">
                                                         <div *ngIf="collaborator.imageUrl  == null && collaborator.username != null"
-                                                            class="text-dark d-flex justify-content-center align-items-center m-0"
-                                                            style="width: 90px;height: 90px; border-radius: 50%;background: #fff;">
-                                                            <h3>{{ collaborator.username &&
+                                                            class="text-dark d-flex justify-content-center align-items-center m-0 fs-1"
+                                                            style="width: 90px;height: 90px; border-radius: 50%;" [style.background]="collaborator.iconColor +' !important'">
+                                                            <span class="text-light">{{ collaborator.username &&
                                                                 collaborator.username[0].toUpperCase() }}
-                                                            </h3>
+                                                            </span>
                                                         </div>
 
                                                         <div *ngIf="collaborator.imageUrl != null" class=" p-0 "
@@ -365,9 +365,7 @@
 
 
                             </div>
-                            <i id="right" class="fa-solid fa-angle-right"
-                                [class.d-none]="this.carouselDiv == scrollWidthDiv || ( collaborators.length == 1)"
-                                (click)="iconClick('right')"></i>
+                            <i id="right" *ngIf="this.collaborators.length > 3" class="fa-solid fa-angle-right"  [class.d-none]="this.carouselDiv == scrollWidthDiv || ( collaborators.length == 1)" (click)="iconClick('right')"></i>
                         </div>
                     </div>
                 </div>

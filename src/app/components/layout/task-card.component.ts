@@ -14,7 +14,7 @@ import { CommentStore } from 'src/app/model/service/store/comment.store';
 @Component({
     selector : 'task-card',
     template : `
-     <div (click)="handleShowOffCanvas( task)" class="d-flex task-cards my-0 p-2 gap-2 text-muted shadow-sm bg-pale-snow" style="padding-right:10px;" [style.borderLeft]="task.markColor == null || task.markColor == ''  ? '0.5px solid rgb(206, 202, 202)' : '4px solid '+task.markColor +'!important'  " >
+     <div (click)="handleShowOffCanvas( task)" id="task-card" class="d-flex task-cards my-0 p-2 gap-2 text-muted shadow-sm bg-pale-snow" style="padding-right:10px;" [style.borderLeft]="task.markColor == null || task.markColor == ''  ? '0.5px solid rgb(206, 202, 202)' : '4px solid '+task.markColor +'!important'  " >
         <div class="d-flex flex-column align-items-star gap-3 w-100 " >
             <div class="d-flex justify-content-between w-100">
                     <div class="w-75">
@@ -23,7 +23,7 @@ import { CommentStore } from 'src/app/model/service/store/comment.store';
                     <div class="d-flex gap-2 align-items-center">
                         <div (click)="handleGoCommentSection($event)">
                             <i class="fa-regular fa-message"></i>
-                            <span *ngIf="task.comments.length > 0" class="badge text-white p-1 bg-danger noti-con fw-light " style="transform:translate(40%,40%);">{{ task.comments.length }}</span>
+                            <span *ngIf="task.comments.length > 0" class="badge text-white p-1 bg-danger noti-con fw-light " style="transform:translate(40%,40%);">{{ task.commentCount }}</span>
                         </div>
                         <!-- for achieve taskcard -->
                         <div>
@@ -153,6 +153,8 @@ export class TaskCardComponent implements OnInit {
         this.commentService.getComments( this.task.id )
         .subscribe({
             next : resComments => {
+
+              this.task.commentCount = resComments.length;
        
               const childComments: Comment[] = [];
               this.task.comments = resComments.filter( comment => {
@@ -179,7 +181,6 @@ export class TaskCardComponent implements OnInit {
               });
 
               this.commentStore.commentsMap.set( this.task.id , this.childCommentsMap! );
-
             },
             error : err => {
                 console.log(err);
@@ -219,7 +220,6 @@ export class TaskCardComponent implements OnInit {
             if(isYes){
              this.task.deleteStatus=true;
             this.taskCardService.updateDeleteStatusTask(boardId,id,this.task).subscribe({
-                // this.taskCardService.updateTaskCard(this.task).subscribe({
                 next: res=>{
                     this.emitDeleteTask.emit(this.task);
                 },

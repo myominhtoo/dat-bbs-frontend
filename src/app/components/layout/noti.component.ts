@@ -16,9 +16,9 @@ import swal from "sweetalert";
     template : `
         <div (click)="handleGoBoardFromNoti(noti.board!.id)" id="noti" class="row py-2 m-0 d-flex justify-content-center align-items-center ps-3 pe-0 mb-1" [style.borderLeft]="borderLeft" >
            <div id="noti-icon-container" class="col-2 p-0" >
-             <p id="icon" class="rounded-5 d-flex justify-content-center align-items-center " [style]="'width:48px;border:1px solid #424549;height:48px;'+'background:'+noti.board!.iconColor+';'" >
+             <p id="icon" class="rounded-5 d-flex justify-content-center align-items-center " [style]="'width:48px;border:1px solid #424549;height:48px;'+'background:'+noti.sentUser.iconColor+';'" >
                 <img *ngIf="noti.sentUser.imageUrl != null" class="rounded-5" style="width:48px;height:48px;object-fit:cover;" [src]="'http://localhost:8080/img/'+noti.sentUser.imageUrl"/>
-                <span *ngIf="noti.sentUser.imageUrl == null" class="text-dark fs-5">{{ noti.sentUser.username[0].toUpperCase() }}</span>
+                <span *ngIf="noti.sentUser.imageUrl == null" class="text-light fs-4">{{ noti.sentUser.username[0].toUpperCase() }}</span>
              </p>
            </div>
            <div id="noti-body" class="col-10 ps-2 pe-1 text-justify " >
@@ -125,21 +125,22 @@ export class NotiComponent implements OnInit {
             }
       })
         }else{
-         this.router.navigateByUrl(`/boards/${boardId}`);
-        }
-
-      }else{
-           
          if( window.location.href.includes(`/boards/${boardId}`)){         
-            window.location.href = `/boards/${boardId}`;
-          
-                     
+            window.location.href = `/boards/${boardId}`;                     
             return;
            }
            this.router.navigateByUrl(`/boards/${boardId}`);
            $('#noti-dropdown').click();
         }
 
+      }else{        
+         if( window.location.href.includes(`/boards/${boardId}`)){         
+            window.location.href = `/boards/${boardId}`;                     
+            return;
+           }
+           this.router.navigateByUrl(`/boards/${boardId}`);
+           $('#noti-dropdown').click();
+        }
    }
    
    isSeen() {

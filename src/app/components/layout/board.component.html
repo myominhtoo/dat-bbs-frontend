@@ -48,7 +48,7 @@
                     </p>
                     <p *ngIf="!data.user.imageUrl"
                         style="width:25px;height:25px;border-radius:100%; object-fit: cover; border: 1px #eee;"
-                        class=" d-flex justify-content-center align-items-center m-0 text-light p-0  bg-thm">
+                        class=" d-flex justify-content-center align-items-center m-0 text-light p-0" [style.background]=" data.user.iconColor + '!important' ">
                         <span style="font-size:13px !important;">
                             {{ data.user && data.user.username[0] | titlecase }}
                         </span>

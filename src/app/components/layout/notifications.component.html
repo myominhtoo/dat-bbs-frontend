@@ -3,7 +3,7 @@
         <span style="font-size: 20px;">
             Notifications
         </span>
-        <span *ngIf="notiStore.notifications.length > 0" class="btn btn-outline-secondary btn-sm d-flex justify-content-center align-items-center"
+        <span *ngIf="notiStore.notiCount > 0" class="btn btn-outline-secondary btn-sm d-flex justify-content-center align-items-center"
             (click)="markAllRead()" style="font-size: 13px;">
             <i class="fa-solid fa-check bx-tada-hover  mx-1"></i>
             <span class="pt-1">Mark all as read</span>

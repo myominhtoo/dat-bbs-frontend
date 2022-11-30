@@ -16,14 +16,14 @@
         <li routerLink="/archive-boards" class="item p-2 text-md-start justify-content-center d-flex justify-content-md-start align-content-center"><i class='bx bx-archive bx-sm mx-2 color-hover-white bx-tada-hover'></i><span class="d-none d-md-inline-block">Archive Boards</span> </li>
         <!-- <li routerLink="/reporting" class="item p-2 text-md-start justify-content-center d-flex justify-content-md-start align-content-center"><i class='bx bx-line-chart bx-sm mx-2 color-hover-white bx-tada-hover'></i><span class="d-none d-md-inline-block">Reporting</span> </li>     -->
     </ul>
-    <section *ngIf="sideBoards.length > 0" class="container-fluid workspace mt-3 pt-1">
+    <section *ngIf="boardStore.ownBoards.length > 0 " class="container-fluid workspace mt-3 pt-1">
             <div class="row">
                     <div routerLink="/create-board" class="col-12 badge  cursor-btn h-25 mt-0 mb-2 py-2">
                         <i class="fas fa-plus text-light bx-tada-hover me-1"></i>
                             Add Board
                     </div>           
                 <ul class="col-12 justify-content-center p-0 sider-scroll" >
-                    <li *ngFor="let board of sideBoards" class="px-3 cursor-btn" (click)="handleGoBoard(board.id)">
+                    <li *ngFor="let board of boardStore.ownBoards" class="px-3 cursor-btn" (click)="handleGoBoard(board.id)">
                         <i class="fas fa-square ws-icon boardColor" [ngStyle]="{'color': board.iconColor == null ? 'none' : board.iconColor }"></i>
                         <span  class="color-hover-white fw-light siderboards-font text-capitalize" *ngIf="board.boardName.length<=7">{{ board.boardName.substring(0,7) }} </span>                    
                         <span  class="color-hover-white fw-light siderboards-font text-capitalize" *ngIf="board.boardName.length>=8">{{ board.boardName.substring(0,8) }}... </span>                    

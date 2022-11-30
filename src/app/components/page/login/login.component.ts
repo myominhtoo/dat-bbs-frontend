@@ -50,9 +50,6 @@ export class LoginComponent {
                 if(res.body.ok){
                         this.error = { hasError : false , msg : '' }
                         this.authService.saveToken(res.headers.get('Authorization')!)
-                        
-                        res.body.data.iconColor = COLORS[ Math.ceil( Math.random() * COLORS.length - 1 ) ];
-                    res.body.data.iconColor = "#FFFFFF";
 
                         this.userStore.saveUserData(res.body.data);
                         this.boardStore.refetchBoardsByUserId(res.body.data.id);

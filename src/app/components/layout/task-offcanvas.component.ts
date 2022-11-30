@@ -278,20 +278,16 @@ export class TaskOffCanvasComponent implements OnInit {
     totalPagesOfAttachments: number = 0;
     newAttachment: Attachment = new Attachment();
     showEmojis: boolean = false;
-
     assignAbleUsers : User [] = [];
 
+    tempTask : TaskCard = new TaskCard(); // to be able to listen open and close offcanvas
 
     @Input('task') task: TaskCard = new TaskCard();
-    // @Input('activities') activities : Activity [] = [];
-    // @Input('comments') comments : Comment [] = [];
     @Input('isLoading') isLoading: boolean = false;
     @Input('members') members: User[] = [];
     @Input('board') board: Board = new Board();
     @Input('tasks') tasks: Map<string, TaskCard[]> = new Map();
     @Input('tab') tab: string = 'activity';
-
-
 
     detailActivity: Activity = new Activity();
     comment: Comment = new Comment();
@@ -323,21 +319,61 @@ export class TaskOffCanvasComponent implements OnInit {
         this.comment.comment = '';
         this.handleListenOffCanvasClose();
 
-
         setTimeout(() => {
             this.members.unshift(this.board.user);
-        } , 300 );
+            this.handleListenOffCanvasShow();
+        } , 500 );
     }
 
     handleListenOffCanvasClose(){
         $('#task-offcanvas')
         .on('hide.bs.offcanvas' , () => {
+        
             this.tab = 'activity';
             $('#assign-members').val('Assign Members');
             // this.updateTask( false );
             this.showEmojis = false;
             this.comment.comment = '';
+
+            this.handleTraceChangeAndUpdate();
         })
+    }
+
+    handleListenOffCanvasShow(){
+        $('#task-offcanvas-btn').on('click' , () => {
+           setTimeout(() => {
+             this.tempTask.taskName = this.task.taskName;
+             this.tempTask.users = [ ... this.task.users ];
+             this.tempTask.description = this.task.description;
+           } , 500 );
+        })
+    }
+
+    handleTraceChangeAndUpdate(){
+        let changedAssignUsers = this.task.users.filter( user => {
+           return !this.tempTask.users.map( usr => usr.id ).includes( user.id );
+        });
+
+        const hasChanges = ( changedAssignUsers.length > 0 ) ||
+                           ( this.tempTask.taskName != this.task.taskName&& this.tempTask.taskName != '') ||
+                           ( this.tempTask.description != this.task.description );
+        if( hasChanges && this.task.taskName != ''  ){
+            this.task.taskName = this.task.taskName;
+            this.task.description = this.task.description;
+            
+            changedAssignUsers.forEach( usr => {
+                if( usr.id != this.userStore.user.id ){
+                    const noti = new Notification();
+                    noti.sentUser = this.userStore.user;
+                    noti.board = this.task.board;
+                    noti.invitiation = true;
+                    noti.content = `${this.userStore.user.username} assigned you in ${this.task.taskName} Task in ${this.task.board.boardName} Board!`;
+                    noti.targetUser = usr;
+                    this.socketService.sentAssignNotiToUser( noti , usr );
+                }
+            });
+        }
+        this.updateTask( false );
     }
 
     changeTab(tab: string) {
@@ -554,6 +590,8 @@ export class TaskOffCanvasComponent implements OnInit {
                         this.task.comments.unshift(res.data);
                         this.showEmojis = false;
 
+                        this.task.commentCount++;
+
                         this.userStore.fetchUserData();
 
                         const noti = new Notification();
@@ -588,6 +626,11 @@ export class TaskOffCanvasComponent implements OnInit {
         this.task.users = this.task.users.filter(user => {
             return user.id != userId;
         });
+
+        if( this.task.users.length == 0 ){
+            $('#assign-members').val('Assign Members');
+        }
+
         if (this.task.users.length == 2) {
             $('#assign-users-dropdown-btn').click();
         }
@@ -600,13 +643,14 @@ export class TaskOffCanvasComponent implements OnInit {
         this.taskCardService.updateTaskCard(this.task).subscribe({
             next: res => {
                 if (res) {
-                    const noti = new Notification();
-                    noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
-                    noti.sentUser = this.userStore.user;
-                    noti.board = this.board;
-                    noti.seenUsers = [];
-                    this.socketService.sentNotiToBoard(this.board.id, noti);
                     if(showStatus){
+                          const noti = new Notification();
+                          noti.content = `${this.userStore.user.username} Updated Task in ${this.board.boardName} Board `;
+                          noti.sentUser = this.userStore.user;
+                          noti.board = this.board;
+                          noti.seenUsers = [];
+                          this.socketService.sentNotiToBoard(this.board.id, noti);
+
                         swal({
                             text: "Successfully Updated!",
                             icon: 'success'

@@ -10,18 +10,13 @@ import { Router } from '@angular/router';
     templateUrl:'./sidebarcomponent.html'
 })
 export class SidebarComponent  {
-    
-   sideBoards:Board[]=[];
-   
+
    constructor( 
         public toggleStore : ToggleStore , 
         public boardStore:BoardStore , 
         private router : Router , 
-    ){
-        setTimeout( () => {
-           this.sideBoards = this.boardStore.ownBoards;
-        } , 500 );
-    }
+    ){}
+    
     archiveBoards(){
         this.router.navigateByUrl(`/archive-boards`,);
     }

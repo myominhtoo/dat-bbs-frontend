@@ -32,9 +32,9 @@
     </div>
 
     <div class="dropdown" style="cursor: pointer;">
-      <div class="bg-pale-snow p-0 d-flex justify-content-center align-items-center" data-bs-toggle="dropdown"
-        id="profile" [style.background]="userStore.user.iconColor">
-        <span *ngIf="userStore.user.imageUrl == null && userStore.user.username != null" class="text-dark fs-5 pt-1">{{
+      <div class=" p-0 d-flex justify-content-center align-items-center " data-bs-toggle="dropdown"
+        id="profile" [style.background]="userStore.user.iconColor" style="border:1px solid rgba(255,255,255,0.15) !important;">
+        <span *ngIf="userStore.user.imageUrl == null && userStore.user.username != null" class="text-light  fs-4 ">{{
           userStore.user.username[0].toUpperCase() }}</span>
         <img *ngIf="userStore.user.imageUrl != null" class="w-100 h-100" style="border-radius: 100%;object-fit: cover;"
           [src]="'http://localhost:8080/img/'+userStore.user.imageUrl" alt="">
