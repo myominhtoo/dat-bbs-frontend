@@ -5,15 +5,15 @@
             <div *ngIf="!status.isLoading"
                 class="ps-3 pe-0 w-100 col-12 d-flex justify-content-between border-board align-items-center">
                 <!-- <h3 class="text-dark-50 h2 my-0 mx-3 bg-">{{ board.boardName && board.boardName | titlecase }}</h3> -->
-                <div class=" d-flex p-0 m-0 col-3">
+                <div class=" d-flex p-0 m-0 col-3 align-items-center">
                     <span class="iconBoard rounded-4 m-0 d-flex justify-content-center align-items-center">
-                        <i class="bookmark-icon fa-regular fa-2x fa-bookmark tw-color "
+                        <i class="bookmark-icon fa-regular fa-2x fa-bookmark tw-color" style="font-size:25px !important;"
                             (click)="handleBookMark($event,board)" [class.fw-bold]="status.isBoardBookMark"></i>
 
                     </span>
                    <div class="d-flex flex-column">
                         <input (focus)="setupEditBoard()" type="text"
-                        class="text-dark-50 h2 mx-3 board-input w-100 my-2 shadow-none board-input"
+                        class="text-dark-50 h5 mx-3 board-input w-100 my-2 shadow-none board-input"
                         (keydown)="handleUpdateBoardName($event)" [class.form-control]="status.isEditBoardName"
                         placeholder="Enter board's name" [(ngModel)]="board.boardName"  />
                         <small class="text-danger mx-3" style="font-size:10px !important;">{{ status.boardNameError  }}</small>
@@ -122,8 +122,8 @@
                                     [routerLink]="board.user.id == userStore.user.id ? '/profile' : '/users/'+ board.user.id +'/profile'">
                                     <div class="d-inline-block mx-2 " id="profile-member">
                                         <span *ngIf="board.user.imageUrl == null && board.user.username != null"
-                                            class="text-light d-flex justify-content-center align-items-center bg-dark fs-4  opacity-50"
-                                            id="profile-member">{{ board.user.username[0].toUpperCase() }}</span>
+                                            class="text-light d-flex justify-content-center align-items-center  fs-4 "
+                                            id="profile-member" [style.background]="board.user.iconColor">{{ board.user.username[0].toUpperCase() }}</span>
                                         <img *ngIf="board.user.imageUrl != null" class="w-100 h-100"
                                             style="border-radius: 100%;object-fit: cover;"
                                             [src]="'http://localhost:8080/img/'+board.user.imageUrl" alt="">
@@ -148,7 +148,7 @@
                                             <span
                                                 *ngIf="boardHasUser.user.imageUrl == null && boardHasUser.user.username != null"
                                                 class=" d-flex justify-content-center align-items-center fs-4 text-light "
-                                                [style.backgroundColor]="boardHasUser.iconColor" id="profile-member">
+                                                [style.background]="boardHasUser.user.iconColor" id="profile-member">
                                                 {{ boardHasUser.user.username[0].toUpperCase() }}
                                             </span>
                                             <img *ngIf="boardHasUser.user.imageUrl != null" class="w-100 h-100"

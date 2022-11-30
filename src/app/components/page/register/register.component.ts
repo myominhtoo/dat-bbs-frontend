@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import swal from 'sweetalert';
 import { decode, encode } from 'src/app/util/encoder';
 import { E } from 'chart.js/dist/chunks/helpers.core';
+import { COLORS } from 'src/app/model/constant/colors';
 
 @Component({
     selector : 'register',
@@ -51,14 +52,12 @@ togglepass!:boolean;
 
 
   onSubmit() {
-  
-      this.savedUser();
-        
-      
-    }
+      this.savedUser();    
+  }
 
   savedUser() {
     if (this.user.password.length >= 6) {
+      this.user.iconColor = COLORS[ Math.round(Math.random() * COLORS.length - 1)];
       this.userService.sendRegisteration(this.user).subscribe({
         next : res => {
           if( res.ok ){

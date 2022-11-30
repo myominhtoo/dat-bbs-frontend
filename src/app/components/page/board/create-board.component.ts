@@ -122,6 +122,13 @@ export class CreateBoardComponent implements OnInit {
       this.board.boardName == null || this.board.boardName == ''
       ? this.status.error.boardName = { hasError : true , msg : 'Board Name is required!'}
       : this.status.error.boardName = { hasError : false , msg : '' };
+      
+      if( this.board.boardName.length > 30 ){
+        this.status.error.boardName = { hasError : true , msg : 'Must not include more then 30 characters!'};
+        return;
+      }else{
+        this.status.error.boardName = { hasError : false , msg : ''};
+      }
 
       if( !this.status.error.boardName.hasError ){
         swal({

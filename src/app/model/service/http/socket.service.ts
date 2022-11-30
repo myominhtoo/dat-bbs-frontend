@@ -249,7 +249,6 @@ export class SocketService{
             noti.content = `${this.userStore.user.username} accepted your Invitation to join \n "${board.boardName} Board" `;
             noti.sentUser = this.userStore.user;
             noti.board = board;
-            noti.invitiation = true;
             noti.targetUser = user;
             this.stompClient?.send( `/app/users/${user.id}/send-notification` , {} , JSON.stringify(noti) );
         }

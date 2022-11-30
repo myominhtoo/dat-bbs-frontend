@@ -23,7 +23,7 @@ export class UserStore{
     }
 
     saveUserData( user : User ){
-        localStorage.setItem(window.btoa(('user')),encode({id : user.id , email : user.email  , username : user.username , imageUrl : user.imageUrl , iconColor : user.iconColor ? user.iconColor : COLORS[ Math.floor( Math.random() * (COLORS.length -1 ))] }));
+        localStorage.setItem(window.btoa(('user')),encode({id : user.id , email : user.email  , username : user.username , imageUrl : user.imageUrl , iconColor : user.iconColor }));
         this.fetchUserData();
     }
   

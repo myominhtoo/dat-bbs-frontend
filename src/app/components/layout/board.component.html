@@ -1,6 +1,6 @@
 <div class=" card m-0 board p-2 shadow-none " style="border: 0.2px solid rgba(128, 128, 128, 0.628) !important;">
     <!-- <img src="assets\img\board-profile-img\profilepic.png" alt=""> -->
-    <div class="card-body d-flex justify-content-between flex-column py-2 px-2 fw-bold">
+    <div class="card-body d-flex justify-content-between flex-column py-2 px-2">
         <div class="d-flex justify-content-between">
             <div>
                 <!-- <i class="fa-solid fa-star mx-1"></i> -->
@@ -46,11 +46,11 @@
                         <span>{{ data.members && ( data.members.length + 1 ) }}</span>
                         <i class="fas fa-duotone fa-users text-muted  "></i>
                     </p>
-                    <p *ngIf="!data.user.imageUrl"
+                    <p *ngIf="data.user.imageUrl == null"
                         style="width:25px;height:25px;border-radius:100%; object-fit: cover; border: 1px #eee;"
-                        class=" d-flex justify-content-center align-items-center m-0 text-light p-0" [style.background]=" data.user.iconColor + '!important' ">
+                        class=" d-flex justify-content-center align-items-center m-0  p-0 text-light" [style.background]="data.user.iconColor">
                         <span style="font-size:13px !important;">
-                            {{ data.user && data.user.username[0] | titlecase }}
+                            {{ data.user.username[0] | titlecase }}
                         </span>
                     </p>
                     <img *ngIf="data.user.imageUrl" [src]="'http://localhost:8080/img/'+data.user.imageUrl"
