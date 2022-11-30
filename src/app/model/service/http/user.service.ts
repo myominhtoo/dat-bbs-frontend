@@ -20,8 +20,8 @@ export class UserService {
         return this.httpClient.get<HttpResponse<any>>(`http://localhost:8080/api/send-verification?email=${email}`);
     }
 
-    sendRegisteration( user : User ) : Observable <HttpResponse<any>> {
-        return this.httpClient.post <HttpResponse<any>> (`http://localhost:8080/api/register` ,  user);
+    sendRegisteration( user : User ) : Observable <NgHttpResponse<any>> {
+        return this.httpClient.post <HttpResponse<any>> (`http://localhost:8080/api/register` ,  user , { observe : 'response'} );
     }
 
     LoginUser( user : User ) : Observable <NgHttpResponse<any>> {
@@ -92,10 +92,6 @@ export class UserService {
     seenNotiByUserId(userId: number): Observable<Notification[]>{
         return this.httpClient.get<Notification[]>(`http://localhost:8080/api/users/${userId}/seen-notis`);
     }
-
-    // reportUser(boardId: number ,filetype: string): Observable<Map<string,string>>{
-    //   return this.httpClient.get<Map<string,string>>(`http://localhost:8080/api/boards/${boardId}/members/report?format=${filetype}`);
-    // }
 
     exportMember(boardId:number,filetype :string) {
         const headers = new HttpHeaders();
