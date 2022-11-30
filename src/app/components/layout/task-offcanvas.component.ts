@@ -589,6 +589,8 @@ export class TaskOffCanvasComponent implements OnInit {
                         this.task.comments.unshift(res.data);
                         this.showEmojis = false;
 
+                        this.task.commentCount++;
+
                         this.userStore.fetchUserData();
 
                         const noti = new Notification();

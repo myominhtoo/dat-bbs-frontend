@@ -18,4 +18,6 @@ export class TaskCard {
     users ! : User[];
     markColor !: string;
     comments ! : Comment [] ;
+
+    commentCount ! : number;
 }

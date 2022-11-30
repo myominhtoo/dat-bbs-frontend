@@ -65,6 +65,8 @@ export class CommentComponent implements OnInit {
                 res.data.childComments = [];
                 this.comment.childComments.unshift(res.data);
                 this.newComment.comment = '';
+
+                this.task.commentCount++;
                }
             },
             error : err => {
@@ -97,7 +99,19 @@ export class CommentComponent implements OnInit {
 
 
     handleLeaveFamily( comment : Comment ){
-        this.comment.childComments = this.comment.childComments.filter( cmt => cmt.id != comment.id );
+        this.comment.childComments = this.comment.childComments.filter( cmt => {
+            if(cmt.id != comment.id){
+                return true;
+            }
+            return false;
+        });
+    }
+
+    handleCalculateCommentCount( cmt : Comment ){
+        cmt.childComments.forEach( childCmt => {
+            this.task.commentCount--;
+            this.handleCalculateCommentCount(childCmt);
+        })
     }
 
 
@@ -116,8 +130,15 @@ export class CommentComponent implements OnInit {
                             if is just for single 
                             else is for to leave from siblings comments
                             */
+                            this.task.commentCount--;
+                           this.handleCalculateCommentCount( this.comment );
                             if( this.comment.parentComment == null ){
-                               this.task.comments = this.task.comments.filter( cmt => cmt.id != this.comment.id );
+                               this.task.comments = this.task.comments.filter( cmt => {
+                                 if(cmt.id != this.comment.id){
+                                    return true;
+                                 }
+                                 return false;
+                               });
                                this.comment.childComments = [];
                             }else{
                                 this.childLeaveFamily.emit(this.comment);
