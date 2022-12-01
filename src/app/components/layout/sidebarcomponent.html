@@ -25,10 +25,7 @@
                 <ul class="col-12 justify-content-center p-0 sider-scroll" >
                     <li *ngFor="let board of boardStore.ownBoards" class="px-3 cursor-btn" (click)="handleGoBoard(board.id)">
                         <i class="fas fa-square ws-icon boardColor" [ngStyle]="{'color': board.iconColor == null ? 'none' : board.iconColor }"></i>
-                        <span  class="color-hover-white fw-light siderboards-font text-capitalize" *ngIf="board.boardName.length<=7">{{ board.boardName.substring(0,7) }} </span>                    
-                        <span  class="color-hover-white fw-light siderboards-font text-capitalize" *ngIf="board.boardName.length>=8">{{ board.boardName.substring(0,8) }}... </span>                    
-                          <!-- <i class="fas fa-ellipsis float-end pt-1 color-hover-white bx-tada-hover">
-                          </i>         -->
+                        <span  class="color-hover-white fw-light siderboards-font text-capitalize" >{{ board.boardName.length > 20 ? board.boardName.substring(0,20)+'...' : board.boardName }} </span>                    
                     </li>                    
                 </ul>           
             </div>                              

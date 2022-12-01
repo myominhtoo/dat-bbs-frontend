@@ -46,7 +46,7 @@
                             <!-- <div class="col-12"> -->
                             <div class="col-12" *ngIf="user.username">
                                 <div class="mb-3">
-                                    <label for="username" class="form-label fw-bold text-muted h4 ">User name</label>
+                                    <label for="username" class="form-label fw-bold text-muted h4 ">Username</label>
                                     <h6>{{user.username }} </h6>
                                 </div>
                             </div>
@@ -61,33 +61,32 @@
                                     <label for="phone" class="form-label fw-bold text-muted h4">Phone</label>
                                     <h6>{{user.phone}}</h6>
                                 </div>
-                                <div class="col-12" *ngIf="user.position">
-                                    <div class="mb-3">
-                                        <label for="position" class="form-label fw-bold text-muted h4">Position</label>
-                                        <h6>{{user.position}}</h6>
-                                    </div>
-                                    <div class="col-12" *ngIf="user.gender">
-                                        <div class="mb-3">
-                                            <label for="exampleGender"
-                                                class="form-label fw-bold text-muted h4">Gender</label><br>
-                                            <h6>{{user.gender ==1 ?"male":"female"}}</h6>
-                                        </div>
-                                    </div>
+                            </div>
 
-                                    <div class="col-12  " *ngIf="user.bio">
-                                        <div class="mb-5">
-                                            <label for="bio" class="form-label fw-bold text-muted h4">Bio </label>
-                                            <h6>{{user.bio}}</h6>
-                                            <!-- end modal box -->
-                                        </div>
-                                    </div>
+                            <div class="col-12" *ngIf="user.position">
+                                <div class="mb-3">
+                                    <label for="position" class="form-label fw-bold text-muted h4">Position</label>
+                                    <h6>{{user.position}}</h6>
+                                </div>
+                            </div>
 
+                            <div class="col-12" *ngIf="user.gender">
+                                <div class="mb-3">
+                                    <label for="exampleGender"
+                                        class="form-label fw-bold text-muted h4">Gender</label><br>
+                                    <h6>{{user.gender ==1 ?"Male":"Female"}}</h6>
+                                </div>
+                            </div>
+
+                            <div class="col-12" *ngIf="user.bio">
+                                <div class="mb-5">
+                                    <label for="bio" class="form-label fw-bold text-muted h4">Bio </label>
+                                    <h6>{{user.bio}}</h6>
+                                    <!-- end modal box -->
                                 </div>
                             </div>
 
                         </div>
-
-
 
                     </div>
                 </div>

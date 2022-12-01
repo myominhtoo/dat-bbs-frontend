@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { User } from "src/app/model/bean/user";
 import { UserService } from "src/app/model/service/http/user.service";
 import { ActivatedRoute, Route, Router } from "@angular/router";
@@ -9,7 +9,7 @@ import { ActivatedRoute, Route, Router } from "@angular/router";
   templateUrl : "./memberview.component.html"
 })
 
-export  class MemberviewComponent{
+export  class MemberviewComponent implements OnInit {
 
   user:User=new User();
   imgValue:any=null;
@@ -17,15 +17,21 @@ export  class MemberviewComponent{
 
   constructor(
     private userService : UserService,
-    private router: Router,
     public route : ActivatedRoute
-
   ){
-   let profileId=this.route.snapshot.params['id'];
-   console.log(profileId);
-  this.userService.getUser(profileId).subscribe(data=>{
-    this.user=data;
-  })
-}
+
+  }
+
+  ngOnInit(): void {
+    let profileId=this.route.snapshot.params['id'];
+    this.getData( profileId )
+  }
+
+  getData( profileId : number ){
+    this.userService.getUser(profileId).subscribe(data=>{
+      this.user=data;
+    })
+  }
+
 
 }

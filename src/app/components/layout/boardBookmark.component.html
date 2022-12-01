@@ -1,6 +1,6 @@
 <div  class=" card m-0 board p-2 shadow-none "   [routerLink]="'/boards/'+dataBookmark.board.id" style="border: 0.2px solid rgba(128, 128, 128, 0.628)!important;">
     <!-- <img src="assets\img\board-profile-img\profilepic.png" alt=""> -->
-    <div class="card-body d-flex justify-content-between flex-column py-2 px-2 fw-bold">
+    <div class="card-body d-flex justify-content-between flex-column py-2 px-2">
         <div class="d-flex justify-content-between">
             <span style="z-index:1000" >
                 <!-- <i class="fa-solid fa-star mx-1"></i> -->
@@ -13,10 +13,10 @@
         <div class="d-flex justify-content-between ">
 
         <div class="d-flex justify-content-between w-100">
-            <span class="text-muted mx-1"> <span class="fw-light text-black">{{ dataBookmark.board.tasks && dataBookmark.board.tasks.length }}</span> Tasks</span>
+            <span class="text-muted mx-1"> <span class="fw-light ">{{ dataBookmark.board.tasks && dataBookmark.board.tasks.length }}</span> Tasks</span>
             <div class="d-flex  align-items-center gap-3">
-                <p class="d-flex align-items-center p-0 m-0 gap-1 fw-light">
-                    <span>{{ dataBookmark.board.members && dataBookmark.board.members.length }}</span>
+                <p class="d-flex align-items-center p-0 m-0 gap-1">
+                    <span>{{ dataBookmark.board.members && dataBookmark.board.members.length + 1 }}</span>
                     <i class="fas fa-duotone fa-users text-muted  "></i>
                 </p>
                 <p *ngIf="!dataBookmark.user.imageUrl" style="width:25px;height:25px;border-radius:100%; object-fit: cover; border: 1px #eee;" class=" d-flex justify-content-center align-items-center bg-thm m-0 text-light p-0 border-1">

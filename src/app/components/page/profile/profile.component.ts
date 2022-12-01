@@ -156,7 +156,7 @@ export class ProfileComponent{
               this.user.imageUrl = res.data.imageUrl;
               this.userInfo.imageUrl = res.data.imageUrl;
               this.userStore.saveUserData(res.data);                   
-            }, 2000);                  
+            }, 3000);                  
   
           },
           error:(err)=>{

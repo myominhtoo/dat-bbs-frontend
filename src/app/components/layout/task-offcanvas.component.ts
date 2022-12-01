@@ -317,6 +317,7 @@ export class TaskOffCanvasComponent implements OnInit {
 
 
         this.comment.comment = '';
+        this.tempTask.users = [];
         this.handleListenOffCanvasClose();
 
         setTimeout(() => {
@@ -350,6 +351,9 @@ export class TaskOffCanvasComponent implements OnInit {
     }
 
     handleTraceChangeAndUpdate(){
+        if( this.tempTask.users == undefined ){
+            return;
+        }
         let changedAssignUsers = this.task.users.filter( user => {
            return !this.tempTask.users.map( usr => usr.id ).includes( user.id );
         });
@@ -402,6 +406,14 @@ export class TaskOffCanvasComponent implements OnInit {
                         /*
                          refactored code is in the last
                         */
+                         this.userStore.fetchUserData();
+                         const noti = new Notification();
+                         noti.sentUser = this.userStore.user;
+                         noti.board = this.board;
+                         noti.invitiation = false;
+                         noti.content = `${this.userStore.user.username} made ${ check ? 'done' : 'undone'} in ${checkActivity.activityName} Activity in "${this.task.taskName}" Task in "${this.board.boardName}" Board!`;
+
+                         this.socketService.sentNotiToBoard( this.board.id , noti );
 
                     }, error: (err) => {
                         console.log(err)

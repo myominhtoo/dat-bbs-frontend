@@ -181,9 +181,9 @@
                                                 </span>
                                             </h6>
                                             <span style="font-size: 12px;" class="text-danger">
-                                                {{taskList.startedDate}} <i class="fa-solid fa-right-long"
+                                                {{taskList.startedDate | date : 'shortDate'}} <i class="fa-solid fa-right-long"
                                                     style="font-size:12px;"></i>
-                                                {{taskList.endedDate}}
+                                                {{taskList.endedDate | date : 'shortDate'}}
                                             </span>
                                         </div>
                                     </li>
@@ -226,9 +226,9 @@
                                                 </span>
                                             </h6>
                                             <span style="font-size: 12px;">
-                                                {{taskList.startedDate}} <i class="fa-solid fa-right-long"
+                                                {{taskList.startedDate | date : 'shortDate'}} <i class="fa-solid fa-right-long"
                                                     style="font-size:12px;"></i>
-                                                {{taskList.endedDate}}
+                                                {{taskList.endedDate | date : 'shortDate'}}
                                             </span>
                                         </div>
                                     </li>

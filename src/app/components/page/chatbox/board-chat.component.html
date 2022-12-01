@@ -29,10 +29,10 @@
                                 [ngClass]="this.userStore.user.id == message.user.id ? 'justify-content-start flex-row-reverse':''">
 
                                 <div class="message__profile d-flex justify-content-center align-items-center"
-                                    *ngIf="this.userStore.user.id != message.user.id">
-                                    <h1 *ngIf="message.user.imageUrl ==null " style="font-size:15px !important;"
-                                        class="text-dark mb-0 p-0 m-0">{{
-                                        message.user.username && message.user.username[0].toUpperCase() }}</h1>
+                                    *ngIf="this.userStore.user.id != message.user.id" [style.background]="userStore.user.iconColor">
+                                    <span *ngIf="message.user.imageUrl ==null " style="font-size:15px !important;"
+                                        class="text-light mb-0 p-0 m-0 fs-2">{{
+                                        message.user.username && message.user.username[0].toUpperCase() }}</span>
                                     <img *ngIf="message.user.imageUrl!=null"
                                         [src]="'http://localhost:8080/img/'+message.user.imageUrl" alt="" class=""
                                         style="object-fit:cover;">
