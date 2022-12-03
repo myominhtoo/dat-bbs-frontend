@@ -62,6 +62,14 @@ export class BoardStore{
             }).map( filteredBoard => {
                 return { ...filteredBoard , isArchive : false }
             });
+
+            if( this.status.isRemovedMyBoard ){
+                this.boards = this.boards.filter( board => {
+                    return board.id != this.status.removedBoardId;
+                });
+                this.status.isRemovedMyBoard = false;
+                this.status.removedBoardId = 0;
+            }
             
             this.ownBoards = this.boards.filter( board => {
                 board.color = this.randomNumberBoard();
@@ -86,36 +94,36 @@ export class BoardStore{
         this.userStore.fetchUserData();     
         this.boardService.leaveFromBoard( board.id , this.userStore.user.id ).subscribe( res => {
                if( res.ok ){
-                const isMyBoard = board.user.id == this.userStore.user.id;
-                const nextOwner = res.data.user;
+                    const isMyBoard = board.user.id == this.userStore.user.id;
+                    const nextOwner = res.data.user;
 
-                const socketService = this.injector.get(SocketService);
-                socketService.unsubscribeBoard( board.id );
-                this.status.removedBoardId = board.id;
-                this.status.isRemovedMyBoard = board.user.id == this.userStore.user.id;
+                    const socketService = this.injector.get(SocketService);
+                    socketService.unsubscribeBoard( board.id );
+                    this.status.removedBoardId = board.id;
+                    this.status.isRemovedMyBoard = board.user.id == this.userStore.user.id;
 
-                const noti = new Notification();
-                noti.board = board;
-                noti.sentUser = this.userStore.user;
-                noti.invitiation = false;
-                noti.seenUsers = [];
+                    const noti = new Notification();
+                    noti.board = board;
+                    noti.sentUser = this.userStore.user;
+                    noti.invitiation = false;
+                    noti.seenUsers = [];
 
-                // for giving admin to other member
-                if( isMyBoard && nextOwner != null ){
-                    noti.content = `${this.userStore.user.username}(Admin) left ${board.boardName} Board and ${nextOwner.username} is ADMIN Now!`
-                }else{
-                    noti.content = `${this.userStore.user.username}(${board.user.id == this.userStore.user.id ? 'Admin' : 'Member' }) left \n ${board.boardName} board!`;
-                }
-            
-                socketService.sentNotiToBoard( noti.board.id , noti );
-            
-                const currentUrl = window.location.href.split('/');
+                    // for giving admin to other member
+                    if( isMyBoard && nextOwner != null ){
+                        noti.content = `${this.userStore.user.username}(Admin) left ${board.boardName} Board and ${nextOwner.username} is ADMIN Now!`
+                    }else{
+                        noti.content = `${this.userStore.user.username}(${board.user.id == this.userStore.user.id ? 'Admin' : 'Member' }) left \n ${board.boardName} board!`;
+                    }
+                
+                    socketService.sentNotiToBoard( noti.board.id , noti );
+                
+                    const currentUrl = window.location.href.split('/');
 
-                if( currentUrl[currentUrl.length - 1] == 'boards' ){
-                    window.location.href = `/boards`
-                }else{
-                    this.router.navigateByUrl(`/boards`);
-                }          
+                    // if( currentUrl[currentUrl.length - 1] == 'boards' ){
+                        window.location.href = `/boards`
+                    // }else{
+                    //     this.router.navigateByUrl(`/boards`);
+                    // }          
             }
          })
     }

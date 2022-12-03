@@ -38,12 +38,6 @@
                     </span>
 
                     <button class="btn btn-sm myboard-btn btn-outline-secondary"
-                        routerLink="/boards/{{board.id}}/resources">
-                        <i class="fa-sharp fa-solid fa-download mx-1"></i>
-                        Resources
-                    </button>
-
-                    <button class="btn btn-sm myboard-btn btn-outline-secondary"
                         routerLink="/boards/{{board.id}}/tasks-calendar">
                         <i class="fa-solid fa-calendar-days"></i>
                         Calendar
@@ -59,6 +53,12 @@
                         routerLink="/boards/{{board.id}}/close-task">
                         <i class="fas fa-solid fa-box-archive mx-1"></i>
                         Archive Tasks
+                    </button>
+
+                    <button class="btn btn-sm myboard-btn btn-outline-secondary"
+                        routerLink="/boards/{{board.id}}/resources">
+                        <i class="fa-sharp fa-solid fa-download mx-1"></i>
+                        Resources
                     </button>
 
                     <button class="btn btn-sm myboard-btn btn-outline-secondary" routerLink="/boards/{{board.id}}/chat">

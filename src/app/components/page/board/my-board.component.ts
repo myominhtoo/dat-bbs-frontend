@@ -463,7 +463,7 @@ export class MyBoardComponent implements OnInit {
         next : boards => {
           const isMyBoard = boards.some( board => board.id == this.boardId );
           if( !isMyBoard ){
-            // window.history.back();
+            window.history.back();
           }
         },
         error : err => {
